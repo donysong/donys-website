@@ -1,0 +1,406 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" fill="none">
+  <defs>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="512" y1="0" x2="512" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <clipPath id="roundedMain">
+      <rect x="40" y="20" width="320" height="560" rx="8"/>
+    </clipPath>
+    <clipPath id="roundedLib">
+      <rect x="380" y="20" width="300" height="560" rx="8"/>
+    </clipPath>
+    <clipPath id="roundedGraph">
+      <rect x="700" y="20" width="300" height="560" rx="8"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="600" fill="#0a0a0a"/>
+  <rect width="1024" height="600" fill="url(#glowGrad)"/>
+
+  <!-- === PANEL 1: Dony's Favorite (Main Script Grid) === -->
+  <g clip-path="url(#roundedMain)">
+    <rect x="40" y="20" width="320" height="560" rx="8" fill="#1e1e1e" stroke="#333" stroke-width="1"/>
+
+    <!-- Header -->
+    <rect x="40" y="20" width="320" height="40" fill="#252525"/>
+    <rect x="40" y="20" width="320" height="2" fill="url(#headerGrad)"/>
+    <text x="60" y="46" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#e0e0e0">D</text>
+    <rect x="54" y="34" width="16" height="16" rx="3" fill="#6366f1" opacity="0.2"/>
+    <text x="78" y="46" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Favorite</text>
+    <text x="310" y="46" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="end">24 scripts</text>
+
+    <!-- Category: LAYER -->
+    <text x="56" y="82" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#5b9bd5" letter-spacing="1.5">LAYER</text>
+
+    <!-- Script buttons row 1 -->
+    <g>
+      <rect x="56" y="92" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <rect x="56" y="92" width="56" height="2" rx="1" fill="#5b9bd5" opacity="0"/>
+      <text x="84" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">⊕</text>
+      <text x="84" y="138" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Add Null</text>
+    </g>
+    <g>
+      <rect x="118" y="92" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="146" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">⊞</text>
+      <text x="146" y="138" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Auto Parent</text>
+    </g>
+    <g>
+      <rect x="180" y="92" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="208" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">⊡</text>
+      <text x="208" y="138" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Merge</text>
+    </g>
+    <g>
+      <rect x="242" y="92" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="270" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">⊟</text>
+      <text x="270" y="138" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Unprecomp</text>
+    </g>
+    <g>
+      <rect x="304" y="92" width="46" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="327" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">✕</text>
+      <text x="327" y="138" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#999" text-anchor="middle">Remove</text>
+    </g>
+
+    <!-- Category: TRANSFORM -->
+    <text x="56" y="172" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#6bc47a" letter-spacing="1.5">TRANSFORM</text>
+
+    <g>
+      <rect x="56" y="182" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="84" y="207" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#6bc47a" text-anchor="middle">↺</text>
+      <text x="84" y="228" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Reset Keys</text>
+    </g>
+    <g>
+      <rect x="118" y="182" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="146" y="207" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#6bc47a" text-anchor="middle">⤢</text>
+      <text x="146" y="228" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Resize</text>
+    </g>
+    <!-- Anchor widget (highlighted/active) -->
+    <g>
+      <rect x="180" y="182" width="56" height="56" rx="6" fill="#333" stroke="#6bc47a" stroke-width="1"/>
+      <rect x="180" y="182" width="56" height="2" rx="1" fill="#6bc47a"/>
+      <text x="208" y="207" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#6bc47a" text-anchor="middle">⊹</text>
+      <text x="208" y="228" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#ccc" text-anchor="middle">Anchor</text>
+    </g>
+
+    <!-- Category: SHAPE -->
+    <text x="56" y="262" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#b07cd8" letter-spacing="1.5">SHAPE</text>
+
+    <g>
+      <rect x="56" y="272" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="84" y="297" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#b07cd8" text-anchor="middle">◇</text>
+      <text x="84" y="318" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">From Vec</text>
+    </g>
+    <g>
+      <rect x="118" y="272" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="146" y="297" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#b07cd8" text-anchor="middle">⊙</text>
+      <text x="146" y="318" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Pts→Nulls</text>
+    </g>
+    <g>
+      <rect x="180" y="272" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="208" y="297" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#b07cd8" text-anchor="middle">⊘</text>
+      <text x="208" y="318" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Stroke</text>
+    </g>
+
+    <!-- Category: ANIMATION -->
+    <text x="56" y="352" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#e8a450" letter-spacing="1.5">ANIMATION</text>
+
+    <g>
+      <rect x="56" y="362" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="84" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">↻</text>
+      <text x="84" y="408" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Loop In</text>
+    </g>
+    <g>
+      <rect x="118" y="362" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="146" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">↺</text>
+      <text x="146" y="408" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Loop Out</text>
+    </g>
+    <g>
+      <rect x="180" y="362" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="208" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">⤴</text>
+      <text x="208" y="408" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Bounce</text>
+    </g>
+    <g>
+      <rect x="242" y="362" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="270" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">〰</text>
+      <text x="270" y="408" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Elastic</text>
+    </g>
+    <g>
+      <rect x="304" y="362" width="46" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="327" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">≡</text>
+      <text x="327" y="408" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#999" text-anchor="middle">Sequence</text>
+    </g>
+
+    <!-- Category: COMPOSITION -->
+    <text x="56" y="442" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#e06b8a" letter-spacing="1.5">COMPOSITION</text>
+
+    <g>
+      <rect x="56" y="452" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="84" y="477" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e06b8a" text-anchor="middle">⊞</text>
+      <text x="84" y="498" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Auto Crop</text>
+    </g>
+    <g>
+      <rect x="118" y="452" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="146" y="477" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e06b8a" text-anchor="middle">⊡</text>
+      <text x="146" y="498" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Fit Child</text>
+    </g>
+    <g>
+      <rect x="180" y="452" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="208" y="477" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e06b8a" text-anchor="middle">⊟</text>
+      <text x="208" y="498" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Extract</text>
+    </g>
+    <g>
+      <rect x="242" y="452" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="270" y="477" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e06b8a" text-anchor="middle">◫</text>
+      <text x="270" y="498" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Capture</text>
+    </g>
+
+    <!-- Category: UTILITY -->
+    <text x="56" y="532" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#c4c455" letter-spacing="1.5">UTILITY</text>
+
+    <g>
+      <rect x="56" y="542" width="56" height="30" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="84" y="561" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c4c455" text-anchor="middle">Proxy</text>
+    </g>
+    <g>
+      <rect x="118" y="542" width="56" height="30" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="146" y="561" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c4c455" text-anchor="middle">GIF</text>
+    </g>
+    <g>
+      <rect x="180" y="542" width="56" height="30" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+      <text x="208" y="561" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c4c455" text-anchor="middle">Camera</text>
+    </g>
+  </g>
+
+  <!-- === PANEL 2: Dony's Library (Gradient Tab) === -->
+  <g clip-path="url(#roundedLib)">
+    <rect x="380" y="20" width="300" height="560" rx="8" fill="#1e1e1e" stroke="#333" stroke-width="1"/>
+
+    <!-- Header -->
+    <rect x="380" y="20" width="300" height="40" fill="#252525"/>
+    <rect x="380" y="20" width="300" height="2" fill="url(#headerGrad)"/>
+    <text x="400" y="46" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Library</text>
+
+    <!-- Tab bar -->
+    <rect x="380" y="60" width="300" height="32" fill="#222"/>
+    <rect x="390" y="66" width="80" height="20" rx="4" fill="#6366f1" opacity="0.2"/>
+    <text x="430" y="80" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">Gradient</text>
+    <text x="510" y="80" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Text</text>
+    <text x="580" y="80" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Assets</text>
+
+    <!-- Category tabs -->
+    <rect x="390" y="100" width="40" height="18" rx="9" fill="#6366f1" opacity="0.15"/>
+    <text x="410" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="500" fill="#a5b4fc" text-anchor="middle">Warm</text>
+    <text x="452" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Cool</text>
+    <text x="494" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Pastel</text>
+    <text x="536" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Dark</text>
+    <text x="578" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Vibrant</text>
+    <text x="625" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Neutral</text>
+    <text x="665" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Trend</text>
+
+    <!-- Gradient cards -->
+    <!-- Sunset -->
+    <g>
+      <rect x="392" y="128" width="130" height="65" rx="6" fill="#2a2a2a"/>
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ff6b35"/>
+          <stop offset="50%" stop-color="#f7c948"/>
+          <stop offset="100%" stop-color="#ff3864"/>
+        </linearGradient>
+      </defs>
+      <rect x="392" y="128" width="130" height="40" rx="6" fill="url(#grad1)"/>
+      <rect x="392" y="160" width="130" height="8" fill="#2a2a2a"/>
+      <text x="402" y="184" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Sunset</text>
+    </g>
+    <!-- Ember -->
+    <g>
+      <rect x="532" y="128" width="130" height="65" rx="6" fill="#2a2a2a"/>
+      <defs>
+        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#f83600"/>
+          <stop offset="100%" stop-color="#f9d423"/>
+        </linearGradient>
+      </defs>
+      <rect x="532" y="128" width="130" height="40" rx="6" fill="url(#grad2)"/>
+      <rect x="532" y="160" width="130" height="8" fill="#2a2a2a"/>
+      <text x="542" y="184" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Ember</text>
+    </g>
+    <!-- Coral -->
+    <g>
+      <rect x="392" y="203" width="130" height="65" rx="6" fill="#2a2a2a"/>
+      <defs>
+        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ff9a9e"/>
+          <stop offset="100%" stop-color="#fad0c4"/>
+        </linearGradient>
+      </defs>
+      <rect x="392" y="203" width="130" height="40" rx="6" fill="url(#grad3)"/>
+      <rect x="392" y="235" width="130" height="8" fill="#2a2a2a"/>
+      <text x="402" y="259" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Coral</text>
+    </g>
+    <!-- Peach -->
+    <g>
+      <rect x="532" y="203" width="130" height="65" rx="6" fill="#2a2a2a"/>
+      <defs>
+        <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ffecd2"/>
+          <stop offset="100%" stop-color="#fcb69f"/>
+        </linearGradient>
+      </defs>
+      <rect x="532" y="203" width="130" height="40" rx="6" fill="url(#grad4)"/>
+      <rect x="532" y="235" width="130" height="8" fill="#2a2a2a"/>
+      <text x="542" y="259" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Peach</text>
+    </g>
+    <!-- Autumn -->
+    <g>
+      <rect x="392" y="278" width="130" height="65" rx="6" fill="#2a2a2a"/>
+      <defs>
+        <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#c94b4b"/>
+          <stop offset="100%" stop-color="#4b134f"/>
+        </linearGradient>
+      </defs>
+      <rect x="392" y="278" width="130" height="40" rx="6" fill="url(#grad5)"/>
+      <rect x="392" y="310" width="130" height="8" fill="#2a2a2a"/>
+      <text x="402" y="334" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Autumn</text>
+    </g>
+    <!-- Lava -->
+    <g>
+      <rect x="532" y="278" width="130" height="65" rx="6" fill="#2a2a2a"/>
+      <defs>
+        <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#f12711"/>
+          <stop offset="100%" stop-color="#f5af19"/>
+        </linearGradient>
+      </defs>
+      <rect x="532" y="278" width="130" height="40" rx="6" fill="url(#grad6)"/>
+      <rect x="532" y="310" width="130" height="8" fill="#2a2a2a"/>
+      <text x="542" y="334" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Lava</text>
+    </g>
+    <!-- Rose Fire -->
+    <g>
+      <rect x="392" y="353" width="130" height="65" rx="6" fill="#2a2a2a"/>
+      <defs>
+        <linearGradient id="grad7" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ed4264"/>
+          <stop offset="100%" stop-color="#ffedbc"/>
+        </linearGradient>
+      </defs>
+      <rect x="392" y="353" width="130" height="40" rx="6" fill="url(#grad7)"/>
+      <rect x="392" y="385" width="130" height="8" fill="#2a2a2a"/>
+      <text x="402" y="409" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Rose Fire</text>
+    </g>
+
+    <!-- Apply controls at bottom -->
+    <rect x="380" y="530" width="300" height="50" fill="#252525"/>
+    <text x="400" y="552" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#999">Type:</text>
+    <rect x="430" y="540" width="55" height="20" rx="4" fill="#6366f1" opacity="0.2"/>
+    <text x="457" y="554" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">Linear</text>
+    <rect x="490" y="540" width="55" height="20" rx="4" fill="#2a2a2a"/>
+    <text x="517" y="554" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Radial</text>
+    <rect x="580" y="540" width="80" height="22" rx="4" fill="#4f46e5"/>
+    <text x="620" y="555" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#fff" text-anchor="middle">Apply</text>
+  </g>
+
+  <!-- === PANEL 3: Dony's Graph Editor === -->
+  <g clip-path="url(#roundedGraph)">
+    <rect x="700" y="20" width="300" height="560" rx="8" fill="#1e1e1e" stroke="#333" stroke-width="1"/>
+
+    <!-- Header -->
+    <rect x="700" y="20" width="300" height="40" fill="#252525"/>
+    <rect x="700" y="20" width="300" height="2" fill="url(#headerGrad)"/>
+    <text x="720" y="46" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Graph Editor</text>
+
+    <!-- Graph canvas area -->
+    <rect x="716" y="72" width="200" height="200" rx="4" fill="#1a1a1a" stroke="#333" stroke-width="0.5"/>
+
+    <!-- Grid lines -->
+    <line x1="716" y1="122" x2="916" y2="122" stroke="#2a2a2a" stroke-width="0.5"/>
+    <line x1="716" y1="172" x2="916" y2="172" stroke="#2a2a2a" stroke-width="0.5"/>
+    <line x1="716" y1="222" x2="916" y2="222" stroke="#2a2a2a" stroke-width="0.5"/>
+    <line x1="766" y1="72" x2="766" y2="272" stroke="#2a2a2a" stroke-width="0.5"/>
+    <line x1="816" y1="72" x2="816" y2="272" stroke="#2a2a2a" stroke-width="0.5"/>
+    <line x1="866" y1="72" x2="866" y2="272" stroke="#2a2a2a" stroke-width="0.5"/>
+
+    <!-- Diagonal reference line -->
+    <line x1="716" y1="272" x2="916" y2="72" stroke="#333" stroke-width="1" stroke-dasharray="4,4"/>
+
+    <!-- Bezier curve -->
+    <path d="M 716 272 C 780 272, 852 72, 916 72" stroke="#6366f1" stroke-width="2.5" fill="none" filter="url(#glow)"/>
+
+    <!-- Ghost curve (previous) -->
+    <path d="M 716 272 C 756 200, 876 144, 916 72" stroke="#6366f1" stroke-width="1" fill="none" opacity="0.2"/>
+
+    <!-- Control point handles -->
+    <line x1="716" y1="272" x2="780" y2="272" stroke="#6366f1" stroke-width="1" opacity="0.5"/>
+    <line x1="916" y1="72" x2="852" y2="72" stroke="#6366f1" stroke-width="1" opacity="0.5"/>
+
+    <!-- Control points -->
+    <circle cx="780" cy="272" r="5" fill="#6366f1" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="852" cy="72" r="5" fill="#6366f1" stroke="#fff" stroke-width="1.5"/>
+
+    <!-- Axis labels -->
+    <text x="716" y="288" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666">0</text>
+    <text x="912" y="288" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">1</text>
+    <text x="712" y="80" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">1</text>
+
+    <!-- Input fields -->
+    <rect x="716" y="298" width="200" height="28" rx="4" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+    <text x="726" y="316" font-family="Inter, monospace" font-size="10" fill="#a5b4fc">cubic-bezier(0.32, 0, 0.68, 0)</text>
+
+    <!-- Direction buttons -->
+    <text x="716" y="346" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#999">Direction:</text>
+    <rect x="778" y="334" width="44" height="18" rx="4" fill="#2a2a2a"/>
+    <text x="800" y="347" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">In</text>
+    <rect x="826" y="334" width="44" height="18" rx="4" fill="#6366f1" opacity="0.2"/>
+    <text x="848" y="347" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">Out</text>
+    <rect x="874" y="334" width="44" height="18" rx="4" fill="#2a2a2a"/>
+    <text x="896" y="347" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Both</text>
+
+    <!-- Action buttons -->
+    <rect x="716" y="362" width="95" height="26" rx="4" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
+    <text x="763" y="379" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc" text-anchor="middle">Read</text>
+    <rect x="821" y="362" width="95" height="26" rx="4" fill="#4f46e5"/>
+    <text x="868" y="379" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#fff" text-anchor="middle">Apply</text>
+
+    <!-- Preset list section -->
+    <text x="716" y="410" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#e0e0e0">Presets</text>
+    <line x1="716" y1="416" x2="984" y2="416" stroke="#333" stroke-width="0.5"/>
+
+    <!-- Preset items -->
+    <g>
+      <rect x="716" y="422" width="268" height="24" rx="3" fill="#2a2a2a"/>
+      <text x="726" y="438" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Linear</text>
+      <text x="974" y="438" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="end">0, 0, 1, 1</text>
+    </g>
+    <g>
+      <rect x="716" y="450" width="268" height="24" rx="3" fill="#333" stroke="#6366f1" stroke-width="0.5"/>
+      <text x="726" y="466" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#a5b4fc">Ease Out</text>
+      <text x="974" y="466" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#818cf8" text-anchor="end">0.32, 0, 0.68, 0</text>
+    </g>
+    <g>
+      <rect x="716" y="478" width="268" height="24" rx="3" fill="#2a2a2a"/>
+      <text x="726" y="494" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Ease In-Out</text>
+      <text x="974" y="494" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="end">0.42, 0, 0.58, 1</text>
+    </g>
+    <g>
+      <rect x="716" y="506" width="268" height="24" rx="3" fill="#2a2a2a"/>
+      <text x="726" y="522" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Overshoot</text>
+      <text x="974" y="522" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="end">0.34, 1.56, 0.64, 1</text>
+    </g>
+    <g>
+      <rect x="716" y="534" width="268" height="24" rx="3" fill="#2a2a2a"/>
+      <text x="726" y="550" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Snappy</text>
+      <text x="974" y="550" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="end">0.7, 0, 0.3, 1</text>
+    </g>
+  </g>
+</svg>

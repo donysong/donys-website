@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" fill="none">
+  <defs>
+    <linearGradient id="glHeader" x1="0" y1="0" x2="480" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <!-- Gradient presets -->
+    <linearGradient id="gSunset" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff6b35"/>
+      <stop offset="50%" stop-color="#f7c948"/>
+      <stop offset="100%" stop-color="#ff3864"/>
+    </linearGradient>
+    <linearGradient id="gOcean" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2193b0"/>
+      <stop offset="100%" stop-color="#6dd5ed"/>
+    </linearGradient>
+    <linearGradient id="gMidnight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#232526"/>
+      <stop offset="100%" stop-color="#414345"/>
+    </linearGradient>
+    <linearGradient id="gNeonPop" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f953c6"/>
+      <stop offset="100%" stop-color="#b91d73"/>
+    </linearGradient>
+    <linearGradient id="gCotton" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffecd2"/>
+      <stop offset="50%" stop-color="#fcb69f"/>
+      <stop offset="100%" stop-color="#ff9a9e"/>
+    </linearGradient>
+    <linearGradient id="gSynthwave" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fc00ff"/>
+      <stop offset="100%" stop-color="#00dbde"/>
+    </linearGradient>
+    <linearGradient id="gAurora" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7f00ff"/>
+      <stop offset="33%" stop-color="#00ff87"/>
+      <stop offset="66%" stop-color="#00bfff"/>
+      <stop offset="100%" stop-color="#ff006e"/>
+    </linearGradient>
+    <linearGradient id="gLava" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f12711"/>
+      <stop offset="100%" stop-color="#f5af19"/>
+    </linearGradient>
+    <linearGradient id="gDeepSea" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f2027"/>
+      <stop offset="50%" stop-color="#203a43"/>
+      <stop offset="100%" stop-color="#2c5364"/>
+    </linearGradient>
+    <linearGradient id="gHolo" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a8edea"/>
+      <stop offset="25%" stop-color="#fed6e3"/>
+      <stop offset="50%" stop-color="#d299f0"/>
+      <stop offset="75%" stop-color="#89f7fe"/>
+      <stop offset="100%" stop-color="#a8edea"/>
+    </linearGradient>
+    <linearGradient id="gEmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f83600"/>
+      <stop offset="100%" stop-color="#f9d423"/>
+    </linearGradient>
+    <linearGradient id="gIce" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0eafc"/>
+      <stop offset="100%" stop-color="#cfdef3"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="480" height="320" rx="12" fill="#1e1e1e"/>
+  <rect width="480" height="320" rx="12" stroke="#333" stroke-width="1" fill="none"/>
+
+  <!-- Header -->
+  <rect width="480" height="36" rx="12" fill="#252525"/>
+  <rect y="24" width="480" height="12" fill="#252525"/>
+  <rect width="480" height="2" fill="url(#glHeader)"/>
+  <text x="16" y="24" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Library</text>
+  <text x="130" y="24" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666">— 50+ Gradient Presets</text>
+
+  <!-- Tab bar -->
+  <rect y="36" width="480" height="28" fill="#222"/>
+  <rect x="15" y="42" width="65" height="18" rx="4" fill="#6366f1" opacity="0.2"/>
+  <text x="47" y="55" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">Gradient</text>
+  <text x="112" y="55" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Text</text>
+  <text x="162" y="55" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Assets</text>
+
+  <!-- Category pills -->
+  <rect x="12" y="72" width="42" height="16" rx="8" fill="#ec4899" opacity="0.15"/>
+  <text x="33" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" font-weight="500" fill="#ec4899" text-anchor="middle">All</text>
+  <text x="68" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Warm</text>
+  <text x="103" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Cool</text>
+  <text x="140" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Pastel</text>
+  <text x="178" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Dark</text>
+  <text x="220" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Vibrant</text>
+  <text x="266" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Neutral</text>
+  <text x="308" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Trend</text>
+
+  <!-- Gradient grid (3 columns × 4 rows) -->
+  <!-- Row 1 -->
+  <g>
+    <rect x="12" y="96" width="148" height="40" rx="6" fill="url(#gSunset)"/>
+    <rect x="12" y="130" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
+    <text x="22" y="143" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Sunset</text>
+    <text x="150" y="143" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Warm</text>
+  </g>
+  <g>
+    <rect x="166" y="96" width="148" height="40" rx="6" fill="url(#gOcean)"/>
+    <rect x="166" y="130" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
+    <text x="176" y="143" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Ocean</text>
+    <text x="304" y="143" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Cool</text>
+  </g>
+  <g>
+    <rect x="320" y="96" width="148" height="40" rx="6" fill="url(#gCotton)"/>
+    <rect x="320" y="130" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
+    <text x="330" y="143" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Cotton Candy</text>
+    <text x="458" y="143" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Pastel</text>
+  </g>
+
+  <!-- Row 2 -->
+  <g>
+    <rect x="12" y="155" width="148" height="40" rx="6" fill="url(#gNeonPop)"/>
+    <rect x="12" y="189" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
+    <text x="22" y="202" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Neon Pop</text>
+    <text x="150" y="202" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Vibrant</text>
+  </g>
+  <g>
+    <!-- Selected gradient with border highlight -->
+    <rect x="166" y="155" width="148" height="40" rx="6" fill="url(#gSynthwave)"/>
+    <rect x="166" y="189" width="148" height="18" fill="#333"/>
+    <rect x="166" y="155" width="148" height="52" rx="6" stroke="#ec4899" stroke-width="1.5" fill="none"/>
+    <text x="176" y="202" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ec4899">Synthwave</text>
+    <text x="304" y="202" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#ec4899" text-anchor="end">✓</text>
+  </g>
+  <g>
+    <rect x="320" y="155" width="148" height="40" rx="6" fill="url(#gAurora)"/>
+    <rect x="320" y="189" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
+    <text x="330" y="202" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Aurora</text>
+    <text x="458" y="202" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Trend</text>
+  </g>
+
+  <!-- Row 3 -->
+  <g>
+    <rect x="12" y="214" width="148" height="40" rx="6" fill="url(#gLava)"/>
+    <rect x="12" y="248" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
+    <text x="22" y="261" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Lava</text>
+    <text x="150" y="261" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Warm</text>
+  </g>
+  <g>
+    <rect x="166" y="214" width="148" height="40" rx="6" fill="url(#gDeepSea)"/>
+    <rect x="166" y="248" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
+    <text x="176" y="261" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Deep Sea</text>
+    <text x="304" y="261" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Cool</text>
+  </g>
+  <g>
+    <rect x="320" y="214" width="148" height="40" rx="6" fill="url(#gHolo)"/>
+    <rect x="320" y="248" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
+    <text x="330" y="261" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Holographic</text>
+    <text x="458" y="261" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Trend</text>
+  </g>
+
+  <!-- Bottom controls -->
+  <rect y="274" width="480" height="1" fill="#333"/>
+
+  <text x="16" y="296" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#999">Type:</text>
+  <rect x="46" y="284" width="55" height="20" rx="4" fill="#ec4899" opacity="0.15"/>
+  <text x="73" y="298" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ec4899" text-anchor="middle">Linear</text>
+  <rect x="106" y="284" width="55" height="20" rx="4" fill="#2a2a2a"/>
+  <text x="133" y="298" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Radial</text>
+
+  <text x="180" y="296" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#999">Layer:</text>
+  <rect x="214" y="284" width="55" height="20" rx="4" fill="#2a2a2a"/>
+  <text x="241" y="298" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc" text-anchor="middle">Solid</text>
+  <rect x="274" y="284" width="55" height="20" rx="4" fill="#2a2a2a"/>
+  <text x="301" y="298" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Shape</text>
+
+  <rect x="370" y="283" width="96" height="24" rx="5" fill="#4f46e5"/>
+  <text x="418" y="299" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">Apply</text>
+</svg>

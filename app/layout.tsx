@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: "Dony's — All-in-One After Effects Workflow Panel",
+  title: "Dony's — The only AE plugin you'll ever need",
   description:
-    'Scripts, text presets, gradients, graph editor, and smart widgets — everything a motion designer needs in one panel. $30 one-time purchase.',
+    'Scripts, text presets, gradients, graph editor, expression editor, and smart widgets — the only After Effects plugin you need. $30 one-time purchase.',
   keywords: [
     'After Effects plugin',
     'motion design',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     'workflow panel',
   ],
   openGraph: {
-    title: "Dony's — All-in-One After Effects Workflow Panel",
+    title: "Dony's — The only AE plugin you'll ever need",
     description: 'Scripts, text presets, gradients, graph editor & more. $30.',
     type: 'website',
     url: 'https://donys.dev',

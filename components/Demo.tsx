@@ -1,12 +1,15 @@
 export default function Demo() {
   return (
-    <section id="demo" className="mx-auto max-w-5xl px-6 py-28">
-      <div className="mb-12 text-center">
-        <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+    <section id="demo" className="section-fade mx-auto max-w-5xl px-6 py-32">
+      <div className="mb-16 text-center">
+        <p className="mb-3 text-[13px] font-medium uppercase tracking-widest text-[var(--accent-light)]">
+          Demo
+        </p>
+        <h2 className="mb-5 text-3xl font-bold tracking-tight md:text-[2.5rem]">
           See it in action
         </h2>
-        <p className="text-neutral-400">
-          Watch how Dony's speeds up your After Effects workflow.
+        <p className="text-[var(--text-secondary)]">
+          Watch how Dony&apos;s speeds up your After Effects workflow.
         </p>
       </div>
 
@@ -14,36 +17,34 @@ export default function Demo() {
       <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] glow">
         <div className="relative aspect-video w-full">
           {/* TODO: Replace with YouTube embed or video */}
-          {/* <iframe
-            className="absolute inset-0 h-full w-full"
-            src="https://www.youtube.com/embed/VIDEO_ID"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          /> */}
-          <div className="flex h-full items-center justify-center text-neutral-600">
+          <div className="flex h-full items-center justify-center">
             <div className="text-center">
-              <div className="mb-3 text-5xl">▶</div>
-              <p className="text-sm">Demo Video Here</p>
-              <p className="mt-1 text-xs text-neutral-700">YouTube embed or .mp4</p>
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/[0.06] text-2xl text-[var(--text-muted)] transition hover:bg-white/[0.1] hover:text-[var(--text)]">
+                ▶
+              </div>
+              <p className="text-sm text-[var(--text-muted)]">Demo video coming soon</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Feature GIF grid */}
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
-        {['Text Presets', 'Graph Editor', 'Gradient Library'].map((label) => (
+      {/* Feature preview grid */}
+      <div className="mt-10 grid gap-4 md:grid-cols-2">
+        {[
+          { label: 'Text Presets', src: '/images/feature-text-presets.svg' },
+          { label: 'Graph Editor', src: '/images/feature-graph-editor.svg' },
+          { label: 'Gradient Library', src: '/images/feature-gradient-library.svg' },
+          { label: 'Expression Editor', src: '/images/feature-expression-editor.svg' },
+        ].map(({ label, src }) => (
           <div
             key={label}
-            className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-card)]"
+            className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] transition-all duration-300 hover:border-[var(--border-hover)] glow-hover"
           >
-            <div className="flex h-48 items-center justify-center text-neutral-600">
-              {/* TODO: Replace with GIF */}
-              <p className="text-xs">{label} GIF</p>
-            </div>
-            <div className="border-t border-[var(--border)] px-4 py-3">
-              <p className="text-sm font-medium">{label}</p>
-            </div>
+            <img
+              src={src}
+              alt={`${label} panel preview`}
+              className="w-full transition-transform duration-500 group-hover:scale-[1.02]"
+            />
           </div>
         ))}
       </div>

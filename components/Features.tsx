@@ -39,30 +39,33 @@ const FEATURES = [
 
 export default function Features() {
   return (
-    <section id="features" className="mx-auto max-w-6xl px-6 py-28">
+    <section id="features" className="section-fade mx-auto max-w-5xl px-6 py-32">
       <div className="mb-16 text-center">
-        <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+        <p className="mb-3 text-[13px] font-medium uppercase tracking-widest text-[var(--accent-light)]">
+          Features
+        </p>
+        <h2 className="mb-5 text-3xl font-bold tracking-tight md:text-[2.5rem]">
           Six tools. <span className="gradient-text">One plugin.</span>
         </h2>
-        <p className="mx-auto max-w-lg text-neutral-400">
-          Replace Flow, AEJuice, and scattered scripts with a single integrated panel.
+        <p className="mx-auto max-w-md text-[var(--text-secondary)]">
+          Replace Flow, AEJuice, and scattered scripts with a single integrated plugin.
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {FEATURES.map((f) => (
           <div
             key={f.title}
-            className="group rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-6 transition hover:border-neutral-600 glow-hover"
+            className="group rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-6 transition-all duration-300 hover:border-[var(--border-hover)] hover:bg-[var(--bg-elevated)] glow-hover"
           >
             <div
-              className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg text-lg"
-              style={{ background: f.color + '18', color: f.color }}
+              className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl text-base"
+              style={{ background: f.color + '12', color: f.color }}
             >
               {f.icon}
             </div>
-            <h3 className="mb-2 text-lg font-semibold">{f.title}</h3>
-            <p className="text-sm leading-relaxed text-neutral-400">{f.description}</p>
+            <h3 className="mb-2 text-[15px] font-semibold">{f.title}</h3>
+            <p className="text-sm leading-relaxed text-[var(--text-secondary)]">{f.description}</p>
           </div>
         ))}
       </div>
