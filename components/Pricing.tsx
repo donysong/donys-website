@@ -57,10 +57,11 @@ export default function Pricing() {
 
           {/* CTA */}
           <a
-            href="#"
+            href="https://donysae.lemonsqueezy.com/checkout/buy/2280c131-6bd8-4d0b-8947-f94a8ed7f1b9"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group relative block w-full rounded-xl bg-[var(--accent)] py-3 text-center text-[15px] font-semibold text-white transition hover:brightness-110"
           >
-            {/* TODO: Replace with Lemon Squeezy checkout link */}
             Buy Now
           </a>
 
