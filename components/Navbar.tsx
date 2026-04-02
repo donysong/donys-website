@@ -3,10 +3,10 @@
 import { useState } from 'react';
 
 const NAV_LINKS = [
-  { label: 'Features', href: '#features' },
-  { label: 'Demo', href: '#demo' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Features', href: '/#features' },
+  { label: 'Demo', href: '/#demo' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'FAQ', href: '/#faq' },
 ];
 
 export default function Navbar() {
@@ -15,7 +15,7 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/60 backdrop-blur-2xl">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
-        <a href="#" className="text-base font-semibold tracking-tight">
+        <a href="/" className="text-base font-semibold tracking-tight">
           <span className="gradient-text">Dony&apos;s</span>
         </a>
 
@@ -32,7 +32,7 @@ export default function Navbar() {
           ))}
           <div className="ml-3 h-4 w-px bg-[var(--border)]" />
           <a
-            href="#pricing"
+            href="/#pricing"
             className="ml-3 rounded-lg bg-white/[0.08] px-3.5 py-1.5 text-[13px] font-medium text-[var(--text)] transition hover:bg-white/[0.12]"
           >
             Get Dony&apos;s
@@ -69,7 +69,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="#pricing"
+            href="/#pricing"
             className="mt-2 block rounded-lg bg-white/[0.08] px-4 py-2.5 text-center text-sm font-medium text-[var(--text)]"
             onClick={() => setOpen(false)}
           >
