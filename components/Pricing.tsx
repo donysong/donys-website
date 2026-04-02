@@ -66,7 +66,7 @@ export default function Pricing() {
           </a>
 
           <p className="mt-4 text-center text-xs text-[var(--text-muted)]">
-            14-day refund policy &middot; AE 2022+ &middot; Windows &amp; macOS
+            <a href="/refund" className="underline hover:text-[var(--text)]">14-day refund policy</a> &middot; AE 2022+ &middot; Windows &amp; macOS
           </p>
         </div>
       </div>

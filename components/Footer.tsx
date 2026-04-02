@@ -9,7 +9,7 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="flex gap-6 text-[13px] text-[var(--text-muted)]">
+        <div className="flex flex-wrap justify-center gap-6 text-[13px] text-[var(--text-muted)]">
           <a href="mailto:support@donys.dev" className="transition hover:text-[var(--text)]">
             Contact
           </a>
@@ -19,6 +19,18 @@ export default function Footer() {
           </a>
           <a href="#" className="transition hover:text-[var(--text)]">
             YouTube
+          </a>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-6 text-[13px] text-[var(--text-muted)]">
+          <a href="/terms" className="transition hover:text-[var(--text)]">
+            Terms of Service
+          </a>
+          <a href="/privacy" className="transition hover:text-[var(--text)]">
+            Privacy Policy
+          </a>
+          <a href="/refund" className="transition hover:text-[var(--text)]">
+            Refund Policy
           </a>
         </div>
 
