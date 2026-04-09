@@ -1,17 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #08080a;
-  --bg-card: #0f0f12;
-  --bg-elevated: #141418;
-  --accent: #6366f1;
-  --accent-light: #818cf8;
-  --accent-muted: rgba(99, 102, 241, 0.08);
-  --text: #ebebef;
-  --text-secondary: #a1a1aa;
-  --text-muted: #52525b;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(255, 255, 255, 0.1);
+  --bg: #0a0a0a;
+  --bg-card: #111111;
+  --bg-elevated: #171717;
+  --text: #ededed;
+  --text-secondary: #a1a1a1;
+  --text-muted: #666666;
+  --shadow-border: rgba(255, 255, 255, 0.08);
+  --shadow-subtle: rgba(255, 255, 255, 0.04);
+  --focus: hsla(212, 100%, 48%, 1);
 }
 
 html {
@@ -21,7 +19,8 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  font-feature-settings: "liga";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -30,78 +29,56 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.12); }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.14); }
 
-/* Gradient text */
+/* Shadow-as-border card — Vercel signature */
+.card {
+  background: var(--bg-card);
+  border: none;
+  border-radius: 8px;
+  box-shadow:
+    var(--shadow-border) 0px 0px 0px 1px,
+    var(--shadow-subtle) 0px 2px 2px,
+    var(--shadow-subtle) 0px 8px 8px -8px;
+  transition: box-shadow 0.2s ease;
+}
+.card:hover {
+  box-shadow:
+    rgba(255, 255, 255, 0.12) 0px 0px 0px 1px,
+    var(--shadow-subtle) 0px 4px 8px,
+    var(--shadow-subtle) 0px 12px 12px -8px;
+}
+
+/* Gradient text — product content only */
 .gradient-text {
-  background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #818cf8 100%);
-  background-size: 200% 200%;
+  background: linear-gradient(135deg, #ededed 0%, #a1a1a1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradient-shift 6s ease infinite;
-}
-
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Glow effects */
-.glow {
-  box-shadow:
-    0 0 0 1px rgba(99, 102, 241, 0.06),
-    0 8px 40px rgba(99, 102, 241, 0.12),
-    0 0 80px rgba(99, 102, 241, 0.06);
-}
-
-.glow-hover {
-  transition: box-shadow 0.4s ease, border-color 0.4s ease;
-}
-.glow-hover:hover {
-  box-shadow:
-    0 0 0 1px rgba(99, 102, 241, 0.1),
-    0 8px 40px rgba(99, 102, 241, 0.15),
-    0 0 80px rgba(99, 102, 241, 0.08);
 }
 
 /* Fade-in animation */
-.fade-in {
-  animation: fadeIn 0.8s ease both;
-}
-
 .fade-in-up {
-  animation: fadeInUp 0.8s ease both;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  animation: fadeInUp 0.6s ease both;
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Stagger delays */
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
 .delay-300 { animation-delay: 0.3s; }
-.delay-400 { animation-delay: 0.4s; }
 
-/* Section divider gradient line */
-.section-fade {
-  position: relative;
-}
-.section-fade::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  max-width: 600px;
+/* Section divider — shadow border line */
+.section-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+  background: var(--shadow-border);
+}
+
+/* Focus — accessible blue ring */
+*:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }

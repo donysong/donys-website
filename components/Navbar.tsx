@@ -13,10 +13,10 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/60 backdrop-blur-2xl">
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
-        <a href="/" className="text-base font-semibold tracking-tight">
-          <span className="gradient-text">Dony&apos;s</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--bg)]/80 backdrop-blur-xl" style={{ boxShadow: 'var(--shadow-border) 0px 1px 0px 0px' }}>
+      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
+        <a href="/" className="text-[15px] font-semibold tracking-[-0.32px] text-[var(--text)]">
+          Dony&apos;s
         </a>
 
         {/* Desktop */}
@@ -25,15 +25,14 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="rounded-lg px-3.5 py-1.5 text-[13px] text-[var(--text-secondary)] transition hover:text-[var(--text)]"
+              className="px-3 py-1.5 text-[14px] font-medium tracking-normal text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
             >
               {l.label}
             </a>
           ))}
-          <div className="ml-3 h-4 w-px bg-[var(--border)]" />
           <a
             href="/#pricing"
-            className="ml-3 rounded-lg bg-white/[0.08] px-3.5 py-1.5 text-[13px] font-medium text-[var(--text)] transition hover:bg-white/[0.12]"
+            className="ml-4 rounded-md bg-[var(--text)] px-4 py-2 text-[14px] font-medium text-[var(--bg)] transition-opacity hover:opacity-90"
           >
             Get Dony&apos;s
           </a>
@@ -57,12 +56,12 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-2xl px-6 py-3 md:hidden">
+        <div className="bg-[var(--bg)]/95 backdrop-blur-xl px-6 py-4 md:hidden" style={{ boxShadow: 'var(--shadow-border) 0px 1px 0px 0px' }}>
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="block py-2.5 text-sm text-[var(--text-secondary)] transition hover:text-[var(--text)]"
+              className="block py-3 text-[14px] font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
               onClick={() => setOpen(false)}
             >
               {l.label}
@@ -70,7 +69,7 @@ export default function Navbar() {
           ))}
           <a
             href="/#pricing"
-            className="mt-2 block rounded-lg bg-white/[0.08] px-4 py-2.5 text-center text-sm font-medium text-[var(--text)]"
+            className="mt-3 block rounded-md bg-[var(--text)] px-4 py-2.5 text-center text-[14px] font-medium text-[var(--bg)]"
             onClick={() => setOpen(false)}
           >
             Get Dony&apos;s — $30

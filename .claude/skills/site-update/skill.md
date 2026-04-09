@@ -13,6 +13,7 @@ Dony's 랜딩 페이지의 변경 작업을 조율하는 오케스트레이터. 
 
 | 에이전트 | subagent_type | 역할 | 출력 |
 |---------|--------------|------|------|
+| designer | designer | 디자인 스펙/가이드 생성 | 스타일 스펙 (DESIGN.md 기반) |
 | site-developer | site-developer | 코드 변경 구현 | 수정/생성된 파일들 |
 | qa-reviewer | qa-reviewer | 빌드 + 품질 검증 | `_workspace/qa_report.md` |
 
@@ -23,16 +24,27 @@ Dony's 랜딩 페이지의 변경 작업을 조율하는 오케스트레이터. 
 2. 작업 디렉토리에 `_workspace/` 생성 (없으면)
 3. 현재 프로젝트 상태 확인 (git status, 기존 파일 구조)
 
-### Phase 2: 구현
+### Phase 2: 디자인 (디자인 변경이 포함된 경우)
+
+**실행 방식:** 순차
+
+1. designer 실행 (새 컴포넌트/페이지 또는 스타일 변경 시):
+   - 입력: 사용자의 변경 요청 + DESIGN.md
+   - model: opus
+   - 작업: 디자인 스펙/가이드 생성
+   - 출력: 구체적 스타일 스펙 (색상, 타이포, 레이아웃)
+   - 스킵 조건: 단순 텍스트/링크 수정 등 디자인 변경 없는 경우
+
+### Phase 3: 구현
 
 **실행 방식:** 순차
 
 1. site-developer 실행:
-   - 입력: 사용자의 변경 요청 + 관련 파일 컨텍스트
+   - 입력: 사용자의 변경 요청 + Phase 2 디자인 스펙 (있는 경우)
    - model: opus
    - 작업: 코드 변경/생성 수행
 
-### Phase 3: 검증
+### Phase 4: 검증
 
 1. qa-reviewer 실행:
    - 입력: Phase 2에서 변경된 파일 목록
@@ -40,14 +52,14 @@ Dony's 랜딩 페이지의 변경 작업을 조율하는 오케스트레이터. 
    - 작업: 빌드 검증, 디자인 일관성, 링크, 메타데이터 체크
    - 출력: `_workspace/qa_report.md`
 
-### Phase 4: 수정 (조건부)
+### Phase 5: 수정 (조건부)
 
 FIX 판정 항목이 있으면:
 1. qa_report.md 내용을 site-developer에게 전달
 2. site-developer가 수정 수행
 3. qa-reviewer 재검증 (최대 2회 루프)
 
-### Phase 5: 정리
+### Phase 6: 정리
 1. `_workspace/` 보존
 2. 사용자에게 결과 요약:
    - 변경/생성된 파일 목록
