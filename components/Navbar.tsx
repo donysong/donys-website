@@ -13,26 +13,92 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--bg)]/80 backdrop-blur-xl" style={{ boxShadow: 'var(--shadow-border) 0px 1px 0px 0px' }}>
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
-        <a href="/" className="text-[15px] font-semibold tracking-[-0.32px] text-[var(--text)]">
-          Dony&apos;s
+    <nav
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{
+        background: 'var(--bg-elevated)',
+        borderBottom: '1px solid var(--border)',
+      }}
+    >
+      <div className="mx-auto flex h-[48px] max-w-[1200px] items-center justify-between px-6">
+        {/* Logo mark */}
+        <a href="/" className="flex items-center gap-2.5">
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 18,
+              height: 18,
+              transform: 'rotate(45deg)',
+              border: '1.5px solid var(--accent)',
+              flexShrink: 0,
+            }}
+          >
+            <span
+              style={{
+                transform: 'rotate(-45deg)',
+                fontSize: 8,
+                fontWeight: 800,
+                color: 'var(--accent)',
+                lineHeight: 1,
+                letterSpacing: '0.02em',
+              }}
+            >
+              D
+            </span>
+          </span>
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--text-primary)',
+            }}
+          >
+            Dony&apos;s
+          </span>
         </a>
 
-        {/* Desktop */}
-        <div className="hidden items-center gap-1 md:flex">
+        {/* Desktop nav */}
+        <div className="hidden items-center gap-0 md:flex">
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="px-3 py-1.5 text-[14px] font-medium tracking-normal text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
+              style={{
+                padding: '4px 12px',
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--text-muted)',
+                transition: 'color 0.08s ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
             >
               {l.label}
             </a>
           ))}
           <a
             href="/#pricing"
-            className="ml-4 rounded-md bg-[var(--text)] px-4 py-2 text-[14px] font-medium text-[var(--bg)] transition-opacity hover:opacity-90"
+            style={{
+              marginLeft: 16,
+              padding: '5px 14px',
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              background: 'var(--accent-dark)',
+              color: '#0c0c0c',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'background 0.08s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-light)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--accent-dark)')}
           >
             Get Dony&apos;s
           </a>
@@ -40,15 +106,16 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="text-[var(--text-muted)] md:hidden"
+          style={{ color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer' }}
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
+          className="md:hidden"
         >
-          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5">
             {open ? (
-              <path d="M5 5l10 10M5 15L15 5" />
+              <path d="M4 4l10 10M4 14L14 4" />
             ) : (
-              <path d="M3 6h14M3 10h14M3 14h14" />
+              <path d="M3 5h12M3 9h12M3 13h12" />
             )}
           </svg>
         </button>
@@ -56,12 +123,28 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="bg-[var(--bg)]/95 backdrop-blur-xl px-6 py-4 md:hidden" style={{ boxShadow: 'var(--shadow-border) 0px 1px 0px 0px' }}>
+        <div
+          style={{
+            background: 'var(--bg-elevated)',
+            borderTop: '1px solid var(--border)',
+            padding: '12px 24px 16px',
+          }}
+          className="md:hidden"
+        >
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="block py-3 text-[14px] font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
+              style={{
+                display: 'block',
+                padding: '10px 0',
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--text-muted)',
+                borderBottom: '1px solid var(--border)',
+              }}
               onClick={() => setOpen(false)}
             >
               {l.label}
@@ -69,7 +152,18 @@ export default function Navbar() {
           ))}
           <a
             href="/#pricing"
-            className="mt-3 block rounded-md bg-[var(--text)] px-4 py-2.5 text-center text-[14px] font-medium text-[var(--bg)]"
+            style={{
+              display: 'block',
+              marginTop: 12,
+              padding: '8px 0',
+              textAlign: 'center',
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              background: 'var(--accent-dark)',
+              color: '#0c0c0c',
+            }}
             onClick={() => setOpen(false)}
           >
             Get Dony&apos;s — $30

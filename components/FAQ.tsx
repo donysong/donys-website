@@ -34,40 +34,78 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="mx-auto max-w-[700px] px-6 py-32">
-      <div className="section-divider mb-32" />
+      <div className="section-divider mb-24" />
+
       <div className="mb-16">
-        <p className="mb-4 text-[12px] font-medium uppercase tracking-[0.54px] text-[var(--text-muted)]">
-          FAQ
-        </p>
-        <h2 className="text-[32px] font-semibold leading-[1.2] tracking-[-1.28px]">
+        <p className="label mb-4">FAQ</p>
+        <h2
+          style={{
+            fontSize: 28,
+            fontWeight: 600,
+            letterSpacing: '-0.03em',
+            lineHeight: 1.2,
+            color: 'var(--text-primary)',
+          }}
+        >
           Frequently asked questions
         </h2>
       </div>
 
-      <div className="space-y-0">
+      <div>
         {FAQS.map((faq, i) => (
           <div
             key={i}
-            className="border-b border-[var(--shadow-border)]"
+            style={{ borderBottom: '1px solid var(--border)' }}
           >
             <button
-              className="flex w-full items-center justify-between py-5 text-left"
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '18px 0',
+                textAlign: 'left',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+              }}
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
             >
-              <span className="text-[15px] font-medium tracking-[-0.26px]">{faq.q}</span>
-              <svg
-                className="ml-4 h-4 w-4 shrink-0 text-[var(--text-muted)] transition-transform duration-200"
-                style={{ transform: openIndex === i ? 'rotate(45deg)' : 'none' }}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="1.5"
+              <span
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  letterSpacing: '-0.01em',
+                  color: openIndex === i ? 'var(--text-primary)' : 'var(--text-default)',
+                  transition: 'color 0.08s ease',
+                }}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
+                {faq.q}
+              </span>
+              <span
+                style={{
+                  marginLeft: 16,
+                  flexShrink: 0,
+                  fontSize: 16,
+                  lineHeight: 1,
+                  color: 'var(--text-muted)',
+                  transition: 'transform 0.12s ease, color 0.08s ease',
+                  transform: openIndex === i ? 'rotate(45deg)' : 'none',
+                  display: 'inline-block',
+                }}
+              >
+                +
+              </span>
             </button>
             {openIndex === i && (
-              <div className="pb-5 text-[14px] leading-[1.6] text-[var(--text-secondary)]">
+              <div
+                style={{
+                  paddingBottom: 18,
+                  fontSize: 13,
+                  lineHeight: 1.7,
+                  color: 'var(--text-secondary)',
+                }}
+              >
                 {faq.a}
               </div>
             )}

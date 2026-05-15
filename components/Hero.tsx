@@ -1,31 +1,93 @@
+'use client';
+
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col items-center overflow-hidden px-6 pt-40 pb-20">
-      {/* Subtle gradient wash */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-white/[0.02] blur-[120px]" />
-      </div>
+    <section
+      className="relative flex min-h-screen flex-col items-center overflow-hidden px-6 pt-36 pb-20"
+      style={{ background: 'var(--bg-base)' }}
+    >
+      {/* Top stripe accent */}
+      <div
+        className="pointer-events-none absolute top-0 left-0 right-0"
+        style={{ height: 1, background: 'var(--accent)', opacity: 0.15 }}
+      />
 
-      <div className="relative z-10 my-auto max-w-[800px] text-center fade-in-up">
-        <h1 className="mb-6 text-[clamp(2.5rem,5.5vw,3rem)] font-semibold leading-[1.0] tracking-[-2.4px]">
-          The only After Effects plugin you&apos;ll ever need
-        </h1>
-
-        <p className="mx-auto mb-12 max-w-[520px] text-[18px] font-normal leading-[1.6] text-[var(--text-secondary)]">
-          Scripts, text presets, gradients, graph editor, expression editor, and smart widgets — all in one plugin.
+      <div className="relative z-10 my-auto max-w-[760px] text-center fade-in-up">
+        {/* Label */}
+        <p className="label mb-6" style={{ color: 'var(--text-muted)' }}>
+          After Effects Plugin
         </p>
 
-        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        <h1
+          className="mb-6"
+          style={{
+            fontSize: 'clamp(2.2rem, 5vw, 3rem)',
+            fontWeight: 600,
+            lineHeight: 1.05,
+            letterSpacing: '-0.04em',
+            color: 'var(--text-primary)',
+          }}
+        >
+          The only After Effects plugin
+          <br />
+          you&apos;ll ever need
+        </h1>
+
+        <p
+          className="mx-auto mb-10"
+          style={{
+            maxWidth: 480,
+            fontSize: 15,
+            fontWeight: 400,
+            lineHeight: 1.7,
+            color: 'var(--text-secondary)',
+          }}
+        >
+          Scripts, text presets, gradients, graph editor, expression editor,
+          and smart widgets — all in one plugin.
+        </p>
+
+        <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
           <a
             href="#pricing"
-            className="rounded-md bg-[var(--text)] px-6 py-2.5 text-[14px] font-medium text-[var(--bg)] transition-opacity hover:opacity-90"
+            style={{
+              padding: '9px 24px',
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              background: 'var(--accent-dark)',
+              color: '#0c0c0c',
+              border: 'none',
+              transition: 'background 0.08s ease',
+              display: 'inline-block',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-light)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--accent-dark)')}
           >
             Get Dony&apos;s — $30
           </a>
           <a
             href="#demo"
-            className="rounded-md px-6 py-2.5 text-[14px] font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]"
-            style={{ boxShadow: 'var(--shadow-border) 0px 0px 0px 1px' }}
+            style={{
+              padding: '8px 24px',
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--text-secondary)',
+              border: '1px solid var(--border)',
+              transition: 'color 0.08s ease, border-color 0.08s ease',
+              display: 'inline-block',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = 'var(--text-primary)';
+              e.currentTarget.style.borderColor = 'var(--border-strong)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = 'var(--text-secondary)';
+              e.currentTarget.style.borderColor = 'var(--border)';
+            }}
           >
             Watch Demo
           </a>
@@ -34,14 +96,17 @@ export default function Hero() {
 
       {/* Hero image */}
       <div className="relative z-10 mx-auto mt-20 w-full max-w-[1100px] fade-in-up delay-200">
-        <div className="card overflow-hidden rounded-xl">
+        <div className="card overflow-hidden">
           <img
             src="/images/hero-screenshot.svg"
             alt="Dony's After Effects plugin — Script Grid, Gradient Library, and Graph Editor panels"
             className="w-full"
           />
         </div>
-        <div className="pointer-events-none absolute -bottom-px left-0 right-0 h-40 bg-gradient-to-t from-[var(--bg)] to-transparent" />
+        <div
+          className="pointer-events-none absolute -bottom-px left-0 right-0"
+          style={{ height: 160, background: 'linear-gradient(to top, var(--bg-base), transparent)' }}
+        />
       </div>
     </section>
   );

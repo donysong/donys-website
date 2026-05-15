@@ -1,15 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0a0a0a;
-  --bg-card: #111111;
-  --bg-elevated: #171717;
-  --text: #ededed;
-  --text-secondary: #a1a1a1;
-  --text-muted: #666666;
-  --shadow-border: rgba(255, 255, 255, 0.08);
-  --shadow-subtle: rgba(255, 255, 255, 0.04);
-  --focus: hsla(212, 100%, 48%, 1);
+  /* Backgrounds — 4-level depth */
+  --bg-base:     #0c0c0c;
+  --bg-elevated: #141414;
+  --bg-card:     #1a1a1a;
+  --bg-hover:    #242424;
+  --bg-active:   #111111;
+
+  /* Text — warm cream hierarchy */
+  --text-primary:   #e8e0d4;
+  --text-default:   #c8c0b4;
+  --text-secondary: #8a8478;
+  --text-muted:     #4a4640;
+
+  /* Accent — cream */
+  --accent:       #d4ccc0;
+  --accent-dark:  #b8b0a4;
+  --accent-light: #e8e0d4;
+  --accent-dim:   #1e1c1a;
+
+  /* Borders */
+  --border:       #2a2826;
+  --border-strong:#3a3836;
+  --border-focus: #d4ccc0;
+
+  /* Status */
+  --success-bg:     #0e1a0e;
+  --success-border: #2a4a2a;
+  --success-text:   #7acd7a;
+  --error-bg:       #1a0e0e;
+  --error-border:   #4a2a2a;
+  --error-text:     #cd7a7a;
 }
 
 html {
@@ -17,68 +39,74 @@ html {
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-  font-feature-settings: "liga";
+  background: var(--bg-base);
+  color: var(--text-default);
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.14); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dark); }
 
-/* Shadow-as-border card — Vercel signature */
+/* Sharp card — industrial label style */
 .card {
   background: var(--bg-card);
-  border: none;
-  border-radius: 8px;
-  box-shadow:
-    var(--shadow-border) 0px 0px 0px 1px,
-    var(--shadow-subtle) 0px 2px 2px,
-    var(--shadow-subtle) 0px 8px 8px -8px;
-  transition: box-shadow 0.2s ease;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  transition: border-color 0.08s ease, transform 0.08s ease;
 }
 .card:hover {
-  box-shadow:
-    rgba(255, 255, 255, 0.12) 0px 0px 0px 1px,
-    var(--shadow-subtle) 0px 4px 8px,
-    var(--shadow-subtle) 0px 12px 12px -8px;
+  border-color: var(--border-strong);
 }
 
-/* Gradient text — product content only */
-.gradient-text {
-  background: linear-gradient(135deg, #ededed 0%, #a1a1a1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Feature card with left stripe on hover */
+.card-feature {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  border-left: 2px solid transparent;
+  transition: border-color 0.08s ease, background 0.08s ease;
+}
+.card-feature:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+  border-left-color: var(--accent);
 }
 
-/* Fade-in animation */
+/* Section label — industrial uppercase */
+.label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Fade-in */
 .fade-in-up {
-  animation: fadeInUp 0.6s ease both;
+  animation: fadeInUp 0.5s ease both;
 }
-
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
 .delay-300 { animation-delay: 0.3s; }
 
-/* Section divider — shadow border line */
+/* Section divider */
 .section-divider {
   height: 1px;
-  background: var(--shadow-border);
+  background: var(--border);
 }
 
-/* Focus — accessible blue ring */
+/* Focus ring */
 *:focus-visible {
-  outline: 2px solid var(--focus);
+  outline: 1px solid var(--border-focus);
   outline-offset: 2px;
 }
