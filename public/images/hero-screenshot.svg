@@ -1,406 +1,283 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" fill="none">
-  <defs>
-    <linearGradient id="headerGrad" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#6366f1"/>
-      <stop offset="100%" stop-color="#4f46e5"/>
-    </linearGradient>
-    <linearGradient id="glowGrad" x1="512" y1="0" x2="512" y2="600" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
-    </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="8" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
-    <clipPath id="roundedMain">
-      <rect x="40" y="20" width="320" height="560" rx="8"/>
-    </clipPath>
-    <clipPath id="roundedLib">
-      <rect x="380" y="20" width="300" height="560" rx="8"/>
-    </clipPath>
-    <clipPath id="roundedGraph">
-      <rect x="700" y="20" width="300" height="560" rx="8"/>
-    </clipPath>
-  </defs>
 
-  <!-- Background -->
-  <rect width="1024" height="600" fill="#0a0a0a"/>
-  <rect width="1024" height="600" fill="url(#glowGrad)"/>
+  <!-- ─── Background ─── -->
+  <rect width="1024" height="600" fill="#0c0c0c"/>
 
-  <!-- === PANEL 1: Dony's Favorite (Main Script Grid) === -->
-  <g clip-path="url(#roundedMain)">
-    <rect x="40" y="20" width="320" height="560" rx="8" fill="#1e1e1e" stroke="#333" stroke-width="1"/>
+  <!-- ─── PANEL 1: Script Grid (x=40–364) ─── -->
+  <!-- Panel bg -->
+  <rect x="40" y="20" width="320" height="560" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <!-- Cream top stripe -->
+  <line x1="40" y1="20" x2="360" y2="20" stroke="#d4ccc0" stroke-width="1" opacity="0.3"/>
 
-    <!-- Header -->
-    <rect x="40" y="20" width="320" height="40" fill="#252525"/>
-    <rect x="40" y="20" width="320" height="2" fill="url(#headerGrad)"/>
-    <text x="60" y="46" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#e0e0e0">D</text>
-    <rect x="54" y="34" width="16" height="16" rx="3" fill="#6366f1" opacity="0.2"/>
-    <text x="78" y="46" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Favorite</text>
-    <text x="310" y="46" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="end">24 scripts</text>
+  <!-- Header bar -->
+  <rect x="40" y="20" width="320" height="32" fill="#141414"/>
+  <!-- Diamond logo mark -->
+  <rect x="54" y="30" width="10" height="10" fill="none" stroke="#d4ccc0" stroke-width="1.2" transform="rotate(45 59 35)"/>
+  <text x="58" y="39" font-family="Inter, system-ui, sans-serif" font-size="7" font-weight="700" fill="#d4ccc0" text-anchor="middle">D</text>
+  <!-- Title -->
+  <text x="74" y="40" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#e8e0d4" letter-spacing="2">DONY'S</text>
 
-    <!-- Category: LAYER -->
-    <text x="56" y="82" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#5b9bd5" letter-spacing="1.5">LAYER</text>
+  <!-- Search bar -->
+  <rect x="52" y="62" width="296" height="24" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="68" y="78" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640">Search scripts...</text>
+  <text x="58" y="79" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640">⌕</text>
 
-    <!-- Script buttons row 1 -->
-    <g>
-      <rect x="56" y="92" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <rect x="56" y="92" width="56" height="2" rx="1" fill="#5b9bd5" opacity="0"/>
-      <text x="84" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">⊕</text>
-      <text x="84" y="138" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Add Null</text>
-    </g>
-    <g>
-      <rect x="118" y="92" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="146" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">⊞</text>
-      <text x="146" y="138" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Auto Parent</text>
-    </g>
-    <g>
-      <rect x="180" y="92" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="208" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">⊡</text>
-      <text x="208" y="138" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Merge</text>
-    </g>
-    <g>
-      <rect x="242" y="92" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="270" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">⊟</text>
-      <text x="270" y="138" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Unprecomp</text>
-    </g>
-    <g>
-      <rect x="304" y="92" width="46" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="327" y="117" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#5b9bd5" text-anchor="middle">✕</text>
-      <text x="327" y="138" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#999" text-anchor="middle">Remove</text>
-    </g>
+  <!-- Category label: LAYER -->
+  <text x="52" y="108" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#4a4640" letter-spacing="1.5">LAYER</text>
 
-    <!-- Category: TRANSFORM -->
-    <text x="56" y="172" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#6bc47a" letter-spacing="1.5">TRANSFORM</text>
+  <!-- 3x3 Script Buttons grid -->
+  <!-- Row 1 -->
+  <!-- Add Null (hover state) -->
+  <rect x="52" y="116" width="56" height="56" fill="#242424" stroke="#2a2826" stroke-width="1"/>
+  <line x1="52" y1="116" x2="52" y2="172" stroke="#d4ccc0" stroke-width="2"/>
+  <text x="80" y="143" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#d4ccc0" text-anchor="middle">⊕</text>
+  <text x="80" y="161" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Add Null</text>
 
-    <g>
-      <rect x="56" y="182" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="84" y="207" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#6bc47a" text-anchor="middle">↺</text>
-      <text x="84" y="228" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Reset Keys</text>
-    </g>
-    <g>
-      <rect x="118" y="182" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="146" y="207" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#6bc47a" text-anchor="middle">⤢</text>
-      <text x="146" y="228" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Resize</text>
-    </g>
-    <!-- Anchor widget (highlighted/active) -->
-    <g>
-      <rect x="180" y="182" width="56" height="56" rx="6" fill="#333" stroke="#6bc47a" stroke-width="1"/>
-      <rect x="180" y="182" width="56" height="2" rx="1" fill="#6bc47a"/>
-      <text x="208" y="207" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#6bc47a" text-anchor="middle">⊹</text>
-      <text x="208" y="228" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#ccc" text-anchor="middle">Anchor</text>
-    </g>
+  <!-- Auto Parent -->
+  <rect x="116" y="116" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="144" y="143" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#d4ccc0" text-anchor="middle">⊞</text>
+  <text x="144" y="161" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Auto Parent</text>
 
-    <!-- Category: SHAPE -->
-    <text x="56" y="262" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#b07cd8" letter-spacing="1.5">SHAPE</text>
+  <!-- Merge -->
+  <rect x="180" y="116" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="208" y="143" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#d4ccc0" text-anchor="middle">⊡</text>
+  <text x="208" y="161" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Merge</text>
 
-    <g>
-      <rect x="56" y="272" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="84" y="297" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#b07cd8" text-anchor="middle">◇</text>
-      <text x="84" y="318" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">From Vec</text>
-    </g>
-    <g>
-      <rect x="118" y="272" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="146" y="297" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#b07cd8" text-anchor="middle">⊙</text>
-      <text x="146" y="318" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Pts→Nulls</text>
-    </g>
-    <g>
-      <rect x="180" y="272" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="208" y="297" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#b07cd8" text-anchor="middle">⊘</text>
-      <text x="208" y="318" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Stroke</text>
-    </g>
+  <!-- Row 2 -->
+  <!-- Anchor TL -->
+  <rect x="52" y="180" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="80" y="207" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#d4ccc0" text-anchor="middle">◸</text>
+  <text x="80" y="225" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Anchor TL</text>
 
-    <!-- Category: ANIMATION -->
-    <text x="56" y="352" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#e8a450" letter-spacing="1.5">ANIMATION</text>
+  <!-- Sequence -->
+  <rect x="116" y="180" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="144" y="207" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#d4ccc0" text-anchor="middle">▤</text>
+  <text x="144" y="225" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Sequence</text>
 
-    <g>
-      <rect x="56" y="362" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="84" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">↻</text>
-      <text x="84" y="408" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Loop In</text>
-    </g>
-    <g>
-      <rect x="118" y="362" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="146" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">↺</text>
-      <text x="146" y="408" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Loop Out</text>
-    </g>
-    <g>
-      <rect x="180" y="362" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="208" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">⤴</text>
-      <text x="208" y="408" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Bounce</text>
-    </g>
-    <g>
-      <rect x="242" y="362" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="270" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">〰</text>
-      <text x="270" y="408" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Elastic</text>
-    </g>
-    <g>
-      <rect x="304" y="362" width="46" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="327" y="387" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e8a450" text-anchor="middle">≡</text>
-      <text x="327" y="408" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#999" text-anchor="middle">Sequence</text>
-    </g>
+  <!-- Distribute -->
+  <rect x="180" y="180" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="208" y="207" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#d4ccc0" text-anchor="middle">⊟</text>
+  <text x="208" y="225" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Distribute</text>
 
-    <!-- Category: COMPOSITION -->
-    <text x="56" y="442" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#e06b8a" letter-spacing="1.5">COMPOSITION</text>
+  <!-- Row 3 -->
+  <!-- Copy Keys -->
+  <rect x="52" y="244" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="80" y="271" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#d4ccc0" text-anchor="middle">◈</text>
+  <text x="80" y="289" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Copy Keys</text>
 
-    <g>
-      <rect x="56" y="452" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="84" y="477" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e06b8a" text-anchor="middle">⊞</text>
-      <text x="84" y="498" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Auto Crop</text>
-    </g>
-    <g>
-      <rect x="118" y="452" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="146" y="477" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e06b8a" text-anchor="middle">⊡</text>
-      <text x="146" y="498" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Fit Child</text>
-    </g>
-    <g>
-      <rect x="180" y="452" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="208" y="477" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e06b8a" text-anchor="middle">⊟</text>
-      <text x="208" y="498" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Extract</text>
-    </g>
-    <g>
-      <rect x="242" y="452" width="56" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="270" y="477" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#e06b8a" text-anchor="middle">◫</text>
-      <text x="270" y="498" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Capture</text>
-    </g>
+  <!-- Time Remap -->
+  <rect x="116" y="244" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="144" y="271" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#d4ccc0" text-anchor="middle">◷</text>
+  <text x="144" y="289" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Time Remap</text>
 
-    <!-- Category: UTILITY -->
-    <text x="56" y="532" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#c4c455" letter-spacing="1.5">UTILITY</text>
+  <!-- Freeze -->
+  <rect x="180" y="244" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="208" y="271" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#d4ccc0" text-anchor="middle">❄</text>
+  <text x="208" y="289" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Freeze</text>
 
-    <g>
-      <rect x="56" y="542" width="56" height="30" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="84" y="561" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c4c455" text-anchor="middle">Proxy</text>
-    </g>
-    <g>
-      <rect x="118" y="542" width="56" height="30" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="146" y="561" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c4c455" text-anchor="middle">GIF</text>
-    </g>
-    <g>
-      <rect x="180" y="542" width="56" height="30" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-      <text x="208" y="561" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c4c455" text-anchor="middle">Camera</text>
-    </g>
-  </g>
+  <!-- Category label: TRANSFORM -->
+  <text x="52" y="322" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#4a4640" letter-spacing="1.5">TRANSFORM</text>
 
-  <!-- === PANEL 2: Dony's Library (Gradient Tab) === -->
-  <g clip-path="url(#roundedLib)">
-    <rect x="380" y="20" width="300" height="560" rx="8" fill="#1e1e1e" stroke="#333" stroke-width="1"/>
+  <!-- Transform row -->
+  <rect x="52" y="330" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="80" y="357" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#d4ccc0" text-anchor="middle">⤡</text>
+  <text x="80" y="375" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Scale Fit</text>
 
-    <!-- Header -->
-    <rect x="380" y="20" width="300" height="40" fill="#252525"/>
-    <rect x="380" y="20" width="300" height="2" fill="url(#headerGrad)"/>
-    <text x="400" y="46" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Library</text>
+  <rect x="116" y="330" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="144" y="357" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#d4ccc0" text-anchor="middle">↻</text>
+  <text x="144" y="375" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Rotate 90</text>
 
-    <!-- Tab bar -->
-    <rect x="380" y="60" width="300" height="32" fill="#222"/>
-    <rect x="390" y="66" width="80" height="20" rx="4" fill="#6366f1" opacity="0.2"/>
-    <text x="430" y="80" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">Gradient</text>
-    <text x="510" y="80" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Text</text>
-    <text x="580" y="80" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Assets</text>
+  <rect x="180" y="330" width="56" height="56" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="208" y="357" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#d4ccc0" text-anchor="middle">⊞</text>
+  <text x="208" y="375" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">Flip H</text>
 
-    <!-- Category tabs -->
-    <rect x="390" y="100" width="40" height="18" rx="9" fill="#6366f1" opacity="0.15"/>
-    <text x="410" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="500" fill="#a5b4fc" text-anchor="middle">Warm</text>
-    <text x="452" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Cool</text>
-    <text x="494" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Pastel</text>
-    <text x="536" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Dark</text>
-    <text x="578" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Vibrant</text>
-    <text x="625" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Neutral</text>
-    <text x="665" y="113" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Trend</text>
+  <!-- Panel 1 footer -->
+  <rect x="40" y="530" width="320" height="50" fill="#141414" stroke="none"/>
+  <line x1="40" y1="530" x2="360" y2="530" stroke="#2a2826" stroke-width="1"/>
+  <rect x="52" y="542" width="96" height="22" fill="#d4ccc0"/>
+  <text x="100" y="557" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#0c0c0c" text-anchor="middle">Run Script</text>
 
-    <!-- Gradient cards -->
-    <!-- Sunset -->
-    <g>
-      <rect x="392" y="128" width="130" height="65" rx="6" fill="#2a2a2a"/>
-      <defs>
-        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ff6b35"/>
-          <stop offset="50%" stop-color="#f7c948"/>
-          <stop offset="100%" stop-color="#ff3864"/>
-        </linearGradient>
-      </defs>
-      <rect x="392" y="128" width="130" height="40" rx="6" fill="url(#grad1)"/>
-      <rect x="392" y="160" width="130" height="8" fill="#2a2a2a"/>
-      <text x="402" y="184" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Sunset</text>
-    </g>
-    <!-- Ember -->
-    <g>
-      <rect x="532" y="128" width="130" height="65" rx="6" fill="#2a2a2a"/>
-      <defs>
-        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#f83600"/>
-          <stop offset="100%" stop-color="#f9d423"/>
-        </linearGradient>
-      </defs>
-      <rect x="532" y="128" width="130" height="40" rx="6" fill="url(#grad2)"/>
-      <rect x="532" y="160" width="130" height="8" fill="#2a2a2a"/>
-      <text x="542" y="184" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Ember</text>
-    </g>
-    <!-- Coral -->
-    <g>
-      <rect x="392" y="203" width="130" height="65" rx="6" fill="#2a2a2a"/>
-      <defs>
-        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ff9a9e"/>
-          <stop offset="100%" stop-color="#fad0c4"/>
-        </linearGradient>
-      </defs>
-      <rect x="392" y="203" width="130" height="40" rx="6" fill="url(#grad3)"/>
-      <rect x="392" y="235" width="130" height="8" fill="#2a2a2a"/>
-      <text x="402" y="259" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Coral</text>
-    </g>
-    <!-- Peach -->
-    <g>
-      <rect x="532" y="203" width="130" height="65" rx="6" fill="#2a2a2a"/>
-      <defs>
-        <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ffecd2"/>
-          <stop offset="100%" stop-color="#fcb69f"/>
-        </linearGradient>
-      </defs>
-      <rect x="532" y="203" width="130" height="40" rx="6" fill="url(#grad4)"/>
-      <rect x="532" y="235" width="130" height="8" fill="#2a2a2a"/>
-      <text x="542" y="259" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Peach</text>
-    </g>
-    <!-- Autumn -->
-    <g>
-      <rect x="392" y="278" width="130" height="65" rx="6" fill="#2a2a2a"/>
-      <defs>
-        <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#c94b4b"/>
-          <stop offset="100%" stop-color="#4b134f"/>
-        </linearGradient>
-      </defs>
-      <rect x="392" y="278" width="130" height="40" rx="6" fill="url(#grad5)"/>
-      <rect x="392" y="310" width="130" height="8" fill="#2a2a2a"/>
-      <text x="402" y="334" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Autumn</text>
-    </g>
-    <!-- Lava -->
-    <g>
-      <rect x="532" y="278" width="130" height="65" rx="6" fill="#2a2a2a"/>
-      <defs>
-        <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#f12711"/>
-          <stop offset="100%" stop-color="#f5af19"/>
-        </linearGradient>
-      </defs>
-      <rect x="532" y="278" width="130" height="40" rx="6" fill="url(#grad6)"/>
-      <rect x="532" y="310" width="130" height="8" fill="#2a2a2a"/>
-      <text x="542" y="334" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Lava</text>
-    </g>
-    <!-- Rose Fire -->
-    <g>
-      <rect x="392" y="353" width="130" height="65" rx="6" fill="#2a2a2a"/>
-      <defs>
-        <linearGradient id="grad7" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ed4264"/>
-          <stop offset="100%" stop-color="#ffedbc"/>
-        </linearGradient>
-      </defs>
-      <rect x="392" y="353" width="130" height="40" rx="6" fill="url(#grad7)"/>
-      <rect x="392" y="385" width="130" height="8" fill="#2a2a2a"/>
-      <text x="402" y="409" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Rose Fire</text>
-    </g>
+  <!-- ─── PANEL 2: Library (x=376–676) ─── -->
+  <rect x="376" y="20" width="300" height="560" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <line x1="376" y1="20" x2="676" y2="20" stroke="#d4ccc0" stroke-width="1" opacity="0.3"/>
 
-    <!-- Apply controls at bottom -->
-    <rect x="380" y="530" width="300" height="50" fill="#252525"/>
-    <text x="400" y="552" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#999">Type:</text>
-    <rect x="430" y="540" width="55" height="20" rx="4" fill="#6366f1" opacity="0.2"/>
-    <text x="457" y="554" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">Linear</text>
-    <rect x="490" y="540" width="55" height="20" rx="4" fill="#2a2a2a"/>
-    <text x="517" y="554" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Radial</text>
-    <rect x="580" y="540" width="80" height="22" rx="4" fill="#4f46e5"/>
-    <text x="620" y="555" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#fff" text-anchor="middle">Apply</text>
-  </g>
+  <!-- Header bar -->
+  <rect x="376" y="20" width="300" height="32" fill="#141414"/>
+  <text x="392" y="40" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#e8e0d4" letter-spacing="2">DONY'S LIBRARY</text>
 
-  <!-- === PANEL 3: Dony's Graph Editor === -->
-  <g clip-path="url(#roundedGraph)">
-    <rect x="700" y="20" width="300" height="560" rx="8" fill="#1e1e1e" stroke="#333" stroke-width="1"/>
+  <!-- Tab bar -->
+  <rect x="376" y="52" width="300" height="24" fill="#141414"/>
+  <line x1="376" y1="76" x2="676" y2="76" stroke="#2a2826" stroke-width="1"/>
+  <text x="406" y="68" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8a8478" text-anchor="middle">GRADIENT</text>
+  <!-- TEXT tab active -->
+  <text x="461" y="68" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#e8e0d4" text-anchor="middle">TEXT</text>
+  <line x1="446" y1="76" x2="476" y2="76" stroke="#d4ccc0" stroke-width="2"/>
+  <text x="520" y="68" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8a8478" text-anchor="middle">ASSETS</text>
 
-    <!-- Header -->
-    <rect x="700" y="20" width="300" height="40" fill="#252525"/>
-    <rect x="700" y="20" width="300" height="2" fill="url(#headerGrad)"/>
-    <text x="720" y="46" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Graph Editor</text>
+  <!-- Category pills -->
+  <rect x="388" y="84" width="30" height="16" fill="#1a1a1a" stroke="#d4ccc0" stroke-width="1"/>
+  <text x="403" y="95" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#d4ccc0" text-anchor="middle">Slide</text>
+  <rect x="424" y="84" width="34" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="441" y="95" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Scale</text>
+  <rect x="464" y="84" width="34" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="481" y="95" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Rotate</text>
+  <rect x="504" y="84" width="28" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="518" y="95" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Fade</text>
+  <rect x="538" y="84" width="44" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="560" y="95" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Tracking</text>
 
-    <!-- Graph canvas area -->
-    <rect x="716" y="72" width="200" height="200" rx="4" fill="#1a1a1a" stroke="#333" stroke-width="0.5"/>
+  <!-- Preset list rows (height 36 each) -->
+  <!-- Row 1: Slide Up -->
+  <rect x="376" y="108" width="300" height="36" fill="#1a1a1a"/>
+  <line x1="376" y1="144" x2="676" y2="144" stroke="#2a2826" stroke-width="1"/>
+  <text x="394" y="124" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">↑</text>
+  <text x="412" y="122" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Slide Up</text>
+  <text x="412" y="136" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Position Y · 0.5s</text>
+  <rect x="600" y="115" width="20" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="610" y="125" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">IN</text>
+  <rect x="624" y="115" width="22" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="635" y="125" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">OUT</text>
+  <text x="658" y="130" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8a8478">›</text>
 
-    <!-- Grid lines -->
-    <line x1="716" y1="122" x2="916" y2="122" stroke="#2a2a2a" stroke-width="0.5"/>
-    <line x1="716" y1="172" x2="916" y2="172" stroke="#2a2a2a" stroke-width="0.5"/>
-    <line x1="716" y1="222" x2="916" y2="222" stroke="#2a2a2a" stroke-width="0.5"/>
-    <line x1="766" y1="72" x2="766" y2="272" stroke="#2a2a2a" stroke-width="0.5"/>
-    <line x1="816" y1="72" x2="816" y2="272" stroke="#2a2a2a" stroke-width="0.5"/>
-    <line x1="866" y1="72" x2="866" y2="272" stroke="#2a2a2a" stroke-width="0.5"/>
+  <!-- Row 2: Bounce In (selected) -->
+  <rect x="376" y="144" width="300" height="36" fill="#242424"/>
+  <line x1="376" y1="180" x2="676" y2="180" stroke="#2a2826" stroke-width="1"/>
+  <line x1="376" y1="144" x2="376" y2="180" stroke="#d4ccc0" stroke-width="2"/>
+  <text x="394" y="160" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">↗</text>
+  <text x="412" y="158" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#e8e0d4">Bounce In</text>
+  <text x="412" y="172" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#d4ccc0">Scale · 0.6s</text>
+  <rect x="600" y="151" width="20" height="14" fill="#1a1a1a" stroke="#d4ccc0" stroke-width="1"/>
+  <text x="610" y="161" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#d4ccc0" text-anchor="middle">IN</text>
+  <rect x="624" y="151" width="22" height="14" fill="#1a1a1a" stroke="#d4ccc0" stroke-width="1"/>
+  <text x="635" y="161" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#d4ccc0" text-anchor="middle">OUT</text>
+  <text x="658" y="166" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#d4ccc0">›</text>
 
-    <!-- Diagonal reference line -->
-    <line x1="716" y1="272" x2="916" y2="72" stroke="#333" stroke-width="1" stroke-dasharray="4,4"/>
+  <!-- Row 3: Fade Up -->
+  <rect x="376" y="180" width="300" height="36" fill="#1a1a1a"/>
+  <line x1="376" y1="216" x2="676" y2="216" stroke="#2a2826" stroke-width="1"/>
+  <text x="394" y="196" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">↑</text>
+  <text x="412" y="194" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Fade Up</text>
+  <text x="412" y="208" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Opacity · 0.4s</text>
+  <rect x="600" y="187" width="20" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="610" y="197" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">IN</text>
+  <rect x="624" y="187" width="22" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="635" y="197" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">OUT</text>
+  <text x="658" y="202" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8a8478">›</text>
 
-    <!-- Bezier curve -->
-    <path d="M 716 272 C 780 272, 852 72, 916 72" stroke="#6366f1" stroke-width="2.5" fill="none" filter="url(#glow)"/>
+  <!-- Row 4: Slide Left -->
+  <rect x="376" y="216" width="300" height="36" fill="#1a1a1a"/>
+  <line x1="376" y1="252" x2="676" y2="252" stroke="#2a2826" stroke-width="1"/>
+  <text x="394" y="232" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">←</text>
+  <text x="412" y="230" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Slide Left</text>
+  <text x="412" y="244" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Position X · 0.5s</text>
+  <rect x="600" y="223" width="20" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="610" y="233" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">IN</text>
+  <rect x="624" y="223" width="22" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="635" y="233" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">OUT</text>
 
-    <!-- Ghost curve (previous) -->
-    <path d="M 716 272 C 756 200, 876 144, 916 72" stroke="#6366f1" stroke-width="1" fill="none" opacity="0.2"/>
+  <!-- Row 5: Scale Up -->
+  <rect x="376" y="252" width="300" height="36" fill="#1a1a1a"/>
+  <line x1="376" y1="288" x2="676" y2="288" stroke="#2a2826" stroke-width="1"/>
+  <text x="394" y="268" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">⊕</text>
+  <text x="412" y="266" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Scale Up</text>
+  <text x="412" y="280" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Scale · 0.5s</text>
 
-    <!-- Control point handles -->
-    <line x1="716" y1="272" x2="780" y2="272" stroke="#6366f1" stroke-width="1" opacity="0.5"/>
-    <line x1="916" y1="72" x2="852" y2="72" stroke="#6366f1" stroke-width="1" opacity="0.5"/>
+  <!-- Row 6: Elastic Out -->
+  <rect x="376" y="288" width="300" height="36" fill="#1a1a1a"/>
+  <line x1="376" y1="324" x2="676" y2="324" stroke="#2a2826" stroke-width="1"/>
+  <text x="394" y="304" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">⟲</text>
+  <text x="412" y="302" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Elastic Out</text>
+  <text x="412" y="316" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Scale + Rotation · 0.8s</text>
 
-    <!-- Control points -->
-    <circle cx="780" cy="272" r="5" fill="#6366f1" stroke="#fff" stroke-width="1.5"/>
-    <circle cx="852" cy="72" r="5" fill="#6366f1" stroke="#fff" stroke-width="1.5"/>
+  <!-- Row 7: Tracking In -->
+  <rect x="376" y="324" width="300" height="36" fill="#1a1a1a"/>
+  <line x1="376" y1="360" x2="676" y2="360" stroke="#2a2826" stroke-width="1"/>
+  <text x="394" y="340" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">⇔</text>
+  <text x="412" y="338" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Tracking In</text>
+  <text x="412" y="352" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Tracking · 0.6s</text>
 
-    <!-- Axis labels -->
-    <text x="716" y="288" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666">0</text>
-    <text x="912" y="288" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">1</text>
-    <text x="712" y="80" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">1</text>
+  <!-- Panel 2 footer -->
+  <rect x="376" y="530" width="300" height="50" fill="#141414"/>
+  <line x1="376" y1="530" x2="676" y2="530" stroke="#2a2826" stroke-width="1"/>
+  <rect x="388" y="542" width="80" height="22" fill="#d4ccc0"/>
+  <text x="428" y="557" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#0c0c0c" text-anchor="middle">Apply</text>
 
-    <!-- Input fields -->
-    <rect x="716" y="298" width="200" height="28" rx="4" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-    <text x="726" y="316" font-family="Inter, monospace" font-size="10" fill="#a5b4fc">cubic-bezier(0.32, 0, 0.68, 0)</text>
+  <!-- ─── PANEL 3: Graph Editor (x=692–992) ─── -->
+  <rect x="692" y="20" width="300" height="560" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <line x1="692" y1="20" x2="992" y2="20" stroke="#d4ccc0" stroke-width="1" opacity="0.3"/>
 
-    <!-- Direction buttons -->
-    <text x="716" y="346" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#999">Direction:</text>
-    <rect x="778" y="334" width="44" height="18" rx="4" fill="#2a2a2a"/>
-    <text x="800" y="347" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">In</text>
-    <rect x="826" y="334" width="44" height="18" rx="4" fill="#6366f1" opacity="0.2"/>
-    <text x="848" y="347" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">Out</text>
-    <rect x="874" y="334" width="44" height="18" rx="4" fill="#2a2a2a"/>
-    <text x="896" y="347" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Both</text>
+  <!-- Header bar -->
+  <rect x="692" y="20" width="300" height="32" fill="#141414"/>
+  <text x="708" y="40" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#e8e0d4" letter-spacing="2">GRAPH EDITOR</text>
 
-    <!-- Action buttons -->
-    <rect x="716" y="362" width="95" height="26" rx="4" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-    <text x="763" y="379" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc" text-anchor="middle">Read</text>
-    <rect x="821" y="362" width="95" height="26" rx="4" fill="#4f46e5"/>
-    <text x="868" y="379" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#fff" text-anchor="middle">Apply</text>
+  <!-- Graph canvas (left column of panel 3) -->
+  <rect x="704" y="60" width="180" height="200" fill="#111111" stroke="#2a2826" stroke-width="1"/>
+  <!-- Grid lines horizontal -->
+  <line x1="704" y1="110" x2="884" y2="110" stroke="#1a1a1a" stroke-width="0.5"/>
+  <line x1="704" y1="160" x2="884" y2="160" stroke="#1a1a1a" stroke-width="0.5"/>
+  <line x1="704" y1="210" x2="884" y2="210" stroke="#1a1a1a" stroke-width="0.5"/>
+  <!-- Grid lines vertical -->
+  <line x1="749" y1="60" x2="749" y2="260" stroke="#1a1a1a" stroke-width="0.5"/>
+  <line x1="794" y1="60" x2="794" y2="260" stroke="#1a1a1a" stroke-width="0.5"/>
+  <line x1="839" y1="60" x2="839" y2="260" stroke="#1a1a1a" stroke-width="0.5"/>
+  <!-- Diagonal reference -->
+  <line x1="704" y1="260" x2="884" y2="60" stroke="#3a3836" stroke-width="1" stroke-dasharray="4,3"/>
+  <!-- Handle dashed lines -->
+  <line x1="704" y1="260" x2="730" y2="180" stroke="#3a3836" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="884" y1="60" x2="858" y2="130" stroke="#3a3836" stroke-width="1" stroke-dasharray="3,2"/>
+  <!-- Main Ease Out bezier curve -->
+  <path d="M704,260 C730,180 858,130 884,60" stroke="#d4ccc0" stroke-width="2" fill="none"/>
+  <!-- Handle circles -->
+  <circle cx="730" cy="180" r="5" fill="#d4ccc0" stroke="white" stroke-width="1.5"/>
+  <circle cx="858" cy="130" r="5" fill="#d4ccc0" stroke="white" stroke-width="1.5"/>
+  <!-- Endpoint circles -->
+  <circle cx="704" cy="260" r="3" fill="#8a8478"/>
+  <circle cx="884" cy="60" r="3" fill="#8a8478"/>
+  <!-- Axis labels -->
+  <text x="706" y="270" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#4a4640">0</text>
+  <text x="876" y="70" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#4a4640">1</text>
 
-    <!-- Preset list section -->
-    <text x="716" y="410" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#e0e0e0">Presets</text>
-    <line x1="716" y1="416" x2="984" y2="416" stroke="#333" stroke-width="0.5"/>
+  <!-- Value display box -->
+  <rect x="704" y="268" width="180" height="20" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="794" y="281" font-family="Consolas, 'SF Mono', monospace" font-size="7.5" fill="#d4ccc0" text-anchor="middle">cubic-bezier(0.00, 0.76, 0.60, 1.00)</text>
 
-    <!-- Preset items -->
-    <g>
-      <rect x="716" y="422" width="268" height="24" rx="3" fill="#2a2a2a"/>
-      <text x="726" y="438" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Linear</text>
-      <text x="974" y="438" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="end">0, 0, 1, 1</text>
-    </g>
-    <g>
-      <rect x="716" y="450" width="268" height="24" rx="3" fill="#333" stroke="#6366f1" stroke-width="0.5"/>
-      <text x="726" y="466" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#a5b4fc">Ease Out</text>
-      <text x="974" y="466" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#818cf8" text-anchor="end">0.32, 0, 0.68, 0</text>
-    </g>
-    <g>
-      <rect x="716" y="478" width="268" height="24" rx="3" fill="#2a2a2a"/>
-      <text x="726" y="494" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Ease In-Out</text>
-      <text x="974" y="494" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="end">0.42, 0, 0.58, 1</text>
-    </g>
-    <g>
-      <rect x="716" y="506" width="268" height="24" rx="3" fill="#2a2a2a"/>
-      <text x="726" y="522" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Overshoot</text>
-      <text x="974" y="522" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="end">0.34, 1.56, 0.64, 1</text>
-    </g>
-    <g>
-      <rect x="716" y="534" width="268" height="24" rx="3" fill="#2a2a2a"/>
-      <text x="726" y="550" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Snappy</text>
-      <text x="974" y="550" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="end">0.7, 0, 0.3, 1</text>
-    </g>
-  </g>
+  <!-- Preset list (right column of panel 3) -->
+  <text x="892" y="74" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#4a4640" letter-spacing="1.5">PRESETS</text>
+
+  <!-- Preset rows -->
+  <!-- Linear -->
+  <rect x="892" y="82" width="88" height="24" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="904" y="97" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">Linear</text>
+
+  <!-- Ease In -->
+  <rect x="892" y="106" width="88" height="24" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="904" y="121" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">Ease In</text>
+
+  <!-- Ease Out (selected) -->
+  <rect x="892" y="130" width="88" height="24" fill="#242424" stroke="#2a2826" stroke-width="1"/>
+  <line x1="892" y1="130" x2="892" y2="154" stroke="#d4ccc0" stroke-width="2"/>
+  <text x="904" y="145" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#e8e0d4">Ease Out</text>
+
+  <!-- Ease In-Out -->
+  <rect x="892" y="154" width="88" height="24" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="904" y="169" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">Ease In-Out</text>
+
+  <!-- MOTION label -->
+  <text x="892" y="192" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#4a4640" letter-spacing="1.5">MOTION</text>
+
+  <rect x="892" y="198" width="88" height="24" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="904" y="213" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">Overshoot</text>
+
+  <rect x="892" y="222" width="88" height="24" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="904" y="237" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">Bounce End</text>
+
+  <rect x="892" y="246" width="88" height="24" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <text x="904" y="261" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">Spring</text>
+
+  <!-- Panel 3 footer -->
+  <rect x="692" y="530" width="300" height="50" fill="#141414"/>
+  <line x1="692" y1="530" x2="992" y2="530" stroke="#2a2826" stroke-width="1"/>
+  <rect x="704" y="542" width="80" height="22" fill="#d4ccc0"/>
+  <text x="744" y="557" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#0c0c0c" text-anchor="middle">Apply</text>
+
 </svg>

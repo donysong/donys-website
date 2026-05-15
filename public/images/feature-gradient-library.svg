@@ -1,175 +1,128 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" fill="none">
+
   <defs>
-    <linearGradient id="glHeader" x1="0" y1="0" x2="480" y2="0" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#6366f1"/>
-      <stop offset="100%" stop-color="#4f46e5"/>
+    <!-- Gradient swatches — industrial palette -->
+    <linearGradient id="g-sunset" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c0685a"/>
+      <stop offset="100%" stop-color="#e8a87c"/>
     </linearGradient>
-    <!-- Gradient presets -->
-    <linearGradient id="gSunset" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ff6b35"/>
-      <stop offset="50%" stop-color="#f7c948"/>
-      <stop offset="100%" stop-color="#ff3864"/>
+    <linearGradient id="g-ocean" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2c5f7a"/>
+      <stop offset="100%" stop-color="#4a9cb8"/>
     </linearGradient>
-    <linearGradient id="gOcean" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2193b0"/>
-      <stop offset="100%" stop-color="#6dd5ed"/>
+    <linearGradient id="g-midnight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#3a3a5e"/>
     </linearGradient>
-    <linearGradient id="gMidnight" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#232526"/>
-      <stop offset="100%" stop-color="#414345"/>
+    <linearGradient id="g-neon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b3a7a"/>
+      <stop offset="100%" stop-color="#c86a9a"/>
     </linearGradient>
-    <linearGradient id="gNeonPop" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f953c6"/>
-      <stop offset="100%" stop-color="#b91d73"/>
+    <linearGradient id="g-cotton" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d4a0b8"/>
+      <stop offset="100%" stop-color="#b8c8e8"/>
     </linearGradient>
-    <linearGradient id="gCotton" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ffecd2"/>
-      <stop offset="50%" stop-color="#fcb69f"/>
-      <stop offset="100%" stop-color="#ff9a9e"/>
+    <linearGradient id="g-synth" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4a2060"/>
+      <stop offset="100%" stop-color="#8a3080"/>
     </linearGradient>
-    <linearGradient id="gSynthwave" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#fc00ff"/>
-      <stop offset="100%" stop-color="#00dbde"/>
+    <linearGradient id="g-aurora" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2a6a4a"/>
+      <stop offset="100%" stop-color="#4ab890"/>
     </linearGradient>
-    <linearGradient id="gAurora" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#7f00ff"/>
-      <stop offset="33%" stop-color="#00ff87"/>
-      <stop offset="66%" stop-color="#00bfff"/>
-      <stop offset="100%" stop-color="#ff006e"/>
+    <linearGradient id="g-lava" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b2000"/>
+      <stop offset="100%" stop-color="#e05020"/>
     </linearGradient>
-    <linearGradient id="gLava" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f12711"/>
-      <stop offset="100%" stop-color="#f5af19"/>
-    </linearGradient>
-    <linearGradient id="gDeepSea" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0f2027"/>
-      <stop offset="50%" stop-color="#203a43"/>
-      <stop offset="100%" stop-color="#2c5364"/>
-    </linearGradient>
-    <linearGradient id="gHolo" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#a8edea"/>
-      <stop offset="25%" stop-color="#fed6e3"/>
-      <stop offset="50%" stop-color="#d299f0"/>
-      <stop offset="75%" stop-color="#89f7fe"/>
-      <stop offset="100%" stop-color="#a8edea"/>
-    </linearGradient>
-    <linearGradient id="gEmber" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f83600"/>
-      <stop offset="100%" stop-color="#f9d423"/>
-    </linearGradient>
-    <linearGradient id="gIce" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#e0eafc"/>
-      <stop offset="100%" stop-color="#cfdef3"/>
+    <linearGradient id="g-deepsea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a2840"/>
+      <stop offset="100%" stop-color="#1a5880"/>
     </linearGradient>
   </defs>
 
   <!-- Background -->
-  <rect width="480" height="320" rx="12" fill="#1e1e1e"/>
-  <rect width="480" height="320" rx="12" stroke="#333" stroke-width="1" fill="none"/>
+  <rect width="480" height="320" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
 
-  <!-- Header -->
-  <rect width="480" height="36" rx="12" fill="#252525"/>
-  <rect y="24" width="480" height="12" fill="#252525"/>
-  <rect width="480" height="2" fill="url(#glHeader)"/>
-  <text x="16" y="24" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Library</text>
-  <text x="130" y="24" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666">— 50+ Gradient Presets</text>
+  <!-- Cream top stripe -->
+  <line x1="0" y1="0" x2="480" y2="0" stroke="#d4ccc0" stroke-width="1" opacity="0.3"/>
 
-  <!-- Tab bar -->
-  <rect y="36" width="480" height="28" fill="#222"/>
-  <rect x="15" y="42" width="65" height="18" rx="4" fill="#6366f1" opacity="0.2"/>
-  <text x="47" y="55" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">Gradient</text>
-  <text x="112" y="55" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Text</text>
-  <text x="162" y="55" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Assets</text>
+  <!-- Header (height=32) -->
+  <rect x="0" y="0" width="480" height="32" fill="#141414"/>
+  <rect x="14" y="11" width="8" height="8" fill="none" stroke="#d4ccc0" stroke-width="1" transform="rotate(45 18 15)"/>
+  <text x="17" y="19" font-family="Inter, system-ui, sans-serif" font-size="6" font-weight="700" fill="#d4ccc0" text-anchor="middle">D</text>
+  <text x="30" y="20" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#e8e0d4" letter-spacing="2">GRADIENT LIBRARY</text>
 
-  <!-- Category pills -->
-  <rect x="12" y="72" width="42" height="16" rx="8" fill="#ec4899" opacity="0.15"/>
-  <text x="33" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" font-weight="500" fill="#ec4899" text-anchor="middle">All</text>
-  <text x="68" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Warm</text>
-  <text x="103" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Cool</text>
-  <text x="140" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Pastel</text>
-  <text x="178" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Dark</text>
-  <text x="220" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Vibrant</text>
-  <text x="266" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Neutral</text>
-  <text x="308" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Trend</text>
+  <!-- Tab bar (height=24) -->
+  <rect x="0" y="32" width="480" height="24" fill="#141414"/>
+  <line x1="0" y1="56" x2="480" y2="56" stroke="#2a2826" stroke-width="1"/>
+  <!-- GRADIENT active -->
+  <text x="60" y="48" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#e8e0d4" text-anchor="middle">GRADIENT</text>
+  <line x1="20" y1="56" x2="100" y2="56" stroke="#d4ccc0" stroke-width="2"/>
+  <text x="145" y="48" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8a8478" text-anchor="middle">TEXT</text>
+  <text x="210" y="48" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8a8478" text-anchor="middle">ASSETS</text>
 
-  <!-- Gradient grid (3 columns × 4 rows) -->
+  <!-- Category pills (height=28) -->
+  <rect x="0" y="56" width="480" height="28" fill="#1a1a1a"/>
+  <line x1="0" y1="84" x2="480" y2="84" stroke="#2a2826" stroke-width="1"/>
+  <!-- All (active) -->
+  <rect x="12" y="62" width="22" height="16" fill="#1a1a1a" stroke="#d4ccc0" stroke-width="1"/>
+  <text x="23" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#d4ccc0" text-anchor="middle">All</text>
+  <rect x="40" y="62" width="34" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="57" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Warm</text>
+  <rect x="80" y="62" width="28" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="94" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Cool</text>
+  <rect x="114" y="62" width="32" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="130" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Pastel</text>
+  <rect x="152" y="62" width="28" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="166" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Dark</text>
+  <rect x="186" y="62" width="42" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="207" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Vibrant</text>
+
+  <!-- ─── 3-column swatch grid ─── -->
   <!-- Row 1 -->
-  <g>
-    <rect x="12" y="96" width="148" height="40" rx="6" fill="url(#gSunset)"/>
-    <rect x="12" y="130" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
-    <text x="22" y="143" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Sunset</text>
-    <text x="150" y="143" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Warm</text>
-  </g>
-  <g>
-    <rect x="166" y="96" width="148" height="40" rx="6" fill="url(#gOcean)"/>
-    <rect x="166" y="130" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
-    <text x="176" y="143" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Ocean</text>
-    <text x="304" y="143" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Cool</text>
-  </g>
-  <g>
-    <rect x="320" y="96" width="148" height="40" rx="6" fill="url(#gCotton)"/>
-    <rect x="320" y="130" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
-    <text x="330" y="143" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Cotton Candy</text>
-    <text x="458" y="143" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Pastel</text>
-  </g>
+  <!-- Card 1: Sunset -->
+  <rect x="12" y="92" width="138" height="76" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <rect x="12" y="92" width="138" height="58" fill="url(#g-sunset)"/>
+  <text x="81" y="162" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Sunset</text>
+
+  <!-- Card 2: Ocean (hover state) -->
+  <rect x="162" y="92" width="138" height="76" fill="#1a1a1a" stroke="#3a3836" stroke-width="1.5"/>
+  <rect x="162" y="92" width="138" height="58" fill="url(#g-ocean)"/>
+  <text x="231" y="162" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#c8c0b4" text-anchor="middle">Ocean</text>
+
+  <!-- Card 3: Midnight -->
+  <rect x="312" y="92" width="138" height="76" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <rect x="312" y="92" width="138" height="58" fill="url(#g-midnight)"/>
+  <text x="381" y="162" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Midnight</text>
 
   <!-- Row 2 -->
-  <g>
-    <rect x="12" y="155" width="148" height="40" rx="6" fill="url(#gNeonPop)"/>
-    <rect x="12" y="189" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
-    <text x="22" y="202" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Neon Pop</text>
-    <text x="150" y="202" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Vibrant</text>
-  </g>
-  <g>
-    <!-- Selected gradient with border highlight -->
-    <rect x="166" y="155" width="148" height="40" rx="6" fill="url(#gSynthwave)"/>
-    <rect x="166" y="189" width="148" height="18" fill="#333"/>
-    <rect x="166" y="155" width="148" height="52" rx="6" stroke="#ec4899" stroke-width="1.5" fill="none"/>
-    <text x="176" y="202" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ec4899">Synthwave</text>
-    <text x="304" y="202" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#ec4899" text-anchor="end">✓</text>
-  </g>
-  <g>
-    <rect x="320" y="155" width="148" height="40" rx="6" fill="url(#gAurora)"/>
-    <rect x="320" y="189" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
-    <text x="330" y="202" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Aurora</text>
-    <text x="458" y="202" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Trend</text>
-  </g>
+  <!-- Card 4: Neon Pink -->
+  <rect x="12" y="176" width="138" height="76" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <rect x="12" y="176" width="138" height="58" fill="url(#g-neon)"/>
+  <text x="81" y="246" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Neon Pink</text>
 
-  <!-- Row 3 -->
-  <g>
-    <rect x="12" y="214" width="148" height="40" rx="6" fill="url(#gLava)"/>
-    <rect x="12" y="248" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
-    <text x="22" y="261" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Lava</text>
-    <text x="150" y="261" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Warm</text>
-  </g>
-  <g>
-    <rect x="166" y="214" width="148" height="40" rx="6" fill="url(#gDeepSea)"/>
-    <rect x="166" y="248" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
-    <text x="176" y="261" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Deep Sea</text>
-    <text x="304" y="261" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Cool</text>
-  </g>
-  <g>
-    <rect x="320" y="214" width="148" height="40" rx="6" fill="url(#gHolo)"/>
-    <rect x="320" y="248" width="148" height="18" rx="0 0 6 6" fill="#2a2a2a"/>
-    <text x="330" y="261" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc">Holographic</text>
-    <text x="458" y="261" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="end">Trend</text>
-  </g>
+  <!-- Card 5: Cotton Candy -->
+  <rect x="162" y="176" width="138" height="76" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <rect x="162" y="176" width="138" height="58" fill="url(#g-cotton)"/>
+  <text x="231" y="246" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Cotton Candy</text>
 
-  <!-- Bottom controls -->
-  <rect y="274" width="480" height="1" fill="#333"/>
+  <!-- Card 6: Synthwave -->
+  <rect x="312" y="176" width="138" height="76" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
+  <rect x="312" y="176" width="138" height="58" fill="url(#g-synth)"/>
+  <text x="381" y="246" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Synthwave</text>
 
-  <text x="16" y="296" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#999">Type:</text>
-  <rect x="46" y="284" width="55" height="20" rx="4" fill="#ec4899" opacity="0.15"/>
-  <text x="73" y="298" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ec4899" text-anchor="middle">Linear</text>
-  <rect x="106" y="284" width="55" height="20" rx="4" fill="#2a2a2a"/>
-  <text x="133" y="298" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Radial</text>
+  <!-- ─── Apply row (bottom) ─── -->
+  <rect x="0" y="260" width="480" height="60" fill="#141414"/>
+  <line x1="0" y1="260" x2="480" y2="260" stroke="#2a2826" stroke-width="1"/>
+  <!-- Mini previews of Aurora, Lava, Deep Sea as small chips -->
+  <rect x="12" y="274" width="50" height="16" fill="url(#g-aurora)" stroke="#2a2826" stroke-width="1"/>
+  <text x="37" y="302" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Aurora</text>
+  <rect x="70" y="274" width="50" height="16" fill="url(#g-lava)" stroke="#2a2826" stroke-width="1"/>
+  <text x="95" y="302" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Lava</text>
+  <rect x="128" y="274" width="50" height="16" fill="url(#g-deepsea)" stroke="#2a2826" stroke-width="1"/>
+  <text x="153" y="302" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Deep Sea</text>
+  <!-- Apply button -->
+  <rect x="380" y="270" width="80" height="22" fill="#d4ccc0"/>
+  <text x="420" y="285" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#0c0c0c" text-anchor="middle">Apply</text>
 
-  <text x="180" y="296" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#999">Layer:</text>
-  <rect x="214" y="284" width="55" height="20" rx="4" fill="#2a2a2a"/>
-  <text x="241" y="298" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#ccc" text-anchor="middle">Solid</text>
-  <rect x="274" y="284" width="55" height="20" rx="4" fill="#2a2a2a"/>
-  <text x="301" y="298" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Shape</text>
-
-  <rect x="370" y="283" width="96" height="24" rx="5" fill="#4f46e5"/>
-  <text x="418" y="299" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">Apply</text>
 </svg>

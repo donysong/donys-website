@@ -1,141 +1,114 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" fill="none">
-  <defs>
-    <linearGradient id="tpHeader" x1="0" y1="0" x2="480" y2="0" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#6366f1"/>
-      <stop offset="100%" stop-color="#4f46e5"/>
-    </linearGradient>
-  </defs>
 
   <!-- Background -->
-  <rect width="480" height="320" rx="12" fill="#1e1e1e"/>
-  <rect width="480" height="320" rx="12" stroke="#333" stroke-width="1" fill="none"/>
+  <rect width="480" height="320" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
 
-  <!-- Header -->
-  <rect width="480" height="36" rx="12" fill="#252525"/>
-  <rect y="24" width="480" height="12" fill="#252525"/>
-  <rect width="480" height="2" fill="url(#tpHeader)"/>
-  <text x="16" y="24" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Library</text>
-  <text x="130" y="24" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666">— Text Presets</text>
+  <!-- Cream top stripe -->
+  <line x1="0" y1="0" x2="480" y2="0" stroke="#d4ccc0" stroke-width="1" opacity="0.3"/>
 
-  <!-- Tab bar -->
-  <rect y="36" width="480" height="28" fill="#222"/>
-  <text x="50" y="54" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Gradient</text>
-  <rect x="85" y="42" width="55" height="18" rx="4" fill="#6366f1" opacity="0.2"/>
-  <text x="112" y="55" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#a5b4fc" text-anchor="middle">Text</text>
-  <text x="175" y="54" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666" text-anchor="middle">Assets</text>
+  <!-- Header (height=32) -->
+  <rect x="0" y="0" width="480" height="32" fill="#141414"/>
+  <rect x="14" y="11" width="8" height="8" fill="none" stroke="#d4ccc0" stroke-width="1" transform="rotate(45 18 15)"/>
+  <text x="17" y="19" font-family="Inter, system-ui, sans-serif" font-size="6" font-weight="700" fill="#d4ccc0" text-anchor="middle">D</text>
+  <text x="30" y="20" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#e8e0d4" letter-spacing="2">DONY&apos;S LIBRARY</text>
 
-  <!-- Category pills -->
-  <rect x="12" y="72" width="42" height="16" rx="8" fill="#6366f1" opacity="0.15"/>
-  <text x="33" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" font-weight="500" fill="#a5b4fc" text-anchor="middle">Slide</text>
-  <text x="73" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Scale</text>
-  <text x="112" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Rotate</text>
-  <text x="148" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Fade</text>
-  <text x="192" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Tracking</text>
-  <text x="244" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Compound</text>
-  <text x="296" y="83" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666" text-anchor="middle">Stylistic</text>
+  <!-- Tab bar (height=24) -->
+  <rect x="0" y="32" width="480" height="24" fill="#141414"/>
+  <line x1="0" y1="56" x2="480" y2="56" stroke="#2a2826" stroke-width="1"/>
+  <text x="60" y="48" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8a8478" text-anchor="middle">GRADIENT</text>
+  <text x="130" y="48" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#e8e0d4" text-anchor="middle">TEXT</text>
+  <line x1="112" y1="56" x2="148" y2="56" stroke="#d4ccc0" stroke-width="2"/>
+  <text x="200" y="48" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8a8478" text-anchor="middle">ASSETS</text>
 
-  <!-- Preset cards -->
-  <!-- Slide Up -->
-  <g>
-    <rect x="12" y="96" width="110" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-    <text x="22" y="116" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#e0e0e0">Slide Up</text>
-    <text x="22" y="130" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666">Position Y · 0.5s</text>
-    <!-- Arrow icon -->
-    <text x="108" y="120" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#6366f1" text-anchor="end">↑</text>
-    <!-- In/Out badge -->
-    <rect x="22" y="136" width="20" height="12" rx="3" fill="#6366f1" opacity="0.15"/>
-    <text x="32" y="145" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#a5b4fc" text-anchor="middle">In</text>
-  </g>
+  <!-- Category pills (height=28) -->
+  <rect x="0" y="56" width="480" height="28" fill="#1a1a1a"/>
+  <line x1="0" y1="84" x2="480" y2="84" stroke="#2a2826" stroke-width="1"/>
+  <rect x="12" y="62" width="30" height="16" fill="#1a1a1a" stroke="#d4ccc0" stroke-width="1"/>
+  <text x="27" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#d4ccc0" text-anchor="middle">Slide</text>
+  <rect x="48" y="62" width="34" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="65" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Scale</text>
+  <rect x="88" y="62" width="34" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="105" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Rotate</text>
+  <rect x="128" y="62" width="28" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="142" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Fade</text>
+  <rect x="162" y="62" width="44" height="16" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="184" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478" text-anchor="middle">Tracking</text>
 
-  <!-- Slide Down -->
-  <g>
-    <rect x="130" y="96" width="110" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-    <text x="140" y="116" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#e0e0e0">Slide Down</text>
-    <text x="140" y="130" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666">Position Y · 0.5s</text>
-    <text x="226" y="120" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#6366f1" text-anchor="end">↓</text>
-    <rect x="140" y="136" width="20" height="12" rx="3" fill="#6366f1" opacity="0.15"/>
-    <text x="150" y="145" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#a5b4fc" text-anchor="middle">In</text>
-  </g>
+  <!-- Row 1: Slide Up -->
+  <rect x="0" y="84" width="480" height="28" fill="#1a1a1a"/>
+  <line x1="0" y1="112" x2="480" y2="112" stroke="#2a2826" stroke-width="1"/>
+  <text x="18" y="102" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">&#8593;</text>
+  <text x="36" y="100" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Slide Up</text>
+  <text x="36" y="111" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Position Y · 0.5s</text>
+  <rect x="376" y="91" width="20" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="386" y="101" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">IN</text>
+  <rect x="400" y="91" width="22" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="411" y="101" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">OUT</text>
+  <text x="452" y="102" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8a8478">&#8250;</text>
 
-  <!-- Slide Left (selected/active) -->
-  <g>
-    <rect x="248" y="96" width="110" height="56" rx="6" fill="#333" stroke="#6366f1" stroke-width="1"/>
-    <text x="258" y="116" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#a5b4fc">Slide Left</text>
-    <text x="258" y="130" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#818cf8">Position X · 0.5s</text>
-    <text x="344" y="120" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#a5b4fc" text-anchor="end">←</text>
-    <rect x="258" y="136" width="28" height="12" rx="3" fill="#6366f1" opacity="0.25"/>
-    <text x="272" y="145" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#a5b4fc" text-anchor="middle">In+Out</text>
-  </g>
+  <!-- Row 2: Bounce In (selected) -->
+  <rect x="0" y="112" width="480" height="28" fill="#242424"/>
+  <line x1="0" y1="140" x2="480" y2="140" stroke="#2a2826" stroke-width="1"/>
+  <line x1="0" y1="112" x2="0" y2="140" stroke="#d4ccc0" stroke-width="2"/>
+  <text x="18" y="130" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">&#8599;</text>
+  <text x="36" y="128" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#e8e0d4">Bounce In</text>
+  <text x="36" y="139" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#d4ccc0">Scale · 0.6s</text>
+  <rect x="376" y="119" width="20" height="14" fill="#1a1a1a" stroke="#d4ccc0" stroke-width="1"/>
+  <text x="386" y="129" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#d4ccc0" text-anchor="middle">IN</text>
+  <rect x="400" y="119" width="22" height="14" fill="#1a1a1a" stroke="#d4ccc0" stroke-width="1"/>
+  <text x="411" y="129" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#d4ccc0" text-anchor="middle">OUT</text>
+  <text x="452" y="130" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#d4ccc0">&#8250;</text>
 
-  <!-- Slide Right -->
-  <g>
-    <rect x="366" y="96" width="102" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-    <text x="376" y="116" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#e0e0e0">Slide Right</text>
-    <text x="376" y="130" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666">Position X · 0.5s</text>
-    <text x="454" y="120" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#6366f1" text-anchor="end">→</text>
-    <rect x="376" y="136" width="20" height="12" rx="3" fill="#6366f1" opacity="0.15"/>
-    <text x="386" y="145" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#a5b4fc" text-anchor="middle">In</text>
-  </g>
+  <!-- Row 3: Fade Up -->
+  <rect x="0" y="140" width="480" height="28" fill="#1a1a1a"/>
+  <line x1="0" y1="168" x2="480" y2="168" stroke="#2a2826" stroke-width="1"/>
+  <text x="18" y="158" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">&#8593;</text>
+  <text x="36" y="156" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Fade Up</text>
+  <text x="36" y="167" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Opacity · 0.4s</text>
+  <rect x="376" y="147" width="20" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="386" y="157" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">IN</text>
+  <rect x="400" y="147" width="22" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="411" y="157" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">OUT</text>
+  <text x="452" y="158" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8a8478">&#8250;</text>
 
-  <!-- Slide Up Fade -->
-  <g>
-    <rect x="12" y="160" width="110" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-    <text x="22" y="180" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#e0e0e0">Slide Up Fade</text>
-    <text x="22" y="194" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666">Pos Y + Opacity · 0.6s</text>
-    <rect x="22" y="200" width="20" height="12" rx="3" fill="#6366f1" opacity="0.15"/>
-    <text x="32" y="209" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#a5b4fc" text-anchor="middle">In</text>
-  </g>
+  <!-- Row 4: Slide Left -->
+  <rect x="0" y="168" width="480" height="28" fill="#1a1a1a"/>
+  <line x1="0" y1="196" x2="480" y2="196" stroke="#2a2826" stroke-width="1"/>
+  <text x="18" y="186" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">&#8592;</text>
+  <text x="36" y="184" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Slide Left</text>
+  <text x="36" y="195" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Position X · 0.5s</text>
+  <rect x="376" y="175" width="20" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="386" y="185" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">IN</text>
+  <rect x="400" y="175" width="22" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="411" y="185" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">OUT</text>
 
-  <!-- Slide Down Fade -->
-  <g>
-    <rect x="130" y="160" width="110" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-    <text x="140" y="180" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#e0e0e0">Slide Down Fade</text>
-    <text x="140" y="194" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666">Pos Y + Opacity · 0.6s</text>
-    <rect x="140" y="200" width="28" height="12" rx="3" fill="#6366f1" opacity="0.15"/>
-    <text x="154" y="209" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#a5b4fc" text-anchor="middle">Out</text>
-  </g>
+  <!-- Row 5: Scale Up -->
+  <rect x="0" y="196" width="480" height="28" fill="#1a1a1a"/>
+  <line x1="0" y1="224" x2="480" y2="224" stroke="#2a2826" stroke-width="1"/>
+  <text x="18" y="214" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#d4ccc0">+</text>
+  <text x="36" y="212" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Scale Up</text>
+  <text x="36" y="223" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Scale · 0.5s</text>
 
-  <!-- Slide Left Fade -->
-  <g>
-    <rect x="248" y="160" width="110" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-    <text x="258" y="180" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#e0e0e0">Slide Left Fade</text>
-    <text x="258" y="194" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666">Pos X + Opacity · 0.6s</text>
-    <rect x="258" y="200" width="20" height="12" rx="3" fill="#6366f1" opacity="0.15"/>
-    <text x="268" y="209" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#a5b4fc" text-anchor="middle">In</text>
-  </g>
+  <!-- Row 6: Elastic Out -->
+  <rect x="0" y="224" width="480" height="28" fill="#1a1a1a"/>
+  <line x1="0" y1="252" x2="480" y2="252" stroke="#2a2826" stroke-width="1"/>
+  <text x="18" y="242" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#d4ccc0">~</text>
+  <text x="36" y="240" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Elastic Out</text>
+  <text x="36" y="251" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Scale + Rotation · 0.8s</text>
 
-  <!-- Slide Right Fade -->
-  <g>
-    <rect x="366" y="160" width="102" height="56" rx="6" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-    <text x="376" y="180" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" fill="#e0e0e0">Slide Right Fade</text>
-    <text x="376" y="194" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#666">Pos X + Opacity · 0.6s</text>
-    <rect x="376" y="200" width="20" height="12" rx="3" fill="#6366f1" opacity="0.15"/>
-    <text x="386" y="209" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#a5b4fc" text-anchor="middle">In</text>
-  </g>
+  <!-- Row 7: Tracking In -->
+  <rect x="0" y="252" width="480" height="28" fill="#1a1a1a"/>
+  <line x1="0" y1="280" x2="480" y2="280" stroke="#2a2826" stroke-width="1"/>
+  <text x="18" y="270" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#d4ccc0">T</text>
+  <text x="36" y="268" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#c8c0b4">Tracking In</text>
+  <text x="36" y="279" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#8a8478">Tracking · 0.6s</text>
 
-  <!-- Duration control bar -->
-  <rect y="230" width="480" height="1" fill="#333"/>
+  <!-- Apply button row -->
+  <rect x="0" y="280" width="480" height="40" fill="#141414"/>
+  <line x1="0" y1="280" x2="480" y2="280" stroke="#2a2826" stroke-width="1"/>
+  <rect x="12" y="290" width="88" height="22" fill="#d4ccc0"/>
+  <text x="56" y="305" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#0c0c0c" text-anchor="middle">Apply Preset</text>
+  <rect x="108" y="290" width="64" height="22" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="140" y="305" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8a8478" text-anchor="middle">Preview</text>
 
-  <!-- Settings area -->
-  <text x="16" y="252" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="600" fill="#e0e0e0">Settings</text>
-
-  <text x="16" y="274" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#999">Duration</text>
-  <rect x="80" y="263" width="120" height="18" rx="4" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="0.5"/>
-  <!-- Slider track -->
-  <rect x="86" y="270" width="108" height="4" rx="2" fill="#333"/>
-  <rect x="86" y="270" width="40" height="4" rx="2" fill="#6366f1"/>
-  <circle cx="126" cy="272" r="5" fill="#6366f1" stroke="#fff" stroke-width="1"/>
-  <text x="210" y="277" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#a5b4fc">0.5s</text>
-
-  <text x="16" y="298" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#999">Easing</text>
-  <rect x="80" y="287" width="70" height="18" rx="4" fill="#6366f1" opacity="0.15"/>
-  <text x="115" y="300" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">Overshoot</text>
-  <rect x="155" y="287" width="55" height="18" rx="4" fill="#2a2a2a"/>
-  <text x="182" y="300" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Bounce</text>
-  <rect x="215" y="287" width="55" height="18" rx="4" fill="#2a2a2a"/>
-  <text x="242" y="300" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" text-anchor="middle">Elastic</text>
-
-  <!-- Apply button -->
-  <rect x="370" y="286" width="96" height="26" rx="5" fill="#4f46e5"/>
-  <text x="418" y="303" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">Apply</text>
 </svg>

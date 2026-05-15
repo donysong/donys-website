@@ -1,180 +1,124 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" fill="none">
-  <defs>
-    <linearGradient id="eeHeader" x1="0" y1="0" x2="480" y2="0" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#6366f1"/>
-      <stop offset="100%" stop-color="#4f46e5"/>
-    </linearGradient>
-  </defs>
 
   <!-- Background -->
-  <rect width="480" height="320" rx="12" fill="#1e1e1e"/>
-  <rect width="480" height="320" rx="12" stroke="#333" stroke-width="1" fill="none"/>
+  <rect width="480" height="320" fill="#1a1a1a" stroke="#2a2826" stroke-width="1"/>
 
-  <!-- Header -->
-  <rect width="480" height="36" rx="12" fill="#252525"/>
-  <rect y="24" width="480" height="12" fill="#252525"/>
-  <rect width="480" height="2" fill="url(#eeHeader)"/>
-  <text x="16" y="24" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0e0e0">Dony's Expression Editor</text>
-  <text x="185" y="24" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#666">— 70+ Expressions</text>
+  <!-- Cream top stripe -->
+  <line x1="0" y1="0" x2="480" y2="0" stroke="#d4ccc0" stroke-width="1" opacity="0.3"/>
 
-  <!-- Category Tabs -->
-  <rect y="36" width="480" height="28" fill="#252525"/>
-  <rect y="63" width="480" height="1" fill="#333"/>
+  <!-- Header (height=32) -->
+  <rect x="0" y="0" width="480" height="32" fill="#141414"/>
+  <rect x="14" y="11" width="8" height="8" fill="none" stroke="#d4ccc0" stroke-width="1" transform="rotate(45 18 15)"/>
+  <text x="17" y="19" font-family="Inter, system-ui, sans-serif" font-size="6" font-weight="700" fill="#d4ccc0" text-anchor="middle">D</text>
+  <text x="30" y="20" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#e8e0d4" letter-spacing="2">EXPRESSION EDITOR</text>
+  <text x="222" y="20" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640"> — 70+ EXPRESSIONS</text>
 
-  <text x="20" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Timer</text>
-  <text x="56" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Random</text>
-  <text x="102" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Math</text>
-  <!-- Active tab: Motion -->
-  <text x="136" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="600" fill="#a5b4fc">Motion</text>
-  <rect x="133" y="62" width="38" height="2" fill="#6366f1"/>
-  <text x="182" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Layer</text>
-  <text x="214" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Text</text>
-  <text x="242" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Color</text>
-  <text x="276" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Camera</text>
-  <text x="320" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Audio</text>
-  <text x="358" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Responsive</text>
-  <text x="418" y="54" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">Custom</text>
+  <!-- ─── Category tabs (height=24) ─── -->
+  <rect x="0" y="32" width="480" height="24" fill="#141414"/>
+  <line x1="0" y1="56" x2="480" y2="56" stroke="#2a2826" stroke-width="1"/>
 
-  <!-- Expression List -->
-  <!-- Item 1 -->
-  <rect y="64" width="480" height="24" fill="transparent"/>
-  <rect y="87" width="480" height="1" fill="#262626"/>
-  <text x="16" y="80" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Wiggle</text>
-  <text x="120" y="80" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">무작위 진동 — freq, amp 조절</text>
-  <rect x="430" y="70" width="34" height="14" rx="3" fill="transparent" stroke="#3a3a3a" stroke-width="0.5"/>
-  <text x="447" y="80" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Copy</text>
+  <text x="26" y="48" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Timer</text>
+  <text x="70" y="48" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Random</text>
+  <text x="112" y="48" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Math</text>
+  <!-- Motion active -->
+  <text x="155" y="48" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#e8e0d4" text-anchor="middle">Motion</text>
+  <line x1="136" y1="56" x2="174" y2="56" stroke="#d4ccc0" stroke-width="2"/>
+  <text x="195" y="48" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Layer</text>
+  <text x="232" y="48" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Text</text>
+  <text x="267" y="48" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Color</text>
+  <text x="305" y="48" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478" text-anchor="middle">Camera</text>
 
-  <!-- Item 2 (selected) -->
-  <rect y="88" width="480" height="24" fill="#3d3d8f" opacity="0.3"/>
-  <rect y="111" width="480" height="1" fill="#262626"/>
-  <text x="16" y="104" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="500" fill="#a5b4fc">Bounce</text>
-  <text x="120" y="104" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#818cf8">키프레임 후 바운스 효과</text>
-  <rect x="430" y="94" width="34" height="14" rx="3" fill="transparent" stroke="#3a3a3a" stroke-width="0.5"/>
-  <text x="447" y="104" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Copy</text>
+  <!-- ─── Expression list rows (each 23px, border-bottom) ─── -->
 
-  <!-- Item 3 -->
-  <rect y="112" width="480" height="24" fill="transparent"/>
-  <rect y="135" width="480" height="1" fill="#262626"/>
-  <text x="16" y="128" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Elastic</text>
-  <text x="120" y="128" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">탄성 운동 — decay, freq</text>
-  <rect x="430" y="118" width="34" height="14" rx="3" fill="transparent" stroke="#3a3a3a" stroke-width="0.5"/>
-  <text x="447" y="128" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#999" text-anchor="middle">Copy</text>
+  <!-- Row 1: wiggle() -->
+  <rect x="0" y="56" width="480" height="23" fill="#1a1a1a"/>
+  <line x1="0" y1="79" x2="480" y2="79" stroke="#2a2826" stroke-width="1"/>
+  <text x="12" y="71" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c8c0b4">wiggle()</text>
+  <text x="110" y="71" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640">&#183;</text>
+  <text x="120" y="71" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">&#47;&#47; &#47;&#47; freq, amp</text>
+  <rect x="414" y="61" width="36" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="432" y="71" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">COPY</text>
 
-  <!-- Item 4 -->
-  <rect y="136" width="480" height="24" fill="transparent"/>
-  <rect y="159" width="480" height="1" fill="#262626"/>
-  <text x="16" y="152" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Inertia</text>
-  <text x="120" y="152" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">관성 오버슈트 모션</text>
+  <!-- Row 2: bounce() — selected -->
+  <rect x="0" y="79" width="480" height="23" fill="#242424"/>
+  <line x1="0" y1="102" x2="480" y2="102" stroke="#2a2826" stroke-width="1"/>
+  <line x1="0" y1="79" x2="0" y2="102" stroke="#d4ccc0" stroke-width="2"/>
+  <text x="12" y="94" font-family="Consolas, 'SF Mono', monospace" font-size="10" font-weight="600" fill="#e8e0d4">bounce()</text>
+  <text x="110" y="94" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640">&#183;</text>
+  <text x="120" y="94" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#d4ccc0">decay, freq</text>
+  <rect x="414" y="84" width="36" height="14" fill="#1a1a1a" stroke="#d4ccc0" stroke-width="1"/>
+  <text x="432" y="94" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#d4ccc0" text-anchor="middle">COPY</text>
 
-  <!-- Item 5 -->
-  <rect y="160" width="480" height="24" fill="transparent"/>
-  <rect y="183" width="480" height="1" fill="#262626"/>
-  <text x="16" y="176" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc">Auto Orient</text>
-  <text x="120" y="176" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666">경로 방향 자동 회전</text>
+  <!-- Row 3: elastic() -->
+  <rect x="0" y="102" width="480" height="23" fill="#1a1a1a"/>
+  <line x1="0" y1="125" x2="480" y2="125" stroke="#2a2826" stroke-width="1"/>
+  <text x="12" y="117" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c8c0b4">elastic()</text>
+  <text x="110" y="117" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640">&#183;</text>
+  <text x="120" y="117" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">decay, freq</text>
+  <rect x="414" y="107" width="36" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="432" y="117" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">COPY</text>
 
-  <!-- Code Editor -->
-  <rect y="184" width="480" height="24" fill="#252525"/>
-  <rect y="207" width="480" height="1" fill="#333"/>
-  <text x="16" y="200" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#666" letter-spacing="0.5" text-transform="uppercase">EXPRESSION 코드 — Bounce</text>
+  <!-- Row 4: loopOut() -->
+  <rect x="0" y="125" width="480" height="23" fill="#1a1a1a"/>
+  <line x1="0" y1="148" x2="480" y2="148" stroke="#2a2826" stroke-width="1"/>
+  <text x="12" y="140" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c8c0b4">loopOut()</text>
+  <text x="110" y="140" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640">&#183;</text>
+  <text x="120" y="140" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">repeat last keyframe</text>
+  <rect x="414" y="130" width="36" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="432" y="140" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">COPY</text>
 
-  <!-- Code area (dark editor background) -->
-  <rect y="208" width="480" height="70" fill="#1a1a1a"/>
+  <!-- Row 5: timeRemap() -->
+  <rect x="0" y="148" width="480" height="23" fill="#1a1a1a"/>
+  <line x1="0" y1="171" x2="480" y2="171" stroke="#2a2826" stroke-width="1"/>
+  <text x="12" y="163" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c8c0b4">timeRemap()</text>
+  <text x="128" y="163" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640">&#183;</text>
+  <text x="138" y="163" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">time remap control</text>
+  <rect x="414" y="153" width="36" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="432" y="163" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">COPY</text>
+
+  <!-- Row 6: smooth() -->
+  <rect x="0" y="171" width="480" height="23" fill="#1a1a1a"/>
+  <line x1="0" y1="194" x2="480" y2="194" stroke="#2a2826" stroke-width="1"/>
+  <text x="12" y="186" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c8c0b4">smooth()</text>
+  <text x="110" y="186" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640">&#183;</text>
+  <text x="120" y="186" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">width, samples</text>
+  <rect x="414" y="176" width="36" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="432" y="186" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">COPY</text>
+
+  <!-- Row 7: inertia() -->
+  <rect x="0" y="194" width="480" height="23" fill="#1a1a1a"/>
+  <line x1="0" y1="217" x2="480" y2="217" stroke="#2a2826" stroke-width="1"/>
+  <text x="12" y="209" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c8c0b4">inertia()</text>
+  <text x="110" y="209" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#4a4640">&#183;</text>
+  <text x="120" y="209" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#8a8478">overshoot inertia</text>
+  <rect x="414" y="199" width="36" height="14" fill="#141414" stroke="#2a2826" stroke-width="1"/>
+  <text x="432" y="209" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">COPY</text>
+
+  <!-- ─── Code preview panel (height=103, border-top) ─── -->
+  <rect x="0" y="217" width="480" height="103" fill="#0c0c0c"/>
+  <line x1="0" y1="217" x2="480" y2="217" stroke="#2a2826" stroke-width="1"/>
 
   <!-- Line numbers -->
-  <rect y="208" width="32" height="70" fill="#1e1e1e"/>
-  <text x="24" y="222" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#555" text-anchor="end">1</text>
-  <text x="24" y="234" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#555" text-anchor="end">2</text>
-  <text x="24" y="246" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#555" text-anchor="end">3</text>
-  <text x="24" y="258" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#555" text-anchor="end">4</text>
-  <text x="24" y="270" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#555" text-anchor="end">5</text>
+  <text x="14" y="234" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#4a4640" text-anchor="end">1</text>
+  <text x="14" y="248" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#4a4640" text-anchor="end">2</text>
+  <text x="14" y="262" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#4a4640" text-anchor="end">3</text>
+  <text x="14" y="276" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#4a4640" text-anchor="end">4</text>
+  <text x="14" y="290" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#4a4640" text-anchor="end">5</text>
+  <text x="14" y="304" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#4a4640" text-anchor="end">6</text>
 
-  <!-- Code syntax highlighted -->
-  <!-- Line 1: const amp = 0.08, freq = 3, decay = 5; -->
-  <text x="40" y="222" font-family="Consolas, 'SF Mono', monospace" font-size="10">
-    <tspan fill="#c586c0">const</tspan>
-    <tspan fill="#9cdcfe"> amp</tspan>
-    <tspan fill="#ccc"> = </tspan>
-    <tspan fill="#b5cea8">0.08</tspan>
-    <tspan fill="#ccc">, </tspan>
-    <tspan fill="#9cdcfe">freq</tspan>
-    <tspan fill="#ccc"> = </tspan>
-    <tspan fill="#b5cea8">3</tspan>
-    <tspan fill="#ccc">, </tspan>
-    <tspan fill="#9cdcfe">decay</tspan>
-    <tspan fill="#ccc"> = </tspan>
-    <tspan fill="#b5cea8">5</tspan>
-    <tspan fill="#ccc">;</tspan>
-  </text>
+  <!-- Separator line -->
+  <line x1="20" y1="217" x2="20" y2="320" stroke="#2a2826" stroke-width="1"/>
 
-  <!-- Line 2: const n = 0, t, v; -->
-  <text x="40" y="234" font-family="Consolas, 'SF Mono', monospace" font-size="10">
-    <tspan fill="#c586c0">const</tspan>
-    <tspan fill="#9cdcfe"> n</tspan>
-    <tspan fill="#ccc"> = </tspan>
-    <tspan fill="#dcdcaa">numKeys</tspan>
-    <tspan fill="#ccc">;</tspan>
-  </text>
+  <!-- Code content -->
+  <text x="28" y="234" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#8a8478">var</text>
+  <text x="48" y="234" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#d4ccc0">t = (time - key(1).time) / 0.4;</text>
+  <text x="28" y="248" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#8a8478">var</text>
+  <text x="48" y="248" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#d4ccc0">amp = thisComp.layer("Control").effect("Amp")(1);</text>
+  <text x="28" y="262" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#8a8478">if</text>
+  <text x="42" y="262" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#d4ccc0">(t &lt; 1) bounce = amp * Math.abs(Math.sin(</text>
+  <text x="28" y="276" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#d4ccc0">  Math.PI * t * 3) * Math.pow(1 - t, 2));</text>
+  <text x="28" y="290" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#8a8478">else</text>
+  <text x="52" y="290" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#d4ccc0">bounce = 0;</text>
+  <text x="28" y="304" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#d4ccc0">value + [0, -bounce];</text>
 
-  <!-- Line 3: if (n > 0) { -->
-  <text x="40" y="246" font-family="Consolas, 'SF Mono', monospace" font-size="10">
-    <tspan fill="#c586c0">if</tspan>
-    <tspan fill="#ccc"> (</tspan>
-    <tspan fill="#9cdcfe">n</tspan>
-    <tspan fill="#ccc"> > </tspan>
-    <tspan fill="#b5cea8">0</tspan>
-    <tspan fill="#ccc">) {</tspan>
-  </text>
-
-  <!-- Line 4:   t = time - key(n).time; -->
-  <text x="40" y="258" font-family="Consolas, 'SF Mono', monospace" font-size="10">
-    <tspan fill="#ccc">  </tspan>
-    <tspan fill="#9cdcfe">t</tspan>
-    <tspan fill="#ccc"> = </tspan>
-    <tspan fill="#dcdcaa">time</tspan>
-    <tspan fill="#ccc"> - </tspan>
-    <tspan fill="#dcdcaa">key</tspan>
-    <tspan fill="#ccc">(</tspan>
-    <tspan fill="#9cdcfe">n</tspan>
-    <tspan fill="#ccc">).</tspan>
-    <tspan fill="#9cdcfe">time</tspan>
-    <tspan fill="#ccc">;</tspan>
-  </text>
-
-  <!-- Line 5:   v = velocityAtTime(key(n).time - 0.001); -->
-  <text x="40" y="270" font-family="Consolas, 'SF Mono', monospace" font-size="10">
-    <tspan fill="#ccc">  </tspan>
-    <tspan fill="#9cdcfe">v</tspan>
-    <tspan fill="#ccc"> = </tspan>
-    <tspan fill="#dcdcaa">velocityAtTime</tspan>
-    <tspan fill="#ccc">(</tspan>
-    <tspan fill="#dcdcaa">key</tspan>
-    <tspan fill="#ccc">(</tspan>
-    <tspan fill="#9cdcfe">n</tspan>
-    <tspan fill="#ccc">).</tspan>
-    <tspan fill="#9cdcfe">time</tspan>
-    <tspan fill="#ccc"> - .</tspan>
-    <tspan fill="#b5cea8">001</tspan>
-    <tspan fill="#ccc">);</tspan>
-  </text>
-
-  <!-- Cursor blink line -->
-  <rect x="40" y="275" width="1" height="10" fill="#6366f1" opacity="0.8"/>
-
-  <!-- Action Bar -->
-  <rect y="278" width="480" height="42" fill="#252525"/>
-  <rect y="278" width="480" height="1" fill="#333"/>
-
-  <!-- Buttons -->
-  <rect x="12" y="288" width="100" height="24" rx="4" fill="transparent" stroke="#3a3a3a" stroke-width="1"/>
-  <text x="62" y="304" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc" text-anchor="middle">읽기 (Read)</text>
-
-  <rect x="120" y="288" width="100" height="24" rx="4" fill="transparent" stroke="#3a3a3a" stroke-width="1"/>
-  <text x="170" y="304" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#ccc" text-anchor="middle">저장 (Save)</text>
-
-  <rect x="340" y="288" width="128" height="24" rx="4" fill="#4f46e5"/>
-  <text x="404" y="304" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#fff" text-anchor="middle">적용 (Apply)</text>
-
-  <!-- Toast notification (success) -->
-  <rect x="160" y="256" width="160" height="22" rx="6" fill="#1e3a1e" stroke="#3a7a3a" stroke-width="0.5"/>
-  <text x="240" y="271" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#7acd7a" text-anchor="middle">✓ Expression 적용 완료</text>
 </svg>
