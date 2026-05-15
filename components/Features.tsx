@@ -1,3 +1,5 @@
+'use client';
+
 const FEATURES = [
   {
     title: 'Script Library',
@@ -37,6 +39,12 @@ const FEATURES = [
   },
 ];
 
+const CHAT_SKILLS = [
+  'Smooth Entrance', 'Snappy Entrance', 'Bouncy Overshoot',
+  'Kinetic Typography', 'Counter Tick', 'Zoom Focus Pull',
+  'Stroke Draw Reveal', 'Ambient Loop', '3D Depth Dolly', 'Multi-layer Build',
+];
+
 export default function Features() {
   return (
     <section id="features" className="mx-auto max-w-[1200px] px-6 py-32">
@@ -54,7 +62,7 @@ export default function Features() {
             marginBottom: 12,
           }}
         >
-          Six tools. One plugin.
+          Seven tools. One plugin.
         </h2>
         <p
           style={{
@@ -65,21 +73,128 @@ export default function Features() {
           }}
         >
           Replace Flow, AEJuice, and scattered scripts with a single integrated plugin.
+          Now with Claude AI built in.
         </p>
       </div>
 
-      <div className="grid gap-0 sm:grid-cols-2 lg:grid-cols-3" style={{ border: '1px solid var(--border)' }}>
-        {FEATURES.map((f, i) => (
+      {/* Chat — full-width featured card */}
+      <div
+        style={{
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border)',
+          borderLeft: '2px solid var(--accent)',
+          padding: '28px 32px',
+          marginBottom: 0,
+          display: 'grid',
+          gap: 24,
+        }}
+        className="md:grid-cols-[1fr_auto]"
+      >
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+            <p
+              style={{
+                fontSize: 9,
+                fontWeight: 700,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: 'var(--text-muted)',
+              }}
+            >
+              AI CHAT
+            </p>
+            <span
+              style={{
+                fontSize: 8,
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                padding: '2px 7px',
+                background: 'var(--accent-dim)',
+                border: '1px solid var(--accent)',
+                color: 'var(--accent)',
+              }}
+            >
+              NEW
+            </span>
+          </div>
+
+          <h3
+            style={{
+              fontSize: 18,
+              fontWeight: 600,
+              letterSpacing: '-0.02em',
+              color: 'var(--text-primary)',
+              marginBottom: 8,
+            }}
+          >
+            Claude AI inside After Effects
+          </h3>
+          <p
+            style={{
+              fontSize: 14,
+              color: 'var(--text-secondary)',
+              lineHeight: 1.65,
+              marginBottom: 20,
+              maxWidth: 560,
+            }}
+          >
+            Type what you want. Claude reads your comp, writes ExtendScript, and builds animations directly —
+            no manual keyframing. Includes 10 motion-archetype skills, saved prompts,
+            multi-tab sessions, and a built-in CLAUDE.md editor to customize AI behavior.
+          </p>
+
+          {/* Skill chips */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {CHAT_SKILLS.map((skill) => (
+              <span
+                key={skill}
+                style={{
+                  fontSize: 9,
+                  fontWeight: 600,
+                  letterSpacing: '0.06em',
+                  padding: '3px 8px',
+                  background: 'var(--bg-elevated)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-secondary)',
+                }}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Chat preview image */}
+        <div
+          style={{
+            width: 220,
+            flexShrink: 0,
+            alignSelf: 'center',
+            border: '1px solid var(--border)',
+            overflow: 'hidden',
+          }}
+          className="hidden md:block"
+        >
+          <img
+            src="/images/feature-chat.svg"
+            alt="AI Chat panel preview"
+            style={{ width: '100%', display: 'block' }}
+          />
+        </div>
+      </div>
+
+      {/* Other 6 features */}
+      <div
+        className="grid sm:grid-cols-2 lg:grid-cols-3"
+        style={{ border: '1px solid var(--border)', borderTop: 'none' }}
+      >
+        {FEATURES.map((f) => (
           <div
             key={f.title}
             className="card-feature"
-            style={{
-              padding: '24px 24px 28px',
-              borderTop: i >= 1 ? '1px solid var(--border)' : undefined,
-              borderRight: undefined,
-            }}
+            style={{ padding: '24px 24px 28px' }}
           >
-            {/* Tag */}
             <p
               style={{
                 fontSize: 9,
@@ -92,19 +207,9 @@ export default function Features() {
             >
               {f.tag}
             </p>
-
-            {/* Icon */}
-            <div
-              style={{
-                fontSize: 18,
-                color: 'var(--accent)',
-                marginBottom: 14,
-                lineHeight: 1,
-              }}
-            >
+            <div style={{ fontSize: 18, color: 'var(--accent)', marginBottom: 14, lineHeight: 1 }}>
               {f.icon}
             </div>
-
             <h3
               style={{
                 fontSize: 14,
@@ -116,13 +221,7 @@ export default function Features() {
             >
               {f.title}
             </h3>
-            <p
-              style={{
-                fontSize: 13,
-                color: 'var(--text-secondary)',
-                lineHeight: 1.6,
-              }}
-            >
+            <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
               {f.description}
             </p>
           </div>

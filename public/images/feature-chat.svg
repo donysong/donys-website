@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" fill="none">
+
+  <!-- Panel background -->
+  <rect width="220" height="280" fill="#0c0c0c"/>
+  <rect width="220" height="280" fill="none" stroke="#2a2826" stroke-width="1"/>
+
+  <!-- Top stripe -->
+  <rect width="220" height="1" fill="#d4ccc0" opacity="0.3"/>
+
+  <!-- Header -->
+  <rect width="220" height="32" fill="#141414"/>
+  <rect y="31" width="220" height="1" fill="#2a2826"/>
+
+  <!-- Diamond logo -->
+  <rect x="12" y="10" width="10" height="10" fill="none" stroke="#d4ccc0" stroke-width="1.2"
+        transform="rotate(45 17 15)"/>
+  <text x="17" y="18" font-family="Inter, system-ui, sans-serif" font-size="6" font-weight="800"
+        fill="#d4ccc0" text-anchor="middle" transform="rotate(0 17 15)">D</text>
+
+  <text x="28" y="19" font-family="Inter, system-ui, sans-serif" font-size="8" font-weight="700"
+        letter-spacing="1.5" fill="#e8e0d4">DONY'S CHAT</text>
+
+  <!-- Header buttons -->
+  <rect x="160" y="10" width="18" height="12" fill="none" stroke="#3a3836" stroke-width="0.8"/>
+  <text x="169" y="19" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">⚡</text>
+  <rect x="181" y="10" width="18" height="12" fill="none" stroke="#3a3836" stroke-width="0.8"/>
+  <text x="190" y="19" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#8a8478" text-anchor="middle">☰</text>
+
+  <!-- Tab bar -->
+  <rect y="32" width="220" height="20" fill="#141414"/>
+  <rect y="51" width="220" height="1" fill="#2a2826"/>
+
+  <!-- Tabs -->
+  <text x="12" y="45" font-family="Inter, system-ui, sans-serif" font-size="8" font-weight="600" fill="#d4ccc0">Chat</text>
+  <rect x="10" y="50" width="26" height="2" fill="#d4ccc0"/>
+  <text x="44" y="45" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#4a4640">Skills</text>
+  <text x="76" y="45" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#4a4640">Prompts</text>
+
+  <!-- Chat messages area -->
+  <!-- User message 1 -->
+  <rect x="60" y="60" width="148" height="32" fill="#1a1a1a" stroke="#2a2826" stroke-width="0.8"/>
+  <text x="70" y="73" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c8c0b4">add a bouncy entrance</text>
+  <text x="70" y="84" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c8c0b4">for the title layer</text>
+  <text x="204" y="73" font-family="Inter, system-ui, sans-serif" font-size="6" fill="#4a4640" text-anchor="end">YOU</text>
+
+  <!-- AI message -->
+  <rect x="12" y="100" width="180" height="74" fill="#1a1a1a" stroke="#2a2826" stroke-width="0.8"/>
+  <rect x="12" y="100" width="2" height="74" fill="#d4ccc0" opacity="0.6"/>
+  <text x="20" y="112" font-family="Inter, system-ui, sans-serif" font-size="6" font-weight="700"
+        letter-spacing="0.8" fill="#d4ccc0">CLAUDE</text>
+  <text x="20" y="124" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c8c0b4">Running bouncy-overshoot</text>
+  <text x="20" y="135" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c8c0b4">skill on "Title"...</text>
+
+  <!-- Code block -->
+  <rect x="20" y="142" width="162" height="24" fill="#111111" stroke="#3a3836" stroke-width="0.8"/>
+  <text x="26" y="153" font-family="Consolas, 'SF Mono', monospace" font-size="7" fill="#d4ccc0">addKeyframe(layer, "Scale",</text>
+  <text x="26" y="162" font-family="Consolas, 'SF Mono', monospace" font-size="7" fill="#8a8478">  0.5, [110,110])</text>
+
+  <!-- User message 2 -->
+  <rect x="60" y="182" width="148" height="22" fill="#1a1a1a" stroke="#2a2826" stroke-width="0.8"/>
+  <text x="70" y="196" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#c8c0b4">make it faster</text>
+  <text x="204" y="193" font-family="Inter, system-ui, sans-serif" font-size="6" fill="#4a4640" text-anchor="end">YOU</text>
+
+  <!-- AI typing indicator -->
+  <rect x="12" y="212" width="60" height="18" fill="#1a1a1a" stroke="#2a2826" stroke-width="0.8"/>
+  <rect x="12" y="212" width="2" height="18" fill="#d4ccc0" opacity="0.4"/>
+  <circle cx="22" cy="221" r="2.5" fill="#4a4640"/>
+  <circle cx="31" cy="221" r="2.5" fill="#4a4640"/>
+  <circle cx="40" cy="221" r="2.5" fill="#4a4640"/>
+
+  <!-- Composer -->
+  <rect y="238" width="220" height="1" fill="#2a2826"/>
+  <rect y="239" width="220" height="41" fill="#141414"/>
+  <rect x="12" y="247" width="166" height="22" fill="#1a1a1a" stroke="#2a2826" stroke-width="0.8"/>
+  <text x="20" y="261" font-family="Inter, system-ui, sans-serif" font-size="8" fill="#4a4640">Type anything...</text>
+
+  <!-- Send button -->
+  <rect x="182" y="247" width="26" height="22" fill="#b8b0a4"/>
+  <text x="195" y="261" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#0c0c0c" text-anchor="middle">↑</text>
+
+</svg>
