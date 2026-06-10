@@ -45,8 +45,8 @@ export default function TermsPage() {
             <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">3. Payment</h2>
             <p>
               The Product is sold as a one-time purchase for $30 USD through our payment
-              processor, Lemon Squeezy. All prices are in USD and include applicable taxes as
-              determined by Lemon Squeezy at checkout.
+              processor, Polar. All prices are in USD and include applicable taxes as
+              determined by Polar at checkout.
             </p>
           </section>
 

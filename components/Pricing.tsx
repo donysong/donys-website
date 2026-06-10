@@ -113,7 +113,7 @@ export default function Pricing() {
 
           {/* CTA */}
           <a
-            href="https://donysae.lemonsqueezy.com/checkout/buy/2280c131-6bd8-4d0b-8947-f94a8ed7f1b9"
+            href="https://buy.polar.sh/polar_cl_NebuNphvrIXOb3G8sgLi2sfZd6TUZfjxyxklW2VUPmY"
             target="_blank"
             rel="noopener noreferrer"
             style={{

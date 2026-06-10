@@ -33,7 +33,7 @@ export default function PrivacyPage() {
               2.1 Information You Provide
             </h3>
             <p>
-              When you purchase the Product through Lemon Squeezy, they collect your name,
+              When you purchase the Product through Polar, they collect your name,
               email address, and payment information. We receive your name, email, and order
               details — we do <strong>not</strong> receive or store your payment card
               information.
@@ -76,15 +76,15 @@ export default function PrivacyPage() {
             <p>We use the following third-party services:</p>
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>
-                <strong>Lemon Squeezy</strong> — payment processing and license management.
-                Their privacy policy is available at{' '}
+                <strong>Polar</strong> — payment processing and license management
+                (merchant of record). Their privacy policy is available at{' '}
                 <a
-                  href="https://www.lemonsqueezy.com/privacy"
+                  href="https://polar.sh/legal/privacy"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[var(--accent-light)] hover:underline"
                 >
-                  lemonsqueezy.com/privacy
+                  polar.sh/legal/privacy
                 </a>
                 .
               </li>
