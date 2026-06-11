@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "url": "https://donys-website.vercel.app",
-  "notes": "Initial public release."
+  "notes": "Chat 패널 성능 개선 — 스킬 라우팅 정확도 향상 + 토큰 사용량 절감. 동작 동일, 더 빠르고 정확해졌습니다."
 }
