@@ -1,5 +1,5 @@
 {
-  "version": "1.0.2",
+  "version": "1.1.0",
   "url": "https://donys-website.vercel.app",
-  "notes": "안정성 개선 — AE 키프레임 이징·폰트·이펙트 적용 시 발생하던 오류를 차단. 챗 패널 결과물이 더 안정적이고 빠르게 생성됩니다."
+  "notes": "텍스트 애니메이션 대폭 강화 — 글자별(per-character) 물리 스프링 등장(overshoot+settle, forward/reverse/center/random 순서, hype/corporate/luxury 톤 프리셋). 레이어 spring bake verb 추가. 안정성 개선으로 결과물이 더 안정적으로 생성됩니다."
 }
