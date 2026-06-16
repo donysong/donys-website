@@ -1,6 +1,6 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "url": "https://donys-website.vercel.app",
   "download": "https://donys-website.vercel.app/donys.zxp",
-  "notes": "UI 전면 리뉴얼 — Pretendard 폰트 적용, 머티리얼/모션 기반 인터랙션, 새 로고, 가독성·고급감 개선. 버튼·토스트·다이얼로그·챗·라이브러리·그래프·익스프레션 에디터 전 패널 디자인 통일."
+  "notes": "Support 패널 1클릭 인앱 자동설치 — 이제 브라우저 안 거치고 패널에서 바로 업데이트 다운로드·설치. (UI 전면 리뉴얼: Pretendard 폰트, 머티리얼/모션 인터랙션, 새 로고)"
 }
