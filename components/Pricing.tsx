@@ -1,13 +1,17 @@
 'use client';
 
+// Single source of truth for the checkout link (Polar — active provider).
+const POLAR_CHECKOUT_URL =
+  'https://buy.polar.sh/polar_cl_NebuNphvrIXOb3G8sgLi2sfZd6TUZfjxyxklW2VUPmY';
+
 const INCLUDED = [
-  '20+ built-in scripts',
-  '50 text animation presets',
-  '50+ gradient presets',
+  '27 one-click scripts',
+  '112 motion presets',
+  '62 text animation presets',
+  'Gradient library (ramp + tritone)',
   'Graph editor with 21 curve presets',
-  'Expression editor with autocomplete',
-  'Smart widgets (anchor, sequence, clone)',
-  'Multi-panel support (up to 5)',
+  'Expression editor with 80+ snippets',
+  'Claude AI chat — 42 tools, 32 skills',
   'Free minor updates',
   '2 devices per license',
 ];
@@ -113,7 +117,7 @@ export default function Pricing() {
 
           {/* CTA */}
           <a
-            href="https://buy.polar.sh/polar_cl_NebuNphvrIXOb3G8sgLi2sfZd6TUZfjxyxklW2VUPmY"
+            href={POLAR_CHECKOUT_URL}
             target="_blank"
             rel="noopener noreferrer"
             style={{

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import BrandMark from './BrandMark';
 
 const NAV_LINKS = [
   { label: 'Features', href: '/#features' },
@@ -23,31 +24,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-[48px] max-w-[1200px] items-center justify-between px-6">
         {/* Logo mark */}
         <a href="/" className="flex items-center gap-2.5">
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 18,
-              height: 18,
-              transform: 'rotate(45deg)',
-              border: '1.5px solid var(--accent)',
-              flexShrink: 0,
-            }}
-          >
-            <span
-              style={{
-                transform: 'rotate(-45deg)',
-                fontSize: 8,
-                fontWeight: 800,
-                color: 'var(--accent)',
-                lineHeight: 1,
-                letterSpacing: '0.02em',
-              }}
-            >
-              D
-            </span>
-          </span>
+          <BrandMark size={20} />
           <span
             style={{
               fontSize: 11,

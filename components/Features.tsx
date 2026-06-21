@@ -2,47 +2,53 @@
 
 const FEATURES = [
   {
-    title: 'Script Library',
-    description: '20+ built-in scripts for everyday motion tasks. One click to run.',
-    icon: '⚡',
-    tag: 'SCRIPTS',
+    tag: 'Scripts',
+    title: 'Toolbox',
+    description:
+      '27 one-click utilities — parenting, nulls, sequencing, GIF export, RGB split. Across every selected layer at once.',
+    img: '/images/promo/f-toolbox.png',
   },
   {
+    tag: 'Motion',
+    title: 'Motion Presets',
+    description:
+      '112 production-ready moves with hand-tuned easing — back, bounce, overshoot, elastic. Live preview on hover.',
+    img: '/images/promo/f-motion.png',
+  },
+  {
+    tag: 'Text',
     title: 'Text Presets',
-    description: '50 text animation presets with expression-based easing. Instant In/Out.',
-    icon: '✦',
-    tag: 'PRESETS',
+    description:
+      '62 expression-driven text animations, per character. Variable-font axes (weight · width · slant) on AE 26.',
+    img: '/images/promo/f-text.png',
   },
   {
+    tag: 'Gradients',
     title: 'Gradient Library',
-    description: '50+ curated color gradients. Apply to solids and shapes instantly.',
-    icon: '◆',
-    tag: 'GRADIENTS',
+    description:
+      'Designer gradients sorted by mood. Apply as a real AE ramp or 3-stop tritone — favorite and import your own.',
+    img: '/images/promo/f-gradient.png',
   },
   {
+    tag: 'Easing',
     title: 'Graph Editor',
-    description: 'Visual bezier curve editor with 21 built-in presets. Better than Flow.',
-    icon: '◠',
-    tag: 'EASING',
+    description:
+      'Visual bezier editor with 21 presets. Read the curve off a keyframe, reshape it, apply to selected keys.',
+    img: '/images/promo/f-graph.png',
   },
   {
+    tag: 'Expressions',
     title: 'Expression Editor',
-    description: 'CodeMirror-powered editor with syntax highlighting and AE autocomplete.',
-    icon: '{ }',
-    tag: 'EXPRESSIONS',
-  },
-  {
-    title: 'Smart Widgets',
-    description: 'Anchor point, sequence layers, keyframe clone — essential daily tools.',
-    icon: '✧',
-    tag: 'TOOLS',
+    description:
+      '80+ proven expressions with a live editor that applies as you type. Auto-targets the right property.',
+    img: '/images/promo/f-expr.png',
   },
 ];
 
 const CHAT_SKILLS = [
-  'Smooth Entrance', 'Snappy Entrance', 'Bouncy Overshoot',
-  'Kinetic Typography', 'Counter Tick', 'Zoom Focus Pull',
-  'Stroke Draw Reveal', 'Ambient Loop', '3D Depth Dolly', 'Multi-layer Build',
+  'Smooth Entrance', 'Snappy Entrance', 'Bouncy Overshoot', 'Kinetic Typography',
+  'Counter Tick', 'Zoom Focus Pull', 'Stroke Draw', 'Ambient Loop',
+  '3D Depth Dolly', 'Multi-layer Build', 'Typewriter', 'Mask Wipe', 'Parallax 2.5D', 'Shape Morph',
 ];
 
 export default function Features() {
@@ -62,18 +68,18 @@ export default function Features() {
             marginBottom: 12,
           }}
         >
-          Seven tools. One plugin.
+          One plugin. The whole workflow.
         </h2>
         <p
           style={{
             fontSize: 15,
             color: 'var(--text-secondary)',
             lineHeight: 1.6,
-            maxWidth: 440,
+            maxWidth: 460,
           }}
         >
-          Replace Flow, AEJuice, and scattered scripts with a single integrated plugin.
-          Now with Claude AI built in.
+          Replace Flow, AEJuice, and a folder of scattered scripts with one integrated
+          panel — now with Claude AI built in.
         </p>
       </div>
 
@@ -83,14 +89,13 @@ export default function Features() {
           background: 'var(--bg-card)',
           border: '1px solid var(--border)',
           borderLeft: '2px solid var(--accent)',
-          padding: '28px 32px',
-          marginBottom: 0,
           display: 'grid',
-          gap: 24,
+          gap: 0,
+          overflow: 'hidden',
         }}
-        className="md:grid-cols-[1fr_auto]"
+        className="md:grid-cols-[1.05fr_1fr]"
       >
-        <div>
+        <div style={{ padding: '32px 32px 30px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
             <p
               style={{
@@ -101,7 +106,7 @@ export default function Features() {
                 color: 'var(--text-muted)',
               }}
             >
-              AI CHAT
+              AI Chat
             </p>
             <span
               style={{
@@ -115,20 +120,20 @@ export default function Features() {
                 color: 'var(--accent)',
               }}
             >
-              NEW
+              New
             </span>
           </div>
 
           <h3
             style={{
-              fontSize: 18,
+              fontSize: 19,
               fontWeight: 600,
               letterSpacing: '-0.02em',
               color: 'var(--text-primary)',
               marginBottom: 8,
             }}
           >
-            Claude AI inside After Effects
+            Just describe it. Claude animates it.
           </h3>
           <p
             style={{
@@ -136,15 +141,14 @@ export default function Features() {
               color: 'var(--text-secondary)',
               lineHeight: 1.65,
               marginBottom: 20,
-              maxWidth: 560,
+              maxWidth: 520,
             }}
           >
-            Type what you want. Claude reads your comp, writes ExtendScript, and builds animations directly —
-            no manual keyframing. Includes 10 motion-archetype skills, saved prompts,
-            multi-tab sessions, and a built-in CLAUDE.md editor to customize AI behavior.
+            The chat panel runs Claude with direct access to your comp — 42 native AE tools and
+            32 motion skills. Ask for motion, expressions, or a whole layout; it builds them on
+            real layers, with keyframes you can edit. Uses your own Claude Pro / Max — no extra fee.
           </p>
 
-          {/* Skill chips */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             {CHAT_SKILLS.map((skill) => (
               <span
@@ -165,65 +169,70 @@ export default function Features() {
           </div>
         </div>
 
-        {/* Chat preview image */}
+        {/* Chat preview — finished build still (the looping video lives in Hero + Demo) */}
         <div
-          style={{
-            width: 220,
-            flexShrink: 0,
-            alignSelf: 'center',
-            border: '1px solid var(--border)',
-            overflow: 'hidden',
-          }}
+          style={{ borderLeft: '1px solid var(--border)', background: 'var(--bg-active)' }}
           className="hidden md:block"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/feature-chat.svg"
-            alt="AI Chat panel preview"
-            style={{ width: '100%', display: 'block' }}
+            src="/images/promo/poster-chat.png"
+            alt="Claude's finished synthwave title card inside After Effects"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
         </div>
       </div>
 
-      {/* Other 6 features */}
+      {/* Six feature image cards */}
       <div
         className="grid sm:grid-cols-2 lg:grid-cols-3"
         style={{ border: '1px solid var(--border)', borderTop: 'none' }}
       >
         {FEATURES.map((f) => (
-          <div
-            key={f.title}
-            className="card-feature"
-            style={{ padding: '24px 24px 28px' }}
-          >
-            <p
+          <div key={f.title} className="card-feature" style={{ overflow: 'hidden' }}>
+            <div
               style={{
-                fontSize: 9,
-                fontWeight: 700,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: 'var(--text-muted)',
-                marginBottom: 16,
+                aspectRatio: '4 / 3',
+                background: 'var(--bg-active)',
+                borderBottom: '1px solid var(--border)',
+                overflow: 'hidden',
               }}
             >
-              {f.tag}
-            </p>
-            <div style={{ fontSize: 18, color: 'var(--accent)', marginBottom: 14, lineHeight: 1 }}>
-              {f.icon}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={f.img}
+                alt={`${f.title} panel`}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
             </div>
-            <h3
-              style={{
-                fontSize: 14,
-                fontWeight: 600,
-                letterSpacing: '-0.01em',
-                color: 'var(--text-primary)',
-                marginBottom: 8,
-              }}
-            >
-              {f.title}
-            </h3>
-            <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-              {f.description}
-            </p>
+            <div style={{ padding: '18px 22px 24px' }}>
+              <p
+                style={{
+                  fontSize: 9,
+                  fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: 'var(--text-muted)',
+                  marginBottom: 10,
+                }}
+              >
+                {f.tag}
+              </p>
+              <h3
+                style={{
+                  fontSize: 15,
+                  fontWeight: 600,
+                  letterSpacing: '-0.01em',
+                  color: 'var(--text-primary)',
+                  marginBottom: 8,
+                }}
+              >
+                {f.title}
+              </h3>
+              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                {f.description}
+              </p>
+            </div>
           </div>
         ))}
       </div>

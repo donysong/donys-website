@@ -36,15 +36,15 @@ export default function Hero() {
         <p
           className="mx-auto mb-10"
           style={{
-            maxWidth: 480,
+            maxWidth: 500,
             fontSize: 15,
             fontWeight: 400,
             lineHeight: 1.7,
             color: 'var(--text-secondary)',
           }}
         >
-          Scripts, text presets, gradients, graph editor, expression editor,
-          and smart widgets — all in one plugin.
+          Scripts, 112 motion presets, gradients, a graph editor, expressions —
+          and Claude, animating your comp on command.
         </p>
 
         <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
@@ -94,13 +94,25 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Hero image */}
+      {/* Hero showcase — live chat-build demo */}
       <div className="relative z-10 mx-auto mt-20 w-full max-w-[1100px] fade-in-up delay-200">
-        <div className="card overflow-hidden">
-          <img
-            src="/images/hero-screenshot.svg"
-            alt="Dony's After Effects plugin — Script Grid, Gradient Library, and Graph Editor panels"
-            className="w-full"
+        <div
+          className="overflow-hidden"
+          style={{
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius-lg, 6px)',
+            boxShadow: '0 24px 70px rgba(0,0,0,.55)',
+          }}
+        >
+          <video
+            src="/videos/anim-chat.mp4"
+            poster="/images/promo/poster-chat.png"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="block w-full"
+            aria-label="Claude building a synthwave title card inside After Effects, step by step"
           />
         </div>
         <div

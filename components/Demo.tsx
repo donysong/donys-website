@@ -1,5 +1,20 @@
 'use client';
 
+const GRID_DEMOS = [
+  {
+    label: 'Apply a preset',
+    caption: 'Click a motion preset — it lands on your layer with hand-tuned overshoot.',
+    src: '/videos/anim-motion.mp4',
+    poster: '/images/promo/poster-motion.png',
+  },
+  {
+    label: 'Shape any curve',
+    caption: 'Drag a bezier handle in the graph editor and watch the easing update live.',
+    src: '/videos/anim-graph.mp4',
+    poster: '/images/promo/poster-graph.png',
+  },
+];
+
 export default function Demo() {
   return (
     <section id="demo" className="mx-auto max-w-[1200px] px-6 py-32">
@@ -17,96 +32,101 @@ export default function Demo() {
             marginBottom: 12,
           }}
         >
-          See it in action
+          See it move
         </h2>
         <p
           style={{
             fontSize: 15,
             color: 'var(--text-secondary)',
             lineHeight: 1.6,
+            maxWidth: 440,
           }}
         >
-          Watch how Dony&apos;s speeds up your After Effects workflow.
+          Real keyframes, real easing — every result stays fully editable on the timeline.
         </p>
       </div>
 
-      {/* Video placeholder */}
-      <div className="card overflow-hidden">
-        <div className="relative aspect-video w-full" style={{ background: 'var(--bg-active)' }}>
-          <div className="flex h-full items-center justify-center">
-            <div className="text-center">
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 48,
-                  height: 48,
-                  margin: '0 auto 12px',
-                  border: '1px solid var(--border-strong)',
-                  color: 'var(--text-muted)',
-                  fontSize: 16,
-                  transition: 'color 0.08s ease, border-color 0.08s ease',
-                  cursor: 'pointer',
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
-                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)';
-                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-strong)';
-                }}
-              >
-                ▶
-              </div>
-              <p
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: 'var(--text-muted)',
-                }}
-              >
-                Demo video coming soon
-              </p>
-            </div>
-          </div>
+      {/* Featured — full AI build */}
+      <div
+        style={{ border: '1px solid var(--border)', overflow: 'hidden', background: 'var(--bg-card)' }}
+        className="mb-4"
+      >
+        <div style={{ background: 'var(--bg-active)', borderBottom: '1px solid var(--border)' }}>
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video
+            src="/videos/anim-chat.mp4"
+            poster="/images/promo/poster-chat.png"
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{ width: '100%', display: 'block' }}
+            aria-label="Claude building a synthwave title card from a single prompt"
+          />
+        </div>
+        <div
+          style={{
+            padding: '18px 24px 22px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'baseline',
+            gap: '4px 14px',
+          }}
+        >
+          <p
+            style={{
+              fontSize: 9,
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'var(--text-muted)',
+            }}
+          >
+            Build with AI
+          </p>
+          <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, flex: 1, minWidth: 240 }}>
+            One prompt → Claude sets up the comp, gradient, animated type, glow, and an ambient
+            loop — a finished title card, every layer still editable.
+          </p>
         </div>
       </div>
 
-      {/* Feature preview grid */}
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
-        {[
-          { label: 'Text Presets', src: '/images/feature-text-presets.svg' },
-          { label: 'Graph Editor', src: '/images/feature-graph-editor.svg' },
-          { label: 'Gradient Library', src: '/images/feature-gradient-library.svg' },
-          { label: 'Expression Editor', src: '/images/feature-expression-editor.svg' },
-        ].map(({ label, src }) => (
-          <div key={label} className="card overflow-hidden" style={{ position: 'relative' }}>
-            <img
-              src={src}
-              alt={`${label} panel preview`}
-              className="w-full"
-            />
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                padding: '4px 10px',
-                background: 'var(--bg-elevated)',
-                borderTop: '1px solid var(--border)',
-                borderRight: '1px solid var(--border)',
-                fontSize: 9,
-                fontWeight: 700,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: 'var(--text-muted)',
-              }}
-            >
-              {label}
+      {/* Two-up — preset + curve */}
+      <div className="grid gap-4 md:grid-cols-2">
+        {GRID_DEMOS.map((d) => (
+          <div
+            key={d.label}
+            style={{ border: '1px solid var(--border)', overflow: 'hidden', background: 'var(--bg-card)' }}
+          >
+            <div style={{ background: 'var(--bg-active)', borderBottom: '1px solid var(--border)' }}>
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+              <video
+                src={d.src}
+                poster={d.poster}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ width: '100%', display: 'block' }}
+                aria-label={d.caption}
+              />
+            </div>
+            <div style={{ padding: '16px 20px 20px' }}>
+              <p
+                style={{
+                  fontSize: 9,
+                  fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: 'var(--text-muted)',
+                  marginBottom: 7,
+                }}
+              >
+                {d.label}
+              </p>
+              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                {d.caption}
+              </p>
             </div>
           </div>
         ))}

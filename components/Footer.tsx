@@ -1,5 +1,7 @@
 'use client';
 
+import BrandMark from './BrandMark';
+
 export default function Footer() {
   return (
     <footer style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-elevated)' }}>
@@ -17,30 +19,7 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 14,
-                height: 14,
-                transform: 'rotate(45deg)',
-                border: '1.5px solid var(--accent)',
-                flexShrink: 0,
-              }}
-            >
-              <span
-                style={{
-                  transform: 'rotate(-45deg)',
-                  fontSize: 7,
-                  fontWeight: 800,
-                  color: 'var(--accent)',
-                  lineHeight: 1,
-                }}
-              >
-                D
-              </span>
-            </span>
+            <BrandMark size={15} />
             <span
               style={{
                 fontSize: 10,

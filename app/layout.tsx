@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: "Dony's — The only AE plugin you'll ever need",
   description:
-    'Scripts, text presets, gradients, graph editor, expression editor, and smart widgets — the only After Effects plugin you need. $30 one-time purchase.',
+    'Scripts, 112 motion presets, gradients, a graph editor, expressions — plus Claude AI that animates your comp on command. The only After Effects plugin you need. $30 one-time.',
   keywords: [
     'After Effects plugin',
     'motion design',
@@ -12,13 +12,23 @@ export const metadata: Metadata = {
     'text animation',
     'graph editor',
     'gradient library',
+    'AI motion graphics',
+    'Claude After Effects',
     'workflow panel',
   ],
   openGraph: {
     title: "Dony's — The only AE plugin you'll ever need",
-    description: 'Scripts, text presets, gradients, graph editor & more. $30.',
+    description:
+      'Scripts, 112 motion presets, gradients, a graph editor & Claude AI — animating your comp on command. $30.',
     type: 'website',
     url: 'https://donys.dev',
+    images: ['/images/promo/hero.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Dony's — The only AE plugin you'll ever need",
+    description: 'Scripts, motion presets, gradients, a graph editor & Claude AI built in. $30.',
+    images: ['/images/promo/hero.png'],
   },
 };
 

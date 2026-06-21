@@ -76,8 +76,8 @@ export default function PrivacyPage() {
             <p>We use the following third-party services:</p>
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>
-                <strong>Polar</strong> — payment processing and license management
-                (merchant of record). Their privacy policy is available at{' '}
+                <strong>Polar</strong> — payment processing, merchant of record, and license
+                management. Their privacy policy is available at{' '}
                 <a
                   href="https://polar.sh/legal/privacy"
                   target="_blank"
