@@ -1,6 +1,6 @@
 {
-  "version": "1.2.1",
+  "version": "1.2.2",
   "url": "https://donys-website.vercel.app",
   "download": "https://donys-website.vercel.app/donys.zxp",
-  "notes": "Support 패널 1클릭 인앱 자동설치 — 이제 브라우저 안 거치고 패널에서 바로 업데이트 다운로드·설치. (UI 전면 리뉴얼: Pretendard 폰트, 머티리얼/모션 인터랙션, 새 로고)"
+  "notes": "UI 리파인 — 로고 마이크로모션, 슬라이더 크림 fill, 폼컨트롤·헤더 통일, 디자인 토큰 위생."
 }
