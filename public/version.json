@@ -1,6 +1,6 @@
 {
-  "version": "1.2.2",
+  "version": "1.2.3",
   "url": "https://donys-website.vercel.app",
   "download": "https://donys-website.vercel.app/donys.zxp",
-  "notes": "UI 리파인 — 로고 마이크로모션, 슬라이더 크림 fill, 폼컨트롤·헤더 통일, 디자인 토큰 위생."
+  "notes": "인앱 자동 업데이트 수정 — getExtensionPath() file:// 경로 정규화로 패널 내 1-클릭 설치 정상화(Win/Mac 실기 검증). ⚠️ 기존 1.2.x 설치는 깨진 업데이터가 박혀 있어 이번 한 번만 수동 설치(다운로드 후 unzip) 필요, 1.2.3부터 인앱 정상."
 }
