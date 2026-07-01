@@ -1,6 +1,6 @@
 {
-  "version": "1.2.3",
+  "version": "1.2.4",
   "url": "https://donys-website.vercel.app",
   "download": "https://donys-website.vercel.app/donys.zxp",
-  "notes": "인앱 자동 업데이트 수정 — getExtensionPath() file:// 경로 정규화로 패널 내 1-클릭 설치 정상화(Win/Mac 실기 검증). ⚠️ 기존 1.2.x 설치는 깨진 업데이터가 박혀 있어 이번 한 번만 수동 설치(다운로드 후 unzip) 필요, 1.2.3부터 인앱 정상."
+  "notes": "챗 패널 개선 + 라이선스 재활성화 수정 — ① 응답 완료 후에도 돌던 thinking 점 애니메이션 정지 ② 같은 컴퓨터에서 라이선스 재입력 시 '활성화 한도 초과' 오류 수정(재활성화 시 기존 기기 슬롯 자동 해제) ③ 한도 초과 시 Support 패널에서 기기 활성화 관리 포털로 바로 이동하는 링크 추가."
 }
