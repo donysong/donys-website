@@ -1,6 +1,6 @@
 {
-  "version": "1.2.5",
+  "version": "2.0.0",
   "url": "https://donys-website.vercel.app",
   "download": "https://donys-website.vercel.app/donys.zxp",
-  "notes": "라이브러리 에셋 탭 무료 소스 통합 — 에셋 탭에서 무료 소스(Pexels 이미지·영상 / Giphy GIF / Freesound 오디오)를 바로 검색·다운로드하고 활성 컴프의 플레이헤드 위치에 자동 배치. 각 제공사 API 키는 에셋 탭의 키 설정에서 직접 입력(무료 발급). 중복 다운로드는 콘텐츠 해시로 자동 병합."
+  "notes": "대규모 업데이트 — Toolbox에 Face Track 신설(얼굴 자동 감지+트래킹, 널/박스/모자이크/블러 부착, 스무딩·라벨 조정). 모션 프리셋 26종 리팩토(스프링 물리 기반, 실시간 노브 튜닝). AI 챗 패널 응답 속도·안정성 개선(연속 동작 리그, 하우스 스타일 자동 보정). 신규 이펙트 다수(Write On, Explode, 임팩트 슬램, Confetti, 프로시저럴 텍스처 등). 라이브러리 에셋 탭 무료 소스 통합(Pexels/Giphy/Freesound)."
 }
