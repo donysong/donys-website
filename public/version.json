@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0",
+  "version": "2.0.1",
   "url": "https://donys-website.vercel.app",
   "download": "https://donys-website.vercel.app/donys.zxp",
-  "notes": "대규모 업데이트 — Toolbox에 Face Track 신설(얼굴 자동 감지+트래킹, 널/박스/모자이크/블러 부착, 스무딩·라벨 조정). 모션 프리셋 26종 리팩토(스프링 물리 기반, 실시간 노브 튜닝). AI 챗 패널 응답 속도·안정성 개선(연속 동작 리그, 하우스 스타일 자동 보정). 신규 이펙트 다수(Write On, Explode, 임팩트 슬램, Confetti, 프로시저럴 텍스처 등). 라이브러리 에셋 탭 무료 소스 통합(Pexels/Giphy/Freesound)."
+  "notes": "패널 UI 정리 — 챗 탭이 많아져도 원하는 대화로 바로 갈 수 있습니다. 탭 줄에 스크롤바와 가장자리 표시가 생겼고, 마우스 휠로 넘어가며, 전체 채팅을 검색해서 고르는 목록 버튼이 추가됐습니다. 라이브러리 카테고리는 패널이 좁아도 잘리지 않고 줄바꿈으로 전부 보입니다(Text Preset·Motion·Effects·Gradient·Assets). 툴박스는 버튼 설명 툴팁이 패널 밖으로 나가면서 생기던 우측 빈 공간을 없앴습니다. 툴박스 설정 창 디자인을 최신 기준으로 통일했고(Shadow Caster), 언어를 바꿔도 영어로 남아 있던 설정 창 4종(Shadow Caster·Fit Layer·Points to Nulls·Text Exploder)이 이제 한국어/영어를 따라갑니다."
 }
