@@ -7,15 +7,28 @@ export const metadata: Metadata = {
   description: "Dony's Garage 최신 버전 다운로드 및 설치 안내.",
 };
 
-// 이 페이지는 판매 랜딩에서 링크되지 않는다. 패널의 업데이트 카드에서 "다운로드 페이지" 를
-// 눌렀을 때만 열린다 (version.json 의 `url` 이 여기를 가리킨다).
+// 이 페이지는 판매 랜딩에서 링크되지 않는다. 패널 업데이트 카드의 링크로만 열린다
+// (version.json 의 `url` 이 여기를 가리킨다).
 //
-// 🔴 왜 따로 만들었나: 패널은 version.json 의 `notes` 를 **읽지 않는다** — updateCheck.ts 가
-// {version, url, download} 만 파싱한다. 그래서 v2.1.0 사용자에게 "수동으로 설치하세요" 를
-// 전할 수 있는 경로가 이 페이지뿐이다. 그들이 누르는 인앱 설치 버튼은 v2.1.0 코드라
-// 우리가 지금 무엇을 고쳐도 그 사람 화면에서는 안 바뀐다.
+// 🔴 왜 따로 있나: 패널은 version.json 의 `notes` 를 **읽지 않는다** — updateCheck.ts 가
+// {version, url, download} 만 파싱한다. **릴리스 노트의 정본은 이 페이지다.** `notes` 필드는
+// 2026-08-13 에 삭제했다(읽는 코드 0곳).
+//
+// ⚠️ 도달 가능성이 버전마다 다르다:
+//   v2.2.1+ : `변경 내용 · 수동 설치` 링크가 카드에 **항상** 뜬다 → 언제든 여기로 온다.
+//   v2.2.0  : 설치 실패가 **보고될 때만** 링크가 뜬다(구 UI 는 설치 버튼과 배타).
+//   v2.1.0  : 실패를 성공으로 읽는 결함 때문에 `완료` 로 가고 **버튼이 통째로 사라진다**
+//             → 이 페이지에 올 방법이 없다. **오너가 직접 링크를 보내야 한다.**
 
 const RELEASES = [
+  {
+    version: '2.2.1',
+    date: '2026-08-13',
+    items: [
+      'v2.1.0 에서 올라오신 분들의 설치 폴더에 예전 버전의 스크립트 파일 61개가 그대로 남아 있었습니다. 설치 과정이 파일을 덮어쓰기만 하고 지우지는 않기 때문입니다. 동작에는 문제가 없었지만 v2.2.0 이 목표했던 소스 보호가 그분들에게만 적용되지 않은 상태였습니다. 이제 새 버전이 처음 실행될 때 알아서 정리합니다.',
+      '업데이트 알림에 "변경 내용 · 수동 설치" 링크를 항상 표시합니다. 전에는 설치가 실패했다고 표시될 때만 나타나서, 정작 설치가 조용히 실패했을 때는 이 페이지로 올 방법이 없었습니다.',
+    ],
+  },
   {
     version: '2.2.0',
     date: '2026-08-12',
@@ -36,7 +49,7 @@ export default function UpdatePage() {
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 py-32">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">업데이트</h1>
-        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.2.0 · 2026년 8월 12일</p>
+        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.2.1 · 2026년 8월 13일</p>
 
         <div className="mb-12 rounded-lg border border-[var(--border-strong)] bg-[var(--accent-dim)] p-6">
           <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">
@@ -70,7 +83,7 @@ export default function UpdatePage() {
             href="/donys.zxp"
             className="mt-5 inline-block rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-black"
           >
-            donys.zxp 내려받기 (v2.2.0)
+            donys.zxp 내려받기 (v2.2.1)
           </a>
         </div>
 
