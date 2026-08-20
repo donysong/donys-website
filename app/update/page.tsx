@@ -22,6 +22,18 @@ export const metadata: Metadata = {
 
 const RELEASES = [
   {
+    version: '2.3.0',
+    date: '2026-08-20',
+    items: [
+      '모서리 둥글리기가 툴박스에 들어왔습니다. 셰이프뿐 아니라 텍스트·솔리드·푸티지·프리컴프 레이어에도 걸 수 있고, 네 모서리에 서로 다른 반지름을 줄 수 있습니다. 적용한 뒤에도 Effect Controls 에서 값을 계속 바꿀 수 있어서 다시 걸 필요가 없습니다. 레이어 크기를 키우거나 줄여도 모서리 반지름은 그대로 유지됩니다. 지우실 때는 툴박스 버튼을 Alt 누른 채 클릭하시면 됩니다.',
+      'Proximity 툴의 이름이 Effector 로 바뀌었습니다. 버튼 이름과 설명만 바뀐 것이고 동작은 같습니다. 리그 안에서 만들어지는 널도 "이펙터 널" 로 이름을 맞췄습니다.',
+      '패널이 검은 화면으로만 뜨던 문제에 대응했습니다. 어떤 환경에서는 패널이 로딩 상태 그대로 멈추고 아무 메시지도 나오지 않았습니다. 이제 그런 경우 화면에 원인을 표시합니다. 원인 자체를 없앤 것이 아니라 보이게 만든 것이라, 여전히 문제가 보이시면 그 메시지를 알려주시면 됩니다.',
+      '툴박스 툴팁이 패널 가로 폭을 넘어가던 문제를 고쳤습니다. 패널을 좁게 쓰실 때 설명 글이 그리드 밖으로 삐져나왔습니다.',
+      'Program Files 아래에 설치하신 경우, 업데이트할 때 예전 버전 파일이 정리되지 않고도 아무 표시가 없던 문제를 고쳤습니다. 그 위치는 파일 삭제에 관리자 권한이 필요합니다. 이제 실패하면 기록이 남아 원인을 확인할 수 있습니다.',
+      '이펙트 프리셋 자동 복구가 일부 사용자에게만 적용되지 않던 문제를 고쳤습니다. 파일 줄바꿈 형식 차이 때문에 같은 내용인데도 다른 파일로 인식되던 것이 원인이었습니다.',
+    ],
+  },
+  {
     version: '2.2.1',
     date: '2026-08-13',
     items: [
@@ -49,7 +61,7 @@ export default function UpdatePage() {
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 py-32">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">업데이트</h1>
-        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.2.1 · 2026년 8월 13일</p>
+        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.3.0 · 2026년 8월 20일</p>
 
         <div className="mb-12 rounded-lg border border-[var(--border-strong)] bg-[var(--accent-dim)] p-6">
           <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">
@@ -83,7 +95,7 @@ export default function UpdatePage() {
             href="/donys.zxp"
             className="mt-5 inline-block rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-black"
           >
-            donys.zxp 내려받기 (v2.2.1)
+            donys.zxp 내려받기 (v2.3.0)
           </a>
         </div>
 
