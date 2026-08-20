@@ -1,6 +1,16 @@
 node_modules/
 .next/
 out/
-.env*.local
 *.tsbuildinfo
 next-env.d.ts
+
+# Secrets. This repo is public, so a committed .env is a published .env.
+# The old rule was `.env*.local` only, which left plain `.env` and
+# `.env.production` tracked — the two names a deploy is most likely to create.
+.env
+.env.*
+!.env.example
+
+# Local tooling state that can carry project/org ids and tokens.
+.vercel
+.npmrc
