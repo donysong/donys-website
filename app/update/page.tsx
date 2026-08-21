@@ -22,6 +22,14 @@ export const metadata: Metadata = {
 
 const RELEASES = [
   {
+    version: '2.3.2',
+    date: '2026-08-21',
+    items: [
+      'After Effects 2022 · 2023 을 쓰시는 분들이 플러그인을 설치해도 패널 목록에 아무것도 나타나지 않던 문제를 고쳤습니다. 설치 파일이 요구하는 실행 환경 버전이 실제로 필요한 것보다 높게 적혀 있어서, 해당 버전의 After Effects 가 플러그인을 아예 발견하지 못했습니다. 안내해 드린 지원 범위(2022 이상)와 어긋나 있던 부분입니다.',
+      '위 문제는 2022 · 2023 에서 설치가 되도록 푼 것이고, 그 버전들에서의 동작을 전부 확인한 것은 아닙니다. 이상한 점이 있으시면 알려주시면 바로 대응하겠습니다.',
+    ],
+  },
+  {
     version: '2.3.1',
     date: '2026-08-21',
     items: [
@@ -70,7 +78,7 @@ export default function UpdatePage() {
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 py-32">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">업데이트</h1>
-        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.3.1 · 2026년 8월 21일</p>
+        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.3.2 · 2026년 8월 21일</p>
 
         <div className="mb-12 rounded-lg border border-[var(--border-strong)] bg-[var(--accent-dim)] p-6">
           <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">
@@ -104,7 +112,7 @@ export default function UpdatePage() {
             href="/donys.zxp"
             className="mt-5 inline-block rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-black"
           >
-            donys.zxp 내려받기 (v2.3.1)
+            donys.zxp 내려받기 (v2.3.2)
           </a>
         </div>
 
