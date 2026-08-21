@@ -22,6 +22,15 @@ export const metadata: Metadata = {
 
 const RELEASES = [
   {
+    version: '2.3.1',
+    date: '2026-08-21',
+    items: [
+      '패널이 로딩 표시만 계속 돌고 열리지 않던 문제를 고쳤습니다. 설치된 폴더 이름 때문에 패널 화면을 그리는 프로세스가 시작하자마자 종료되고, 그때마다 다시 시작되기를 반복하던 것이 원인이었습니다. 이번 버전을 설치하시면 폴더 이름이 바뀌면서 증상이 사라집니다.',
+      '설치 프로그램이 정식 경로로 설치를 끝내지 못하던 문제를 고쳤습니다. 지금까지의 모든 버전이 이 상태였고, 설치 프로그램이 자체 방식으로 대신 풀어 넣었기 때문에 겉으로는 설치가 되는 것처럼 보였습니다. 위의 폴더 이름 문제도 여기서 비롯된 것입니다.',
+      '예전 폴더는 그대로 남지만 더 이상 사용되지 않습니다. After Effects 가 같은 확장을 여러 벌 발견하면 버전이 높은 쪽만 사용하기 때문에, 이번 버전을 설치하시면 자동으로 정리된 것과 같은 상태가 됩니다. 디스크 공간이 아까우시면 아래 경로의 예전 폴더를 지우셔도 됩니다 (관리자 권한이 필요합니다).',
+    ],
+  },
+  {
     version: '2.3.0',
     date: '2026-08-20',
     items: [
@@ -61,7 +70,7 @@ export default function UpdatePage() {
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 py-32">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">업데이트</h1>
-        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.3.0 · 2026년 8월 20일</p>
+        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.3.1 · 2026년 8월 21일</p>
 
         <div className="mb-12 rounded-lg border border-[var(--border-strong)] bg-[var(--accent-dim)] p-6">
           <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">
@@ -95,7 +104,7 @@ export default function UpdatePage() {
             href="/donys.zxp"
             className="mt-5 inline-block rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-black"
           >
-            donys.zxp 내려받기 (v2.3.0)
+            donys.zxp 내려받기 (v2.3.1)
           </a>
         </div>
 
