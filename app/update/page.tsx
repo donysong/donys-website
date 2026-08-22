@@ -22,6 +22,17 @@ export const metadata: Metadata = {
 
 const RELEASES = [
   {
+    version: '2.3.3',
+    date: '2026-08-23',
+    items: [
+      '일주일쯤 지나면 라이선스가 풀려서 키를 다시 입력해야 하던 문제를 고쳤습니다. 컴퓨터를 식별하는 값이 재부팅이나 네트워크 상태에 따라 흔들릴 수 있는 정보로 만들어져 있었고, 오프라인 확인 중에 일시적인 통신 오류가 나면 유예 없이 바로 잠기던 것, 여러 패널이 동시에 켜질 때 저장된 인증 정보가 서로 덮어쓰며 깨질 수 있던 것까지 세 가지 원인이 겹쳐 있었습니다. 이제 운영체제가 보증하는 영구 식별자를 쓰고, 통신이 잠시 안 되는 경우는 잠그지 않고 기다립니다.',
+      '위 수리로 기존에 저장된 인증 정보는 새 방식으로 자동 이전됩니다. 다만 그동안 컴퓨터 이름을 바꾸신 적이 있는 일부 분들은 업데이트 후 딱 한 번 키를 다시 입력하시게 될 수 있습니다. 그 뒤로는 더 이상 풀리지 않습니다.',
+      '모서리 둥글리기에서 네 모서리에 서로 다른 반지름을 주고 적용해도, Effect Controls 의 체크박스를 손으로 켜기 전까지는 모든 모서리가 같은 값으로 보이던 문제를 고쳤습니다. 이제 모서리별 값을 주시면 처음부터 다르게 적용됩니다.',
+      '참고로, 한 모서리의 반지름을 아주 크게 주면 이웃 모서리의 둥글기가 줄어 보이는 것은 결함이 아니라 의도된 동작입니다. 두 모서리의 라운드가 한 변 위에서 겹치지 않도록 비례해서 줄이는 규칙으로, Figma 나 웹 CSS 와 같은 방식입니다. 슬라이더에 입력하신 값 자체는 그대로 보존됩니다.',
+      '설치 파일이 14MB 에서 3.5MB 로 가벼워졌습니다. 쓰이지 않게 된 대용량 리소스를 내려보냈습니다.',
+    ],
+  },
+  {
     version: '2.3.2',
     date: '2026-08-21',
     items: [
@@ -78,7 +89,7 @@ export default function UpdatePage() {
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 py-32">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">업데이트</h1>
-        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.3.2 · 2026년 8월 21일</p>
+        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.3.3 · 2026년 8월 23일</p>
 
         <div className="mb-12 rounded-lg border border-[var(--border-strong)] bg-[var(--accent-dim)] p-6">
           <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">
