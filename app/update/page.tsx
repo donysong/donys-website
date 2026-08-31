@@ -3,8 +3,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: "업데이트 — Dony's Garage",
-  description: "Dony's Garage 최신 버전 다운로드 및 설치 안내.",
+  title: '업데이트 — You Name It',
+  description: 'You Name It 최신 버전 다운로드 및 설치 안내.',
 };
 
 // 이 페이지는 판매 랜딩에서 링크되지 않는다. 패널 업데이트 카드의 링크로만 열린다
@@ -21,6 +21,20 @@ export const metadata: Metadata = {
 //             → 이 페이지에 올 방법이 없다. **오너가 직접 링크를 보내야 한다.**
 
 const RELEASES = [
+  {
+    version: '2.4.0',
+    date: '2026-08-31',
+    items: [
+      '제품 이름이 You Name It 으로 바뀌었습니다. After Effects 의 창 메뉴에 뜨는 이름도 함께 바뀌므로, 업데이트 후 예전 이름으로 찾으시면 안 보일 수 있습니다. 창 메뉴에서 You Name It 으로 시작하는 항목을 찾아 주세요. 설치 위치와 저장된 데이터는 그대로이며, 라이선스도 다시 입력하실 필요 없습니다.',
+      '패널 전체의 색과 모양을 새로 했습니다. 기존의 크림색 계열이 파랑 단색 팔레트로 바뀌었고, 버튼은 평소에 면을 채우지 않고 누르는 순간에만 반전됩니다. 익스프레션 에디터의 구문 색상도 같은 팔레트로 정리했습니다.',
+      '툴박스를 직접 배치하실 수 있게 됐습니다. 버튼을 원하는 자리로 끌어다 놓고 크기를 조절할 수 있으며, 겹치면 아래 버튼이 밀려납니다. 빈 칸은 그대로 여백으로 남습니다.',
+      '툴박스 패널을 최대 3개까지 따로 띄울 수 있습니다. 패널마다 다른 배치를 저장할 수 있고, 배치를 파일로 내보내고 가져올 수 있습니다.',
+      '자주 쓰는 설정을 버튼으로 굳힐 수 있습니다. 도구를 실행할 때 넣은 값까지 함께 저장되므로, 다음부터는 한 번 누르면 같은 설정으로 실행됩니다. 라이브러리의 그라디언트·텍스트 프리셋·이징 커브·익스프레션·이펙트도 툴박스 패널에 담을 수 있습니다.',
+      '새 도구 3개가 들어왔습니다. Auto Marker 는 오디오의 박자를 읽어 마커를 찍습니다. Start Marker 는 작업 시작점을 표시합니다. Torn Paper 는 찢어진 종이 가장자리와 접힌 자국을 만듭니다.',
+      '도구 41개에 미리보기 그림이 붙었습니다. 컴프 화면에 결과가 바로 드러나지 않는 도구들도 무엇을 하는 도구인지 버튼 위에서 확인하실 수 있습니다.',
+      '설치 파일이 3.5MB 에서 5.1MB 로 늘었습니다. 위의 미리보기 그림들이 들어간 만큼입니다.',
+    ],
+  },
   {
     version: '2.3.3',
     date: '2026-08-23',
@@ -89,7 +103,7 @@ export default function UpdatePage() {
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 py-32">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">업데이트</h1>
-        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.3.3 · 2026년 8월 23일</p>
+        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.4.0 · 2026년 8월 31일</p>
 
         <div className="mb-12 rounded-lg border border-[var(--border-strong)] bg-[var(--accent-dim)] p-6">
           <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">
@@ -123,7 +137,7 @@ export default function UpdatePage() {
             href="/donys.zxp"
             className="mt-5 inline-block rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-black"
           >
-            donys.zxp 내려받기 (v2.3.2)
+            donys.zxp 내려받기 (v2.4.0)
           </a>
         </div>
 

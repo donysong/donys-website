@@ -44,7 +44,7 @@ export default function Hero() {
           }}
         >
           Scripts, 112 motion presets, gradients, a graph editor, expressions —
-          and Claude, animating your comp on command.
+          and Claude, building what you describe on real layers.
         </p>
 
         <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
@@ -65,7 +65,7 @@ export default function Hero() {
             onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-light)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--accent-dark)')}
           >
-            Get Dony&apos;s — $30
+            Get it — $30
           </a>
           <a
             href="#demo"

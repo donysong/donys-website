@@ -67,7 +67,7 @@ export default function Pricing() {
                 marginBottom: 10,
               }}
             >
-              Dony&apos;s
+              You Name It
             </p>
             <div
               style={{

@@ -20,17 +20,6 @@ export default function Footer() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
             <BrandMark size={15} />
-            <span
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: 'var(--text-primary)',
-              }}
-            >
-              Dony&apos;s
-            </span>
           </div>
           <p
             style={{
@@ -101,7 +90,7 @@ export default function Footer() {
             color: 'var(--text-muted)',
           }}
         >
-          &copy; 2026 Dony&apos;s
+          &copy; 2026 You Name It
         </p>
       </div>
     </footer>

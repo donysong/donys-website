@@ -3,8 +3,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: "Refund Policy — Dony's",
-  description: "Refund Policy for Dony's After Effects plugin.",
+  title: "Refund Policy — You Name It",
+  description: "Refund Policy for You Name It After Effects plugin.",
 };
 
 export default function RefundPage() {
@@ -19,7 +19,7 @@ export default function RefundPage() {
           <section>
             <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">14-Day Money-Back Guarantee</h2>
             <p>
-              We want you to be completely satisfied with your purchase. If the Dony&apos;s
+              We want you to be completely satisfied with your purchase. If the You Name It
               plugin does not meet your expectations, you may request a full refund within{' '}
               <strong>14 days</strong> of your purchase date — no questions asked.
             </p>

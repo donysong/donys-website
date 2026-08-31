@@ -3,8 +3,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Dony's",
-  description: "Terms of Service for Dony's After Effects plugin.",
+  title: "Terms of Service — You Name It",
+  description: "Terms of Service for You Name It After Effects plugin.",
 };
 
 export default function TermsPage() {
@@ -20,7 +20,7 @@ export default function TermsPage() {
             <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">1. Overview</h2>
             <p>
               These Terms of Service (&quot;Terms&quot;) govern your purchase and use of the
-              Dony&apos;s After Effects plugin (&quot;Product&quot;) sold by Dony&apos;s
+              You Name It After Effects plugin (&quot;Product&quot;) sold by You Name It
               (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;). By purchasing or using the
               Product, you agree to be bound by these Terms.
             </p>

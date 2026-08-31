@@ -25,17 +25,6 @@ export default function Navbar() {
         {/* Logo mark */}
         <a href="/" className="flex items-center gap-2.5">
           <BrandMark size={20} />
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--text-primary)',
-            }}
-          >
-            Dony&apos;s
-          </span>
         </a>
 
         {/* Desktop nav */}
@@ -77,7 +66,7 @@ export default function Navbar() {
             onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-light)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--accent-dark)')}
           >
-            Get Dony&apos;s
+            Get it
           </a>
         </div>
 
@@ -143,7 +132,7 @@ export default function Navbar() {
             }}
             onClick={() => setOpen(false)}
           >
-            Get Dony&apos;s — $30
+            Get it — $30
           </a>
         </div>
       )}

@@ -3,8 +3,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Dony's",
-  description: "Privacy Policy for Dony's After Effects plugin.",
+  title: "Privacy Policy — You Name It",
+  description: "Privacy Policy for You Name It After Effects plugin.",
 };
 
 export default function PrivacyPage() {
@@ -19,10 +19,10 @@ export default function PrivacyPage() {
           <section>
             <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">1. Introduction</h2>
             <p>
-              Dony&apos;s (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) respects your
+              You Name It (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) respects your
               privacy. This Privacy Policy explains how we collect, use, and protect your
               information when you visit our website (donys.dev) or purchase and use the
-              Dony&apos;s After Effects plugin.
+              You Name It After Effects plugin.
             </p>
           </section>
 
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
               2.3 Plugin Data
             </h3>
             <p>
-              The Dony&apos;s plugin runs entirely within Adobe After Effects on your local
+              The You Name It plugin runs entirely within Adobe After Effects on your local
               machine. It does <strong>not</strong> collect, transmit, or store any personal
               data, project files, or usage telemetry.
             </p>
