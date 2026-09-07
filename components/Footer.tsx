@@ -45,7 +45,13 @@ export default function Footer() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <p className="label" style={{ fontSize: 10 }}>Contact</p>
-          <FooterLink label="support@donys.dev" href="mailto:support@donys.dev" />
+          {/* 🔴 **임시 주소다** (오너 2026-09-08). 원래 문구는 `support@donys.dev` 였는데
+              그 도메인은 **NS 조차 없다** — A·MX 도 없고 `https://donys.dev` 는 000 이다
+              (2026-09-07 dig 실측). 사이트의 **유일한** 연락처이고 **환불 창구**라,
+              메일이 아무 데도 안 가는 채로 라이브에 떠 있었다.
+              🔴 도메인을 붙이면 4파일 13곳을 같이 되돌려라 — privacy·terms·refund·여기.
+              (privacy 본문의 "our website (donys.dev)" 도 아직 죽은 호스트를 가리킨다.) */}
+          <FooterLink label="donysong96@gmail.com" href="mailto:donysong96@gmail.com" />
           <FooterLink label="Update notes" href="/update" />
         </div>
 
