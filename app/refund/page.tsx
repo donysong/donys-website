@@ -17,7 +17,7 @@ export default function RefundPage() {
 
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">14-Day Money-Back Guarantee</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">14-Day Money-Back Guarantee</h2>
             <p>
               We want you to be completely satisfied with your purchase. If the You Name It
               plugin does not meet your expectations, you may request a full refund within{' '}
@@ -26,7 +26,7 @@ export default function RefundPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">How to Request a Refund</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">How to Request a Refund</h2>
             <ol className="list-decimal space-y-2 pl-6">
               <li>
                 Email us at{' '}
@@ -44,7 +44,7 @@ export default function RefundPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">After 14 Days</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">After 14 Days</h2>
             <p>
               Refund requests made after the 14-day window will be reviewed on a case-by-case
               basis. We may offer a refund if you experience a critical technical issue that we
@@ -53,7 +53,7 @@ export default function RefundPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">License Deactivation</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">License Deactivation</h2>
             <p>
               Upon receiving a refund, your license key will be deactivated. You will need to
               uninstall the plugin from your devices.
@@ -61,7 +61,7 @@ export default function RefundPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">Contact</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">Contact</h2>
             <p>
               If you have any questions about our refund policy, please contact us at{' '}
               <a href="mailto:support@donys.dev" className="text-[var(--accent-light)] hover:underline">

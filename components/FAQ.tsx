@@ -1,31 +1,36 @@
 'use client';
 
 import { useState } from 'react';
+import { PRICE } from '@/lib/product';
 
 const FAQS = [
   {
     q: 'Which AE versions are supported?',
-    a: 'After Effects 2022 (v22.0) and above on both Windows and macOS.',
+    a: 'After Effects 2022 (v22.0) and above, on both Windows and macOS.',
   },
   {
     q: 'How many devices can I use?',
-    a: 'Each license supports up to 2 devices simultaneously. You can deactivate a device and transfer to another anytime.',
+    a: 'Each license covers 2 devices at once. You can deactivate a device and move the seat to another one anytime.',
   },
   {
     q: 'Is there a free trial?',
-    a: "No free trial, but we offer a 14-day refund policy — no questions asked.",
+    a: 'No trial, but there is a 14-day refund policy — no questions asked.',
   },
   {
     q: 'Do I get free updates?',
-    a: 'Yes! All minor updates (bug fixes, AE compatibility, preset additions) are free. Major version upgrades (v2.0+) may be priced separately.',
+    a: `Yes. Minor updates (bug fixes, AE compatibility, new presets) are free for the life of your ${PRICE} license. Major version upgrades may be priced separately.`,
   },
   {
     q: 'Does it work offline?',
-    a: 'Yes. After initial activation, the license is cached locally for 7 days. You only need internet once a week for re-verification.',
+    a: 'Yes. After the first activation the license is cached locally for 7 days, so you only need a connection once a week.',
+  },
+  {
+    q: 'Do I need my own Claude account for the AI chat?',
+    a: 'Yes — the chat panel drives your own Claude Pro or Max subscription. There is no extra fee on top of the plugin, and no API key to manage.',
   },
   {
     q: 'How do I install?',
-    a: 'Download the .zxp file after purchase, then install using the free ZXP Installer from aescripts.com. Takes about 30 seconds.',
+    a: 'Download the .zxp after purchase and install it with the free ZXP Installer from aescripts.com. Takes about 30 seconds.',
   },
 ];
 
@@ -33,63 +38,63 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="mx-auto max-w-[700px] px-6 py-32">
-      <div className="section-divider mb-24" />
+    <section id="faq" className="mx-auto max-w-[760px] px-6 py-28">
+      <div className="plate-rule mb-20" />
 
-      <div className="mb-16">
-        <p className="label mb-4">FAQ</p>
+      <div className="mb-12">
+        <p className="plate-no mb-4">04 — FAQ</p>
         <h2
+          className="misreg"
           style={{
-            fontSize: 28,
-            fontWeight: 600,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.2,
+            fontSize: 'clamp(1.8rem, 3.4vw, 2.4rem)',
+            fontWeight: 700,
+            letterSpacing: '-0.035em',
+            lineHeight: 1.12,
             color: 'var(--text-primary)',
           }}
         >
-          Frequently asked questions
+          Questions, answered
         </h2>
       </div>
 
       <div>
         {FAQS.map((faq, i) => (
-          <div
-            key={i}
-            style={{ borderBottom: '1px solid var(--border)' }}
-          >
+          <div key={faq.q} style={{ borderBottom: '1px solid var(--border)' }}>
             <button
               style={{
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                padding: '18px 0',
+                padding: '20px 0',
                 textAlign: 'left',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
               }}
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
+              aria-expanded={openIndex === i}
             >
               <span
                 style={{
-                  fontSize: 14,
+                  fontSize: 15,
                   fontWeight: 500,
                   letterSpacing: '-0.01em',
                   color: openIndex === i ? 'var(--text-primary)' : 'var(--text-default)',
-                  transition: 'color 0.08s ease',
+                  transition: 'color .12s var(--ease-out)',
                 }}
               >
                 {faq.q}
               </span>
               <span
+                aria-hidden
                 style={{
                   marginLeft: 16,
                   flexShrink: 0,
-                  fontSize: 16,
+                  fontSize: 18,
                   lineHeight: 1,
-                  color: 'var(--text-muted)',
-                  transition: 'transform 0.12s ease, color 0.08s ease',
+                  color: openIndex === i ? 'var(--accent)' : 'var(--text-muted)',
+                  transition: 'transform .18s var(--ease-spring), color .12s var(--ease-out)',
                   transform: openIndex === i ? 'rotate(45deg)' : 'none',
                   display: 'inline-block',
                 }}
@@ -98,14 +103,7 @@ export default function FAQ() {
               </span>
             </button>
             {openIndex === i && (
-              <div
-                style={{
-                  paddingBottom: 18,
-                  fontSize: 13,
-                  lineHeight: 1.7,
-                  color: 'var(--text-secondary)',
-                }}
-              >
+              <div style={{ paddingBottom: 20, fontSize: 14, lineHeight: 1.75, color: 'var(--text-secondary)' }}>
                 {faq.a}
               </div>
             )}

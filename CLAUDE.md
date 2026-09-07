@@ -1,75 +1,81 @@
-# Dony's Website — 제품 랜딩 페이지
+# You Name It — 제품 랜딩 페이지
+
+## 🔴 브랜드 정본은 이 repo 밖이다
+
+색·로고·폰트·톤·제품명은 **여기서 정하지 않는다.** 정본 =
+`../Dony-s-AE-Plugin/donys/docs/REBRAND_BLUE_PLAN.md`
+
+| 알고 싶은 것 | 정본 |
+|---|---|
+| 팔레트(블루 단독 `#2AB5EA`) | §2 |
+| CTA 규칙 "액센트 면은 평시에 없다" | §3 |
+| 제품명 · 로고 · 폰트 · 톤(리소그래피) | §9 |
+| **웹 판정 4건** (리소 강도 · 판 수 · CTA 예외 · 비교 축) | **§9.9** |
+| 텍스처 크기 게이트(색수차는 14px 이상만) | §10.2 |
+
+⚠️ **이 파일에 값을 복사하지 마라.** 2026-08-31 감사에서 이 문서가 *"Linear 스타일 ·
+Indigo `#6366f1`"* 라고 선언하는데 실제 `globals.css` 는 크림 `#d4ccc0` 이었던 게
+적발됐다. 복사본은 원본과 갈라진다 — 링크만 걸어라.
 
 ## 기술 스택
 
 | 항목 | 기술 |
 |------|------|
 | 프레임워크 | Next.js 16 (App Router) |
-| 스타일 | Tailwind CSS 4 |
-| 빌드 | 정적 사이트 (`output: 'export'`) |
-| 호스팅 | Vercel |
-| 배포 URL | https://donys-website.vercel.app/ |
-| 도메인 | donys.dev (예정) |
-| 레포 | https://github.com/donysong/donys-website |
+| 스타일 | Tailwind 4 + `app/globals.css` 의 CSS 변수 |
+| 빌드 | 정적 export (`output: 'export'`) → `out/` |
+| 호스팅 | Vercel — **라이브 = `https://donys-website.vercel.app`** |
+| 도메인 | `donys.dev` 는 **아직 안 붙었다** (2026-09-07 DNS 실측 실패) |
+| 결제 | Polar (merchant of record) |
+
+🔴 `metadataBase` 와 `openGraph.url` 은 **vercel 주소**여야 한다. `donys.dev` 로 두면
+OG 카드 이미지가 죽은 호스트를 가리킨다. 도메인 붙는 날 둘을 같이 옮겨라.
+
+## 🔴 연락처가 죽어 있다 (2026-09-07 실측 · 오너 액션)
+
+`donys.dev` 에 **A 레코드도 MX 레코드도 없다** — `dig +short A donys.dev` · `dig +short MX donys.dev`
+둘 다 빈 응답이고 `https://donys.dev` 는 000 이다. 그런데 **`support@donys.dev` 가 사이트의
+유일한 연락처**다: 푸터 · `terms` · `privacy` · `refund` 네 곳에 있고, 환불 요청도 그리로
+보내라고 적혀 있다. **지금 상태로는 산 사람이 연락할 방법이 없다.**
+
+주소를 코드에서 임의로 바꾸지 마라 — 도메인을 붙일지 다른 주소를 쓸지는 오너 판정이다.
+티켓 = `../Dony-s-AE-Plugin/donys/docs/NEXT_TASKS.md` 🔴 오너 판단 절.
 
 ## 디렉토리
 
 ```
-donys-website/
-├── app/
-│   ├── layout.tsx          # SEO 메타, Inter 폰트, OG 태그
-│   ├── page.tsx            # 메인 페이지 (섹션 조합)
-│   └── globals.css         # 디자인 토큰 + Tailwind + 커스텀 유틸리티
-├── components/
-│   ├── Navbar.tsx          # 글래스모피즘 네비 + 모바일 햄버거
-│   ├── Hero.tsx            # 메인 비주얼 + CTA 버튼 2개
-│   ├── Features.tsx        # 6개 기능 카드 그리드
-│   ├── Demo.tsx            # 영상 임베드 + 4개 패널 프리뷰
-│   ├── Pricing.tsx         # $30 가격 카드 + 포함 내역
-│   ├── FAQ.tsx             # 아코디언 6문항
-│   └── Footer.tsx          # 연락처 + 소셜 링크
-├── public/images/
-│   ├── hero-screenshot.svg       # 3패널 풀 목업 (Script Grid + Library + Graph Editor)
-│   ├── feature-text-presets.svg  # Text Presets 패널 목업
-│   ├── feature-graph-editor.svg  # Graph Editor 패널 목업
-│   ├── feature-gradient-library.svg  # Gradient Library 패널 목업
-│   └── feature-expression-editor.svg # Expression Editor 패널 목업
-├── next.config.ts          # 정적 export 설정
-├── postcss.config.mjs      # Tailwind PostCSS
-└── tsconfig.json
+app/
+  layout.tsx     # SEO 메타 · 폰트 CDN 2종 · metadataBase
+  page.tsx       # 섹션 조합
+  globals.css    # 🔴 웹 디자인 시스템 정본 파일 (리소 클래스 · CTA · 토큰)
+  update/        # 릴리스 노트 — 패널 version.json 의 `url` 이 여기를 가리킨다
+  terms|privacy|refund/
+components/      # Navbar Hero Features Demo Pricing FAQ Footer BrandMark
+lib/product.ts   # 🔴 가격 · 체크아웃 URL 한 곳
+public/
+  images/promo/  # ../Dony-s-AE-Plugin/tools/promo/out 에서 복사해 온 것
+  videos/        # 같음
+  logo-lockup.png
+  donys.zxp · version.json   # 릴리스마다 교체
 ```
+
+## 값이 흩어지면 안 되는 자리 (전례가 있다)
+
+- **가격** = `lib/product.ts` 하나. `$30` 이 Navbar·Hero·Pricing·메타·terms 다섯 군데
+  박혀 있었고 가격이 오른 뒤에도 사이트가 옛 값을 계속 보여줬다.
+- **최신 버전** = `app/update/page.tsx` 의 `RELEASES[0]`. v2.5.0 을 컷한 뒤에도
+  두 자리가 v2.4.0 을 표시하고 있었다.
+- **홍보 자산** = 플러그인 repo `tools/promo/` 에서 굽는다. 이 repo 에서 잘라 저장하지
+  마라 — 다음 재생성 때 갈라진다. 카드 안 프레이밍은 CSS(`zoom`/`pos`)가 한다.
 
 ## 빌드
 
 ```bash
-npm run dev       # 로컬 개발 (localhost:3000)
-npm run build     # 정적 사이트 빌드 → out/
+npm run dev     # localhost:3000
+npm run build   # → out/
 ```
 
-## 디자인 시스템 (Linear 스타일 리디자인)
+## 관련
 
-- 배경: `#08080a` (다크), 카드: `#0f0f12`, 엘리베이트: `#141418`
-- 액센트: Indigo `#6366f1` / Light `#818cf8` (플러그인과 동일)
-- 텍스트 계층: `#ebebef` → `#a1a1aa` → `#52525b`
-- 보더: `rgba(255,255,255,0.06)` (반투명)
-- 폰트: Inter (Google Fonts CDN)
-- `.gradient-text` — 인디고-퍼플 애니메이션 그라데이션
-- `.glow` / `.glow-hover` — 다층 box-shadow 글로우
-- `.fade-in-up` — 페이드인 애니메이션
-- `.section-fade` — 그라데이션 섹션 구분선
-
-## TODO — 에셋 교체 필요
-
-- [x] Hero 스크린샷 (SVG 목업 제작 완료)
-- [x] Feature 프리뷰 4개 (SVG 목업 제작 완료)
-- [x] Vercel 배포
-- [ ] Demo 영상 YouTube URL (`components/Demo.tsx`)
-- [ ] 로고 이미지 (`public/images/`)
-- [ ] 구매 링크 → Lemon Squeezy URL (`components/Pricing.tsx` href)
-- [ ] 소셜 링크 — Twitter, YouTube URL (`components/Footer.tsx`)
-- [ ] donys.dev 도메인 연결
-
-## 관련 프로젝트
-
-- **플러그인 소스**: `../Dony-s-AE-Plugin/donys/`
-- **플러그인 PRD/TRD**: `../Dony-s-AE-Plugin/PRD.md`, `TRD.md`
+- 플러그인 소스: `../Dony-s-AE-Plugin/donys/`
+- 홍보 자산 렌더러: `../Dony-s-AE-Plugin/tools/promo/` (`node shot.mjs pages/f-toolbox.html f-toolbox`)

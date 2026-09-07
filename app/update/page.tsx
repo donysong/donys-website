@@ -112,13 +112,23 @@ const RELEASES = [
   },
 ];
 
+// 🔴 버전 문구를 손으로 박지 마라 — v2.5.0 을 컷한 뒤에도 이 페이지가 두 자리에서
+// v2.4.0 을 계속 보여주고 있었다. 최신 릴리스는 RELEASES[0] 하나에서만 읽는다.
+const LATEST = RELEASES[0];
+const LATEST_DATE = (() => {
+  const [y, m, d] = LATEST.date.split('-');
+  return `${y}년 ${Number(m)}월 ${Number(d)}일`;
+})();
+
 export default function UpdatePage() {
   return (
     <>
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 py-32">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">업데이트</h1>
-        <p className="mb-10 text-sm text-[var(--text-muted)]">최신 버전 v2.4.0 · 2026년 8월 31일</p>
+        <p className="mb-10 text-sm text-[var(--text-muted)]">
+          최신 버전 v{LATEST.version} · {LATEST_DATE}
+        </p>
 
         <div className="mb-12 rounded-lg border border-[var(--border-strong)] bg-[var(--accent-dim)] p-6">
           <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">
@@ -150,9 +160,10 @@ export default function UpdatePage() {
           </div>
           <a
             href="/donys.zxp"
-            className="mt-5 inline-block rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-black"
+            className="cta-buy mt-5"
+            style={{ padding: '11px 22px', fontSize: 14 }}
           >
-            donys.zxp 내려받기 (v2.4.0)
+            donys.zxp 내려받기 (v{LATEST.version})
           </a>
         </div>
 

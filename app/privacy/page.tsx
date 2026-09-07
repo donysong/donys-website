@@ -17,7 +17,7 @@ export default function PrivacyPage() {
 
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">1. Introduction</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">1. Introduction</h2>
             <p>
               You Name It (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) respects your
               privacy. This Privacy Policy explains how we collect, use, and protect your
@@ -27,9 +27,9 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">2. Information We Collect</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">2. Information We Collect</h2>
 
-            <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text)]">
+            <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
               2.1 Information You Provide
             </h3>
             <p>
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
               information.
             </p>
 
-            <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text)]">
+            <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
               2.2 Automatically Collected Information
             </h3>
             <p>
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
               personally identifiable information is collected through analytics.
             </p>
 
-            <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text)]">
+            <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
               2.3 Plugin Data
             </h3>
             <p>
@@ -59,7 +59,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">3. How We Use Your Information</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">3. How We Use Your Information</h2>
             <ul className="list-disc space-y-1 pl-6">
               <li>To deliver your license key and product updates</li>
               <li>To provide customer support</li>
@@ -72,7 +72,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">4. Third-Party Services</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">4. Third-Party Services</h2>
             <p>We use the following third-party services:</p>
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">5. Data Retention</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">5. Data Retention</h2>
             <p>
               We retain your email and order information for as long as necessary to provide
               support and product updates. You may request deletion of your data at any time by
@@ -113,7 +113,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">6. Your Rights</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">6. Your Rights</h2>
             <p>You have the right to:</p>
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>Access the personal data we hold about you</li>
@@ -130,7 +130,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">7. Children&apos;s Privacy</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">7. Children&apos;s Privacy</h2>
             <p>
               Our Product is not directed to children under 13. We do not knowingly collect
               personal information from children.
@@ -138,7 +138,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">8. Changes to This Policy</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">8. Changes to This Policy</h2>
             <p>
               We may update this Privacy Policy from time to time. Changes will be posted on
               this page with an updated date.
@@ -146,7 +146,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">9. Contact</h2>
+            <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">9. Contact</h2>
             <p>
               For privacy-related questions, contact us at{' '}
               <a href="mailto:support@donys.dev" className="text-[var(--accent-light)] hover:underline">

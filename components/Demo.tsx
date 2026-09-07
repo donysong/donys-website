@@ -17,40 +17,30 @@ const GRID_DEMOS = [
 
 export default function Demo() {
   return (
-    <section id="demo" className="mx-auto max-w-[1200px] px-6 py-32">
-      <div className="section-divider mb-24" />
+    <section id="demo" className="mx-auto max-w-[1180px] px-6 py-28">
+      <div className="plate-rule mb-20" />
 
-      <div className="mb-16">
-        <p className="label mb-4">Demo</p>
+      <div className="mb-14">
+        <p className="plate-no mb-4">02 — DEMO</p>
         <h2
+          className="misreg"
           style={{
-            fontSize: 28,
-            fontWeight: 600,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.2,
+            fontSize: 'clamp(1.8rem, 3.4vw, 2.4rem)',
+            fontWeight: 700,
+            letterSpacing: '-0.035em',
+            lineHeight: 1.12,
             color: 'var(--text-primary)',
-            marginBottom: 12,
+            marginBottom: 14,
           }}
         >
           See it move
         </h2>
-        <p
-          style={{
-            fontSize: 15,
-            color: 'var(--text-secondary)',
-            lineHeight: 1.6,
-            maxWidth: 440,
-          }}
-        >
+        <p style={{ fontSize: 15.5, color: 'var(--text-secondary)', lineHeight: 1.65, maxWidth: 480 }}>
           Real keyframes, real easing — every result stays fully editable on the timeline.
         </p>
       </div>
 
-      {/* Featured — full AI build */}
-      <div
-        style={{ border: '1px solid var(--border)', overflow: 'hidden', background: 'var(--bg-card)' }}
-        className="mb-4"
-      >
+      <div className="card mb-4" style={{ overflow: 'hidden', borderRadius: 'var(--r-lg)' }}>
         <div style={{ background: 'var(--bg-active)', borderBottom: '1px solid var(--border)' }}>
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
@@ -61,43 +51,30 @@ export default function Demo() {
             loop
             playsInline
             style={{ width: '100%', display: 'block' }}
-            aria-label="Claude building a synthwave title card from a single prompt"
+            aria-label="Claude building a synthwave title card step by step inside After Effects"
           />
         </div>
         <div
           style={{
-            padding: '18px 24px 22px',
+            padding: '20px 26px 24px',
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'baseline',
-            gap: '4px 14px',
+            gap: '6px 18px',
           }}
         >
-          <p
-            style={{
-              fontSize: 9,
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: 'var(--text-muted)',
-            }}
-          >
-            Build with AI
-          </p>
-          <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, flex: 1, minWidth: 240 }}>
-            One prompt → Claude sets up the comp, gradient, animated type, glow, and an ambient
-            loop — a finished title card, every layer still editable.
+          <p className="label" style={{ fontSize: 10 }}>Build it by describing it</p>
+          <p style={{ fontSize: 13.5, color: 'var(--text-secondary)', lineHeight: 1.65, flex: 1, minWidth: 260 }}>
+            You call the shots — the comp, the gradient, the type, the glow, the ambient loop.
+            It does the building, and hands you back a timeline where every layer is still yours
+            to open and change.
           </p>
         </div>
       </div>
 
-      {/* Two-up — preset + curve */}
       <div className="grid gap-4 md:grid-cols-2">
         {GRID_DEMOS.map((d) => (
-          <div
-            key={d.label}
-            style={{ border: '1px solid var(--border)', overflow: 'hidden', background: 'var(--bg-card)' }}
-          >
+          <div key={d.label} className="card" style={{ overflow: 'hidden', borderRadius: 'var(--r-lg)' }}>
             <div style={{ background: 'var(--bg-active)', borderBottom: '1px solid var(--border)' }}>
               {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
               <video
@@ -111,20 +88,9 @@ export default function Demo() {
                 aria-label={d.caption}
               />
             </div>
-            <div style={{ padding: '16px 20px 20px' }}>
-              <p
-                style={{
-                  fontSize: 9,
-                  fontWeight: 700,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: 'var(--text-muted)',
-                  marginBottom: 7,
-                }}
-              >
-                {d.label}
-              </p>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+            <div style={{ padding: '18px 22px 22px' }}>
+              <p className="label" style={{ fontSize: 10, marginBottom: 8 }}>{d.label}</p>
+              <p style={{ fontSize: 13.5, color: 'var(--text-secondary)', lineHeight: 1.65 }}>
                 {d.caption}
               </p>
             </div>

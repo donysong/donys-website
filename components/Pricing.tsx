@@ -1,72 +1,58 @@
 'use client';
 
-// Single source of truth for the checkout link (Polar — active provider).
-const POLAR_CHECKOUT_URL =
-  'https://buy.polar.sh/polar_cl_NebuNphvrIXOb3G8sgLi2sfZd6TUZfjxyxklW2VUPmY';
+import { CHECKOUT_URL, COUNTS, PRICE_USD } from '@/lib/product';
 
 const INCLUDED = [
-  '27 one-click scripts',
-  '112 motion presets',
-  '62 text animation presets',
-  'Gradient library (ramp + tritone)',
-  'Graph editor with 21 curve presets',
-  'Expression editor with 80+ snippets',
-  'Claude AI chat — 42 tools, 32 skills',
+  `${COUNTS.scripts} one-click scripts`,
+  `${COUNTS.motion} motion presets, tunable after apply`,
+  `${COUNTS.textPresets} text animation presets`,
+  `${COUNTS.gradients} gradients (ramp + tritone)`,
+  `Graph editor with ${COUNTS.curves} curve presets`,
+  `Expression editor with ${COUNTS.expressions} snippets`,
+  `Claude AI chat — ${COUNTS.tools} tools, ${COUNTS.skills} skills`,
   'Free minor updates',
   '2 devices per license',
 ];
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="mx-auto max-w-[1200px] px-6 py-32">
-      <div className="section-divider mb-24" />
+    <section id="pricing" className="mx-auto max-w-[1180px] px-6 py-28">
+      <div className="plate-rule mb-20" />
 
-      <div className="mb-16 text-center">
-        <p className="label mb-4">Pricing</p>
+      <div className="mb-14 text-center">
+        <p className="plate-no mb-4">03 — PRICING</p>
         <h2
+          className="misreg"
           style={{
-            fontSize: 28,
-            fontWeight: 600,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.2,
+            fontSize: 'clamp(1.8rem, 3.4vw, 2.4rem)',
+            fontWeight: 700,
+            letterSpacing: '-0.035em',
+            lineHeight: 1.12,
             color: 'var(--text-primary)',
             marginBottom: 12,
           }}
         >
-          Simple pricing
+          Buy it once. It stays yours.
         </h2>
         <p style={{ fontSize: 15, color: 'var(--text-secondary)' }}>
-          One-time purchase. No subscription. No hidden fees.
+          No subscription. No seat renewals. No hidden fees.
         </p>
       </div>
 
-      <div className="mx-auto" style={{ maxWidth: 360 }}>
+      <div className="mx-auto" style={{ maxWidth: 400 }}>
         <div
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            padding: '32px 32px 28px',
-          }}
+          className="card halftone"
+          style={{ padding: '34px 32px 30px', borderRadius: 'var(--r-lg)' }}
         >
-          {/* Header */}
           <div
             style={{
-              marginBottom: 24,
+              marginBottom: 26,
               paddingBottom: 24,
               borderBottom: '1px solid var(--border)',
               textAlign: 'center',
             }}
           >
-            <p
-              style={{
-                fontSize: 9,
-                fontWeight: 700,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: 'var(--text-muted)',
-                marginBottom: 10,
-              }}
-            >
+            <p className="label" style={{ marginBottom: 14, fontSize: 10 }}>
               You Name It
             </p>
             <div
@@ -74,119 +60,92 @@ export default function Pricing() {
                 display: 'flex',
                 alignItems: 'baseline',
                 justifyContent: 'center',
-                gap: 6,
-                marginBottom: 4,
+                gap: 3,
+                marginBottom: 6,
               }}
             >
+              <span style={{ fontSize: 24, fontWeight: 700, color: 'var(--accent)' }}>$</span>
               <span
+                className="misreg"
                 style={{
-                  fontSize: 48,
-                  fontWeight: 600,
-                  letterSpacing: '-0.04em',
+                  fontSize: 56,
+                  fontWeight: 700,
+                  letterSpacing: '-0.045em',
                   lineHeight: 1,
                   color: 'var(--text-primary)',
                 }}
               >
-                $30
+                {PRICE_USD}
               </span>
-              <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>USD</span>
+              <span style={{ fontSize: 13, marginLeft: 4, color: 'var(--text-muted)', fontWeight: 600 }}>
+                USD
+              </span>
             </div>
             <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>one-time payment</p>
           </div>
 
-          {/* Features list */}
-          <ul style={{ marginBottom: 24, display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <ul style={{ marginBottom: 26, display: 'flex', flexDirection: 'column', gap: 11 }}>
             {INCLUDED.map((item) => (
               <li
                 key={item}
-                style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13 }}
+                style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13.5 }}
               >
                 <svg
-                  style={{ width: 14, height: 14, marginTop: 1, flexShrink: 0, color: 'var(--success-text)' }}
+                  style={{ width: 14, height: 14, marginTop: 3, flexShrink: 0, color: 'var(--accent)' }}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.4"
+                  aria-hidden
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                <span style={{ color: 'var(--text-secondary)' }}>{item}</span>
+                <span style={{ color: 'var(--text-default)' }}>{item}</span>
               </li>
             ))}
           </ul>
 
-          {/* CTA */}
+          {/* 🔴 §3 의 예외 — 구매 CTA 만 평시에 면을 채운다 (§9.9 ③) */}
           <a
-            href={POLAR_CHECKOUT_URL}
+            className="cta-buy"
+            href={CHECKOUT_URL}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              display: 'block',
-              width: '100%',
-              padding: '10px 0',
-              textAlign: 'center',
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              background: 'var(--accent-dark)',
-              color: '#0c0c0c',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'background 0.08s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent-light)')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--accent-dark)')}
+            style={{ display: 'block', width: '100%', padding: '13px 0', textAlign: 'center', fontSize: 14 }}
           >
-            Buy Now
+            Buy now
           </a>
 
-          <p
-            style={{
-              marginTop: 14,
-              textAlign: 'center',
-              fontSize: 11,
-              color: 'var(--text-muted)',
-            }}
-          >
+          <p style={{ marginTop: 16, textAlign: 'center', fontSize: 11.5, color: 'var(--text-muted)' }}>
             <a
               href="/refund"
-              style={{
-                textDecoration: 'underline',
-                textDecorationColor: 'var(--border-strong)',
-                textUnderlineOffset: 2,
-                color: 'inherit',
-                transition: 'color 0.08s ease',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+              style={{ textDecoration: 'underline', textUnderlineOffset: 3, color: 'inherit' }}
             >
               14-day refund policy
             </a>
-            {' '}·{' '}AE 2022+{' '}·{' '}Windows &amp; macOS
+            {' · '}AE 2022+{' · '}Windows &amp; macOS
           </p>
         </div>
       </div>
 
-      {/* Comparison */}
+      {/* 비교 축 = 가격이 아니라 구조. 우리는 한 번 사면 끝이다 (§9.9 ④) */}
       <div
         style={{
-          marginTop: 20,
+          marginTop: 28,
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '6px 20px',
-          fontSize: 11,
-          letterSpacing: '0.04em',
+          gap: '8px 22px',
+          fontSize: 12,
           color: 'var(--text-muted)',
         }}
       >
-        <span>Motion Tools Pro: $40</span>
-        <span style={{ color: 'var(--border-strong)' }}>—</span>
-        <span>Flow: $19 (graph only)</span>
-        <span style={{ color: 'var(--border-strong)' }}>—</span>
-        <span>AEJuice: subscription</span>
+        <span style={{ color: 'var(--text-secondary)' }}>Pay once, keep it</span>
+        <span style={{ color: 'var(--border-strong)' }}>/</span>
+        <span>AEJuice — subscription</span>
+        <span style={{ color: 'var(--border-strong)' }}>/</span>
+        <span>Flow — graph editor only</span>
       </div>
     </section>
   );
