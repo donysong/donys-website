@@ -43,19 +43,70 @@ export default function PrivacyPage() {
             <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
               2.2 Automatically Collected Information
             </h3>
-            <p>
-              Our website may use basic analytics (e.g., Vercel Analytics) to collect
-              anonymized usage data such as page views, browser type, and country. No
-              personally identifiable information is collected through analytics.
+            <p>Our website uses two analytics services:</p>
+            <ul className="mt-2 list-disc space-y-1 pl-6">
+              <li>
+                <strong>Cloudflare Web Analytics</strong> — cookieless. It does not set cookies
+                and does not create a cross-site identifier.
+              </li>
+              <li>
+                <strong>Google Analytics 4</strong> — sets cookies (such as <code>_ga</code>) that
+                assign a randomly generated identifier to your browser, and processes your IP
+                address to estimate approximate location. Its enhanced measurement also records
+                outbound link clicks, including when you click through to our checkout page.
+              </li>
+            </ul>
+            <p className="mt-2">
+              We do not collect your name, email address, or anything you type through analytics.
+              However, cookie identifiers and IP addresses are treated as personal data under the
+              GDPR and similar laws, so we do not claim this analytics data is fully anonymous.
             </p>
 
             <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
               2.3 Plugin Data
             </h3>
             <p>
-              The You Name It plugin runs entirely within Adobe After Effects on your local
-              machine. It does <strong>not</strong> collect, transmit, or store any personal
-              data, project files, or usage telemetry.
+              The plugin does its actual work — creating layers, effects, and keyframes —
+              entirely on your machine, and it never uploads your project file. There are five
+              cases where it does talk to the network, and this is all of them:
+            </p>
+            <ol className="mt-2 list-decimal space-y-2 pl-6">
+              <li>
+                <strong>License activation and periodic re-validation.</strong> When you enter your
+                license key, the plugin sends that key together with a <strong>device identifier</strong>{' '}
+                to our payment provider (Polar). The identifier is a one-way hash of a hardware ID
+                your operating system already exposes; if that is unavailable it falls back to a
+                hash of your network adapter address and hostname. It exists so that one license
+                covers a limited number of machines. We never receive the raw hardware ID, and it
+                is not used for tracking or advertising.
+              </li>
+              <li>
+                <strong>A local, encrypted license cache.</strong> The result is stored on your
+                machine, encrypted with AES-256. It is not transmitted anywhere. Deleting it simply
+                forces a re-check.
+              </li>
+              <li>
+                <strong>Update checks.</strong> The plugin periodically fetches a small version
+                manifest from our download host. Like any web request, this reveals your IP address
+                and the time of the request to that host. It carries no license key, no account,
+                and no usage data.
+              </li>
+              <li>
+                <strong>The Chat panel.</strong> When you use Chat, the plugin runs Anthropic&apos;s
+                Claude on your behalf <strong>using your own Claude credentials</strong>, and sends
+                it what it needs to answer you: your messages, and the structure of the composition
+                you are working on — layer names, effect and property values, and similar metadata.
+                Rendered frames and source media files are not uploaded. We do not receive or store
+                any of this; it goes from your machine to Anthropic directly.
+              </li>
+              <li>
+                <strong>Stock asset search, only if you set it up.</strong> If you enter your own
+                API keys for Pexels, Giphy, or Freesound, searches you run go to those services
+                under your own account. Leave the keys empty and no request is ever made.
+              </li>
+            </ol>
+            <p className="mt-2">
+              The plugin sends <strong>no analytics, no usage statistics, and no crash reports.</strong>
             </p>
           </section>
 
@@ -90,7 +141,53 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
-                <strong>Vercel</strong> — website hosting. Their privacy policy is available at{' '}
+                <strong>Anthropic</strong> — powers the Chat panel, under your own Claude
+                credentials, and receives the data described in 2.3. Their privacy policy is
+                available at{' '}
+                <a
+                  href="https://www.anthropic.com/legal/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--accent-light)] hover:underline"
+                >
+                  anthropic.com/legal/privacy
+                </a>
+                .
+              </li>
+              <li>
+                <strong>Cloudflare</strong> — DNS, CDN, download hosting, and cookieless web
+                analytics. Their privacy policy is available at{' '}
+                <a
+                  href="https://www.cloudflare.com/privacypolicy/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--accent-light)] hover:underline"
+                >
+                  cloudflare.com/privacypolicy
+                </a>
+                .
+              </li>
+              <li>
+                <strong>Google</strong> — Google Analytics 4 (website usage measurement). Their
+                privacy policy is available at{' '}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--accent-light)] hover:underline"
+                >
+                  policies.google.com/privacy
+                </a>
+                .
+              </li>
+              <li>
+                <strong>Pexels, Giphy, Freesound</strong> — asset search, and only if you supply
+                your own API keys for them.
+              </li>
+              <li>
+                <strong>Vercel</strong> — website hosting. We are migrating hosting to Cloudflare
+                Pages; this entry will be removed once that migration is complete. Their privacy
+                policy is available at{' '}
                 <a
                   href="https://vercel.com/legal/privacy-policy"
                   target="_blank"

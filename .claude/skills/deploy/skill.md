@@ -107,6 +107,43 @@ fi
 - `lib/product.ts` 의 `VERSION`
 - `app/update/page.tsx` 의 `RELEASES` (맨 앞에 새 항목 추가)
 
+### R2 업로드 — 이제 스크립트로 된다 (2026-09-09)
+
+구 문구는 *"R2 업로드는 이 스킬 범위 밖"* 이었다. `wrangler` 인증이 붙어서 바뀌었다.
+업로드 자체는 **플러그인 레포 릴리스 체크리스트 10번**이 소유한다(zxp 를 거기서 굽는다).
+여기서는 **웹 배포 전에 그게 끝났는지만 확인**한다:
+
+```bash
+curl -sI https://dl.younameit.works/donys-$(node -p "require('./lib/product.ts')" 2>/dev/null || echo "<버전>").zxp | head -1
+```
+간단히는 `lib/product.ts` 의 `VERSION` 을 읽어 그 파일이 R2 에 **200** 인지 본다.
+🔴 **없는데 웹을 배포하면 `/update` 의 다운로드 버튼이 404 를 가리킨다** — 결제는 되는데 물건이 안 나간다.
+
+🔴 `wrangler r2 object put` 에는 **`--remote` 가 필수다.** 없으면 로컬 시뮬레이터에 쓰고
+`Upload complete.` 를 찍는다 — 초록인데 라이브엔 아무것도 없다(2026-09-09 실측).
+
+## 🔴 `wrangler pages project create` 는 `--force` 없이 부르지 마라
+
+2026-09-09 실사고. `--force` 를 빼면 wrangler 가 **Workers/OpenNext 경로로 위임**하면서 레포를
+**말없이 개조한다**: `@opennextjs/cloudflare` 를 설치하고, `next.config.ts` 끝에
+`import('@opennextjs/cloudflare')...` 를 덧붙이고, `open-next.config.ts` · `wrangler.jsonc` ·
+`public/_headers` · `.open-next/` · `.dev.vars` 를 만들고 `package.json` 스크립트를 갈아친다.
+
+그러고는 **실패한다.** 남은 개조가 다음 `next build` 를 `ERR_REQUIRE_ESM` 로 죽인다 —
+이 사이트는 `output:'export'`(정적)라 OpenNext SSR 런타임이 필요 없다.
+
+회수:
+```bash
+git checkout -- next.config.ts package.json package-lock.json .gitignore
+rm -f open-next.config.ts wrangler.jsonc public/_headers .dev.vars && rm -rf .open-next
+npm install
+```
+⚠️ **`.dev.vars` 를 지웠는지 확인해라** — wrangler 시크릿 파일이고, 그놈이 `.gitignore` 에 넣은
+`.dev.vars*` 규칙까지 같이 되돌아가서 **추적 대상이 된다.**
+
+프로젝트는 이미 만들어졌다(`younameit`). **앞으로 `--force` 는 필요 없다** — 배포는
+`npx wrangler pages deploy out --project-name=younameit --branch=main` 하나면 된다.
+
 ## 에러 핸들링
 
 | 상황 | 전략 |
