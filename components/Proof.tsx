@@ -31,7 +31,7 @@ export default function Proof() {
       </div>
 
       {WORKS.length > 0 ? (
-        <div className="grid gap-7 md:grid-cols-3">
+        <div className="sweep grid gap-7 md:grid-cols-3">
           {WORKS.map((w) => (
             <figure key={w.title} className="plate-card" style={{ margin: 0 }}>
               <div className="stock-black" style={{ padding: 14 }}>
@@ -50,7 +50,7 @@ export default function Proof() {
           ))}
         </div>
       ) : (
-        <div className="grid gap-7 md:grid-cols-3">
+        <div className="sweep grid gap-7 md:grid-cols-3">
           {SLOTS.map((label, i) => (
             <div key={i} className="plate-card">
               <div

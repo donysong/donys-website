@@ -54,7 +54,7 @@ export default function Press() {
         </p>
       </div>
 
-      <div className="grid gap-7 md:grid-cols-2">
+      <div className="sweep grid gap-7 md:grid-cols-2">
         {BIG.map((f) => (
           <article key={f.title} className="plate-card">
             <div className="stock-black" style={{ padding: 16 }}>
@@ -90,7 +90,7 @@ export default function Press() {
         ))}
       </div>
 
-      <div className="mt-7 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="sweep mt-7 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
         {SMALL.map((f) => (
           <article key={f.title} className="card-rim">
             <div className="card" style={{ padding: '18px 18px 20px' }}>
