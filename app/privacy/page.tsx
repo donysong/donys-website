@@ -134,7 +134,7 @@ export default function PrivacyPage() {
                   href="https://polar.sh/legal/privacy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--accent-light)] hover:underline"
+                  className="text-[var(--text-primary)] underline underline-offset-4 font-semibold"
                 >
                   polar.sh/legal/privacy
                 </a>
@@ -148,7 +148,7 @@ export default function PrivacyPage() {
                   href="https://www.anthropic.com/legal/privacy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--accent-light)] hover:underline"
+                  className="text-[var(--text-primary)] underline underline-offset-4 font-semibold"
                 >
                   anthropic.com/legal/privacy
                 </a>
@@ -161,7 +161,7 @@ export default function PrivacyPage() {
                   href="https://www.cloudflare.com/privacypolicy/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--accent-light)] hover:underline"
+                  className="text-[var(--text-primary)] underline underline-offset-4 font-semibold"
                 >
                   cloudflare.com/privacypolicy
                 </a>
@@ -174,7 +174,7 @@ export default function PrivacyPage() {
                   href="https://policies.google.com/privacy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--accent-light)] hover:underline"
+                  className="text-[var(--text-primary)] underline underline-offset-4 font-semibold"
                 >
                   policies.google.com/privacy
                 </a>
@@ -192,7 +192,7 @@ export default function PrivacyPage() {
                   href="https://vercel.com/legal/privacy-policy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--accent-light)] hover:underline"
+                  className="text-[var(--text-primary)] underline underline-offset-4 font-semibold"
                 >
                   vercel.com/legal/privacy-policy
                 </a>
@@ -220,7 +220,7 @@ export default function PrivacyPage() {
             </ul>
             <p className="mt-2">
               To exercise these rights, email us at{' '}
-              <a href="mailto:donysong96@gmail.com" className="text-[var(--accent-light)] hover:underline">
+              <a href="mailto:donysong96@gmail.com" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
                 donysong96@gmail.com
               </a>
               .
@@ -247,7 +247,7 @@ export default function PrivacyPage() {
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">9. Contact</h2>
             <p>
               For privacy-related questions, contact us at{' '}
-              <a href="mailto:donysong96@gmail.com" className="text-[var(--accent-light)] hover:underline">
+              <a href="mailto:donysong96@gmail.com" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
                 donysong96@gmail.com
               </a>
               .

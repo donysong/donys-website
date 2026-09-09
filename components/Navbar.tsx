@@ -1,113 +1,106 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import BrandMark from './BrandMark';
 import { PRICE } from '@/lib/product';
 
 const NAV_LINKS = [
-  { label: 'Features', href: '/#features' },
-  { label: 'Demo', href: '/#demo' },
+  { label: 'Product', href: '/#product' },
+  { label: 'Proof', href: '/#proof' },
   { label: 'Pricing', href: '/#pricing' },
-  { label: 'FAQ', href: '/#faq' },
+  { label: 'Notes', href: '/update' },
 ];
 
+/* 🔴 로고는 파란 종이 위에서 흰 판본이다 (02_Main_White).
+   2색 판본(05)은 `You`/`It` 이 블루라 파란 종이에 묻는다 — REBRAND §9.2.1 의
+   대비 판정을 그대로 적용한 결과다. 파일 교체 금지. */
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50"
-      style={{
-        background: scrolled ? 'rgba(12,12,12,.82)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(14px)' : 'none',
-        borderBottom: `1px solid ${scrolled ? 'var(--border)' : 'transparent'}`,
-        transition: 'background .2s var(--ease-out), border-color .2s var(--ease-out)',
-      }}
-    >
-      <div className="mx-auto flex h-[60px] max-w-[1180px] items-center justify-between px-6">
-        <a href="/" className="flex items-center" aria-label="You Name It — home">
-          <BrandMark size={22} />
+    <nav style={{ position: 'relative', zIndex: 20 }}>
+      <div
+        className="mx-auto grid max-w-[1240px] items-center px-6 pt-7 md:px-10"
+        style={{ gridTemplateColumns: '1fr auto 1fr', gap: 16 }}
+      >
+        <div className="mono hidden md:block" style={{ color: 'var(--text-secondary)' }}>
+          Plate <b style={{ color: 'var(--ink-black)', fontWeight: 500 }}>01</b> / 07
+          {'  ·  '}Ink <b style={{ color: 'var(--ink-black)', fontWeight: 500 }}>E50437</b>
+        </div>
+
+        <a href="/" aria-label="You Name It — home" className="justify-self-start md:justify-self-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/riso/logo-white.webp" alt="You Name It" style={{ height: 46, display: 'block' }} />
         </a>
 
-        {/* Desktop nav — 링크는 텍스트만. 면을 색으로 채우지 않는다 (§3) */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center justify-end gap-7 md:flex">
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              style={{
-                padding: '6px 12px',
-                fontSize: 13,
-                fontWeight: 500,
-                color: 'var(--text-secondary)',
-                borderRadius: 'var(--r-sm)',
-                transition: 'color .12s var(--ease-out)',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
+              style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-black)' }}
             >
               {l.label}
             </a>
           ))}
-          {/* 네비의 CTA 는 상시 노출 크롬이라 §3 그대로 — 예외는 구매 버튼뿐 (§9.9 ③) */}
-          <a className="cta" href="/#pricing" style={{ marginLeft: 12, padding: '7px 16px', fontSize: 13 }}>
-            Get it
+          {/* 네비 CTA 는 상시 노출 크롬이라 §3 그대로 — 면을 채우는 예외는 구매 버튼 2개뿐 */}
+          <a className="cta" href="/#pricing" style={{ padding: '9px 16px', fontSize: 13 }}>
+            Buy
           </a>
         </div>
 
         <button
-          style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer' }}
           onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
+          aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
-          className="md:hidden"
+          className="justify-self-end md:hidden"
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-black)', padding: 6 }}
         >
-          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6">
-            {open ? <path d="M5 5l10 10M5 15L15 5" /> : <path d="M3 6h14M3 10h14M3 14h14" />}
+          <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
+            {open ? <path d="M5 5l12 12M5 17L17 5" /> : <path d="M3 6h16M3 11h16M3 16h16" />}
           </svg>
         </button>
       </div>
 
       {open && (
         <div
-          style={{
-            background: 'var(--mat-elev)',
-            borderTop: '1px solid var(--border)',
-            padding: '10px 24px 18px',
-          }}
           className="md:hidden"
+          style={{
+            position: 'fixed',
+            inset: '76px 0 0',
+            zIndex: 30,
+            background: 'var(--paper)',
+            padding: '8px 24px 24px',
+          }}
         >
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
+              onClick={() => setOpen(false)}
               style={{
                 display: 'block',
-                padding: '12px 0',
-                fontSize: 14,
-                fontWeight: 500,
-                color: 'var(--text-secondary)',
-                borderBottom: '1px solid var(--border)',
+                padding: '16px 0',
+                fontSize: 20,
+                fontWeight: 700,
+                color: 'var(--ink-black)',
+                borderBottom: '1.5px solid var(--line)',
               }}
-              onClick={() => setOpen(false)}
             >
               {l.label}
             </a>
           ))}
           <a
-            className="cta"
+            className="cta-buy"
             href="/#pricing"
-            style={{ display: 'block', marginTop: 14, padding: '11px 0', textAlign: 'center', fontSize: 13 }}
             onClick={() => setOpen(false)}
+            style={{ display: 'block', marginTop: 22, textAlign: 'center', fontSize: 15 }}
           >
+            <i className="rim" /><i className="bed" /><i className="grn" />
             Get it — {PRICE}
           </a>
         </div>

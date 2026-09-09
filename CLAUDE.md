@@ -12,6 +12,18 @@
 | 제품명 · 로고 · 폰트 · 톤(리소그래피) | §9 |
 | **웹 판정 4건** (리소 강도 · 판 수 · CTA 예외 · 비교 축) | **§9.9** |
 | 텍스처 크기 게이트(색수차는 14px 이상만) | §10.2 |
+## 🔴 이 사이트는 **인쇄물**이다 (2026-09-09 전면 재작성)
+
+파란 필드 종이 위에 잉크를 찍는다. 구 "블랙 배경 + `screen` 가산" 은 **폐기**됐다 —
+오너 판정: *"삼류 디지털 글리치지 리소가 아니다."* 검정 위 `screen` 은 빛이고, 잉크는 `multiply` 다.
+
+- **`mix-blend-mode: screen` 을 다시 들이지 마라.** 어긋남은 `text-shadow` 가 아니라 **밀려 깔린 판**(`.plate > .rim`)이 낸다.
+- **흰 녹아웃 판(`.plate > .knock`)을 지우지 마라** — 빨강을 파란 종이에 바로 곱하면 대비 **1.56:1** 이다(실측). 녹아웃 위에서 4.60:1.
+- **11px 레드 라벨 금지.** 레드는 디스플레이 크기 + 흰 판 위에만. 그 외는 검정 잉크.
+- **라이브 SVG 필터는 소면적만** — 종이·얼룩·알갱이는 구운 이미지다(Safari 가 대면적 필터를 거부한다).
+- 재료 원본 = 오너 저작 `../Dony-s-AE-Plugin/donys/seed-presets/effects/riso-print/assets/`.
+
+| 🔴 **리뉴얼 계획** — 구조·디자인 시스템·단계·오너 판정 (2026-09-09 *"처음부터"*) | **`../Dony-s-AE-Plugin/donys/docs/WEBSITE_RENEWAL_PLAN.md`** — 이 repo 의 현 코드 1,500줄은 그 계획에서 **전부 폐기 대상**이다. 살아남는 값 = `lib/product.ts` · `RELEASES` · 법 페이지 본문 |
 
 ⚠️ **이 파일에 값을 복사하지 마라.** 2026-08-31 감사에서 이 문서가 *"Linear 스타일 ·
 Indigo `#6366f1`"* 라고 선언하는데 실제 `globals.css` 는 크림 `#d4ccc0` 이었던 게
@@ -52,13 +64,15 @@ Indigo `#6366f1`"* 라고 선언하는데 실제 `globals.css` 는 크림 `#d4cc
 
 ```
 app/
-  layout.tsx     # SEO 메타 · 폰트 CDN 2종 · metadataBase
-  page.tsx       # 섹션 조합
-  globals.css    # 🔴 웹 디자인 시스템 정본 파일 (리소 클래스 · CTA · 토큰)
+  layout.tsx     # SEO 메타 · 폰트 CDN 3종 · metadataBase · viewport(themeColor)
+  page.tsx       # 판 순서 = 인쇄 순서 (Hero→Loop→Proof→Press→Stance→Pricing→FAQ→Notes)
+  globals.css    # 🔴 인쇄 디자인 시스템 정본 (종이·잉크 판·녹아웃·스크린·CTA)
   update/        # 릴리스 노트 — 패널 version.json 의 `url` 이 여기를 가리킨다
   terms|privacy|refund/
-components/      # Navbar Hero Features Demo Pricing FAQ Footer BrandMark
+components/      # RisoDefs Plate Navbar Hero Loop Proof Press Stance Pricing FAQ Notes Footer
 lib/product.ts   # 🔴 가격 · 체크아웃 URL 한 곳
+lib/releases.ts  # 🔴 릴리스 노트 이력 한 곳 — /update 와 홈 Notes 가 같이 읽는다
+public/riso/     # 종이 결 · 잉크 알갱이 마스크 · 로고 (오너 저작 텍스처에서 구움)
 public/
   images/promo/  # ../Dony-s-AE-Plugin/tools/promo/out 에서 복사해 온 것
   videos/        # 같음

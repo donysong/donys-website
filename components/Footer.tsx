@@ -1,84 +1,45 @@
-'use client';
+import { VERSION } from '@/lib/product';
 
-import BrandMark from './BrandMark';
-
-const LINK_STYLE: React.CSSProperties = {
-  fontSize: 12,
-  fontWeight: 500,
-  color: 'var(--text-muted)',
-  transition: 'color .12s var(--ease-out)',
-};
-
-function FooterLink({ label, href }: { label: string; href: string }) {
-  return (
-    <a
-      href={href}
-      style={LINK_STYLE}
-      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-      onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
-    >
-      {label}
-    </a>
-  );
-}
+/* 🔴 연락처는 **임시 gmail** 이다 (오너 2026-09-08). 원래 문구는 `support@donys.dev` 였는데
+   그 도메인엔 A·MX 레코드가 없다 — `younameit.works` 도 MX 0 이라 메일이 안 온다.
+   주소를 코드에서 임의로 바꾸지 마라. 티켓 =
+   ../Dony-s-AE-Plugin/donys/docs/NEXT_TASKS.md 🔴 오너 판단 절. */
+const LINK = { color: 'var(--ink-black)', fontSize: 13.5, display: 'block', padding: '4px 0' };
 
 export default function Footer() {
   return (
-    <footer style={{ borderTop: '1px solid var(--border)', background: 'var(--mat-elev)' }}>
-      <div
-        className="mx-auto px-6 py-12"
-        style={{
-          maxWidth: 1180,
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          gap: '28px 40px',
-        }}
-      >
+    <footer className="mx-auto max-w-[1240px] px-6 pb-16 pt-10 md:px-10">
+      <div className="trim-rule" style={{ marginBottom: 30 }} />
+      <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <BrandMark size={20} />
-          <p style={{ marginTop: 12, fontSize: 12.5, color: 'var(--text-muted)', maxWidth: 260, lineHeight: 1.6 }}>
-            You think it. It builds it — inside After Effects.
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/riso/logo-white.webp" alt="You Name It" style={{ height: 40, marginBottom: 12 }} />
+          <p style={{ fontSize: 13, color: 'var(--text-secondary)', maxWidth: '32ch', lineHeight: 1.6 }}>
+            An After Effects panel that builds what you describe, on layers you can still take apart.
           </p>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <p className="label" style={{ fontSize: 10 }}>Contact</p>
-          {/* 🔴 **임시 주소다** (오너 2026-09-08). 원래 문구는 `support@donys.dev` 였는데
-              그 도메인은 **NS 조차 없다** — A·MX 도 없고 `https://donys.dev` 는 000 이다
-              (2026-09-07 dig 실측). 사이트의 **유일한** 연락처이고 **환불 창구**라,
-              메일이 아무 데도 안 가는 채로 라이브에 떠 있었다.
-              🔴 도메인을 붙이면 4파일 13곳을 같이 되돌려라 — privacy·terms·refund·여기.
-              (privacy 본문의 "(donys.dev)" 는 2026-09-09 younameit.works 로 고쳤다.) */}
-          <FooterLink label="donysong96@gmail.com" href="mailto:donysong96@gmail.com" />
-          <FooterLink label="Update notes" href="/update" />
+        <div>
+          <p className="mono" style={{ marginBottom: 8, color: 'var(--text-muted)' }}>Contact</p>
+          <a style={LINK} href="mailto:donysong96@gmail.com">donysong96@gmail.com</a>
+          <a style={LINK} href="/update">Update notes</a>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <p className="label" style={{ fontSize: 10 }}>Legal</p>
-          <FooterLink label="Terms" href="/terms" />
-          <FooterLink label="Privacy" href="/privacy" />
-          <FooterLink label="Refund" href="/refund" />
+        <div>
+          <p className="mono" style={{ marginBottom: 8, color: 'var(--text-muted)' }}>Legal</p>
+          <a style={LINK} href="/terms">Terms</a>
+          <a style={LINK} href="/privacy">Privacy</a>
+          <a style={LINK} href="/refund">Refund</a>
         </div>
-      </div>
 
-      <div style={{ borderTop: '1px solid var(--border)' }}>
-        <div
-          className="mx-auto px-6 py-5"
-          style={{
-            maxWidth: 1180,
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '8px 20px',
-            fontSize: 11.5,
-            color: 'var(--text-muted)',
-          }}
-        >
-          <span>&copy; 2026 You Name It</span>
-          <span>After Effects 2022+ · Windows &amp; macOS</span>
+        <div>
+          <p className="mono" style={{ marginBottom: 8, color: 'var(--text-muted)' }}>Press run</p>
+          <p className="mono num" style={{ color: 'var(--ink-black)', letterSpacing: '.1em' }}>
+            v{VERSION}
+          </p>
+          <p className="mono" style={{ color: 'var(--text-muted)', marginTop: 6 }}>
+            © {new Date().getFullYear()} You Name It
+          </p>
         </div>
       </div>
     </footer>

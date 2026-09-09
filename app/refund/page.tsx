@@ -31,7 +31,7 @@ export default function RefundPage() {
             <ol className="list-decimal space-y-2 pl-6">
               <li>
                 Email us at{' '}
-                <a href="mailto:donysong96@gmail.com" className="text-[var(--accent-light)] hover:underline">
+                <a href="mailto:donysong96@gmail.com" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
                   donysong96@gmail.com
                 </a>{' '}
                 with the subject line &quot;Refund Request&quot;.
@@ -65,7 +65,7 @@ export default function RefundPage() {
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">Contact</h2>
             <p>
               If you have any questions about our refund policy, please contact us at{' '}
-              <a href="mailto:donysong96@gmail.com" className="text-[var(--accent-light)] hover:underline">
+              <a href="mailto:donysong96@gmail.com" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
                 donysong96@gmail.com
               </a>
               .

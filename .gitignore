@@ -17,3 +17,4 @@ next-env.d.ts
 
 # macOS. public/ 아래 것은 Next 패스스루로 out/ 에 복사돼 웹에 게시된다.
 .DS_Store
+.gstack/

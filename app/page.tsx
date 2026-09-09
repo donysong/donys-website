@@ -1,9 +1,12 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import Features from '@/components/Features';
-import Demo from '@/components/Demo';
+import Loop from '@/components/Loop';
+import Proof from '@/components/Proof';
+import Press from '@/components/Press';
+import Stance from '@/components/Stance';
 import Pricing from '@/components/Pricing';
 import FAQ from '@/components/FAQ';
+import Notes from '@/components/Notes';
 import Footer from '@/components/Footer';
 import { PRICE_USD, CHECKOUT_URL, COUNTS, VERSION, SITE } from '@/lib/product';
 
@@ -20,7 +23,7 @@ const jsonLd = {
   operatingSystem: 'Windows, macOS',
   softwareVersion: VERSION,
   url: SITE,
-  description: `An After Effects panel that builds what you describe — ${COUNTS.scripts} scripts, ${COUNTS.motion} motion presets, ${COUNTS.gradients} gradients, ${COUNTS.textPresets} text presets, ${COUNTS.curves} curves, ${COUNTS.expressions} expressions, and Claude working on your real layers with ${COUNTS.tools} tools and ${COUNTS.skills} skills.`,
+  description: `An After Effects panel that builds what you describe on real, editable layers — ${COUNTS.scripts} scripts, ${COUNTS.motion} motion presets, ${COUNTS.gradients} gradients, a graph editor, expressions, and Claude working with ${COUNTS.tools} tools and ${COUNTS.skills} skills.`,
   offers: {
     '@type': 'Offer',
     price: PRICE_USD,
@@ -31,6 +34,8 @@ const jsonLd = {
   publisher: { '@type': 'Organization', name: 'You Name It', url: SITE },
 };
 
+/* 판 순서 = 인쇄 순서다 (계획서 §4). 절을 넣거나 뺄 때 Plate NN / 07 라벨도 같이 고쳐라 —
+   라벨은 장식이 아니라 이 페이지가 몇 판짜리 인쇄물인지를 말한다. */
 export default function Home() {
   return (
     <>
@@ -41,10 +46,13 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Features />
-        <Demo />
+        <Loop />
+        <Proof />
+        <Press />
+        <Stance />
         <Pricing />
         <FAQ />
+        <Notes />
       </main>
       <Footer />
     </>

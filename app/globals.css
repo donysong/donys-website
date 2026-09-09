@@ -1,293 +1,414 @@
 @import "tailwindcss";
 
 /* ============================================================
-   You Name It — 웹 디자인 시스템 · 리소그래피
-   🔴 정본은 이 파일이 아니다 → ../Dony-s-AE-Plugin/donys/docs/REBRAND_BLUE_PLAN.md
-      팔레트 §2 · CTA 규칙 §3 · 브랜드 §9 · 웹 판정 4건 §9.9
-      값을 여기서 발명하지 마라. 바뀌면 계획서부터 고친다.
+   You Name It — 웹 디자인 시스템 · **인쇄물**
+   🔴 정본은 이 파일이 아니다:
+      구조·재료·규칙 = ../Dony-s-AE-Plugin/donys/docs/WEBSITE_RENEWAL_PLAN.md §3
+      브랜드(색·로고·폰트)  = ../Dony-s-AE-Plugin/donys/docs/REBRAND_BLUE_PLAN.md §9 · §9.9
+      하우스 리소 레시피    = ../Dony-s-AE-Plugin/donys/docs/HOVER_PREVIEW_RECIPE.md
+   값을 여기서 발명하지 마라. 바뀌면 계획서부터 고친다.
 
-   웹은 §9.9 ① 로 **리소 풀강도**다 (제품 UI 는 A=그레인만).
-   🔴 **판은 블루 1장이다** (오너 2026-09-07 — *"레드는 로고 제외하고 쓰지 말자, 제품에서처럼
-   지양"*). 레드는 **로고 이미지 안에만** 산다. `--plate-red` 같은 토큰을 다시 만들지 마라.
-   중첩·어긋남은 블루 두 단(`--ink-1`/`--ink-2`)으로 낸다 — 겹치면 더 밝은 시안이 나온다.
-   검정 위라 감산이 아니라 가산(screen)이다 (§9.5.2).
+   🔴 2026-09-09 오너 판정 — **파란 필드 종이**. 구 "블랙 배경 + screen 가산" 은 폐기됐다.
+      *"삼류 디지털 글리치지 리소가 아니다 — 프린팅 질감이 아예 없다."*
+      블랙 위 `screen` 은 **빛**이고 리소는 **잉크**다. 잉크는 `multiply` 다.
+      `mix-blend-mode: screen` 을 이 파일에 다시 들이지 마라.
+
+   재료 4종은 발명이 아니라 **오너 AE 하우스 레시피의 웹 번역**이다:
+     종이 결   BlackPaper(오너 저작)  → /riso/paper.webp        · invert 후 multiply
+     잉크 알갱이 Risoprint(오너 저작)  → /riso/speckle-*.png     · 휘도 마스크 (잉크에 구멍)
+     밀린 흰 판 하우스 (-3.16,-3.79)  → .plate > .rim
+     눌린 가장자리 Roughen Edges       → SVG filter #press (RisoDefs.tsx)
    ============================================================ */
 
 :root {
-  /* ── Backgrounds (§2 — 오너 고정, 건드리지 마라) ── */
-  --bg-base:     #0c0c0c;
-  --bg-elevated: #141414;
-  --bg-card:     #1a1a1a;
-  --bg-hover:    #242424;
-  --bg-active:   #111111;
+  /* ── 종이 · 잉크 (하우스 값) ────────────────────────────── */
+  --paper:        #1f9be3;   /* 파란 필드 = 종이. 배경색이 아니라 재질이다 */
+  --paper-dark:   #1478b4;   /* 눌린 자리 · 구획선 */
+  --ink-red:      #e50437;   /* 하우스 잉크 — 잉크컴프 31개 동일 [0.898,0.016,0.216] */
+  --ink-black:    #0b0b0b;   /* 검정 종이 판 */
+  --ink-white:    #f6f4ee;   /* 흰 판 (밀려 깔린 판 · 종이 여백) */
 
-  /* ── Text — 쿨 그레이 (블루 hue 197 저채도) ── */
-  --text-primary:   #d7dfe3;
-  --text-default:   #b4c0c5;
-  --text-secondary: #758890;
-  --text-muted:     #687f87;
+  /* ── 글자 = 잉크. 파란 종이 위에서 읽히는 값만 쓴다 ────── */
+  --text-primary:   #06212f;
+  --text-default:   #072b3c;
+  --text-secondary: #0b2e3f;   /* 종이 대비 4.64:1 — 실측으로 잡은 값 */
+  --text-muted:     #0b2f3f;   /* 4.59:1. 🔴 더 밝게 만들지 마라 — 계층은 크기·굵기로 낸다 */
 
-  /* ── 판 1 · 블루 (지배색) ── */
-  --accent:       #2ab5ea;
-  --accent-dark:  #1f93c1;
-  --accent-light: #7aceef;
-  --accent-dim:   #162c35;
-  --accent-vivid: #3de5ff;
+  /* ── 판 어긋남 — 하우스 (-3.16, -3.79) ──────────────────── */
+  --rim-x: -3px;
+  --rim-y: -4px;
 
-  /* ── 잉크 2단 (중첩용 — 알파를 들고 있어야 screen 에서 겹침이 보인다) ── */
-  --ink-1: rgba(42, 181, 234, 0.30);   /* accent */
-  --ink-2: rgba(61, 229, 255, 0.20);   /* vivid — 겹치는 자리가 더 밝은 시안 */
+  /* ── 잉크 알갱이 밀도(마스크 타일 크기). 클수록 알갱이가 성기다 ── */
+  --spk-lg: 260px;
+  --spk-sm: 300px;
 
-  /* ── Borders — 분리선이 아니라 "죽인" 선. 구조는 bevel/shadow 가 진다 ── */
-  --border:        #16191b;
-  --border-strong: #1e2225;
-  --border-focus:  #2ab5ea;
+  --line:        rgba(0, 0, 0, .26);
+  --line-strong: rgba(0, 0, 0, .5);
 
-  /* ── Material — 쿨 hue 250 (크림 시절 hue 68 잔재 제거, §10.11) ── */
-  --mat-card:   linear-gradient(180deg, #1c1e20 0%, #141516 100%);
-  --mat-card-h: linear-gradient(180deg, #25282b 0%, #1d1f21 100%);
-  --mat-elev:   linear-gradient(180deg, #161718 0%, #101112 100%);
-  --bevel:      inset 0 1px 0 rgba(255,255,255,.05), inset 0 -1px 0 rgba(0,0,0,.4);
-  --shadow-1:   0 1px 2px rgba(0,0,0,.55);
-  --shadow-2:   0 4px 14px rgba(0,0,0,.5);
-  --shadow-3:   0 12px 38px rgba(0,0,0,.6);
+  --r-sm: 5px;
+  --r:    9px;
+  --r-lg: 22px;
 
-  /* ── Status ── */
-  --success-text: #7acd7a;
+  --ease-out:    cubic-bezier(.22, 1, .36, 1);
+  --ease-spring: cubic-bezier(.34, 1.4, .5, 1);
 
-  /* ── 어긋남 — 판 밀림 폭. 3px 부터 판이 별개 도형이 된다 (§10.9 ⑥) ── */
-  --slip: 2px;
-
-  /* ── Radius — 로고가 굵은 라운드 산스다. radius 0 각진 카드는 폐기 (§9.5) ── */
-  --r-sm: 4px;
-  --r:    8px;
-  --r-lg: 14px;
-
-  /* ── Motion ── */
-  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
-  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
-
-  /* ── Type ── */
   --font-ui: 'Google Sans Flex', 'Pretendard Variable', ui-sans-serif, system-ui,
              -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  color-scheme: light;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; background: var(--paper); }
 
 body {
-  background: var(--bg-base);
+  margin: 0;
+  background: var(--paper);
   color: var(--text-default);
   font-family: var(--font-ui);
   font-variation-settings: 'ROND' 100;   /* 로고의 라운드 톤 — Flex 전용 축 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* ── 종이 · 결(grain) — 리소 다섯 자산 중 `종이`.
-   🔴 `screen` 을 `overlay` 로 바꾸지 마라. overlay 는 #0c0c0c 위에서 거의 무효다 (§10.9 ②). ── */
-body::after {
-  content: '';
+/* ── 종이 ────────────────────────────────────────────────────
+   결은 오버레이가 아니라 **재질**이다. 종이 이미지가 바탕이고 잉크가 그 위에 앉는다.
+   🔴 텍스트 노드 위에 결을 얹지 마라 — 판독을 깎는다 (하우스 규약과 같다). */
+.paper-stock {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: -3;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 140px 140px;
-  mix-blend-mode: screen;
-  opacity: 0.055;
+  background: var(--paper);
+}
+.paper-stock .fiber {
+  position: absolute;
+  inset: 0;
+  /* 🔴 cover 로 늘리지 마라 — 1600px 원본이 뷰포트로 늘어나면서 섬유가 사라진다.
+     타일로 반복해야 종이가 종이로 읽힌다(실측: 늘린 판은 "그냥 파란 면"). */
+  background: url('/riso/paper.webp') 0 0 / 820px auto repeat;
+  filter: invert(1) contrast(1.25);
+  mix-blend-mode: multiply;
+  opacity: .5;
+}
+/* 롤러 얼룩 — 잉크 농도가 고르지 않다. 저주파라 결과 겹치지 않는다. */
+.paper-stock .roller {
+  position: absolute;
+  inset: 0;
+  filter: url(#roller);
+  mix-blend-mode: multiply;
+  opacity: .13;
 }
 
-/* ── 잉크 중첩 — 두 판이 겹치는 자리에서 제3의 색이 난다.
-   블루 판과 레드 판을 따로 깔고 screen 으로 합친다 (감산이 아니라 가산, §9.5.2). ── */
-.overprint {
+/* ── 잉크 판 한 쌍 ──────────────────────────────────────────
+   하우스: A(잉크) 위 · B(흰 판) 아래, B 가 (-3.16,-3.79) 밀려 깔린다.
+   흰 테는 스트로크가 아니라 **밀려 깔린 판**이다 — border 로 바꾸지 마라. */
+.plate {
   position: relative;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+}
+/* 🔴 흰 녹아웃 판 — 유색지에 빨강을 밝게 찍으려면 인쇄소는 흰 판을 먼저 깐다.
+   장식이 아니라 **판독**이다: 빨강을 파란 종이에 바로 곱하면 대비 1.56:1 로 죽는다(실측).
+   흰 판 위에서는 4.34:1 — 디스플레이 크기 기준(3:1) 통과. 지우지 마라. */
+.plate > .knock {
+  position: absolute;
+  inset: 0;
+  color: var(--ink-white);
+  filter: url(#press);
+  pointer-events: none;
+  user-select: none;
+}
+.plate.plate-black > .knock,
+.plate.plate-white > .knock { display: none; }
+
+.plate > .rim {
+  position: absolute;
+  inset: 0;
+  color: var(--ink-white);
+  transform: translate(var(--rim-x), var(--rim-y));
+  filter: url(#press);
+  pointer-events: none;
+  user-select: none;
+}
+.plate > .ink {
+  position: relative;
+  color: var(--ink-red);
+  mix-blend-mode: multiply;   /* 잉크는 감산이다 */
+  filter: url(#press);
+  /* 잉크 알갱이 — 잉크에 구멍이 나고 그 밑의 흰 판·종이가 비친다.
+     타일 두 장(구배 + 조밀)의 **합집합**이라 반복 격자가 눈에 안 띈다. */
+  -webkit-mask:
+    url('/riso/speckle-a.png') 0 0 / var(--spk-lg) repeat,
+    url('/riso/speckle-b.png') 40px 60px / var(--spk-sm) repeat;
+  mask:
+    url('/riso/speckle-a.png') 0 0 / var(--spk-lg) repeat,
+    url('/riso/speckle-b.png') 40px 60px / var(--spk-sm) repeat;
+  -webkit-mask-mode: luminance;
+  mask-mode: luminance;
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+}
+/* 검정 잉크 판 (부제·라벨용) */
+.plate.plate-black > .ink { color: var(--ink-black); }
+.plate.plate-white > .ink { color: var(--ink-white); mix-blend-mode: normal; }
+.plate.plate-white > .rim { color: var(--ink-black); }
+
+/* ── 눌린 가장자리 ───────────────────────────────────────────
+   🔴 라이브 SVG 필터는 **소면적에만**. 대면적에 걸면 Safari 가 렌더를 거부한다
+   (리서치 B — imagetosvg/codepen 실측). 종이·얼룩은 이미 구운 이미지다. */
+.pressed      { filter: url(#press); }
+.pressed-fine { filter: url(#press-fine); }
+
+/* ── 검정 종이 판 — 하우스 호버 시트의 카드가 이것이다 ────── */
+.stock-black {
+  position: relative;
+  background: var(--ink-black) url('/riso/paper.webp') center / cover;
+  border-radius: var(--r-lg);
+  filter: url(#press);
   isolation: isolate;
 }
-.overprint::before,
-.overprint::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  filter: blur(52px);
-  border-radius: 50%;
-}
-/* 판은 뷰포트를 덮는 워시가 아니라 **두 장의 원**이다 — 겹치는 자리가 제3색.
-   전면을 물들이면 리소가 아니라 그냥 그라디언트 배경이 된다. */
-.overprint::before {
-  top: 4%; left: 12%; width: 40%; height: 44%;
-  background: radial-gradient(closest-side, var(--ink-1) 0%, transparent 78%);
-}
-.overprint::after {
-  /* 둘째 판은 밀려서 찍힌다 — 겹침 구간이 밝아지는 게 중첩의 증거다 */
-  top: 10%; left: 40%; width: 34%; height: 38%;
-  background: radial-gradient(closest-side, var(--ink-2) 0%, transparent 78%);
-  transform: translate(calc(var(--slip) * 3), calc(var(--slip) * -2));
-}
-
-/* ── 하프톤 — 면에만. 뷰포트에 깔면 검정 바탕이 청록이 된다 (§10.9 ② 실측) ── */
-.halftone { position: relative; isolation: isolate; }
-.halftone::before {
+/* 판이 밀려 찍힌 자리 — 카드도 판 한 쌍이다 */
+.plate-card { position: relative; }
+.plate-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  background-image: radial-gradient(circle at center, rgba(42,181,234,.55) 0.7px, transparent 0.9px);
-  background-size: 6px 6px;
-  mix-blend-mode: screen;
-  opacity: 0.07;
-}
-.halftone > * { position: relative; z-index: 1; }
-
-/* ── 판 어긋남 (색수차) — 14px 이상 타이포에만.
-   12px 이하 본문·라벨에 쓰면 이중 번짐이라 판독이 깎인다 (§10.2 크기 게이트) ── */
-.misreg {
-  text-shadow:
-    calc(var(--slip) * -1) 0 0 rgba(31, 147, 193, 0.42),   /* accent-dark 판 */
-    var(--slip) 0 0 rgba(61, 229, 255, 0.38);              /* vivid 판 */
-}
-
-/* ── 카드 — 평면 죽이기: 머티리얼 그라데 + 베벨 ── */
-.card {
-  background: var(--mat-card);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  box-shadow: var(--bevel), var(--shadow-1);
-  transition: background .18s var(--ease-out), border-color .18s var(--ease-out),
-              transform .18s var(--ease-spring);
-}
-.card:hover {
-  background: var(--mat-card-h);
-  border-color: var(--border-strong);
-}
-
-/* ── 섹션 번호 ── */
-.plate-no {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-}
-.label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
-/* ── 섹션 구분선 — 두 판이 어긋나게 찍힌 자리 ── */
-.plate-rule {
-  position: relative;
-  height: 1px;
-  background: var(--accent);
-  opacity: .30;
-}
-.plate-rule::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0; top: var(--slip);
-  height: 1px;
-  background: var(--accent-vivid);
-  opacity: .28;
-  mix-blend-mode: screen;
-}
-
-/* ============================================================
-   CTA — §3: "액센트 면은 평시에 존재하지 않는다."
-   면은 --slip 만큼 밀린 자리에서 올라와 제자리로 착지한다 (인쇄의 판 어긋남).
-   🔴 isolation: isolate 를 지우지 마라 — 판(::before)이 z-index:-1 이라
-      스태킹 컨텍스트가 없으면 버튼 배경 뒤로 숨는다.
-   ============================================================ */
-.cta {
-  position: relative;
-  isolation: isolate;
-  display: inline-block;
-  background: var(--mat-card);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--r-sm);
-  box-shadow: var(--bevel);
-  color: var(--accent);
-  font-family: inherit;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform .18s var(--ease-spring), color .15s var(--ease-out),
-              background .18s var(--ease-out);
-}
-.cta::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: var(--accent);
-  opacity: 0;
-  transform: translate(var(--slip), var(--slip));
-  transition: opacity .12s var(--ease-out), transform .18s var(--ease-spring);
-  pointer-events: none;
   z-index: -1;
+  border-radius: var(--r-lg);
+  background: var(--ink-white);
+  transform: translate(var(--rim-x), var(--rim-y));
+  filter: url(#press);
 }
-.cta:hover { background: var(--mat-card-h); color: var(--accent-light); }
-.cta:active { transform: scale(.97) translateY(1px); color: var(--bg-base); }
-.cta:active::before { opacity: 1; transform: translate(0, 0); }
 
-/* ── 🔴 §3 의 유일한 예외 (오너 2026-09-07 · §9.9 ③) ──
-   구매 CTA 만 평시에 면을 채운다. 근거 = 랜딩 주 CTA 를 눌러야만 보이는
-   아웃라인으로 두는 건 전환 위험이고, 웹은 몇 시간씩 보는 작업면이 아니다.
-   🔴 이 예외를 제품 UI(cta.module.css)로 옮기지 마라. 여기 밖에서 쓰지도 마라. ── */
+/* ── 도트 스크린 — 검정 판 위 흰 잉크. 하우스 시트 우측 카드 그대로.
+   정지 상태 = 스크린 판, 호버 = 현상(develop). 색 도트 격자는 금지다. */
+.screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  /* 🔴 인쇄는 **밝은 판에 잉크**다. AE 스크린샷은 어두운 UI 라 그대로 스크리닝하면
+     검은 사각형이 된다(실측). 반전해서 흰 판에 찍으면 그게 진짜 "인쇄된 스크린샷" 이다.
+     검정 종이 카드(.stock-black)가 그 판을 담는 틀이다 — 하우스 시트의 구조와 같다. */
+  background: var(--ink-white);
+  isolation: isolate;
+}
+/* 홍보 이미지는 4:3 통짜 카드(자체 카피 포함)라 그대로 넣으면 그 카피가 카드 제목과
+   부딪힌다. .shot 이 배경으로 **패널만** 잡는다 — 잘라서 별도 PNG 로 저장하지 마라
+   (원본은 tools/promo 에서 다시 구워지고 사본은 그때부터 갈라진다). */
+.screen > .shot {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+}
+.screen > .shot,
+.screen > img,
+.screen > video {
+  display: block;
+  width: 100%;
+  /* 🔴 임계(contrast 60)로 찍지 마라 — 하우스 시트의 카드는 **큰 실루엣**이라 도트가 형태를
+     남기지만, 패널 스크린샷은 디테일이 많아 임계를 걸면 판독이 통째로 사라진다(실측).
+     스크린 톤을 남기는 듀오톤 + 도트로 간다: 정지 = 인쇄된 판, 호버 = 현상. */
+  filter: grayscale(1) invert(1) contrast(1.42) brightness(1.04);
+  mix-blend-mode: multiply;
+  transition: filter .45s var(--ease-out);
+}
+.screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* 도트가 크면 스크린샷의 UI 가 텍스처로 뭉갠다(실측: 5px 에서 판독 손실).
+     4px · 낮은 농도면 "인쇄된 화면" 으로 읽히면서 글자가 남는다. */
+  background: radial-gradient(1.7px at center, transparent 50%, #0b0b0b 100%);
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  opacity: .42;
+  transition: opacity .45s var(--ease-out);
+}
+.screen.developed,
+.screen:hover {
+  filter: none;
+}
+.screen.developed > .shot, .screen:hover > .shot,
+.screen.developed > img, .screen:hover > img,
+.screen.developed > video, .screen:hover > video { filter: none; mix-blend-mode: normal; }
+.screen.developed::after, .screen:hover::after { opacity: 0; }
+
+/* ── 등록 마크 · 판 라벨 — 인쇄물의 어휘 ─────────────────── */
+.regmark {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--ink-black);
+  border-radius: 50%;
+  opacity: .8;
+  pointer-events: none;
+  filter: url(#press-fine);
+}
+.regmark::before,
+.regmark::after { content: ''; position: absolute; background: var(--ink-black); }
+.regmark::before { left: 50%; top: -8px; bottom: -8px; width: 1.5px; transform: translateX(-50%); }
+.regmark::after  { top: 50%; left: -8px; right: -8px; height: 1.5px; transform: translateY(-50%); }
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+/* 구획선 = 트림 마크가 이어진 선 */
+.trim-rule {
+  height: 1.5px;
+  background: var(--line);
+  filter: url(#press-fine);
+}
+
+/* ── 스탬프 (고무도장) ──────────────────────────────────── */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--ink-black);
+  border-radius: var(--r-sm);
+  color: var(--ink-black);
+  filter: url(#press-fine);
+}
+.stamp .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-red); }
+
+/* ── CTA ─────────────────────────────────────────────────────
+   §3(액센트 면은 평시에 없다)의 **유일한 예외 = 구매 CTA 2개**(§9.9 ③).
+   면은 잉크로 찍힌 것이므로 알갱이 마스크가 걸린다. */
 .cta-buy {
   position: relative;
+  /* 판(<i>) 없이 쓰는 자리(예: /update)를 위한 바탕. 판이 있으면 그 위를 덮는다. */
+  background: var(--ink-red);
   display: inline-block;
+  padding: 15px 26px;
   border: none;
-  border-radius: var(--r-sm);
-  background: var(--accent);
-  color: #06121a;
+  border-radius: var(--r);
+  color: #fff;                 /* 잉크 면 위 4.77:1 — --ink-white 는 4.34 로 모자란다 */
   font-family: inherit;
   font-weight: 700;
   cursor: pointer;
-  /* 밀려 찍힌 둘째 판. 🔴 음수 z-index 의사요소로 만들지 마라 — 두 번 깨졌다:
-     음수 z 자식은 **자기 스태킹 컨텍스트의 배경 위**에 그려지므로, 버튼이
-     스태킹 컨텍스트 안에 들어가는 순간(여기선 `.halftone > *` 의 z-index:1)
-     그 판이 파란 면을 통째로 덮는다. 하드엣지 box-shadow 는 스태킹과 무관하다. */
-  box-shadow: var(--slip) var(--slip) 0 0 var(--accent-dark);
-  transition: background .16s var(--ease-out), transform .18s var(--ease-spring),
-              box-shadow .18s var(--ease-spring);
+  isolation: isolate;
+  transition: transform .18s var(--ease-spring);
 }
-.cta-buy:hover {
-  background: var(--accent-light);
-  box-shadow: calc(var(--slip) * 2) calc(var(--slip) * 2) 0 0 var(--accent-dark);
+.cta-buy > i {                       /* 판 3장: 흰 판 → 잉크 바탕 → 알갱이 잉크 */
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  filter: url(#press);
+  pointer-events: none;
 }
-.cta-buy:active {
-  transform: scale(.98) translateY(1px);
-  box-shadow: 0 0 0 0 var(--accent-dark);
+.cta-buy > i.rim { background: var(--ink-white); transform: translate(var(--rim-x), var(--rim-y)); z-index: -3; }
+.cta-buy > i.bed { background: var(--ink-red); opacity: .93; z-index: -2; }
+.cta-buy > i.grn {
+  background: var(--ink-red);
+  z-index: -1;
+  -webkit-mask: url('/riso/speckle-c.png') 0 0 / 220px repeat;
+  mask: url('/riso/speckle-c.png') 0 0 / 220px repeat;
+  -webkit-mask-mode: luminance;
+  mask-mode: luminance;
+}
+.cta-buy:hover { transform: translate(1px, 1px); }
+.cta-buy:active { transform: translate(var(--rim-x), var(--rim-y)); }
+
+/* 나머지 CTA = 잉크 선만. 면을 채우지 않는다 (§3) */
+.cta {
+  display: inline-block;
+  padding: 14px 22px;
+  border: 1.5px solid var(--ink-black);
+  border-radius: var(--r);
+  color: var(--ink-black);
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  filter: url(#press-fine);
+  transition: background .16s var(--ease-out), color .16s var(--ease-out);
+}
+.cta:hover { background: var(--ink-black); color: var(--paper); }
+
+/* ── 카드 (흰 판 위 인쇄) ──────────────────────────────────── */
+.card {
+  position: relative;
+  background: var(--ink-white);
+  border-radius: var(--r);
+  filter: url(#press);
+  isolation: isolate;
+}
+.card-rim { position: relative; }
+.card-rim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--r);
+  background: var(--ink-black);
+  transform: translate(calc(var(--rim-x) * -1), calc(var(--rim-y) * -1));
+  filter: url(#press);
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-base); }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-dark); }
+/* ── 타이포 ─────────────────────────────────────────────────
+   가변축을 압력으로 쓴다. 디스플레이는 wdth 112 · wght 800. */
+.display {
+  font-size: clamp(3.4rem, 8vw, 7.2rem);
+  line-height: .92;
+  letter-spacing: -.035em;
+  font-weight: 800;
+  font-variation-settings: 'ROND' 100, 'wdth' 112, 'wght' 800;
+}
+.headline {
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  font-weight: 800;
+  font-variation-settings: 'ROND' 100, 'wdth' 108, 'wght' 800;
+}
+.num { font-variant-numeric: tabular-nums; }
 
-/* ── Fade-in ── */
-.fade-in-up { animation: fadeInUp .6s var(--ease-out) both; }
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(14px); }
+/* ── 모션 — 판이 밀려 들어와 정렬된다(register) ──────────── */
+@keyframes register {
+  from { transform: translate(calc(var(--rim-x) * 6), calc(var(--rim-y) * 4)); opacity: 0; }
+  to   { transform: translate(var(--rim-x), var(--rim-y)); opacity: 1; }
+}
+@keyframes ink-down {
+  from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.delay-100 { animation-delay: .1s; }
-.delay-200 { animation-delay: .2s; }
-.delay-300 { animation-delay: .3s; }
+.reg-in > .rim { animation: register .7s var(--ease-out) both; }
+.reg-in > .ink { animation: ink-down .55s var(--ease-out) .12s both; }
+.delay-1 { animation-delay: .1s; }
+.delay-2 { animation-delay: .2s; }
+.delay-3 { animation-delay: .3s; }
 
 *:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
+  outline: 2.5px solid var(--ink-black);
+  outline-offset: 3px;
   border-radius: 2px;
 }
 
+::selection { background: var(--ink-red); color: var(--ink-white); }
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--paper-dark); }
+::-webkit-scrollbar-thumb { background: var(--ink-black); border-radius: 0; }
+
+/* 본문·라벨(< 32px)에는 알갱이·눌림을 걸지 않는다 — 판독 (계획서 §3.3) */
 @media (prefers-reduced-motion: reduce) {
-  .fade-in-up { animation: none; }
   html { scroll-behavior: auto; }
+  .reg-in > .rim, .reg-in > .ink { animation: none; }
+  .reg-in > .rim { transform: translate(var(--rim-x), var(--rim-y)); opacity: 1; }
+  .screen, .screen > img, .screen > video, .cta-buy { transition: none; }
+}
+
+/* 모바일 — SVG 필터는 모바일 GPU 가 가장 늦게 가속한다(리서치 B).
+   소면적만 남기고 대면적(카드·판)에서는 뗀다. */
+@media (max-width: 720px) {
+  .stock-black, .plate-card::before, .card, .card-rim::before { filter: none; }
+  :root { --spk-lg: 200px; --spk-sm: 230px; }
 }

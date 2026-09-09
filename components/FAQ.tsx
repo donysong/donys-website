@@ -1,16 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import Plate from './Plate';
 import { PRICE } from '@/lib/product';
 
-const FAQS = [
+/* 🔴 첫 문항은 스탠스 방어다 (계획서 §5). 지우지 마라 — 우리는 "브리프 하나로 완성 영상"
+   을 팔지 않는다고 선언했고(루트 CLAUDE.md §🎯), 시장의 AE AI 패널 8종은 전부 그 반대를
+   판다. 사는 사람이 제일 먼저 하는 질문이 이것이다. */
+const FAQ = [
   {
-    q: 'Which AE versions are supported?',
+    q: 'Does it make the video for me?',
+    a: 'No. You decide what should happen; the panel builds it on your layers so you can keep working on it. There is no “one prompt, finished film” button here, and there is not going to be one.',
+  },
+  {
+    q: 'Which After Effects versions are supported?',
     a: 'After Effects 2022 (v22.0) and above, on both Windows and macOS.',
   },
   {
     q: 'How many devices can I use?',
-    a: 'Each license covers 2 devices at once. You can deactivate a device and move the seat to another one anytime.',
+    a: 'Each licence covers 2 devices at once. You can deactivate a device and move the seat to another one anytime.',
   },
   {
     q: 'Is there a free trial?',
@@ -18,97 +25,68 @@ const FAQS = [
   },
   {
     q: 'Do I get free updates?',
-    a: `Yes. Minor updates (bug fixes, AE compatibility, new presets) are free for the life of your ${PRICE} license. Major version upgrades may be priced separately.`,
+    a: `Yes. Minor updates (fixes, AE compatibility, new presets) are free for the life of your ${PRICE} licence. Major version upgrades may be priced separately.`,
   },
   {
     q: 'Does it work offline?',
-    a: 'Yes. After the first activation the license is cached locally for 7 days, so you only need a connection once a week.',
+    a: 'Yes. After the first activation the licence is cached locally for 7 days, so you only need a connection once a week.',
   },
   {
-    q: 'Do I need my own Claude account for the AI chat?',
-    a: 'Yes — the chat panel drives your own Claude Pro or Max subscription. There is no extra fee on top of the plugin, and no API key to manage.',
+    q: 'Do I need my own Claude account for the chat?',
+    a: 'Yes — the chat panel drives your own Claude Pro or Max subscription. No extra fee on top of the plugin, and no API key to manage.',
   },
   {
-    q: 'How do I install?',
-    a: 'Download the .zxp after purchase and install it with the free ZXP Installer from aescripts.com. Takes about 30 seconds.',
+    q: 'How do I install it?',
+    a: 'Download the .zxp after purchase and install it with the free ZXP Installer from aescripts.com. It takes about 30 seconds.',
   },
 ];
 
-export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
+export default function FAQSection() {
   return (
-    <section id="faq" className="mx-auto max-w-[760px] px-6 py-28">
-      <div className="plate-rule mb-20" />
+    <section id="faq" className="mx-auto max-w-[1240px] px-6 py-20 md:px-10 md:py-28">
+      <div className="trim-rule" style={{ marginBottom: 34 }} />
+      <p className="mono" style={{ color: 'var(--text-muted)', marginBottom: 14 }}>
+        Plate 07 / 07 — questions
+      </p>
+      <h2 className="headline" style={{ marginBottom: 34 }}>
+        <Plate as="span" tone="black">Asked and answered.</Plate>
+      </h2>
 
-      <div className="mb-12">
-        <p className="plate-no mb-4">04 — FAQ</p>
-        <h2
-          className="misreg"
-          style={{
-            fontSize: 'clamp(1.8rem, 3.4vw, 2.4rem)',
-            fontWeight: 700,
-            letterSpacing: '-0.035em',
-            lineHeight: 1.12,
-            color: 'var(--text-primary)',
-          }}
-        >
-          Questions, answered
-        </h2>
-      </div>
-
-      <div>
-        {FAQS.map((faq, i) => (
-          <div key={faq.q} style={{ borderBottom: '1px solid var(--border)' }}>
-            <button
+      <div style={{ maxWidth: 820 }}>
+        {FAQ.map((item) => (
+          <details
+            key={item.q}
+            style={{ borderTop: '1.5px solid var(--line)', padding: '18px 0' }}
+          >
+            <summary
               style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '20px 0',
-                textAlign: 'left',
-                background: 'none',
-                border: 'none',
                 cursor: 'pointer',
+                listStyle: 'none',
+                fontSize: 16.5,
+                fontWeight: 700,
+                color: 'var(--text-primary)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                gap: 20,
               }}
-              onClick={() => setOpenIndex(openIndex === i ? null : i)}
-              aria-expanded={openIndex === i}
             >
-              <span
-                style={{
-                  fontSize: 15,
-                  fontWeight: 500,
-                  letterSpacing: '-0.01em',
-                  color: openIndex === i ? 'var(--text-primary)' : 'var(--text-default)',
-                  transition: 'color .12s var(--ease-out)',
-                }}
-              >
-                {faq.q}
-              </span>
-              <span
-                aria-hidden
-                style={{
-                  marginLeft: 16,
-                  flexShrink: 0,
-                  fontSize: 18,
-                  lineHeight: 1,
-                  color: openIndex === i ? 'var(--accent)' : 'var(--text-muted)',
-                  transition: 'transform .18s var(--ease-spring), color .12s var(--ease-out)',
-                  transform: openIndex === i ? 'rotate(45deg)' : 'none',
-                  display: 'inline-block',
-                }}
-              >
-                +
-              </span>
-            </button>
-            {openIndex === i && (
-              <div style={{ paddingBottom: 20, fontSize: 14, lineHeight: 1.75, color: 'var(--text-secondary)' }}>
-                {faq.a}
-              </div>
-            )}
-          </div>
+              {item.q}
+              <span aria-hidden className="mono" style={{ color: 'var(--ink-black)' }}>+</span>
+            </summary>
+            <p
+              style={{
+                marginTop: 12,
+                maxWidth: '62ch',
+                fontSize: 15,
+                lineHeight: 1.65,
+                color: 'var(--text-secondary)',
+              }}
+            >
+              {item.a}
+            </p>
+          </details>
         ))}
+        <div className="trim-rule" />
       </div>
     </section>
   );
