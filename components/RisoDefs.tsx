@@ -12,8 +12,11 @@ export default function RisoDefs() {
     <>
       <div className="paper-stock" aria-hidden="true">
         <div className="fiber" />
+        <div className="grain" />
         <div className="roller" />
       </div>
+      {/* 인쇄된 것 위에도 한 겹 — 실제 필름 그레인은 피사체를 덮는다 */}
+      <div className="film-grain" aria-hidden="true" />
 
       <div className="trim-marks" aria-hidden="true">
         <span className="regmark" style={{ top: 0, left: 0 }} />

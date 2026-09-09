@@ -113,6 +113,18 @@ body {
   opacity: .13;
 }
 
+/* 종이 위에 인쇄된 것 **전부**를 덮는 한 겹. 실제 필름 그레인은 피사체 위에도 있다.
+   🔴 5~7% 를 넘기지 마라 — 그 위는 "인쇄 입자" 가 아니라 "깨진 렌더" 로 읽힌다(리서치 B §3). */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: url('/riso/grain.png') 0 0 / 240px 240px repeat;
+  mix-blend-mode: overlay;
+  opacity: .06;
+}
+
 /* ── 잉크 판 한 쌍 ──────────────────────────────────────────
    하우스: A(잉크) 위 · B(흰 판) 아래, B 가 (-3.16,-3.79) 밀려 깔린다.
    흰 테는 스트로크가 아니라 **밀려 깔린 판**이다 — border 로 바꾸지 마라. */
@@ -179,23 +191,18 @@ body {
 .pressed-fine { filter: url(#press-fine); }
 
 /* ── 검정 종이 판 — 하우스 호버 시트의 카드가 이것이다 ────── */
+/* 🔴 밀린 판은 **하드엣지 box-shadow** 로 찍는다. 음수 z-index 의사요소로 만들지 마라 —
+   부모에 스태킹 컨텍스트가 생기는 순간(예: 스크롤 모션의 opacity) 판이 배경 위로 올라와
+   카드를 덮는다. 이 함정은 REBRAND §9.9 에 이미 적혀 있었고 2026-09-09 에 또 밟았다. */
 .stock-black {
   position: relative;
   background: var(--ink-black) url('/riso/paper.webp') center / cover;
   border-radius: var(--r-lg);
+  box-shadow: var(--rim-x) var(--rim-y) 0 0 var(--ink-white);
   isolation: isolate;
+  transition: box-shadow .22s var(--ease-spring);
 }
-/* 판이 밀려 찍힌 자리 — 카드도 판 한 쌍이다 */
 .plate-card { position: relative; }
-.plate-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: var(--r-lg);
-  background: var(--ink-white);
-  transform: translate(var(--rim-x), var(--rim-y));
-}
 
 /* ── T3 · 흰 종이 시트 — 읽는 면은 대지가 아니라 **종이** 위에 있다.
    파란 필드는 인쇄 대지고, 약관·FAQ·가격 같은 읽을 것은 그 위에 얹힌 흰 종이에 찍힌다.
@@ -206,16 +213,23 @@ body {
   border-radius: var(--r-lg);
   padding: clamp(28px, 5vw, 56px);
   color: #2b3236;
+  box-shadow: calc(var(--rim-x) * -1) calc(var(--rim-y) * -1) 0 0 var(--ink-black);
 }
-.sheet::before {          /* 밀려 깔린 판 — 인쇄 언어는 여기서도 유지된다 */
+.sheet { isolation: isolate; }
+/* 시트도 종이다 — 결이 있어야 "흰 박스" 가 아니라 "종이" 로 읽힌다. 텍스트 위엔 안 얹는다. */
+.sheet::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: var(--ink-black);
-  transform: translate(calc(var(--rim-x) * -1), calc(var(--rim-y) * -1));
+  pointer-events: none;
+  background: url('/riso/paper.webp') 0 0 / 520px auto repeat;
+  filter: invert(1) contrast(1.15);
+  mix-blend-mode: multiply;
+  opacity: .3;
 }
+/* 밀려 깔린 판 — 여기도 box-shadow 다 (위 주석의 함정과 같은 이유) */
 .sheet h1, .sheet h2, .sheet h3, .sheet strong, .sheet b { color: var(--ink-black); }
 .sheet a { color: var(--ink-black); }
 
@@ -373,18 +387,11 @@ body {
   position: relative;
   background: var(--ink-white);
   border-radius: var(--r);
+  box-shadow: calc(var(--rim-x) * -1) calc(var(--rim-y) * -1) 0 0 var(--ink-black);
   isolation: isolate;
+  transition: box-shadow .22s var(--ease-spring);
 }
 .card-rim { position: relative; }
-.card-rim::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: var(--r);
-  background: var(--ink-black);
-  transform: translate(calc(var(--rim-x) * -1), calc(var(--rim-y) * -1));
-}
 
 /* ── 타이포 ─────────────────────────────────────────────────
    가변축을 압력으로 쓴다. 디스플레이는 wdth 112 · wght 800. */
@@ -408,6 +415,16 @@ body {
 }
 .num { font-variant-numeric: tabular-nums; }
 
+/* ══ 하우스 모션 — 인쇄기의 동작 3종 ════════════════════════
+   ① 판 등록(register) : 판이 어긋난 채 들어와 제자리에 앉는다  → 제목
+   ② 잉크 앉음(settle) : 잉크가 종이에 내려앉는다              → 카드·시트
+   ③ 판 밀림(slip)     : 손이 닿으면 판이 한 번 더 밀린다       → 호버
+   🔴 전부 스크롤 구동(`animation-timeline: view()`)이라 JS 0 이다. 미지원 브라우저는
+      **최종 상태로 그냥 보인다** — 아무것도 opacity:0 으로 주차하지 않는다.
+   🔴 `animation-fill-mode: both` 는 :hover transform 을 죽인다(전례). 그래서 ②는
+      래퍼에 걸고 ③은 그 자식(::before)에 건다 — 같은 요소에 겹치지 마라.
+   ══════════════════════════════════════════════════════════ */
+
 /* ── 모션 — 판이 밀려 들어와 정렬된다(register) ──────────── */
 @keyframes register {
   from { transform: translate(calc(var(--rim-x) * 6), calc(var(--rim-y) * 4)); opacity: 0; }
@@ -419,6 +436,46 @@ body {
 }
 .reg-in > .rim { animation: register .7s var(--ease-out) both; }
 .reg-in > .ink { animation: ink-down .55s var(--ease-out) .12s both; }
+
+/* 🔴 초기 상태를 **보이는 상태**로 둔다 (2026-09-09 실측 사고).
+   처음엔 `opacity: 0` 에서 시작했는데, 스크롤 구동 타임라인은 아직 뷰포트에 안 들어온
+   요소를 **0% 진행 = 투명**으로 주차한다. 전체 페이지 캡처에서 FAQ 시트가 통째로
+   사라졌고, 앵커(#pricing)로 바로 착지하면 사람 눈에도 그렇게 보인다.
+   ⇒ 잉크(내용)는 절대 투명해지지 않는다. 사라졌다 나타나는 건 **흰 밑판뿐**이고,
+      그게 없어도 판독은 녹아웃 판이 지킨다. */
+@keyframes plate-register {
+  from { transform: translate(calc(var(--rim-x) * 4), calc(var(--rim-y) * 3.5)); opacity: 0; }
+  to   { transform: translate(var(--rim-x), var(--rim-y)); opacity: 1; }
+}
+@keyframes ink-settle {
+  from { transform: translateY(12px); }
+  to   { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* ① 제목 판 등록 — 히어로(.reg-in)는 로드 모션을 이미 갖고 있으니 제외한다 */
+    .plate:not(.reg-in) > .rim {
+      animation: plate-register linear both;
+      animation-timeline: view();
+      animation-range: entry 6% entry 62%;
+    }
+    /* ② 잉크 앉음 — 카드·시트. 스크롤 위치가 곧 순번이라 stagger 를 따로 안 짠다 */
+    .plate-card, .card-rim, .sheet {
+      animation: ink-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 4% entry 46%;
+    }
+  }
+}
+
+/* ③ 판 밀림 — 손이 닿으면 밑판이 한 번 더 밀린다 */
+.plate-card:hover .stock-black {
+  box-shadow: calc(var(--rim-x) * 2.2) calc(var(--rim-y) * 2.2) 0 0 var(--ink-white);
+}
+.card-rim:hover .card {
+  box-shadow: calc(var(--rim-x) * -2.2) calc(var(--rim-y) * -2.2) 0 0 var(--ink-black);
+}
 .delay-1 { animation-delay: .1s; }
 .delay-2 { animation-delay: .2s; }
 .delay-3 { animation-delay: .3s; }
@@ -439,6 +496,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reg-in > .rim, .reg-in > .ink { animation: none; }
+  .plate > .rim, .plate-card, .card-rim, .sheet { animation: none; }
   .reg-in > .rim { transform: translate(var(--rim-x), var(--rim-y)); opacity: 1; }
   .screen, .screen > img, .screen > video, .cta-buy { transition: none; }
 }
