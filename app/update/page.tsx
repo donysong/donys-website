@@ -49,7 +49,9 @@ export default function UpdatePage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-3xl px-6 py-32">
+      <main className="mx-auto max-w-3xl px-6 py-24">
+        {/* T3 — 긴 읽는 면은 파란 대지가 아니라 흰 종이 위다 (globals.css 3단 규약) */}
+        <div className="sheet">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">업데이트</h1>
         <p className="mb-10 text-sm text-[var(--text-muted)]">
           최신 버전 v{VERSION} · {LATEST_DATE}
@@ -105,6 +107,7 @@ export default function UpdatePage() {
             </ul>
           </section>
         ))}
+      </div>
       </main>
       <Footer />
     </>

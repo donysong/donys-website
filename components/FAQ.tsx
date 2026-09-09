@@ -52,7 +52,8 @@ export default function FAQSection() {
         <Plate as="span" tone="black">Asked and answered.</Plate>
       </h2>
 
-      <div style={{ maxWidth: 820 }}>
+      {/* T3 — 읽는 면은 흰 종이 위다 (globals.css 3단 규약) */}
+      <div className="sheet" style={{ maxWidth: 900 }}>
         {FAQ.map((item) => (
           <details
             key={item.q}
@@ -64,7 +65,7 @@ export default function FAQSection() {
                 listStyle: 'none',
                 fontSize: 16.5,
                 fontWeight: 700,
-                color: 'var(--text-primary)',
+                color: 'var(--ink-black)',
                 display: 'flex',
                 justifyContent: 'space-between',
                 gap: 20,
@@ -79,14 +80,14 @@ export default function FAQSection() {
                 maxWidth: '62ch',
                 fontSize: 15,
                 lineHeight: 1.65,
-                color: 'var(--text-secondary)',
+                color: '#3c454a',
               }}
             >
               {item.a}
             </p>
           </details>
         ))}
-        <div className="trim-rule" />
+        <div style={{ height: 1.5, background: 'rgba(0,0,0,.12)' }} />
       </div>
     </section>
   );

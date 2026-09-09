@@ -13,6 +13,14 @@
       블랙 위 `screen` 은 **빛**이고 리소는 **잉크**다. 잉크는 `multiply` 다.
       `mix-blend-mode: screen` 을 이 파일에 다시 들이지 마라.
 
+   🔴 2026-09-09 오너 2차 판정 — **강도는 전역 상수가 아니다.**
+      *"하우스 스타일 잘 녹였는데, 스타일이 너무 쎄서 가독성이나 전문성이 떨어져보여."*
+      실제 인쇄물은 표지가 세고 본문지가 조용하다. 표면 역할별 3단으로 간다:
+        T1 포스터  히어로·스탠스·섹션 제목 → 판·녹아웃·알갱이·눌림 전부 (.plate)
+        T2 크롬    네비·버튼·선·스탬프     → 눌림 필터 없음, 판 어긋남만
+        T3 읽는 면 가격·FAQ·노트·법페이지  → **흰 종이 시트**(.sheet), 검정 잉크, 텍스처 0
+      🔴 T2·T3 에 `filter: url(#press)` 를 다시 걸지 마라. 그게 "너무 쎄다" 의 원인이었다.
+
    재료 4종은 발명이 아니라 **오너 AE 하우스 레시피의 웹 번역**이다:
      종이 결   BlackPaper(오너 저작)  → /riso/paper.webp        · invert 후 multiply
      잉크 알갱이 Risoprint(오너 저작)  → /riso/speckle-*.png     · 휘도 마스크 (잉크에 구멍)
@@ -39,6 +47,10 @@
   --rim-y: -4px;
 
   /* ── 잉크 알갱이 밀도(마스크 타일 크기). 클수록 알갱이가 성기다 ── */
+  /* 🔴 이 두 값을 키우지 마라 (2026-09-09 실측). 타일을 키우면 텍스처의 성긴 구간이
+     확대돼 **구멍이 획을 통째로 갉는다**. 원본 Risoprint 는 구간별 구멍 비율이 0% 아니면
+     12~16% 라 중간값이 없다 — 잘게 겹쳐 깔아야 "알갱이" 로 읽힌다. 560px 단일 타일로
+     바꿨다가 헤드라인이 좀먹은 것처럼 나왔고 되돌렸다. */
   --spk-lg: 260px;
   --spk-sm: 300px;
 
@@ -151,7 +163,11 @@ body {
   -webkit-mask-composite: source-over;
   mask-composite: add;
 }
-/* 검정 잉크 판 (부제·라벨용) */
+/* 검정 잉크 판 (섹션 제목).
+   🔴 검정은 파란 종이에서 6.43:1 이라 **흰 판이 판독에 필요 없다.** 빨강처럼 3~4px 를
+   깔면 흰 그림자가 두꺼워져 "스티커" 로 읽힌다(오너 2차 판정: 너무 쎄다).
+   여기선 어긋남을 1px 로 줄여 인쇄 흔적만 남긴다 — 지우지는 않는다. */
+.plate.plate-black { --rim-x: -1px; --rim-y: -1.5px; }
 .plate.plate-black > .ink { color: var(--ink-black); }
 .plate.plate-white > .ink { color: var(--ink-white); mix-blend-mode: normal; }
 .plate.plate-white > .rim { color: var(--ink-black); }
@@ -167,7 +183,6 @@ body {
   position: relative;
   background: var(--ink-black) url('/riso/paper.webp') center / cover;
   border-radius: var(--r-lg);
-  filter: url(#press);
   isolation: isolate;
 }
 /* 판이 밀려 찍힌 자리 — 카드도 판 한 쌍이다 */
@@ -180,8 +195,29 @@ body {
   border-radius: var(--r-lg);
   background: var(--ink-white);
   transform: translate(var(--rim-x), var(--rim-y));
-  filter: url(#press);
 }
+
+/* ── T3 · 흰 종이 시트 — 읽는 면은 대지가 아니라 **종이** 위에 있다.
+   파란 필드는 인쇄 대지고, 약관·FAQ·가격 같은 읽을 것은 그 위에 얹힌 흰 종이에 찍힌다.
+   🔴 여기에 텍스처·눌림을 넣지 마라. 이 면의 일은 판독이다. */
+.sheet {
+  position: relative;
+  background: var(--ink-white);
+  border-radius: var(--r-lg);
+  padding: clamp(28px, 5vw, 56px);
+  color: #2b3236;
+}
+.sheet::before {          /* 밀려 깔린 판 — 인쇄 언어는 여기서도 유지된다 */
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--ink-black);
+  transform: translate(calc(var(--rim-x) * -1), calc(var(--rim-y) * -1));
+}
+.sheet h1, .sheet h2, .sheet h3, .sheet strong, .sheet b { color: var(--ink-black); }
+.sheet a { color: var(--ink-black); }
 
 /* ── 도트 스크린 — 검정 판 위 흰 잉크. 하우스 시트 우측 카드 그대로.
    정지 상태 = 스크린 판, 호버 = 현상(develop). 색 도트 격자는 금지다. */
@@ -222,12 +258,16 @@ body {
   z-index: 1;
   /* 도트가 크면 스크린샷의 UI 가 텍스처로 뭉갠다(실측: 5px 에서 판독 손실).
      4px · 낮은 농도면 "인쇄된 화면" 으로 읽히면서 글자가 남는다. */
-  background: radial-gradient(1.7px at center, transparent 50%, #0b0b0b 100%);
+  /* 🔴 도구 사이트다 — 사는 사람이 UI 를 봐야 한다. 도트는 "인쇄됐다" 는 신호로 족하다.
+     쇼피스(히어로)만 .38, 나머지는 .2 (오너 2차 판정: 너무 쎄다). */
+  background: radial-gradient(1.6px at center, transparent 55%, #0b0b0b 100%);
   background-size: 4px 4px;
   mix-blend-mode: multiply;
-  opacity: .42;
+  opacity: .2;
   transition: opacity .45s var(--ease-out);
 }
+.screen.showpiece::after { opacity: .38; }
+
 .screen.developed,
 .screen:hover {
   filter: none;
@@ -240,13 +280,12 @@ body {
 /* ── 등록 마크 · 판 라벨 — 인쇄물의 어휘 ─────────────────── */
 .regmark {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border: 1.5px solid var(--ink-black);
   border-radius: 50%;
-  opacity: .8;
+  opacity: .45;          /* T2 — 인쇄 지시문이지 장식이 아니다. 눈에 먼저 들어오면 안 된다 */
   pointer-events: none;
-  filter: url(#press-fine);
 }
 .regmark::before,
 .regmark::after { content: ''; position: absolute; background: var(--ink-black); }
@@ -264,7 +303,6 @@ body {
 .trim-rule {
   height: 1.5px;
   background: var(--line);
-  filter: url(#press-fine);
 }
 
 /* ── 스탬프 (고무도장) ──────────────────────────────────── */
@@ -276,7 +314,6 @@ body {
   border: 1.5px solid var(--ink-black);
   border-radius: var(--r-sm);
   color: var(--ink-black);
-  filter: url(#press-fine);
 }
 .stamp .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-red); }
 
@@ -302,7 +339,6 @@ body {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  filter: url(#press);
   pointer-events: none;
 }
 .cta-buy > i.rim { background: var(--ink-white); transform: translate(var(--rim-x), var(--rim-y)); z-index: -3; }
@@ -328,7 +364,6 @@ body {
   font-family: inherit;
   font-weight: 700;
   cursor: pointer;
-  filter: url(#press-fine);
   transition: background .16s var(--ease-out), color .16s var(--ease-out);
 }
 .cta:hover { background: var(--ink-black); color: var(--paper); }
@@ -338,7 +373,6 @@ body {
   position: relative;
   background: var(--ink-white);
   border-radius: var(--r);
-  filter: url(#press);
   isolation: isolate;
 }
 .card-rim { position: relative; }
@@ -350,7 +384,6 @@ body {
   border-radius: var(--r);
   background: var(--ink-black);
   transform: translate(calc(var(--rim-x) * -1), calc(var(--rim-y) * -1));
-  filter: url(#press);
 }
 
 /* ── 타이포 ─────────────────────────────────────────────────
@@ -362,6 +395,10 @@ body {
   font-weight: 800;
   font-variation-settings: 'ROND' 100, 'wdth' 112, 'wght' 800;
 }
+/* 🔴 어긋남 폭은 **포스터면에서만** 하우스 값(-3,-4)이다. 섹션 제목까지 그 폭을 쓰면
+   흰 테가 두꺼워져 스티커로 읽힌다(오너 2차 판정). 제목은 1.5px — 흔적만 남긴다.
+   히어로(.display)는 그대로 하우스 값을 쓴다. */
+.headline { --rim-x: -1.5px; --rim-y: -2px; }
 .headline {
   font-size: clamp(2rem, 4.2vw, 3.2rem);
   line-height: 1.02;

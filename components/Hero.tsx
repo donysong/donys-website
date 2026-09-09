@@ -54,7 +54,7 @@ export default function Hero() {
 
         <div className="plate-card">
           <div className="stock-black" style={{ padding: 20 }}>
-            <div className="screen">
+            <div className="screen showpiece">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/promo/poster-chat.webp"

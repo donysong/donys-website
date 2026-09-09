@@ -12,7 +12,9 @@ export default function PrivacyPage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-3xl px-6 py-32">
+      <main className="mx-auto max-w-3xl px-6 py-24">
+        {/* T3 — 긴 읽는 면은 파란 대지가 아니라 흰 종이 위다 (globals.css 3단 규약) */}
+        <div className="sheet">
         <h1 className="mb-4 text-3xl font-bold tracking-tight">Privacy Policy</h1>
         <p className="mb-10 text-sm text-[var(--text-muted)]">Last updated: April 2, 2026</p>
 
@@ -254,6 +256,7 @@ export default function PrivacyPage() {
             </p>
           </section>
         </div>
+      </div>
       </main>
       <Footer />
     </>
