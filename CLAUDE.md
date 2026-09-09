@@ -24,12 +24,19 @@ Indigo `#6366f1`"* 라고 선언하는데 실제 `globals.css` 는 크림 `#d4cc
 | 프레임워크 | Next.js 16 (App Router) |
 | 스타일 | Tailwind 4 + `app/globals.css` 의 CSS 변수 |
 | 빌드 | 정적 export (`output: 'export'`) → `out/` |
-| 호스팅 | Vercel — **라이브 = `https://donys-website.vercel.app`** |
-| 도메인 | `donys.dev` 는 **아직 안 붙었다** (2026-09-07 DNS 실측 실패) |
+| 호스팅 | **현재 = Vercel** (실측 `server: Vercel`) · **이전 중 → Cloudflare Pages** |
+| 도메인 | ✅ **`younameit.works` 가 정본이다** (apex 200 · `www` 308 → apex) |
 | 결제 | Polar (merchant of record) |
 
-🔴 `metadataBase` 와 `openGraph.url` 은 **vercel 주소**여야 한다. `donys.dev` 로 두면
-OG 카드 이미지가 죽은 호스트를 가리킨다. 도메인 붙는 날 둘을 같이 옮겨라.
+🔴 **`donys.dev` 는 죽었다 — 되살리지 마라.** NS 조차 없다(2026-09-09 실측).
+`metadataBase`·`openGraph.url`·JSON-LD·sitemap·robots 는 전부 **`younameit.works`** 다.
+주소는 `lib/product.ts` 의 `SITE` 한 곳에서 읽는다 — 컴포넌트에 다시 박지 마라.
+
+🔴 **`canonical` 을 `app/layout.tsx` 에 두지 마라.** 루트 레이아웃 metadata 는 하위 페이지가
+상속해서 `/update`·`/terms`·`/privacy`·`/refund` 가 전부 "홈의 중복" 이 된다(실측). 페이지마다 선언한다.
+
+🔴 **`app/robots.ts`·`app/sitemap.ts` 의 `export const dynamic = 'force-static'` 을 지우지 마라** —
+`output:'export'` 가 요구한다. 없으면 빌드가 `Failed to collect page data` 로 죽는다.
 
 ## 🔴 연락처가 죽어 있다 (2026-09-07 실측 · 오너 액션)
 
@@ -56,7 +63,10 @@ public/
   images/promo/  # ../Dony-s-AE-Plugin/tools/promo/out 에서 복사해 온 것
   videos/        # 같음
   logo-lockup.png
-  donys.zxp · version.json   # 릴리스마다 교체
+  donys.zxp · version.json   # 🔴 지우지 마라 — 출고본의 UPDATE_MANIFEST_URL 이
+                             #    donys-website.vercel.app/version.json 로 컴파일돼 있고
+                             #    updateCheck.ts 는 404 를 조용히 먹는다. 플러그인 Phase D
+                             #    (URL 교체 + 지인 전원 새 빌드) 뒤에 지운다.
 ```
 
 ## 값이 흩어지면 안 되는 자리 (전례가 있다)

@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { VERSION, DOWNLOAD_URL } from '@/lib/product';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/update' },
   title: '업데이트 — You Name It',
   description: 'You Name It 최신 버전 다운로드 및 설치 안내.',
 };
@@ -113,7 +115,20 @@ const RELEASES = [
 ];
 
 // 🔴 버전 문구를 손으로 박지 마라 — v2.5.0 을 컷한 뒤에도 이 페이지가 두 자리에서
-// v2.4.0 을 계속 보여주고 있었다. 최신 릴리스는 RELEASES[0] 하나에서만 읽는다.
+// v2.4.0 을 계속 보여주고 있었다.
+//
+// 🔴 "최신 버전" 의 정본은 이제 lib/product.ts 의 VERSION 이다 (다운로드 URL 이 그 값으로
+// 조립되므로 링크와 문구가 한 값에서 나온다). RELEASES 는 릴리스 *노트 이력*이라 항목마다
+// 자기 version 을 갖는 게 맞고, 그래서 진실이 둘로 갈라질 수 있다. 아래 단정이 그걸 막는다 —
+// 정적 export 빌드는 이 모듈을 프리렌더 중에 평가하므로, 어긋나면 배포가 아니라 빌드가 죽는다.
+if (RELEASES[0].version !== VERSION) {
+  throw new Error(
+    `버전 불일치: lib/product.ts 의 VERSION=${VERSION} 인데 RELEASES[0].version=${RELEASES[0].version} 이다. ` +
+      '릴리스를 컷했으면 둘을 같이 올려라 — VERSION 이 정본이고 RELEASES[0] 은 그 버전의 노트다.',
+  );
+}
+
+// 날짜만 최신 릴리스 노트에서 읽는다 (버전은 VERSION 이 정본).
 const LATEST = RELEASES[0];
 const LATEST_DATE = (() => {
   const [y, m, d] = LATEST.date.split('-');
@@ -127,7 +142,7 @@ export default function UpdatePage() {
       <main className="mx-auto max-w-3xl px-6 py-32">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">업데이트</h1>
         <p className="mb-10 text-sm text-[var(--text-muted)]">
-          최신 버전 v{LATEST.version} · {LATEST_DATE}
+          최신 버전 v{VERSION} · {LATEST_DATE}
         </p>
 
         <div className="mb-12 rounded-lg border border-[var(--border-strong)] bg-[var(--accent-dim)] p-6">
@@ -142,7 +157,7 @@ export default function UpdatePage() {
               여전히 예전 방식으로 돌기 때문에 이번 한 번은 아래 순서로 설치해 주셔야 합니다.
             </p>
             <ol className="ml-5 list-decimal space-y-1">
-              <li>아래 버튼으로 <code>donys.zxp</code> 를 내려받습니다.</li>
+              <li>아래 버튼으로 <code>donys-{VERSION}.zxp</code> 를 내려받습니다.</li>
               <li>
                 <a
                   href="https://aescripts.com/learn/zxp-installer/"
@@ -159,11 +174,11 @@ export default function UpdatePage() {
             <p>다음 업데이트부터는 패널 안에서 바로 설치됩니다.</p>
           </div>
           <a
-            href="/donys.zxp"
+            href={DOWNLOAD_URL}
             className="cta-buy mt-5"
             style={{ padding: '11px 22px', fontSize: 14 }}
           >
-            donys.zxp 내려받기 (v{LATEST.version})
+            donys-{VERSION}.zxp 내려받기
           </a>
         </div>
 

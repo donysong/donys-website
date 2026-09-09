@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
-import { COUNTS, PRICE } from '@/lib/product';
+import { COUNTS, PRICE, SITE } from '@/lib/product';
 
+// 정본 = younameit.works (2026-09-09 Cloudflare 이전)
+
+/* 🔴 여기에 `alternates.canonical` 을 두지 마라 — 루트 레이아웃 metadata 는 하위 페이지가
+   **상속**한다. `canonical:'/'` 를 두면 /update·/terms·/privacy·/refund 가 전부
+   "홈의 중복" 이라고 선언되어 sitemap 이 색인하라 한 페이지를 구글이 뺀다
+   (2026-09-09 shadow 빌드 실측: 네 페이지 전부 canonical=홈). canonical 은 페이지마다 선언한다. */
 export const metadata: Metadata = {
-  // 🔴 donys.dev 는 아직 안 붙었다 (2026-09-07 실측: DNS 미해석).
-  // 여기를 donys.dev 로 두면 OG/트위터 카드 이미지가 죽은 호스트를 가리킨다.
-  // 도메인 붙는 날 이 두 값(metadataBase · openGraph.url)을 같이 옮겨라.
-  metadataBase: new URL('https://donys-website.vercel.app'),
+  metadataBase: new URL(SITE),
   title: 'You Name It — You think it. It builds it.',
   description:
     `An After Effects panel that builds what you describe — ${COUNTS.scripts} scripts, ${COUNTS.motion} motion presets, ${COUNTS.gradients} gradients, a graph editor, expressions, and Claude working on your real layers. ${PRICE} one-time.`,
@@ -26,14 +30,25 @@ export const metadata: Metadata = {
     description:
       `Scripts, ${COUNTS.motion} motion presets, gradients, a graph editor & Claude — building what you describe on real layers. ${PRICE} one-time.`,
     type: 'website',
-    url: 'https://donys-website.vercel.app',
-    images: ['/images/promo/hero.png'],
+    url: SITE,
+    siteName: 'You Name It',
+    locale: 'en_US',
+    // 이 파일이 없으면 OG 카드가 빈다 — public/images/promo/og.png 존재 확인
+    images: [
+      { url: '/images/promo/og.png', width: 1200, height: 630, alt: 'You Name It — After Effects panel' },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'You Name It — You think it. It builds it.',
     description: `Scripts, motion presets, gradients, a graph editor & Claude built in. ${PRICE}.`,
-    images: ['/images/promo/hero.png'],
+    // 이 파일이 없으면 OG 카드가 빈다 — public/images/promo/og.png 존재 확인
+    images: ['/images/promo/og.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
 };
 
@@ -42,6 +57,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // 정적 export(output:'export')라 NEXT_PUBLIC_ 값은 빌드 타임에 번들로 인라인된다.
+  // 빌드 환경에 없으면 undefined → GA 태그 자체를 렌더하지 않는다(빈 gaId 금지).
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="en">
       <head>
@@ -63,6 +82,7 @@ export default function RootLayout({
         />
       </head>
       <body>{children}</body>
+      {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
     </html>
   );
 }

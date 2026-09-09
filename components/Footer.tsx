@@ -50,7 +50,7 @@ export default function Footer() {
               (2026-09-07 dig 실측). 사이트의 **유일한** 연락처이고 **환불 창구**라,
               메일이 아무 데도 안 가는 채로 라이브에 떠 있었다.
               🔴 도메인을 붙이면 4파일 13곳을 같이 되돌려라 — privacy·terms·refund·여기.
-              (privacy 본문의 "our website (donys.dev)" 도 아직 죽은 호스트를 가리킨다.) */}
+              (privacy 본문의 "(donys.dev)" 는 2026-09-09 younameit.works 로 고쳤다.) */}
           <FooterLink label="donysong96@gmail.com" href="mailto:donysong96@gmail.com" />
           <FooterLink label="Update notes" href="/update" />
         </div>

@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/privacy' },
   title: "Privacy Policy — You Name It",
   description: "Privacy Policy for You Name It After Effects plugin.",
 };
@@ -21,7 +22,7 @@ export default function PrivacyPage() {
             <p>
               You Name It (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) respects your
               privacy. This Privacy Policy explains how we collect, use, and protect your
-              information when you visit our website (donys.dev) or purchase and use the
+              information when you visit our website (younameit.works) or purchase and use the
               You Name It After Effects plugin.
             </p>
           </section>

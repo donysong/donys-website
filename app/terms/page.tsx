@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import { PRICE } from '@/lib/product';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/terms' },
   title: "Terms of Service — You Name It",
   description: "Terms of Service for You Name It After Effects plugin.",
 };
