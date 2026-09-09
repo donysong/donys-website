@@ -1,11 +1,12 @@
 ---
 name: deploy
-description: "Dony's 사이트를 빌드 검증 후 git commit & push하여 Cloudflare Pages에 배포하는 스킬. '배포해줘', 'deploy', '푸시해줘', '커밋하고 배포', '웹사이트 업데이트 반영' 등의 요청 시 사용. 빌드가 실패하면 배포를 중단하고 에러를 보고한다."
+description: "Dony's 사이트를 빌드 검증 후 wrangler direct upload 로 Cloudflare Pages에 배포하는 스킬. '배포해줘', 'deploy', '푸시해줘', '커밋하고 배포', '웹사이트 업데이트 반영' 등의 요청 시 사용. 빌드가 실패하면 배포를 중단하고 에러를 보고한다."
 ---
 
 # Deploy — 빌드 검증 + 배포
 
-변경사항을 빌드 검증 후 git commit & push하여 Cloudflare Pages에 자동 배포한다.
+변경사항을 빌드 검증 후 `wrangler pages deploy` 로 Cloudflare Pages에 배포한다.
+🔴 **Git 연동은 없다 — `git push` 는 배포가 아니라 소스 보관이다.**
 
 ## 워크플로우
 
@@ -57,13 +58,21 @@ fi
 2. 관련 파일만 `git add` (민감 파일 제외: `.env`, `credentials` 등)
 3. `git commit`
 
-### Step 4: 푸시
-1. `git push origin main`
-2. Cloudflare Pages가 Git 연동으로 자동 빌드·배포 시작
-3. 사용자에게 완료 보고:
-   - 커밋 메시지
-   - 변경된 파일 목록
-   - 배포 URL: https://younameit.works
+### Step 4: 배포 — **direct upload 다. Git 연동이 아니다**
+
+🔴 `git push` 는 배포가 아니다. 이 프로젝트에 Git 연동은 **붙어 있지 않다** —
+푸시만 하고 끝내면 라이브는 그대로다(2026-09-09 전환 시 확정).
+
+```bash
+git push origin main                 # 소스 보관용. 이것만으로는 아무것도 배포되지 않는다.
+npm run build                        # out/ 생성 (output: 'export')
+npx wrangler pages deploy out --project-name=younameit --branch=main
+```
+
+⚠️ **`--branch=main` 이 프로덕션 지정자다.** 다른 값을 주면 프리뷰 배포가 되고
+`younameit.works` 는 갱신되지 않는다 — 명령은 성공하고 URL 도 뱉는다(조용한 실패).
+
+배포 뒤 보고: 커밋 메시지 · 변경 파일 · 배포 URL `https://younameit.works`
 
 ### Step 5: 배포 후 라이브 검사 — **오리진이 이번 빌드를 실제로 내주는가**
 
@@ -150,4 +159,6 @@ npm install
 |------|------|
 | 빌드 실패 | 배포 중단, 에러 내용 보고 |
 | push 실패 | 원인 확인 (인증, 충돌 등) 후 사용자에게 안내 |
+| `wrangler pages deploy` 실패 | 라이브는 이전 배포 그대로다(무해). 인증(`npx wrangler whoami`) 확인 후 재시도 |
+| push 는 됐는데 라이브가 그대로 | **Step 4 를 안 돌린 것이다.** Git 연동이 없다 |
 | 변경사항 없음 | 조기 종료, "배포할 내용 없음" 보고 |
