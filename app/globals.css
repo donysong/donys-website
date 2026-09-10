@@ -300,6 +300,17 @@ body {
 }
 .screen.showpiece::after { opacity: .38; }
 
+/* 🔴 `.asis` — **이미 우리 색인 판은 반전하지 마라.**
+   반전 규칙은 *어두운 AE UI* 를 밝은 인쇄면으로 뒤집으려고 있는 것이다. 결과 화면을
+   하우스(파란 종이·빨간 잉크)로 다시 만들고 나니 그 규칙이 **제일 좋은 부분을 잿빛
+   덩어리로 만들었다**(실측: 파란 컴프 → 중간 회색). 여기선 검은 패널이 검은 종이로,
+   파란 컴프가 파란 종이로 읽힌다 — 둘 다 이 페이지의 재료다. 도트만 얹는다. */
+.screen.asis { background: transparent; }
+.screen.asis > img,
+.screen.asis > .shot,
+.screen.asis > video { filter: none; mix-blend-mode: normal; }
+.screen.asis::after { opacity: .12; }
+
 .screen.developed,
 .screen:hover {
   filter: none;
