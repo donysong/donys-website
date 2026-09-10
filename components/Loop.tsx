@@ -55,8 +55,7 @@ function Beat({ beat }: { beat: (typeof BEATS)[number] }) {
   const ref = useInViewPlay();
   return (
     <article>
-      <div className="plate-card">
-        <div className="stock-black" style={{ padding: 14 }}>
+      <div className="plate-card fig">
           <div className="screen">
             <video
               ref={ref}
@@ -69,6 +68,9 @@ function Beat({ beat }: { beat: (typeof BEATS)[number] }) {
               aria-label={`${beat.title} — the panel working inside After Effects`}
             />
           </div>
+        <div className="fig-cap">
+          <span className="fig-no">Fig. 0{beat.n}</span>
+          <span>{beat.title}</span>
         </div>
       </div>
       <p className="mono" style={{ marginTop: 16, color: 'var(--ink-black)' }}>{beat.n}</p>

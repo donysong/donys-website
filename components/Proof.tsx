@@ -33,13 +33,11 @@ export default function Proof() {
       {WORKS.length > 0 ? (
         <div className="sweep grid gap-7 md:grid-cols-3">
           {WORKS.map((w) => (
-            <figure key={w.title} className="plate-card" style={{ margin: 0 }}>
-              <div className="stock-black" style={{ padding: 14 }}>
+            <figure key={w.title} className="plate-card fig" style={{ margin: 0 }}>
                 <div className="screen">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={w.poster} alt={w.title} />
                 </div>
-              </div>
               <figcaption style={{ marginTop: 14 }}>
                 <p className="mono" style={{ color: 'var(--ink-black)', marginBottom: 6 }}>Said</p>
                 <p style={{ fontSize: 14.5, lineHeight: 1.55, color: 'var(--text-default)' }}>

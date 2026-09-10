@@ -1,6 +1,7 @@
 'use client';
 
 import Plate from './Plate';
+import { Spot } from './Spots';
 import { PRICE } from '@/lib/product';
 
 /* 🔴 데모 자리는 **실 AE 화면 녹화**다 (계획서 §7 ① — 오너 자산).
@@ -52,9 +53,8 @@ export default function Hero() {
           </p>
         </div>
 
-        <div className="plate-card">
-          <div className="stock-black" style={{ padding: 20 }}>
-            <div className="screen showpiece">
+        <div className="plate-card fig">
+          <div className="screen showpiece">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/promo/poster-chat.webp"
@@ -63,12 +63,20 @@ export default function Hero() {
                 height={788}
                 fetchPriority="high"
               />
-            </div>
           </div>
-          <p className="mono" style={{ marginTop: 14, color: 'var(--text-secondary)' }}>
-            Black paper · screened{'  ·  '}
-            <span style={{ color: 'var(--text-muted)' }}>hover to develop</span>
-          </p>
+          <div className="fig-cap">
+            <span className="fig-no">Fig. 01</span>
+            <span>Chat · a title card being built</span>
+            <span className="fig-hint">hover to develop</span>
+          </div>
+
+          {/* 여백을 장식으로 채우지 않는다 — **패널이 실제로 하는 동작**으로 채운다.
+              시트는 툴 프리뷰 원본이라 이 세 칸이 곧 제품 증거다. */}
+          <div className="spot-strip" style={{ marginTop: 30 }}>
+            <Spot id="bentoGrid" />
+            <Spot id="rgbSplit" />
+            <Spot id="textExploder" />
+          </div>
         </div>
       </div>
     </section>

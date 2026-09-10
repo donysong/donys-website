@@ -56,8 +56,7 @@ export default function Press() {
 
       <div className="sweep grid gap-7 md:grid-cols-2">
         {BIG.map((f) => (
-          <article key={f.title} className="plate-card">
-            <div className="stock-black" style={{ padding: 16 }}>
+          <article key={f.title} className="plate-card fig">
               <div
                 className="screen"
                 style={{ aspectRatio: '16 / 10' }}
@@ -69,23 +68,26 @@ export default function Press() {
                   style={{ backgroundImage: `url(${f.img})`, backgroundSize: f.zoom, backgroundPosition: f.pos }}
                 />
               </div>
-              <div style={{ padding: '18px 6px 4px' }}>
-                <p className="mono" style={{ color: 'var(--paper)', marginBottom: 8 }}>{f.tag}</p>
+              <div style={{ padding: '16px 0 4px' }}>
+                {/* 🔴 검정 판이 없어졌다. 여기 색을 var(--paper)/--ink-white 로 되돌리면
+                    파란 종이 위 파란 글자다(대비 1점대). 종이가 바뀌면 잉크도 바꿔라. */}
+                <p className="fig-cap" style={{ marginTop: 0, marginBottom: 10 }}>
+                  <span className="fig-no">{f.tag}</span>
+                </p>
                 <h3
                   style={{
                     margin: '0 0 8px',
                     fontSize: 22,
                     fontWeight: 800,
                     letterSpacing: '-.02em',
-                    color: 'var(--ink-white)',
+                    color: 'var(--text-primary)',
                     fontVariationSettings: "'ROND' 100, 'wdth' 106",
                   }}
                 >
                   {f.title}
                 </h3>
-                <p style={{ fontSize: 14, lineHeight: 1.6, color: '#b9c4c9', maxWidth: '46ch' }}>{f.body}</p>
+                <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--text-default)', maxWidth: '46ch' }}>{f.body}</p>
               </div>
-            </div>
           </article>
         ))}
       </div>
