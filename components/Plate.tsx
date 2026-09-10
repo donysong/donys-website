@@ -22,10 +22,16 @@ export default function Plate({
   style?: React.CSSProperties;
 }) {
   const toneClass = tone === 'black' ? ' plate-black' : tone === 'white' ? ' plate-white' : '';
+  /* 위글 위상 — 같은 화면의 판이 전부 같은 프레임에 튀면 "기계"로 읽힌다.
+     글자에서 뽑은 **고정** 해시라 서버·클라이언트가 같은 값을 낸다(하이드레이션 안전).
+     6칸 = 하우스 `Posterize Time (6)` 의 draw 수와 같다. */
+  let h = 0;
+  for (let i = 0; i < children.length; i++) h = (h * 31 + children.charCodeAt(i)) | 0;
+  const boilDelay = `-${((Math.abs(h) % 6) / 6).toFixed(3)}s`;
   return (
     <Tag
       className={`plate${toneClass}${register ? ' reg-in' : ''} ${className}`.trim()}
-      style={style}
+      style={{ ...style, ['--boil-delay' as string]: boilDelay }}
     >
       {/* rim · knock 은 같은 글자를 더 그린 판이라 스크린리더에서 중복된다 */}
       <span className="rim" aria-hidden="true">

@@ -180,10 +180,45 @@ export default function MotionLab() {
         ))}
       </section>
 
+      {/* ── 위글 ────────────────────────────────────────────── */}
+      <section style={{ marginBottom: 56 }}>
+        <Plate as="h2" tone="black" className="mb-7" style={{ fontSize: 26, fontWeight: 800 }}>
+          4 · 위글 (boil)
+        </Plate>
+        <p style={{ maxWidth: 660, fontSize: 14, lineHeight: 1.65, marginBottom: 24 }}>
+          하우스 정본 = <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>HOVER_PREVIEW_RECIPE</code> §4{' '}
+          <b>Posterize Time (6)</b> · §6-b 실측 — 동봉 텍스처 6장은 <b>&ldquo;진행하는 애니가 아니라 독립 노이즈 draw&rdquo;</b>
+          다(인접 프레임 diff 5.2~5.8 · f1↔f7 도 5.35 = 순서가 없다). 그래서 부드럽게 흔드는 게
+          아니라 <b>6fps 로 갈아끼운다</b>. 글리치는 미끄러지고, 인쇄는 갈아끼워진다.
+        </p>
+        <div style={{ display: 'grid', gap: 24, gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))' }}>
+          <Card title="위글 ON — 지금 사이트" sub="가장자리가 다시 그려진다(SVG seed · discrete) + 판이 한 칸씩 튄다(transform · steps). 잉크 1s · 흰 판 1.16s 라 어긋남 자체가 숨쉰다.">
+            <div style={{ padding: '10px 0' }}>
+              <Plate className="headline" style={{ fontSize: 38, fontWeight: 800 }}>BOIL</Plate>
+            </div>
+          </Card>
+          <Card title="위글 OFF — 대조군" sub="같은 판, 애니메이션만 껐다. prefers-reduced-motion 에서 사용자가 보는 상태이기도 하다(실측: 프레임 간 PSNR = inf, 픽셀 완전 동일)."> 
+            <div style={{ padding: '10px 0' }}>
+              <Plate className="headline plate-static" style={{ fontSize: 38, fontWeight: 800 }}>BOIL</Plate>
+            </div>
+          </Card>
+          <Card title="검정 판 — 진폭은 비례다" sub="흰 판 진폭은 절대 px 가 아니라 어긋남의 최대 .37배다. 절대값으로 뒀더니 rim(-1,-1.5)인 검정 판에서 어긋남이 반대편으로 넘어갔다 — 그건 인쇄가 아니라 고장이다.">
+            <div style={{ padding: '10px 0' }}>
+              <Plate tone="black" style={{ fontSize: 34, fontWeight: 800 }}>검정 판</Plate>
+            </div>
+          </Card>
+        </div>
+        <p style={{ maxWidth: 660, fontSize: 13, lineHeight: 1.6, marginTop: 20, opacity: .85 }}>
+          🔴 <b>T1(판)에만 건다.</b> 카드·시트에는 <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>#press</code> 자체가
+          없다 — 그걸 걸었던 게 2차 판정 <i>&ldquo;너무 쎄다&rdquo;</i> 의 원인이었다. 위글도 같은 선을 지킨다.
+          위상은 판마다 다르다(글자 해시 → 6칸). 같은 화면의 판이 전부 같은 프레임에 튀면 기계로 읽힌다.
+        </p>
+      </section>
+
       {/* ── 4. 규칙 ─────────────────────────────────────────── */}
       <section style={{ marginBottom: 40 }}>
         <Plate as="h2" tone="black" className="mb-7" style={{ fontSize: 26, fontWeight: 800 }}>
-          4 · 규칙
+          5 · 규칙
         </Plate>
         <div className="sheet">
           <ol style={{ margin: 0, paddingLeft: 22, display: 'grid', gap: 16 }}>

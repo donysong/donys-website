@@ -38,6 +38,42 @@ export default function RisoDefs() {
             <feGaussianBlur in="d" stdDeviation="0.35" />
           </filter>
 
+          {/* 🔴 하우스 위글 — 판이 **6fps 로 다시 그려진다**.
+              정본 = `HOVER_PREVIEW_RECIPE` §4 `Posterize Time (6)` + §6-b 의 실측:
+              동봉 텍스처 6장은 "진행하는 애니가 아니라 **독립 노이즈 draw**" 다
+              (인접 프레임 diff 5.2~5.8 · f1↔f7 도 5.35 = 순서가 없다).
+              ⇒ 부드럽게 흔드는 게 아니라 **discrete 로 갈아끼운다.** 이게 기각당한
+                 "삼류 디지털 글리치" 와 갈리는 지점이다 — 글리치는 매끄럽게 움직인다. */}
+          <filter id="press-boil" x="-6%" y="-10%" width="112%" height="120%" colorInterpolationFilters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves={2} seed={4} result="n">
+              <animate
+                attributeName="seed"
+                values="4;23;41;12;58;31"
+                dur="1s"
+                calcMode="discrete"
+                repeatCount="indefinite"
+              />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G" result="d" />
+            <feGaussianBlur in="d" stdDeviation="0.35" />
+          </filter>
+
+          {/* 흰 판은 **다른 draw** 를 탄다 — 두 판이 같이 떨면 한 덩어리로 읽힌다.
+              어긋남 자체가 숨쉬는 게 리소다. 값 순서·길이 둘 다 다르게 둔다. */}
+          <filter id="press-boil-rim" x="-6%" y="-10%" width="112%" height="120%" colorInterpolationFilters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves={2} seed={17} result="n">
+              <animate
+                attributeName="seed"
+                values="17;52;8;36;61;27"
+                dur="1.16s"
+                calcMode="discrete"
+                repeatCount="indefinite"
+              />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G" result="d" />
+            <feGaussianBlur in="d" stdDeviation="0.35" />
+          </filter>
+
           {/* 작은 요소용 — 같은 결, 약한 압력 */}
           <filter id="press-fine" x="-6%" y="-10%" width="112%" height="120%" colorInterpolationFilters="sRGB">
             <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves={2} seed={9} result="n" />

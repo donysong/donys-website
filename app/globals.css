@@ -164,8 +164,10 @@ body {
   position: absolute;
   inset: 0;
   color: var(--ink-white);
-  transform: translate(var(--rim-x), var(--rim-y));
-  filter: url(#press);
+  /* 🔴 진입은 `translate` 프로퍼티, 위글은 `transform` 이다 — 한 요소에서 둘이
+     싸우지 않게 축을 갈랐다. 여기를 transform 으로 되돌리면 위글이 진입을 덮는다. */
+  translate: var(--rim-x) var(--rim-y);
+  filter: url(#press-boil-rim);
   pointer-events: none;
   user-select: none;
 }
@@ -173,7 +175,7 @@ body {
   position: relative;
   color: var(--ink-red);
   mix-blend-mode: multiply;   /* 잉크는 감산이다 */
-  filter: url(#press);
+  filter: url(#press-boil);
   /* 잉크 알갱이 — 잉크에 구멍이 나고 그 밑의 흰 판·종이가 비친다.
      타일 두 장(구배 + 조밀)의 **합집합**이라 반복 격자가 눈에 안 띈다. */
   -webkit-mask:
@@ -461,35 +463,42 @@ body {
 
 /* ① 판이 갈라진다 — 정합(0,0) → 어긋남(rim). 이 한 벌이 전 사이트의 진입이다. */
 @keyframes plate-part {
-  from { transform: translate(0, 0); }
-  to   { transform: translate(var(--rim-x), var(--rim-y)); }
+  from { translate: 0 0; }
+  to   { translate: var(--rim-x) var(--rim-y); }
 }
 /* 잉크는 반대편에서 반 칸 — 틈이 양쪽에서 벌어진다 (히어로 전용) */
 @keyframes ink-part {
-  from { transform: translate(calc(var(--rim-x) * -.6), calc(var(--rim-y) * -.6)); }
-  to   { transform: translate(0, 0); }
+  from { translate: calc(var(--rim-x) * -.6) calc(var(--rim-y) * -.6); }
+  to   { translate: 0 0; }
 }
 /* 면(카드·시트)은 등록축을 따라 들어와 앉는다. 세 칸 = 9~12px, 뷰포트 밖에서도 안전하다 */
 @keyframes plate-land {
-  from { transform: translate(calc(var(--rim-x) * 3), calc(var(--rim-y) * 3)); }
-  to   { transform: translate(0, 0); }
+  from { translate: calc(var(--rim-x) * 3) calc(var(--rim-y) * 3); }
+  to   { translate: 0 0; }
 }
 
 /* 로드 구동 — 히어로만. 시간 기반이라 --t-register 와 delay 가 실제로 먹는다 */
-.reg-in > .rim { animation: plate-part var(--t-register) var(--ease-press) both; }
-.reg-in > .ink { animation: ink-part  var(--t-register) var(--ease-press) both; }
-.delay-1 { animation-delay: 90ms; }
-.delay-2 { animation-delay: 180ms; }
-.delay-3 { animation-delay: 270ms; }
+/* 히어로 로드 모션은 아래 ④ 블록에서 위글과 **한 선언으로 합쳐** 건다 */
+/* 🔴 `animation-delay` 를 직접 쓰지 마라 — 위글과 합쳐진 선언에서 두 값을 다 덮는다.
+   진입 지연은 --reg-delay 로만 준다. */
+.delay-1 { --reg-delay: 90ms; }
+.delay-2 { --reg-delay: 180ms; }
+.delay-3 { --reg-delay: 270ms; }
 
 /* 스크롤 구동 — JS 0. 미지원 브라우저는 **최종 상태 그대로** 보인다 */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     /* 제목 판. 히어로(.reg-in)는 로드 모션을 이미 가졌으니 뺀다 */
     .plate:not(.reg-in) > .rim {
-      animation: plate-part linear both;
-      animation-timeline: view();
-      animation-range: entry 8% entry 58%;
+      animation: plate-part linear both,
+                 rim-boil 1.16s steps(1, end) infinite;
+      /* 🔴 타임라인은 **첫 번째 애니메이션에만** 붙인다. 위글은 시계가 시간이라
+         `auto`(문서 타임라인) 로 남겨야 한다 — 둘 다 view() 로 묶으면 위글이
+         스크롤을 멈춘 순간 같이 얼어붙는다. */
+      animation-timeline: view(), auto;
+      animation-range: entry 8% entry 58%, normal;
+      /* 축약형이 delay 를 0 으로 리셋하므로 위상을 다시 준다(진입 0 · 위글 위상) */
+      animation-delay: 0s, var(--boil-delay, 0s);
     }
     .plate-card, .card-rim, .sheet {
       animation: plate-land linear both;
@@ -503,6 +512,72 @@ body {
     .sweep > *:nth-child(4) { animation-range: entry 21% entry 65%; }
   }
 }
+
+/* ── ④ 위글(boil) — 판이 6fps 로 **다시 그려진다** ─────────────
+   하우스 정본 = `HOVER_PREVIEW_RECIPE` §4 `Posterize Time (6)` · §6-b 실측
+   ("독립 노이즈 draw" · 인접 diff 5.2~5.8 · f1↔f7 도 5.35 = 순서가 없다).
+
+   🔴 **매끄럽게 흔들지 마라.** `steps(1, end)` 없이 보간하면 그 순간 리소가 아니라
+      2026-09-09 에 기각당한 "삼류 디지털 글리치" 가 된다. 글리치는 미끄러지고,
+      인쇄는 **갈아끼워진다.**
+   🔴 **T1(판)에만 건다.** 카드·시트에는 `#press` 자체가 없다 — 그걸 걸었던 게
+      오너 2차 판정 *"너무 쎄다"* 의 원인이었다(위 §T2·T3 주석). 위글도 같은 선을 지킨다.
+   🔴 진폭은 **1px 언저리**다. 키우면 판독이 무너지고 글자가 "떠는 텍스트" 로 읽힌다.
+
+   두 축이 같이 돈다: ⑴ 가장자리가 다시 그려진다(SVG seed, discrete)
+                     ⑵ 판이 한 칸씩 튄다(transform, steps)
+   잉크와 흰 판은 **다른 draw · 다른 주기**(1s / 1.16s)라 어긋남 자체가 숨쉰다. */
+
+@keyframes ink-boil {
+  0%    { transform: translate(0, 0); }
+  16.6% { transform: translate(.5px, -.4px); }
+  33.3% { transform: translate(-.45px, .3px); }
+  50%   { transform: translate(.3px, .55px); }
+  66.6% { transform: translate(-.5px, -.25px); }
+  83.3% { transform: translate(.2px, -.5px); }
+}
+/* 🔴 흰 판의 진폭은 **절대 px 가 아니라 어긋남에 비례**한다(최대 .37배).
+   절대값(±1.1px)으로 뒀더니 `.plate-black`(rim −1,−1.5)에서 어긋남이 **반대편으로
+   넘어갔다** — 흰 판이 왼쪽 위에 있다가 오른쪽 아래로 튄다. 그건 인쇄가 아니라 고장이다.
+   비례로 두면 어떤 판에서도 부호가 안 뒤집힌다. */
+@keyframes rim-boil {
+  0%    { transform: translate(0, 0); }
+  16.6% { transform: translate(calc(var(--rim-x) * -.33), calc(var(--rim-y) *  .24)); }
+  33.3% { transform: translate(calc(var(--rim-x) *  .27), calc(var(--rim-y) *  .37)); }
+  50%   { transform: translate(calc(var(--rim-x) *  .37), calc(var(--rim-y) * -.20)); }
+  66.6% { transform: translate(calc(var(--rim-x) * -.24), calc(var(--rim-y) * -.37)); }
+  83.3% { transform: translate(calc(var(--rim-x) *  .17), calc(var(--rim-y) *  .30)); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* --boil-delay 는 Plate 가 글자에서 뽑은 고정 위상이다 (컴포넌트 주석 참고).
+     없으면 0 — 그 경우 같은 화면의 판이 전부 같은 프레임에 튄다 = 기계적으로 읽힌다. */
+  .plate > .ink {
+    animation: ink-boil 1s steps(1, end) infinite;
+    animation-delay: var(--boil-delay, 0s);
+  }
+  .plate > .rim {
+    animation: rim-boil 1.16s steps(1, end) infinite;
+    animation-delay: var(--boil-delay, 0s);
+  }
+  /* 히어로·스크롤 진입은 같은 요소의 animation 속성을 통째로 덮는다.
+     ⇒ 진입이 걸린 동안은 위글을 쉬게 두고, `translate` 축으로 진입만 돌린다.
+        진입이 끝나면(both) 위글이 다시 잡는 게 아니라 **아래 규칙이 둘을 합친다.** */
+  .reg-in > .rim {
+    animation: plate-part var(--t-register) var(--ease-press) both,
+               rim-boil 1.16s steps(1, end) infinite;
+    animation-delay: var(--reg-delay, 0s), var(--boil-delay, 0s);
+  }
+  .reg-in > .ink {
+    animation: ink-part var(--t-register) var(--ease-press) both,
+               ink-boil 1s steps(1, end) infinite;
+    animation-delay: var(--reg-delay, 0s), var(--boil-delay, 0s);
+  }
+}
+
+/* 위글 끔 — /motion 실험대의 대조군 전용. 사이트 면에는 쓰지 마라 */
+.plate-static > .ink,
+.plate-static > .rim { animation-name: none; filter: url(#press); }
 
 /* ② 판 밀림 — 방향은 전 사이트가 하나(↖)다. 예전엔 카드가 반대로 갔다 */
 .plate-card:hover .stock-black,
@@ -531,9 +606,12 @@ body {
   html { scroll-behavior: auto; }
   /* 정지 상태 = 우리가 찍는 상태. 판은 이미 어긋나 있고 면은 제자리다 */
   .reg-in > .rim, .reg-in > .ink,
-  .plate > .rim, .plate-card, .card-rim, .sheet { animation: none; }
-  .plate > .rim { transform: translate(var(--rim-x), var(--rim-y)); }
-  .reg-in > .ink { transform: none; }
+  .plate > .rim, .plate > .ink, .plate-card, .card-rim, .sheet { animation: none; }
+  /* 위글은 애니메이션이 둘이다 — transform 축과 SVG seed 축. 둘 다 끈다. */
+  .plate > .ink { filter: url(#press); transform: none; }
+  .plate > .rim { filter: url(#press); transform: none; }
+  .plate > .rim { translate: var(--rim-x) var(--rim-y); }
+  .reg-in > .ink { translate: none; }
   .screen, .screen > img, .screen > video, .cta-buy, .card, .stock-black { transition: none; }
 }
 
@@ -541,5 +619,9 @@ body {
    소면적만 남기고 대면적(카드·판)에서는 뗀다. */
 @media (max-width: 720px) {
   .stock-black, .plate-card::before, .card, .card-rim::before { filter: none; }
+  /* 🔴 모바일은 **필터 재계산**만 끈다(seed 애니 = 매 프레임 feTurbulence 재생성).
+     판이 튀는 transform 위글은 공짜라 남긴다 — 질감이 통째로 죽지 않는다. */
+  .plate > .ink { filter: url(#press); }
+  .plate > .rim { filter: url(#press); }
   :root { --spk-lg: 200px; --spk-sm: 230px; }
 }
