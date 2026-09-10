@@ -42,10 +42,10 @@ export default function Press() {
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="mono" style={{ color: 'var(--text-muted)', marginBottom: 14 }}>
-            Plate 04 / 07 — what’s in the box
+            Plate 05 / 08 — up close
           </p>
           <h2 className="headline">
-            <Plate as="span" tone="black">One panel, seven tools.</Plate>
+            <Plate as="span" tone="black">Two of them, up close.</Plate>
           </h2>
         </div>
         <p style={{ maxWidth: '36ch', fontSize: 15.5, lineHeight: 1.6, color: 'var(--text-secondary)' }}>

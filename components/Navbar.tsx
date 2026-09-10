@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { PRICE } from '@/lib/product';
 
 const NAV_LINKS = [
-  { label: 'Product', href: '/#product' },
+  { label: 'Panels', href: '/#panels' },
   { label: 'Proof', href: '/#proof' },
   { label: 'Pricing', href: '/#pricing' },
   { label: 'Notes', href: '/update' },
@@ -28,7 +28,7 @@ export default function Navbar() {
         style={{ gridTemplateColumns: '1fr auto 1fr', gap: 16 }}
       >
         <div className="mono hidden md:block" style={{ color: 'var(--text-secondary)' }}>
-          Plate <b style={{ color: 'var(--ink-black)', fontWeight: 500 }}>01</b> / 07
+          Plate <b style={{ color: 'var(--ink-black)', fontWeight: 500 }}>01</b> / 08
           {'  ·  '}Ink <b style={{ color: 'var(--ink-black)', fontWeight: 500 }}>E50437</b>
         </div>
 

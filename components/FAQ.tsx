@@ -46,7 +46,7 @@ export default function FAQSection() {
     <section id="faq" className="mx-auto max-w-[1240px] px-6 py-20 md:px-10 md:py-28">
       <div className="trim-rule" style={{ marginBottom: 34 }} />
       <p className="mono" style={{ color: 'var(--text-muted)', marginBottom: 14 }}>
-        Plate 07 / 07 — questions
+        Plate 08 / 08 — questions
       </p>
       <h2 className="headline" style={{ marginBottom: 34 }}>
         <Plate as="span" tone="black">Asked and answered.</Plate>

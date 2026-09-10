@@ -6,7 +6,9 @@
 export type SpotId =
   | 'bentoGrid' | 'carouselRig' | 'proximityRig' | 'sequenceLayers'
   | 'rgbSplit' | 'textExploder' | 'roundCorners' | 'edgeBoil'
-  | 'writeOn' | 'pointsToNulls' | 'shadowCaster' | 'autoMarker' | 'clickReact';
+  | 'writeOn' | 'pointsToNulls' | 'shadowCaster' | 'autoMarker' | 'clickReact'
+  | 'typewriterCursor' | 'resetKeys' | 'copyKeyframes' | 'gifConverter'
+  | 'organizeProject' | 'patternLab';
 
 /* 라벨은 패널의 툴 이름 그대로다. 여기서 새로 짓지 마라 — 사는 사람이 패널에서 그 이름을 찾는다. */
 const LABEL: Record<SpotId, string> = {
@@ -23,6 +25,12 @@ const LABEL: Record<SpotId, string> = {
   shadowCaster: 'Shadow Caster',
   autoMarker: 'Auto Marker',
   clickReact: 'Click React',
+  typewriterCursor: 'Typewriter Cursor',
+  resetKeys: 'Reset Keys',
+  copyKeyframes: 'Copy Keyframes',
+  gifConverter: 'GIF Export',
+  organizeProject: 'Organize Project',
+  patternLab: 'Pattern Lab',
 };
 
 export function Spot({ id, label = true }: { id: SpotId; label?: boolean }) {

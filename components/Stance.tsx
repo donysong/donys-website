@@ -17,7 +17,7 @@ export default function Stance() {
     <section className="mx-auto max-w-[1240px] px-6 py-20 md:px-10 md:py-28">
       <div className="trim-rule" style={{ marginBottom: 34 }} />
       <p className="mono" style={{ color: 'var(--text-muted)', marginBottom: 26 }}>
-        Plate 05 / 07 — what this is
+        Plate 06 / 08 — what this is
       </p>
 
       <div className="flex flex-col gap-3 md:gap-4">

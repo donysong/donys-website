@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import Loop from '@/components/Loop';
 import Proof from '@/components/Proof';
 import Press from '@/components/Press';
+import Panels from '@/components/Panels';
 import { SpotStrip } from '@/components/Spots';
 import Stance from '@/components/Stance';
 import Pricing from '@/components/Pricing';
@@ -51,16 +52,17 @@ export default function Home() {
         <section className="mx-auto max-w-[1240px] px-6 pb-10 md:px-10">
           <SpotStrip
             ids={['roundCorners', 'sequenceLayers', 'carouselRig', 'proximityRig', 'edgeBoil']}
-            note="what the panel draws, drawn by the panel"
+            note="what the panel draws — drawn by the panel"
           />
         </section>
         <Proof />
         <section className="mx-auto max-w-[1240px] px-6 pb-4 md:px-10">
           <SpotStrip
             ids={['writeOn', 'autoMarker', 'shadowCaster', 'clickReact', 'pointsToNulls']}
-            note="13 of 39 · pulled straight from the panel"
+            note="19 of 39 shown · pulled straight from the panel"
           />
         </section>
+        <Panels />
         <Press />
         <Stance />
         <Pricing />

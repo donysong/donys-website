@@ -56,7 +56,7 @@ function Beat({ beat }: { beat: (typeof BEATS)[number] }) {
   return (
     <article>
       <div className="plate-card fig">
-          <div className="screen">
+          <div className="screen asis">
             <video
               ref={ref}
               src={beat.src}
@@ -100,7 +100,7 @@ export default function Loop() {
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="mono" style={{ color: 'var(--text-muted)', marginBottom: 14 }}>
-            Plate 02 / 07 — the loop
+            Plate 02 / 08 — the loop
           </p>
           <h2 className="headline">
             <Plate as="span" tone="black">One loop, three beats.</Plate>

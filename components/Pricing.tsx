@@ -20,7 +20,7 @@ export default function Pricing() {
     <section id="pricing" className="mx-auto max-w-[1240px] px-6 py-20 md:px-10 md:py-28">
       <div className="trim-rule" style={{ marginBottom: 34 }} />
       <p className="mono" style={{ color: 'var(--text-muted)', marginBottom: 14 }}>
-        Plate 06 / 07 — price
+        Plate 07 / 08 — price
       </p>
 
       <div className="grid items-start gap-12 lg:grid-cols-[1fr_460px] lg:gap-16">

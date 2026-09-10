@@ -18,7 +18,7 @@ export default function Proof() {
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="mono" style={{ color: 'var(--text-muted)', marginBottom: 14 }}>
-            Plate 03 / 07 — proof
+            Plate 03 / 08 — proof
           </p>
           <h2 className="headline">
             <Plate as="span">Made with it, first.</Plate>
