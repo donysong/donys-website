@@ -36,7 +36,7 @@ const PANELS: Panel[] = [
   {
     n: '03',
     name: 'Library',
-    body: 'Motion and text presets, gradients and effects. Every one stays re-tunable from Effect Controls after it lands.',
+    body: `Motion and text presets, gradients, and ${COUNTS.effects} effects — including Riso Print, the one this whole page is printed with. Every one stays re-tunable from Effect Controls after it lands.`,
     count: `${COUNTS.motion} + ${COUNTS.textPresets} presets · ${COUNTS.gradients} gradients`,
     spot: 'carouselRig',
   },

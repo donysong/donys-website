@@ -29,6 +29,10 @@ export const COUNTS = {
   expressions: 69,
   tools: 56,
   skills: 29,
+  /* 출고 이펙트. 🔴 이력이 14 → 4 → 5 다 — 2026-09-09 오너가 닫힌 결정을 직접 열어
+     `riso-print` 를 더했다(CLAUDE.md 닫힌 표 · `harnessLint [seed]` 가 실측한다).
+     은퇴한 10종은 그대로 은퇴다. 여기 숫자를 올리기 전에 그 표부터 봐라. */
+  effects: 5,
 } as const;
 
 /* 최신 릴리스 버전 한 곳. app/update/page.tsx 의 다운로드 링크·표시 문구가 여기서 읽는다.
