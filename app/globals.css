@@ -388,26 +388,30 @@ body {
   box-shadow: var(--rx) var(--ry) 0 0 var(--ink-white);
 }
 @keyframes spot-run {
-  0.0% { background-position: 0.0000% 0.0000%; }
-  6.25% { background-position: 33.3333% 0.0000%; }
-  12.5% { background-position: 66.6667% 0.0000%; }
-  18.75% { background-position: 100.0000% 0.0000%; }
-  25.0% { background-position: 0.0000% 33.3333%; }
-  31.25% { background-position: 33.3333% 33.3333%; }
-  37.5% { background-position: 66.6667% 33.3333%; }
-  43.75% { background-position: 100.0000% 33.3333%; }
-  50.0% { background-position: 0.0000% 66.6667%; }
-  56.25% { background-position: 33.3333% 66.6667%; }
-  62.5% { background-position: 66.6667% 66.6667%; }
-  68.75% { background-position: 100.0000% 66.6667%; }
-  75.0% { background-position: 0.0000% 100.0000%; }
-  81.25% { background-position: 33.3333% 100.0000%; }
-  87.5% { background-position: 66.6667% 100.0000%; }
-  93.75% { background-position: 100.0000% 100.0000%; }
+  0.0% { background-position: 0.0% 0.0%; }
+  4.098% { background-position: 33.333% 0.0%; }
+  8.197% { background-position: 66.667% 0.0%; }
+  12.295% { background-position: 100.0% 0.0%; }
+  16.393% { background-position: 0.0% 33.333%; }
+  20.492% { background-position: 33.333% 33.333%; }
+  24.59% { background-position: 66.667% 33.333%; }
+  28.689% { background-position: 100.0% 33.333%; }
+  32.787% { background-position: 0.0% 66.667%; }
+  36.885% { background-position: 33.333% 66.667%; }
+  40.984% { background-position: 66.667% 66.667%; }
+  45.082% { background-position: 100.0% 66.667%; }
+  49.18% { background-position: 0.0% 100.0%; }
+  53.279% { background-position: 33.333% 100.0%; }
+  57.377% { background-position: 66.667% 100.0%; }
+  61.475% { background-position: 100.0% 100.0%; }
+  100% { background-position: 100% 100%; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  /* 정지 상태 = 1프레임. 손이 닿아야 돈다 — 페이지가 저 혼자 움직이지 않는다 */
-  .spot:hover, .spot:focus-visible { animation: spot-run 1.1s steps(1, end) infinite; }
+  /* 정지 상태 = 1프레임. 손이 닿아야 돈다 — 페이지가 저 혼자 움직이지 않는다.
+     🔴 재생은 **패널 정본**이다 (`PreviewPopover.tsx`): 24fps · 16프레임 = 667ms + 끝 프레임 홀드 350ms.
+     구 `1.1s` 는 패널이 2026-08-30(`f301679`)에 버린 14.5fps 값이었고, 홀드도 없어서 툴이 만든 결과를
+     읽을 틈 없이 되감겼다. 같은 시트를 쓰면서 속도만 다르면 사이트가 제품을 잘못 소개하는 것이다. */
+  .spot:hover, .spot:focus-visible { animation: spot-run 1016.667ms steps(1, end) infinite; }
 }
 .spot-cap {
   margin-top: 8px;
@@ -553,8 +557,12 @@ body {
 }
 /* 🔴 어긋남 폭은 **포스터면에서만** 하우스 값(-3,-4)이다. 섹션 제목까지 그 폭을 쓰면
    흰 테가 두꺼워져 스티커로 읽힌다(오너 2차 판정). 제목은 1.5px — 흔적만 남긴다.
-   히어로(.display)는 그대로 하우스 값을 쓴다. */
-.headline { --rim-x: -1.5px; --rim-y: -2px; }
+   🔴 **히어로도 같은 폭이다** (2026-09-11 오너 판정 — *"화이트 틀어짐 너무 어긋나 있음. 좀 subtle 하게"*).
+   구 문구 *"히어로(.display)는 그대로 하우스 값을 쓴다"* 는 그 판정으로 폐기됐다.
+   ⚠️ 면(카드·버튼·스팟)의 밑판 어긋남(--rx/--ry)은 **안 건드린다** — 판의 인쇄 어긋남과 종이 밑판은 다른 물건이다.
+   위글(rim-boil)은 어긋남에 비례하므로 히어로 위글도 같이 절반이 된다. 그게 맞다 — 제목 판들이 이미 그 비율로 돈다. */
+.headline,
+.display { --rim-x: -1.5px; --rim-y: -2px; }
 .headline {
   font-size: clamp(2rem, 4.2vw, 3.2rem);
   line-height: 1.02;
