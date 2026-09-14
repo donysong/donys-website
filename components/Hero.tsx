@@ -10,18 +10,27 @@ import { PRICE } from '@/lib/product';
 export default function Hero() {
   return (
     <section className="mx-auto max-w-[1240px] px-6 pb-6 pt-14 md:px-10 md:pt-20">
-      <div className="grid items-center gap-12 lg:grid-cols-[7fr_5fr] lg:gap-14">
+      {/* 🔴 스탬프와 헤드라인은 **그리드 밖**이다 (2026-09-14 수리).
+          안에 두면 판(`width:max-content`)이 그리드 아이템의 `min-width:auto` 를 밀어
+          첫 칼럼이 7fr 을 넘어 부풀고, 그만큼 둘째 칼럼이 찌그러진다 — 실측으로
+          **1136 : 112px**(의도는 677 : 483)였다. 즉 도판이 사라진 게 아니라 **활자가 먹었다.**
+          `min-width:0` 으로 고치면 칼럼은 맞지만 활자가 도판 위를 덮는다. 헤드라인을 밖으로
+          빼면 큰 활자와 도판이 둘 다 산다 — 폭 상한은 뷰포트가 쥔다(.display 의 max-width). */}
+      <p className="stamp mono">
+        <span className="dot" />
+        After Effects panel · {PRICE} once
+      </p>
+
+      <h1 className="display" style={{ margin: '26px 0 30px' }}>
+        {/* 오너 판정 2026-09-14 — 구 카피 "You think it. / It builds it." 교체.
+            한 문장을 판 둘로 나눈다: 강세가 **names** 에 떨어져야 제품명과 맞물린다
+            (브랜드 NAMING = "정답은 주지 않는다 — 붙이는 건 창작자가 한다"). */}
+        <Plate register>Make things that</Plate>
+        <Plate register className="delay-1">don’t have names yet.</Plate>
+      </h1>
+
+      <div className="grid items-start gap-12 lg:grid-cols-[7fr_5fr] lg:gap-14">
         <div>
-          <p className="stamp mono">
-            <span className="dot" />
-            After Effects panel · {PRICE} once
-          </p>
-
-          <h1 className="display" style={{ margin: '26px 0 24px' }}>
-            <Plate register>You think it.</Plate>
-            <Plate register className="delay-1">It builds it.</Plate>
-          </h1>
-
           <p
             style={{
               maxWidth: '44ch',

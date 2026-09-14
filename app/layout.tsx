@@ -12,7 +12,7 @@ import { COUNTS, PRICE, SITE } from '@/lib/product';
    (2026-09-09 shadow 빌드 실측: 네 페이지 전부 canonical=홈). canonical 은 페이지마다 선언한다. */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
-  title: 'You Name It — You think it. It builds it.',
+  title: 'You Name It — Make things that don’t have names yet.',
   description:
     `An After Effects panel that builds what you describe on real, editable layers — ${COUNTS.scripts} scripts, ${COUNTS.motion} motion presets, ${COUNTS.gradients} gradients, a graph editor, expressions, and Claude built in. ${PRICE} one-time.`,
   keywords: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     'workflow panel',
   ],
   openGraph: {
-    title: 'You Name It — You think it. It builds it.',
+    title: 'You Name It — Make things that don’t have names yet.',
     description:
       `Describe it, and it lands on real layers with keyframes you can still tear apart. ${COUNTS.scripts} scripts, ${COUNTS.motion} motion presets, gradients, a graph editor & Claude. ${PRICE} one-time.`,
     type: 'website',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'You Name It — You think it. It builds it.',
+    title: 'You Name It — Make things that don’t have names yet.',
     description: `Describe it. It lands on real layers you can still edit. ${PRICE}, one-time.`,
     images: ['/images/promo/og.png'],
   },
