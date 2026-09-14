@@ -62,26 +62,46 @@ Indigo `#6366f1`"* 라고 선언하는데 실제 `globals.css` 는 크림 `#d4cc
 
 ## 디렉토리
 
+🔴 **홈은 `.p3` 로 갈려 있다** (2026-09-14, 프로토 v3.3 이식). CSS 체계가 **둘**이고, 어디를 고칠지 이게 정한다:
+
+| 면 | 구조 | CSS |
+|---|---|---|
+| **홈 `/`** | `components/site3p/*` — 프로토 v3.3 이식본. 판 순서 = 인쇄 순서: 표지(Hero) → 01 Who → 02 Why → 03 What → 04 Made by → 05 Price+FAQ | `app/site3p.css` — **전 선택자가 `.p3` 아래**라 아래 globals 와 안 부딪힌다 |
+| `/motion` · `/update` · `/terms` · `/privacy` · `/refund` | `Navbar` · `Footer` · `Plate` · `MotionLab` | `app/globals.css` — 구 판 어휘(`.plate > .rim/.knock`) |
+
+⚠️ **홈에 `.plate` 를 쓰지 마라.** 홈의 잉크 판은 `.p3 .pl`(rim/ko/ink) 이고 어긋남 토큰도 다르다
+(`--pl-rx/--pl-ry`, 오너 2026-09-11 판정으로 밑판 그림자 `--rx/--ry` 와 분리됐다).
+구 홈 섹션 컴포넌트 10종(Hero·Loop·Proof·Press·Panels·Spots·Stance·Pricing·FAQ·Notes)과 globals 의 `.spot` 블록은
+**이식하면서 지웠다** — 되살리지 마라. 두 디자인을 남기면 다음 사람이 어느 쪽을 고칠지 모른다.
+
 ```
 app/
-  layout.tsx     # SEO 메타 · 폰트 CDN 3종 · metadataBase · viewport(themeColor)
-  page.tsx       # 판 순서 = 인쇄 순서 (Hero→Loop→Proof→Press→Stance→Pricing→FAQ→Notes)
-  globals.css    # 🔴 인쇄 디자인 시스템 정본 (종이·잉크 판·녹아웃·스크린·CTA)
-  update/        # 릴리스 노트 — 패널 version.json 의 `url` 이 여기를 가리킨다
-  terms|privacy|refund/
-components/      # RisoDefs Plate Navbar Hero Loop Proof Press Stance Pricing FAQ Notes Footer
-lib/product.ts   # 🔴 가격 · 체크아웃 URL 한 곳
-lib/releases.ts  # 🔴 릴리스 노트 이력 한 곳 — /update 와 홈 Notes 가 같이 읽는다
-public/riso/     # 종이 결 · 잉크 알갱이 마스크 · 로고 (오너 저작 텍스처에서 구움)
+  layout.tsx     # SEO 메타 · 폰트 CDN · metadataBase · viewport(themeColor)
+  page.tsx       # JSON-LD + <LangProvider><Page3P/>
+  site3p.css     # 🔴 홈 디자인 정본 (.p3 스코프)
+  globals.css    # 나머지 페이지의 인쇄 어휘
+  update/ terms/ privacy/ refund/ motion/
+components/
+  site3p/        # 🔴 홈 — Page Chrome Hero Who Why What MadeBy Price Footer3P Plate3 Spot Typed lang
+  RisoDefs Plate Navbar Footer MotionLab   # 나머지 페이지용
+lib/copy.ts      # 🔴 홈 카피 정본 — EN/KO 사전 하나. 카피 수정은 **여기서만**(양 언어 같이)
+lib/product.ts   # 🔴 가격 · 체크아웃 URL · 카탈로그 숫자
+lib/releases.ts  # 🔴 릴리스 노트 이력 — /update 가 읽는다
+public/riso/     # 종이·잉크·그레인 · stones/ (돌 7) · spots/ (제품 판 = 툴박스 호버 시트)
 public/
-  images/promo/  # ../Dony-s-AE-Plugin/tools/promo/out 에서 복사해 온 것
-  videos/        # 같음
-  logo-lockup.png
+  images/promo/ videos/ logo-lockup.png
   donys.zxp · version.json   # 🔴 지우지 마라 — 출고본의 UPDATE_MANIFEST_URL 이
                              #    donys-website.vercel.app/version.json 로 컴파일돼 있고
-                             #    updateCheck.ts 는 404 를 조용히 먹는다. 플러그인 Phase D
-                             #    (URL 교체 + 지인 전원 새 빌드) 뒤에 지운다.
+                             #    updateCheck.ts 는 404 를 조용히 먹는다. 플러그인 Phase D 뒤에 지운다.
 ```
+
+🔴 **홈에서 이미 닫힌 판정 3건** (다시 열지 마라 — 근거·실측은 플러그인 repo `donys/docs/WEBSITE_RENEWAL_PLAN.md` §13):
+- **국문 = Pretendard 가변.** *"영문과 같은 폰트"* 는 원리상 불가다 — Google Sans Flex 는 한글 글리프가 있는데
+  `text=` 서브셋 **CSS 는 200 인데 폰트 파일이 400** 이다(축·고정/가변 전수 · Noto Sans KR 은 같은 절차로 200).
+  ⚠️ CSS 200 을 "폰트 뜬다" 로 읽지 마라 — 파일까지 받아야 판정이다.
+- **브랜드 월 크롭 2점은 안 싣는다.** 큐브릭 = 제3자 촬영 사진 + 초상 · 시지프스 = 신문 원문이 읽힌다.
+  비공개 프로토와 **공개·상업 사이트는 기준이 다르다.** 대체 = 돌 + 인용 조판.
+- **숫자는 사전에 박지 않는다.** `lib/copy.ts` 는 `{scripts}` 같은 자리표시자만 들고 `lib/product.ts` 가 채운다.
 
 ## 값이 흩어지면 안 되는 자리 (전례가 있다)
 

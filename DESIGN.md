@@ -1,3 +1,11 @@
+<!-- doc-status -->
+> 🪦 **폐기 — 이 문서는 이 사이트의 디자인 정본이 아니다** (2026-09-14 확인).
+> 내용은 **Linear** 의 다크모드·Inter 디자인 분석이고, 이 사이트는 2026-09-09 에 **파란 필드 위 리소 인쇄물**로
+> 전면 재작성됐다(오너 판정: *"검정 위 screen 은 빛이지 잉크가 아니다"*). 색·폰트·간격 전부 여기와 다르다.
+> **정본**: 홈 = `app/site3p.css` + `components/site3p/` · 나머지 = `app/globals.css` · 브랜드(색·로고·폰트·톤) =
+> 플러그인 repo `donys/docs/REBRAND_BLUE_PLAN.md` §9 · 구조·판정 이력 = 같은 repo `donys/docs/WEBSITE_RENEWAL_PLAN.md`.
+> 레퍼런스로 읽는 건 자유지만 **여기 수치를 사이트에 옮기지 마라.**
+
 # Design System Inspiration of Linear
 
 ## 1. Visual Theme & Atmosphere
