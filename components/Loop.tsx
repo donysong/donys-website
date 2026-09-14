@@ -98,7 +98,9 @@ export default function Loop() {
     <section id="product" className="mx-auto max-w-[1240px] px-6 py-20 md:px-10 md:py-28">
       <div className="trim-rule" style={{ marginBottom: 34 }} />
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
-        <div>
+        {/* 🔴 `min-w-0` — flex 아이템이 안쪽 `width:max-content` 판 때문에 min-content 아래로
+            못 줄어든다(Panels.tsx 와 같은 계급, 실측 2026-09-14 360px). */}
+        <div className="min-w-0">
           <p className="mono" style={{ color: 'var(--text-muted)', marginBottom: 14 }}>
             Plate 02 / 08 — the loop
           </p>

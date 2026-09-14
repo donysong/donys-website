@@ -20,14 +20,19 @@ export default function Stance() {
         Plate 06 / 08 — what this is
       </p>
 
-      <div className="flex flex-col gap-3 md:gap-4">
+      {/* 🔴 `min-w-0` — Panels.tsx 와 같은 이유(flex 아이템이 max-content 판을 못 줄인다). */}
+      <div className="flex min-w-0 flex-col gap-3 md:gap-4">
         {LINES.map((line, i) => (
           <Plate
             key={line}
             as="div"
             tone={i % 2 === 0 ? 'red' : 'black'}
             className="headline"
-            style={{ maxWidth: '18ch' }}
+            /* 🔴 `18ch` 단독은 뷰포트를 모른다 — 32px 폰트에서 정확히 424px 이라 390px 기기에서
+               페이지가 가로로 스크롤됐다(실측 2026-09-14). 인라인 스타일이라 `.plate` 의 상한을
+               이긴다. 두 상한 중 작은 쪽을 쓴다: 조판 의도(18자)는 넓은 화면에서 그대로 살고,
+               좁은 화면에서는 뷰포트가 이긴다. */
+            style={{ maxWidth: 'min(18ch, var(--vw-cap))' }}
           >
             {line}
           </Plate>

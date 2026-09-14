@@ -72,7 +72,12 @@ export default function Panels() {
     <section id="panels" className="mx-auto max-w-[1240px] px-6 py-20 md:px-10 md:py-28">
       <div className="trim-rule" style={{ marginBottom: 34 }} />
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
-        <div>
+        {/* 🔴 `min-w-0` — flex 아이템의 기본 `min-width:auto` 는 아이템을 **min-content 아래로
+            못 줄인다.** 안에 `width:max-content` 인 판이 있으면 그 min-content 가 곧 한 줄
+            전체라, 좁은 화면에서 이 묶음이 뷰포트를 넘겨 **페이지가 가로로 스크롤된다**
+            (실측 2026-09-14, 390px: 428px). 판의 `max-width` 로는 못 막는다 — 부모가 먼저
+            부풀기 때문이다. 줄이는 건 아이템 쪽에서 허락해야 한다. */}
+        <div className="min-w-0">
           <p className="mono" style={{ marginBottom: 12 }}>Plate 04 / 08 — the panels</p>
           <Plate as="h2" tone="black" className="headline">Seven panels. One licence.</Plate>
         </div>
