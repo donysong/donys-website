@@ -10,7 +10,13 @@ export const CHECKOUT_URL =
 
 /* 카탈로그 숫자 — 🔴 코드에서 센 값이다. 손으로 올리지 마라.
    2026-09-07 실측(플러그인 repo):
-     scripts        src/data/builtinScripts.ts        42
+     scripts        src/data/builtinScripts.ts        39  ← 🔴 2026-09-14 재실측.
+                                                            구 42 는 09-07 값이고 커밋 `4c50e0b`
+                                                            (툴 6종 삭제, 09-08)로 무효가 됐다.
+                                                            **이 주석이 "코드에서 센 값" 이라고
+                                                            적혀 있는데도 일주일 만에 낡았다** —
+                                                            카탈로그를 늘리거나 줄이면 여기도 고쳐라
+                                                            (자동 동기화 장치는 없다, 별도 repo다).
      motion         src/data/motionPresets.ts         26  ← 구 112 는 오너가 2026-07-19 에
                                                             26 아키타입으로 줄였다(MOTION_PRESET_SPEC).
                                                             사이트는 두 달간 없는 걸 광고했다.
@@ -21,7 +27,7 @@ export const CHECKOUT_URL =
      MCP tools      src/chat/mcp/schemas.ts           56
      skills         src/chat/runtime/skillsBundle.ts  29 */
 export const COUNTS = {
-  scripts: 42,
+  scripts: 39,
   motion: 26,
   textPresets: 61,
   gradients: 62,

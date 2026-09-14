@@ -5,7 +5,9 @@ import { COUNTS } from '@/lib/product';
 /* 🔴 이 절이 존재하는 이유 (2026-09-10 오너): *"웹사이트에 우리가 패널 몇 개 있는지도,
    구체적으로 어떤 용도인지도 잘 모르겠고, 커스텀 패널 만들어놓은 것도 언급 없음."*
    그 전엔 Press 헤드라인이 **"One panel, seven tools."** 였는데 **틀린 말**이다 —
-   패널이 7개고 툴은 42개다(`donys/CSXS/manifest.xml` Extension 7개 실측).
+   패널이 7개고 툴은 **39개**다(패널 = `donys/CSXS/manifest.xml` Extension 7개 · 툴 =
+   `donys/src/data/builtinScripts.ts` `BUILTIN_SCRIPTS.length`, 2026-09-14 실측. 구 42 는
+   2026-09-07 값이고 커밋 `4c50e0b` 로 무효가 됐다 — 숫자를 적으면 **센 자리도 같이 적어라**).
 
    🔴 패널명은 **로케일 무관 영문**이다 (CLAUDE.md 닫힌 결정 2026-09-01) — AE 메뉴 라벨과
       같은 문자열이라 한국어로 번역하지 마라. 사는 사람이 AE 창 메뉴에서 이 이름을 찾는다. */
