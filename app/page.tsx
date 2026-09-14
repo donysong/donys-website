@@ -1,20 +1,7 @@
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import Loop from '@/components/Loop';
-import Proof from '@/components/Proof';
-import Press from '@/components/Press';
-import Panels from '@/components/Panels';
-import { SpotStrip } from '@/components/Spots';
-import Stance from '@/components/Stance';
-import Pricing from '@/components/Pricing';
-import FAQ from '@/components/FAQ';
-import Notes from '@/components/Notes';
-import Footer from '@/components/Footer';
+import Page3P from '@/components/site3p/Page';
+import { LangProvider } from '@/components/site3p/lang';
 import { PRICE_USD, CHECKOUT_URL, COUNTS, VERSION, SITE } from '@/lib/product';
 
-/* 구글 리치결과용 구조화 데이터. 🔴 가격·버전·카탈로그 숫자를 여기 다시 박지 마라 —
-   전부 lib/product.ts 에서만 읽는다. */
-/* canonical 은 페이지마다 선언한다 — 루트 레이아웃에 두면 하위가 전부 상속한다(layout.tsx 주석). */
 export const metadata = { alternates: { canonical: '/' } };
 
 const jsonLd = {
@@ -36,40 +23,16 @@ const jsonLd = {
   publisher: { '@type': 'Organization', name: 'You Name It', url: SITE },
 };
 
-/* 판 순서 = 인쇄 순서다 (계획서 §4). 절을 넣거나 뺄 때 Plate NN / 07 라벨도 같이 고쳐라 —
-   라벨은 장식이 아니라 이 페이지가 몇 판짜리 인쇄물인지를 말한다. */
+/* 🔴 본문은 전부 `.p3` 아래에 있다 — 프로토 v3.3 이식본(components/site3p/).
+   구 섹션 컴포넌트(Hero/Loop/Proof/Press/Panels/Spots/Stance/Pricing/FAQ/Notes)는 이 페이지가
+   더 이상 쓰지 않는다. 남겨두면 두 디자인이 갈라져서 다음 사람이 어느 쪽을 고쳐야 할지 모른다. */
 export default function Home() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <Navbar />
-      <main>
-        <Hero />
-        <Loop />
-        <section className="mx-auto max-w-[1240px] px-6 pb-10 md:px-10">
-          <SpotStrip
-            ids={['roundCorners', 'sequenceLayers', 'carouselRig', 'proximityRig', 'edgeBoil']}
-            note="what the panel draws — drawn by the panel"
-          />
-        </section>
-        <Proof />
-        <section className="mx-auto max-w-[1240px] px-6 pb-4 md:px-10">
-          <SpotStrip
-            ids={['writeOn', 'autoMarker', 'shadowCaster', 'clickReact', 'pointsToNulls']}
-            note="19 of 39 shown · pulled straight from the panel"
-          />
-        </section>
-        <Panels />
-        <Press />
-        <Stance />
-        <Pricing />
-        <FAQ />
-        <Notes />
-      </main>
-      <Footer />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <LangProvider>
+        <Page3P />
+      </LangProvider>
     </>
   );
 }

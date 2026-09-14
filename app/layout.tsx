@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
+import './site3p.css';
 import RisoDefs from '@/components/RisoDefs';
 import { COUNTS, PRICE, SITE } from '@/lib/product';
 
@@ -10,6 +11,15 @@ import { COUNTS, PRICE, SITE } from '@/lib/product';
    **상속**한다. `canonical:'/'` 를 두면 /update·/terms·/privacy·/refund 가 전부
    "홈의 중복" 이라고 선언되어 sitemap 이 색인하라 한 페이지를 구글이 뺀다
    (2026-09-09 shadow 빌드 실측: 네 페이지 전부 canonical=홈). canonical 은 페이지마다 선언한다. */
+/* 🔴 국문 얼굴 — 오너 지시는 *"영문 폰트랑 동일한 거"* 였고, **그건 불가능하다**(2026-09-14 실측).
+   Google Sans Flex 는 한글 글리프를 갖고 있고 `text=` 동적 서브셋 요청에 @font-face 까지 내주지만,
+   그 안의 폰트 파일이 **400 으로 거부된다** — 축 지정/무축, wght 고정/가변, 전부 같은 결과다.
+   같은 절차로 Noto Sans KR 은 200 · 22KB 로 온다 ⇒ 우리 쪽 요청 문제가 아니라 그 패밀리의 한글이
+   배포되지 않는다는 뜻이다. ⚠️ **CSS 200 을 "폰트 뜬다" 로 읽지 마라** — 그렇게 한 번 오판했다(파일까지 받아봐야 안다).
+   그래서 국문은 Pretendard 가변(OFL)이 받는다. 임시방편이 아니라 **제품이 쓰는 그 얼굴**이다
+   (패널 UI 폰트 = Pretendard, donys/CLAUDE.md 디자인 시스템). 사이트와 패널이 한 목소리로 읽힌다.
+   다른 한글 얼굴로 갈지는 오너 판정 사안 — 바꾸려면 아래 Pretendard 링크 하나만 갈면 된다. */
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: 'You Name It — Make things that don’t have names yet.',
@@ -88,7 +98,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
-        {/* 국문 폴백 — ONE 모바일 고딕은 웹 배포 불가라 Pretendard(OFL)가 받는다 */}
+                {/* 국문 폴백 — ONE 모바일 고딕은 웹 배포 불가라 Pretendard(OFL)가 받는다 */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
