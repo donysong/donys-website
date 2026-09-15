@@ -32,7 +32,7 @@ export default function Footer3P() {
             <li><a href="/terms" data-cur>{t('ft.terms')}</a></li>
             <li><a href="/privacy" data-cur>{t('ft.privacy')}</a></li>
             <li><a href="/refund" data-cur>{t('ft.refund')}</a></li>
-            <li><a href="mailto:onlyfor1104@gmail.com" data-cur>{t('ft.contact')}</a></li>
+            <li><a href="mailto:support@younameit.works" data-cur>{t('ft.contact')}</a></li>
           </ul>
         </div>
       </div>

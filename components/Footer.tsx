@@ -1,9 +1,10 @@
 import { VERSION } from '@/lib/product';
 
-/* 🔴 연락처는 **임시 gmail** 이다 (오너 2026-09-08). 원래 문구는 `support@donys.dev` 였는데
-   그 도메인엔 A·MX 레코드가 없다 — `younameit.works` 도 MX 0 이라 메일이 안 온다.
-   주소를 코드에서 임의로 바꾸지 마라. 티켓 =
-   ../Dony-s-AE-Plugin/donys/docs/NEXT_TASKS.md 🔴 오너 판단 절. */
+/* 연락처 = `support@younameit.works` (2026-09-15). Cloudflare Email Routing 이 서 있고
+   (`dig MX` = route1/2/3.mx.cloudflare.net · SPF 존재) 오너 테스트 메일 실도착까지 확인했다.
+   구 문구 `support@donys.dev` 는 A·MX 둘 다 없는 죽은 도메인이었고, 그 뒤 임시로 쓰던
+   개인 gmail 두 개도 여기서 사라졌다. 주소를 코드에서 임의로 바꾸지 마라 — 법적 고지
+   4곳(terms·privacy·refund·푸터 2종)이 같은 값을 들고 있다. */
 const LINK = { color: 'var(--ink-black)', fontSize: 13.5, display: 'block', padding: '4px 0' };
 
 export default function Footer() {
