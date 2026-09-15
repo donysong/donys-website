@@ -45,7 +45,7 @@ export const COUNTS = {
    🔴 v2.5.0 을 컷한 뒤에도 이 페이지가 두 자리에서 v2.4.0 을 보여주던 전례가 있다.
    릴리스 노트 이력(RELEASES)은 항목마다 자기 version 을 갖지만, **"최신"의 정의는 여기 하나**다.
    둘이 갈라지면 app/update/page.tsx 최상단 단정이 빌드를 깬다. */
-export const VERSION = '2.5.0';
+export const VERSION = '2.6.0';
 
 /* 배포 채널 = Cloudflare R2 (2026-09-09 분리). 바이너리(zxp)와 업데이트 매니페스트는
    더 이상 이 repo 의 public/ 에 없다 — 5MB 가 git 히스토리에 쌓이지 않고,
