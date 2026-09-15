@@ -66,8 +66,8 @@ export default function TermsPage() {
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">5. Support</h2>
             <p>
               We provide best-effort support via email at{' '}
-              <a href="mailto:donysong96@gmail.com" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
-                donysong96@gmail.com
+              <a href="mailto:support@younameit.works" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
+                support@younameit.works
               </a>
               . We aim to respond within 48 hours on business days.
             </p>
@@ -113,8 +113,8 @@ export default function TermsPage() {
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">10. Contact</h2>
             <p>
               For questions about these Terms, contact us at{' '}
-              <a href="mailto:donysong96@gmail.com" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
-                donysong96@gmail.com
+              <a href="mailto:support@younameit.works" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
+                support@younameit.works
               </a>
               .
             </p>

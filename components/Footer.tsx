@@ -21,7 +21,7 @@ export default function Footer() {
 
         <div>
           <p className="mono" style={{ marginBottom: 8, color: 'var(--text-muted)' }}>Contact</p>
-          <a style={LINK} href="mailto:donysong96@gmail.com">donysong96@gmail.com</a>
+          <a style={LINK} href="mailto:support@younameit.works">support@younameit.works</a>
           <a style={LINK} href="/update">Update notes</a>
         </div>
 

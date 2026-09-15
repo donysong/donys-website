@@ -222,8 +222,8 @@ export default function PrivacyPage() {
             </ul>
             <p className="mt-2">
               To exercise these rights, email us at{' '}
-              <a href="mailto:donysong96@gmail.com" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
-                donysong96@gmail.com
+              <a href="mailto:support@younameit.works" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
+                support@younameit.works
               </a>
               .
             </p>
@@ -249,8 +249,8 @@ export default function PrivacyPage() {
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">9. Contact</h2>
             <p>
               For privacy-related questions, contact us at{' '}
-              <a href="mailto:donysong96@gmail.com" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
-                donysong96@gmail.com
+              <a href="mailto:support@younameit.works" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
+                support@younameit.works
               </a>
               .
             </p>
