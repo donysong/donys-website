@@ -4,6 +4,7 @@
    🔴 `{rest}` 만 여기서 채운다(= 전체 툴 − 여기 푼 6장). 사전에 숫자를 박으면 그 순간 낡는다. */
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
+import type { Lang } from '@/lib/copy';
 import { COUNTS } from '@/lib/product';
 
 /* 패널 스크린샷 판 — `.feat .fig .spot` 은 시트(.spot)용 규칙이라 정지 스크린샷(img)엔 안 붙는다.
@@ -39,14 +40,38 @@ function Hook({ h, n }: { h: (typeof HOOKS)[number]; n: number }) {
   );
 }
 
+/* 패널 실화면은 **로캘마다 한 벌씩**이다 — 영문 면에 한국어 UI 가 떠 있던 게 2026-09-19 의 결함이다.
+   🔴 목업이 아니라 오너의 살아 있는 CEP 패널을 CDP 로 찍은 것이다(§14.11).
+
+   🔴 **8장 전부 출고본 v2.6.0(`bd274fb`) 빌드에서 찍었다 — 이 규칙을 깨지 마라.**
+   사이트가 파는 건 v2.6.0 인데 이 맥의 패널은 그 뒤 55커밋 dev 빌드다. 처음 판본은 dev 에서 찍었고,
+   그 결과 **출고본에 존재하지 않는 Codex 백엔드**(`Codex` · `GPT-5.6-Luna` 모델 피커)가 화면에 떠
+   있었다 — 못 사는 기능을 파는 그림이었다. 같은 이유로 Library 의 신규 라벨(`gradientLabels` 등)과
+   Curves 의 한글화도 dev 에만 있다. **찍을 때마다 빌드가 출고 태그인지 먼저 확인해라.**
+   절차 = 계획서 §15.3(워크트리 빌드 → CEP 심볼릭 링크 교체 → 한 패널씩 리로드 → 촬영 → 원복).
+
+   ⚠️ `panel-curves.ko` 와 `.en` 은 **바이트가 같다** — v2.6.0 Curves 판엔 한국어 문자열이 0개다
+   (`In`·`Both`·`Out`·`Read`·`Apply`·`Saved`). 버그가 아니라 출고본의 실제 상태다. dev 는 한글이라
+   다음 릴리스에서 갈라진다. 그때 두 장을 다시 찍어라 — 지금 합치면 그 자리를 잃는다.
+
+   크롭 법칙: 폭 = 패널 innerWidth 전체, 높이 = 폭 × (판면 속 비율). `chat` 만 하단(크롬) 크롭이고
+   나머지는 상단. 🔴 `clip.scale` 도 `setDeviceMetricsOverride` 도 쓰지 마라 — 둘 다 §14.11 의 이중
+   그리기를 낸다. 네이티브 배율로 찍고 sharp 로 맞춘다. */
+const PANEL_SHOT = {
+  'panel-chat': { ko: 'panel-chat.ko', en: 'panel-chat.en' },
+  'panel-library': { ko: 'panel-library.ko', en: 'panel-library.en' },
+  'panel-curves': { ko: 'panel-curves.ko', en: 'panel-curves.en' },
+  'panel-custom': { ko: 'panel-custom.ko', en: 'panel-custom.en' },
+} satisfies Record<string, Record<Lang, string>>;
+
 /* 패널 스크린샷을 쓰는 기능 블록(Chat · Library · Curves · Custom). */
-function Feat({ k, img, capTop = 12 }: { k: string; img: string; capTop?: number }) {
-  const { t, list } = useT();
+function Feat({ k, img, capTop = 12 }: { k: string; img: keyof typeof PANEL_SHOT; capTop?: number }) {
+  const { t, list, lang } = useT();
   return (
     <div className="feat sweep">
       <figure className="fig">
         <figure className="spot-fig">
-          <img src={`/riso/spots/${img}.webp`} alt={t(`${k}.alt`)} style={PANEL_IMG} />
+          <img src={`/riso/spots/${PANEL_SHOT[img][lang]}.webp`} alt={t(`${k}.alt`)} style={PANEL_IMG} />
           <figcaption className="cap" style={{ marginTop: capTop }}><Html k={`${k}.cap`} /></figcaption>
         </figure>
       </figure>
