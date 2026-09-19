@@ -18,7 +18,8 @@
    메타는 넷만: 이름 · 호스트 칩 · 가격 · 배지. (버전·기능수·평점은 넣지 마라 — 레퍼런스도 안 넣는다) */
 .p3 .lineup {position:relative;z-index:2;margin:0;padding:0;list-style:none}
 .p3 .row {position:relative;display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:56px;align-items:center;
-  padding:34px 64px;border-top:1.5px solid var(--black)}
+  width:min(100% - var(--gut) * 2, var(--field));margin-inline:auto;
+  padding:34px 0;border-top:1.5px solid var(--black)}
 .p3 .row:last-child {border-bottom:1.5px solid var(--black)}
 .p3 .row .row-fig {position:relative}
 .p3 .row .row-body {display:grid;gap:14px}
@@ -195,7 +196,6 @@
   .p3 .news, .p3 .specs {grid-template-columns:repeat(2,minmax(0,1fr))}
   .p3 .phero .pstage {grid-template-columns:1fr}
   .p3 .phero .pstage .side {flex-direction:row;display:flex;justify-content:center;gap:24px}
-  .p3 .sec, .p3.root .sec, .p3 .phero {padding-left:32px;padding-right:32px}
 }
 @media (max-width:680px){
   .p3 .row {grid-template-columns:1fr}
@@ -244,7 +244,7 @@
 .p3 .btn-fill:hover {box-shadow:calc(var(--rx)*2.4) calc(var(--ry)*2.4) 0 var(--white)}
 
 /* ═══ Docs 페이지 ═══════════════════════════════════════════ */
-.p3 .toc {position:sticky;top:78px;z-index:30;display:flex;gap:6px;flex-wrap:wrap;padding:12px 64px 14px;
+.p3 .toc {position:sticky;top:78px;z-index:30;display:flex;gap:6px;flex-wrap:wrap;padding:12px var(--pad) 14px;
   background:linear-gradient(rgba(31,155,227,.96),rgba(31,155,227,.9));border-bottom:1.5px solid var(--black)}
 .p3 .toc a {padding:7px 13px;border:1.5px solid var(--black);border-radius:6px;font-size:13px;font-weight:700;
   transition:background var(--t-press),color var(--t-press)}
@@ -296,7 +296,6 @@
   .p3 .hooks, .p3 .toolgrid {grid-template-columns:repeat(2,minmax(0,1fr))}
   .p3 .cat-nums {grid-template-columns:repeat(2,minmax(0,1fr))}
   .p3 .fxrow {grid-template-columns:repeat(3,minmax(0,1fr))}
-  .p3 .toc {padding-left:32px;padding-right:32px}
 }
 @media (max-width:680px){
   .p3 .hooks, .p3 .toolgrid, .p3 .cat-nums, .p3 .fxrow {grid-template-columns:1fr}
@@ -309,9 +308,6 @@
 /* ── 수정 1. 🔴 스티키 레일이 FAQ 판정어를 덮었다 (실측 46px 겹침) ──
    원인: 본문이 `padding:0 64px` 로 1376까지 차는데 레일은 right:22 · 폭 96 = 1322 에서 시작한다.
    레일에게 자기 차선을 준다 — 레일이 뜨는 폭에서만 본문 오른쪽을 비운다. */
-@media (min-width:1101px){
-  .p3.has-rail .sec {padding-right:168px}   /* 🔴 .phero 는 제외 — 레일은 45%에서 뜬다. 히어로에 여백을 주면 중앙정렬이 깨진다 */
-}
 /* 레일 링크 대비 — opacity .6 은 파란 종이 위에서 안 읽혔다 */
 .p3 .rail .links a {opacity:.78;color:var(--text)}
 .p3 .rail .links a.on {opacity:1;color:var(--red);mix-blend-mode:multiply;font-weight:800}
@@ -405,3 +401,56 @@
 .p3 .langs a {display:inline-block;padding:8px 10px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--black);text-decoration:none}
 .p3 .langs a + a {border-left:1.5px solid var(--black)}
 .p3 .langs a.on {background:var(--black);color:var(--white)}
+
+
+/* ════ 판면(type area) — 🔴 화면을 다 쓰지 않는다 (오너 2026-09-19: *"레이아웃이 허접하다,
+   화면 다 쓰지 말고 여백 좀 남겨라"*, 레퍼런스 = battleaxe.co/overlord) ═══════════════
+
+   실측으로 세운 법칙이다. 레퍼런스를 네 폭에서 재니 **캡 + 최소 거터 + 중앙 정렬**이었다:
+     1280 → 85.0%  ·  1440 → 86.7%  ·  1920 → 71.0%  ·  2560 → 53.3%   (max-width 1364px, 거터 96)
+   우리는 `max-width` 가 아예 없어서 정확히 반대로 갔다:
+     1280 → 81.9%  ·  1440 → 83.9%  ·  1920 → 87.9%  ·  2560 → 90.9%
+   🔴 **넓은 화면일수록 나빠지는 구조였다** — 오너가 본 화면이 그 구간이다.
+
+   🔴 배경(종이·그레인·푸터 검정·네비 그라디언트)은 **계속 풀블리드**다. 가두는 건 *내용*뿐이다.
+   인쇄물에서 종이는 끝까지 가고 판면만 안쪽에 앉는다 — 그게 이 사이트의 어휘다.
+
+   거터가 96 이 아니라 128 인 이유: 구매 레일(원 96px + right 22px = 118)이 **거터 안에 산다.**
+   그래서 `.has-rail` 의 오른쪽 차선 확보(구 `padding-right:168px`)가 통째로 필요 없어졌고,
+   좌우 비대칭(64/168)도 같이 사라졌다. 🔴 레일을 키우면 이 값을 같이 올려라. */
+.p3 {
+  --field: 1364px;                                   /* 레퍼런스 실측값 */
+  --gut: 128px;                                      /* 최소 거터 = 레일 118 + 10 */
+  --pad: max(var(--gut), (100% - var(--field)) / 2); /* 🔴 100vw 아님 — 스크롤바 폭만큼 밀린다 */
+}
+@media (max-width:1100px){ .p3 { --gut: 56px } }     /* 이 폭부터 레일이 숨는다 */
+@media (max-width:760px) { .p3 { --gut: 24px } }
+
+.p3 nav,
+.p3 .sec, .p3.root .sec,
+.p3 .hero, .p3 .phero {
+  padding-left: var(--pad);
+  padding-right: var(--pad);
+}
+/* 🔴 `--pad` 는 `100%` 를 쓰므로 **쓰는 자리의 컨테이너 기준으로 다시 계산된다.**
+   푸터에 패딩을 주면 그 안의 줄무늬 띠가 좁아진 폭으로 `--pad` 를 재계산해서
+   음수 마진이 모자란다(실측: 띠가 150→1770 로 어중간하게 걸쳤다).
+   그래서 푸터는 **자기를 패딩하지 않고 자식만** 패딩한다 — 띠는 자연히 도련까지 간다.
+   같은 이유로 판면을 잡는 규칙은 **항상 `.p3` 의 직계**에만 걸어라. */
+.p3 footer {padding-left:0;padding-right:0}
+.p3 footer .grid, .p3 footer .legal {padding-left:var(--pad);padding-right:var(--pad)}
+.p3 footer .band {margin-left:0;margin-right:0}
+.p3 .marquee {margin-left:0;margin-right:0}
+
+/* 등록 마크는 **판면**을 잡는다, 화면이 아니라 ───────────────────────────────
+   🔴 1920 에서 판면은 278→1642 인데 마크는 22/1878 에 박혀 있었다. 화면 모서리에 있는
+   등록 마크는 장식이지 등록이 아니다 — 인쇄에서 그 마크가 잡는 건 **판이 앉을 자리**다.
+   판면 모서리에 걸치면 레퍼런스가 어두운 카드로 얻는 "면의 경계"를 **우리 어휘로** 낸다.
+   카드를 빌려오지 않은 이유이기도 하다: 이 사이트의 바닥은 패널이 아니라 종이다.
+   🔴 `position:fixed` 라 `%` 가 뷰포트 기준이다 — `--pad` 의 `100%` 도 여기선 뷰포트다. */
+@media (min-width:761px){
+  .p3 .reg-mark.tl {left:calc(var(--pad) - 10px)}
+  .p3 .reg-mark.bl {left:calc(var(--pad) - 10px)}
+  .p3 .reg-mark.tr {right:calc(var(--pad) - 10px)}
+  .p3 .reg-mark.br {right:calc(var(--pad) - 10px)}
+}

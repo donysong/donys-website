@@ -467,8 +467,6 @@
 @media (max-width:1100px){.roles{grid-template-columns:1fr 1fr}.panels{grid-template-columns:repeat(4,1fr)}.plates-row{grid-template-columns:1fr 1fr}}
 @media (max-width:960px){
   .p3 {cursor:auto} .cur{display:none}
-  .p3 .sec, .p3 nav, .p3 .hero {padding-left:24px;padding-right:24px}
-  .p3 .marquee {margin:0 24px}
   .p3 nav {grid-template-columns:auto 1fr} nav .label{display:none} nav .links{gap:12px} nav .links a:not(.btn-line){display:none}
   .p3 .hero {grid-template-columns:1fr;min-height:0;padding-top:24px}
   .p3 .why-top, .p3 .loop, .p3 .labwrap, .p3 .stance, .p3 .pricing, .p3 footer .grid {grid-template-columns:1fr;gap:40px}
@@ -476,5 +474,5 @@
   .p3 .panels {grid-template-columns:1fr 1fr}
   .p3 .sec-head {grid-template-columns:1fr} .sec-head .tag{text-align:left}
   .p3 .reg-mark {display:none}
-  .p3 footer {padding-left:24px;padding-right:24px} footer .band{margin:0 -24px 40px}
+  .p3 footer .band {margin-bottom:40px}
 }
