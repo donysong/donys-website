@@ -115,10 +115,6 @@ const DOCS: Dict = {
     'docs.log.h': 'Release log',
     'docs.log.tag': 'Minor updates are free.<br>You get them inside the panel.',
     'docs.log.n': '{n} items',
-    /* 🔴 릴리스 노트 본문은 `lib/releases.ts` 에 **한국어로만** 있다(정본은 `/update` 페이지다).
-       EN 독자에게 그 사실을 알리는 줄 — EN 일 때만 렌더한다. 노트를 손으로 번역하지 마라. */
-    'docs.log.lang': 'The notes below are in Korean. The plugin ships in both languages; these release notes have not been translated yet.',
-    'docs.log.langLink': 'Read them on the Korean page →',
 
     /* ── 설치 · 사양 ── */
     'docs.install.h': 'Install · specs',
@@ -244,8 +240,6 @@ const DOCS: Dict = {
     'docs.log.h': '업데이트 로그',
     'docs.log.tag': '마이너 업데이트는 무료입니다.<br>패널 안에서 받아 설치합니다.',
     'docs.log.n': '{n}건',
-    'docs.log.lang': '아래 노트는 한국어로만 적혀 있습니다.',
-    'docs.log.langLink': '',
 
     'docs.install.h': '설치 · 사양',
     'docs.spec.price.k': '가격',
