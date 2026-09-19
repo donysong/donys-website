@@ -58,18 +58,26 @@
 /* ═══ 이름 풀이 — 브랜드 루트 전용 ═════════════════════════════
    브랜드 가이드 ESSENCE 장의 표 그대로. 3행 × (글자 · 사업에선 · 브랜드에선) */
 .p3 .name-table {display:grid;gap:0;border-top:1.5px solid var(--black)}
-.p3 .name-row {display:grid;grid-template-columns:150px 1fr 1fr;gap:32px;align-items:center;padding:22px 0;border-bottom:1.5px solid rgba(0,0,0,.2)}
-.p3 .name-row .ltr {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:40px;color:var(--red);
+/* 🔴 행 105px 인데 잉크는 41px 이었다 — 패딩 22+22 에 40px 글자가 행간 normal(1.25)로 위아래
+   10px 을 더 먹어서 행 사이가 56.5px 비었다. 행간 1 로 잠그고 패딩 13, `baseline` 정렬로
+   큰 글자와 두 설명 열이 한 기준선에 앉는다(전엔 설명 줄이 글자 중간 높이에 떠 있었다).
+   실측: 행 105 → 68.6 · 표 316 → 206.9. `align-items` 를 center 로 되돌리지 마라. */
+.p3 .name-row {display:grid;grid-template-columns:150px 1fr 1fr;gap:32px;align-items:baseline;padding:13px 0;border-bottom:1.5px solid rgba(0,0,0,.2)}
+.p3 .name-heads {padding-bottom:8px}
+.p3 .name-row .ltr {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:40px;line-height:1;color:var(--red);
   mix-blend-mode:multiply;letter-spacing:-.02em}
 .p3 .name-row .biz {font-size:15px;color:var(--muted);line-height:1.5}
 .p3 .name-row .brd {font-size:17px;font-weight:700;line-height:1.45}
 .p3 .name-heads {display:grid;grid-template-columns:150px 1fr 1fr;gap:32px;padding-bottom:10px}
 
 /* 빨간 풀쿼트 — 레퍼런스 원리: 철학 블록 한가운데 한 문장을 크게 박는다 */
-.p3 .pull {margin:52px 0;padding:0}
+/* 여백 52/52 → 32/26. 🔴 크기·자리·순서는 닫힌 판정이다 — 간격만 건드린다. */
+.p3 .pull {margin:32px 0 26px;padding:0}
 .p3 .pull .pl {font-size:clamp(1.8rem,3.6vw,3rem);line-height:1.06;letter-spacing:-.02em;display:block}
 .p3[data-lang="ko"] .pull .pl {line-height:1.2;letter-spacing:-.01em}
-.p3 .pull .src {display:block;margin-top:14px;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+/* 출처 줄 우측 정렬 — 인용 2행이 판면 오른쪽까지 가서 그 밑 밴드의 오른쪽 절반만 비었다.
+   우측 정렬 부가정보는 이미 이 사이트 어휘다(`.sec-head .tag`). `--muted` 라 레드를 안 늘린다. */
+.p3 .pull .src {display:block;margin-top:8px;text-align:right;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.02em}
 
 /* 안 하는 것 — BOUNDARIES 장. ✗ 목록이 브랜드를 가장 빠르게 설명한다 */
 .p3 .nots {display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;padding:0;list-style:none}
@@ -125,7 +133,7 @@
 .p3 .feat h3 .u {background:linear-gradient(var(--red),var(--red)) 0 100%/100% 3px no-repeat;padding-bottom:3px}
 .p3 .feat p {margin:0 0 14px;font-size:16px;line-height:1.6;max-width:44ch}
 .p3 .feat ul {margin:18px 0 0;padding:0;list-style:none;display:grid;gap:7px}
-.p3 .feat ul li {position:relative;padding-left:16px;font-size:14.5px;line-height:1.45}
+.p3 .feat ul li {position:relative;padding-left:16px;font-size:14px;line-height:1.45}
 .p3 .feat ul li::before {content:'·';position:absolute;left:3px;font-weight:800;color:var(--red);mix-blend-mode:multiply}
 .p3 .feat ul li i {font-style:normal;opacity:.62}
 .p3 .feat .strip {display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
@@ -149,7 +157,7 @@
 /* ═══ What's new ═══════════════════════════════════════════════ */
 .p3 .news {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
 .p3 .news .item h4 {margin:14px 0 8px;font-size:19px;font-weight:800;letter-spacing:-.01em}
-.p3 .news .item p {margin:0;font-size:14.5px;line-height:1.55;color:var(--text)}
+.p3 .news .item p {margin:0;font-size:14px;line-height:1.55;color:var(--text)}
 .p3 .news .item .v {display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--red);mix-blend-mode:multiply}
 
 /* ═══ 가격 — 🔴 여기엔 버튼이 없다. 스티키 레일이 가진다 ═══════════ */
@@ -157,11 +165,11 @@
 .p3 .pricing .big {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;
   font-size:clamp(3.4rem,8vw,6.4rem);line-height:.9;letter-spacing:-.04em;display:block}
 .p3 .pricing .incl {margin:24px 0 0;padding:0;list-style:none;display:grid;gap:9px}
-.p3 .pricing .incl li {position:relative;padding-left:20px;font-size:15.5px;line-height:1.5}
+.p3 .pricing .incl li {position:relative;padding-left:20px;font-size:15px;line-height:1.5}
 .p3 .pricing .incl li::before {content:'✓';position:absolute;left:0;font-weight:800;color:var(--red);mix-blend-mode:multiply}
 .p3 .pricing .argue {padding:30px 32px}
 .p3 .pricing .argue h4 {margin:0 0 12px;font-size:22px;font-weight:800;letter-spacing:-.01em}
-.p3 .pricing .argue p {margin:0 0 12px;font-size:15.5px;line-height:1.6}
+.p3 .pricing .argue p {margin:0 0 12px;font-size:15px;line-height:1.6}
 .p3 .pricing .argue p:last-child {margin-bottom:0}
 
 /* ═══ FAQ — 🔴 답은 **판정어 한 마디**로 시작한다 (펼치기 전에 읽힌다) ═══ */
@@ -175,7 +183,7 @@
 .p3 .qa .verdict {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:20px;
   color:var(--red);mix-blend-mode:multiply;letter-spacing:-.01em;white-space:nowrap}
 .p3 .qa[open] .q {text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--red)}
-.p3 .qa .a {padding:0 0 20px;margin:0;font-size:15.5px;line-height:1.62;max-width:72ch;color:var(--text)}
+.p3 .qa .a {padding:0 0 20px;margin:0;font-size:15px;line-height:1.62;max-width:72ch;color:var(--text)}
 .p3 .qa .a b {font-weight:700}
 
 /* ═══ specs — 8필드 3열. 마지막에 온다 ═══════════════════════════ */
@@ -215,8 +223,8 @@
 .p3 .gap::after {content:'';position:absolute;inset:0;z-index:-1;background:url(/riso/paper-field.webp) center/620px repeat;
   opacity:.24;mix-blend-mode:multiply;filter:invert(1)}
 .p3 .gap .t {font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.01em;color:var(--red);mix-blend-mode:multiply}
-.p3 .gap .d {font-size:13.5px;line-height:1.5;color:#3a3a3a;max-width:36ch;margin:0 auto}
-.p3 .gap .n {font-size:11.5px;letter-spacing:.06em;font-weight:700;color:#7b7b7b}
+.p3 .gap .d {font-size:13px;line-height:1.5;color:#3a3a3a;max-width:36ch;margin:0 auto}
+.p3 .gap .n {font-size:11px;letter-spacing:.06em;font-weight:700;color:#7b7b7b}
 
 /* ═══ 제품명 조판 — 🔴 오너 확정 2026-09-16 ═══════════════════
    브랜드명 `You Name It` · 제품명 `You Name It AE Plugin`.
@@ -237,7 +245,7 @@
 .p3 .hook p b {font-weight:700}
 .p3 .docs-cta {display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:40px;
   border-top:1.5px solid var(--black);padding-top:24px}
-.p3 .docs-cta .txt {flex:1;min-width:260px;font-size:15.5px;line-height:1.5}
+.p3 .docs-cta .txt {flex:1;min-width:260px;font-size:15px;line-height:1.5}
 .p3 .btn-fill {display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:7px;
   background:var(--red);color:var(--white);mix-blend-mode:multiply;font-weight:800;font-size:15px;
   box-shadow:var(--rx) var(--ry) 0 var(--white);transition:box-shadow var(--t-press) var(--ease-press)}
@@ -261,7 +269,7 @@
 .p3 .toolcard .noimg {aspect-ratio:16/9;display:grid;place-items:center;background:var(--cream);position:relative;isolation:isolate;
   box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white);font-size:12px;color:#8b8b8b;font-weight:700}
 /* 패널 표 */
-.p3 .ptable {width:100%;border-collapse:collapse;font-size:14.5px}
+.p3 .ptable {width:100%;border-collapse:collapse;font-size:14px}
 .p3 .ptable th {text-align:left;padding:12px 16px 12px 0;border-bottom:1.5px solid var(--black);
   font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--typeink);white-space:nowrap}
 .p3[data-lang="ko"] .ptable th {text-transform:none;letter-spacing:.02em;font-size:13px}
@@ -288,8 +296,11 @@
 .p3 .rel .v {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:30px;letter-spacing:-.02em}
 .p3 .rel .d {font-size:13px;font-weight:700;color:var(--muted)}
 .p3 .rel .cnt {margin-left:auto;font-size:13px;font-weight:700;color:var(--red);mix-blend-mode:multiply}
-.p3 .rel ul {margin:18px 0 0;padding:0;list-style:none;display:grid;gap:11px;max-width:86ch}
-.p3 .rel ul li {position:relative;padding-left:18px;font-size:14.5px;line-height:1.62}
+/* 🔴 `display:grid` 였다 — 그러면 다단(`columns`)이 **조용히 무시된다.** 한 줄 121ch 의 원인이었고,
+   위에 `columns:2` 를 얹었는데도 안 먹어서 두 번 헤맸다. 다단을 쓰려면 블록이어야 한다.
+   단 폭이 곧 measure 다 — 여기에 `max-width` 를 다시 넣지 마라(단을 넘어 흘러 한 단처럼 보인다). */
+.p3 .rel ul {margin:18px 0 0;padding:0;list-style:none;columns:2;column-gap:3em}
+.p3 .rel ul li {position:relative;padding-left:18px;font-size:14px;line-height:1.62;margin-bottom:11px;break-inside:avoid;-webkit-column-break-inside:avoid}
 .p3 .rel ul li::before {content:'—';position:absolute;left:0;color:var(--red);mix-blend-mode:multiply;font-weight:800}
 
 @media (max-width:1080px){
@@ -369,7 +380,7 @@
    렌더됐다 — 이 프로토에서 잡은 **5번째 클래스 충돌**이다. */
 
 /* ── 수정 8. "우리가 먼저 쓴다" 증거 — 증언 대신 검증 가능한 사실 하나 ── */
-.p3 .dogfood {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,260px);gap:36px;align-items:center;
+.p3 .dogfood {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,260px);gap:36px;align-items:center;margin-top:36px;padding:24px 0;
   border-top:1.5px solid var(--black);border-bottom:1.5px solid var(--black);padding:30px 0;margin-top:56px}
 .p3 .dogfood p {margin:0;font-size:17px;line-height:1.6}
 .p3 .dogfood p b {font-weight:800}
@@ -454,3 +465,63 @@
   .p3 .reg-mark.tr {right:calc(var(--pad) - 10px)}
   .p3 .reg-mark.br {right:calc(var(--pad) - 10px)}
 }
+
+/* ════ 타이포그래피 패스 (2026-09-19) ══════════════════════════════════════
+   오너 *"레이아웃이 허접하다"* 감사에서 측정된 두 건. 눈짐작 아니라 실측이다. */
+
+/* ── F1·F2 읽는 면 measure ────────────────────────────────────────────────
+   🔴 `/ae/docs` 는 **읽으라고 만든 면인데 사이트에서 제일 안 읽혔다.**
+   실측(1440, 실제 폰트 advance 로 계산): 릴리스 노트 항목 48건이 최대 **120ch**,
+   섹션 주석 2건이 **187ch**. 비교 — battleaxe 95ch · 우리 `/` 55ch · `/ae` 61ch.
+   판면을 1364px 로 캡했더니(74aefe5) 그 폭을 **본문이 그대로 다 썼다** — 판면은
+   '면'의 한계지 '한 줄'의 한계가 아니다. 줄은 따로 잡아야 한다.
+   🔴 값이 60ch 인 이유: CSS 의 `ch` 는 **숫자 0 의 폭**이라 실제 소문자보다 넓다 —
+   68ch 로 잡았더니 실측 **86자**가 나왔다(권장 상한 75자 초과). 60ch = 실측 ~76자,
+   국문으로는 ~35자로 한글 권장 35~45자의 하단이다. 한 값으로 두 로케일이 같이 산다 —
+   로케일별로 가르지 마라. ⚠️ 이 값을 고치면 **재서 확인해라**, `ch` 는 직관과 다르다. */
+.p3 { --measure: 60ch }
+.p3 .qa .a,
+.p3 .toolcard p,
+.p3 .sec > p.lab,
+.p3 .feat > p,
+.p3 .dogfood p { max-width: var(--measure) }
+
+/* 🔴 릴리스 목록은 **캡이 아니라 단(column)으로** 잡는다.
+   `max-width` 만 걸었더니 읽히기는 하는데 판면 오른쪽 60% 가 통째로 비었다 —
+   읽히게 만들면서 면을 반쪽으로 만든 것이라 문제를 옮긴 것뿐이었다(실측 후 되돌림).
+   단 폭이 곧 measure 이므로 텍스트는 짧게 유지되고 면은 양쪽이 찬다.
+   `column-width` 라서 단 수는 폭이 정한다 — 모바일에서 저절로 1단이 된다.
+   🔴 `break-inside:avoid` 없으면 한 항목이 단 경계에서 쪼개진다. */
+@media (max-width:900px){ .p3 .rel ul {columns:1} }
+
+/* 🔴 **읽는 면은 판면이 따로다.** `/ae/docs` 는 T3(§8.2) — 파는 면과 같은 1364 판면을 주면
+   ⑴ 한 줄이 120ch 로 늘어나거나 ⑵ 캡을 걸어 오른쪽 60% 를 비우거나, 둘 중 하나가 된다.
+   실제로 둘 다 해 보고 나서야 알았다: **판면을 좁히는 게 먼저고 캡은 그다음**이다.
+   1080 = measure 2단(60ch × 2 + 단 간격)이 거의 정확히 차는 폭이다. */
+.p3[data-page="docs"] { --field: 1160px }   /* 2단 × ~62ch + 단 간격이 차는 폭 */
+
+/* ── F3 크기 눈금 — 임의 반 스텝을 접는다 ────────────────────────────────
+   선언된 px 크기가 **23종**이었고 10~22 구간에만 18종이 몰려 있었다(레퍼런스 15종).
+   ⚠️ **반 스텝이 전부 잡음은 아니다** — `12.5px` 은 `[data-lang="ko"] .lab` 의
+   광학 보정이라 **의도된 것이다. 건드리지 마라.** 나머지 넷만 접는다:
+     11.5 → 11 (`.day .row span`) · 13.5 → 13 (`.stone-note .typed`)
+     14.5 → 14 (`.feat ul li`)    · 15.5 → 15 (`.pricing .incl li`)
+     10   → 11 (`.role .spot-fig .slug` — 11 이 이 자리의 최소 판독 크기다)
+   ⇒ 23종 → 18종. 더 줄이려면 12/13/14 중 하나를 버려야 하는데 각각 19·16·14 선언이라
+   **레이아웃 회귀 위험이 이득보다 크다.** 여기서 멈춘 건 게으름이 아니라 판정이다. */
+/* ⇒ 위 치환은 **소스 선언을 직접 접은 것**이다(override 레이어 없음).
+   `grep 'font-size:1[0-9]\.5px'` 가 0건이어야 한다. */
+
+
+/* ── F4 조판: 공유 선택자라 **섹션 스코프로만** 건드리는 것 ──────────────────
+   🔴 `.lead` 는 `/ae/docs` 도 쓰고, `.news .item` 은 `/` 의 성격 3카드가 같이 쓴다.
+   전역으로 바꾸면 안 지목된 면까지 리듬이 흔들린다. 그래서 여기만 id 로 좁힌다.
+   ⚠️ 이 규칙들은 명시도(id)로 위쪽 클래스 규칙을 **이긴다** — 위에서 같은 속성을 고쳐도
+   이 두 섹션에서는 안 먹는다. 고칠 땐 두 자리를 같이 봐라. */
+.p3 #brand .lead {margin-bottom:28px}
+/* 릴리스 카드 3장이 서로 안 맞았다: 2번만 16/9 이고 1·3번은 16/10 이라 제목이 14px 어긋나고,
+   본문 줄 수가 3/2/2 라 버전 칩이 세 높이에 떴다(y 367·339·353). 판 비율은 `News.tsx` 에서
+   16/9 로 통일했고, 칩은 카드 바닥에 못박는다 → 세 칩이 한 줄. 카드가 "세트"로 읽힌다. */
+.p3 #news .news .item {display:flex;flex-direction:column;height:100%}
+.p3 #news .news .item .v {margin-top:auto;align-self:flex-start;padding-top:10px}
+.p3 #news .dogfood figcaption {margin-top:7px}

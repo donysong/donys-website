@@ -7,9 +7,12 @@
 import { Html } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 
+/* 🔴 비율은 16/9 다 — 가운데 판(Pattern Lab)이 `.spot` 스프라이트(16/9 고정)라서,
+   1·3번만 16/10 이면 판 높이가 235 vs 211.5 로 갈리고 제목줄이 14px 어긋난다(실측).
+   나란한 3장은 판·제목·본문·버전칩이 전부 같은 줄에 앉아야 한다. 조판은 `app/compose.css` ④. */
 const NEWS_IMG: React.CSSProperties = {
   width: '100%',
-  aspectRatio: '16/10',
+  aspectRatio: '16/9',
   objectFit: 'cover',
   boxShadow: 'calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white)',
 };

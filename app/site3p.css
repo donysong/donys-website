@@ -229,7 +229,7 @@
 .p3 .ticks i {height:3px;flex:1;background:rgba(0,0,0,.18);position:relative;overflow:hidden}
 .p3 .ticks i.on::after {content:'';position:absolute;inset:0;background:var(--red);animation:p3-tick 900ms linear forwards}
 @keyframes p3-tick{from{translate:-100% 0}to{translate:0 0}}
-.p3 .stone-note .typed {margin-top:10px;font-size:13.5px}
+.p3 .stone-note .typed {margin-top:10px;font-size:13px}
 
 /* ── 01 Who: 모눈 카드 + 테이프 ───────────────────────────── */
 .p3 .roles {display:grid;grid-template-columns:repeat(4,1fr);gap:64px 26px;padding-top:14px}
@@ -243,7 +243,7 @@
 .p3 .role:is(:hover, .p3 :focus-within) .spot {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--white)}
 /* 🔴 슬러그는 판 폭 안에서 두 줄로. 카드가 rotate 로 쌓임 맥락을 만들어서 z-index 가 카드 밖으로 못 나간다 —
    한 줄로 두면 넘친 꼬리를 다음 카드가 덮는다(헤드리스 실측: "SEQUENCE" 에서 잘렸다) */
-.p3 .role .spot-fig .slug {position:absolute;left:8px;bottom:-12px;margin:0;max-width:calc(100% - 4px);font-size:10px}
+.p3 .role .spot-fig .slug {position:absolute;left:8px;bottom:-12px;margin:0;max-width:calc(100% - 4px);font-size:11px}
 .p3 .role .spot-fig .slug i {display:block}
 .p3 .role .in {position:relative;overflow:hidden}
 .p3 .role .top {display:flex;justify-content:space-between;align-items:center;color:#444}
@@ -278,7 +278,7 @@
 .p3 .day .labels b {color:var(--red)}
 .p3 .day .strip {position:relative;height:120px;border:1.5px solid var(--black);overflow:hidden;box-shadow:var(--rx) var(--ry) 0 var(--black)}
 .p3 .day .row {position:absolute;inset:0;display:flex}
-.p3 .day .row span {flex:var(--w);display:grid;place-items:center;font-weight:700;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;border-right:1.5px solid rgba(0,0,0,.18);color:#333;text-align:center;padding:0 4px;line-height:1.3}
+.p3 .day .row span {flex:var(--w);display:grid;place-items:center;font-weight:700;font-size:11px;letter-spacing:.04em;text-transform:uppercase;border-right:1.5px solid rgba(0,0,0,.18);color:#333;text-align:center;padding:0 4px;line-height:1.3}
 .p3[data-lang="ko"] .day .row span {text-transform:none;letter-spacing:0}
 .p3 .day .row span.chore {background:#e6dfcf;color:#444}
 .p3 .day .row span.chore::before {content:'↻ ';color:var(--red)}
@@ -351,7 +351,7 @@
 .p3 .stage .grp.drift {animation:p3-drift 4s ease-in-out infinite alternate}
 .p3 .stage .grp.wiggle {animation:p3-jitter .9s steps(1,end) infinite}
 .p3 .stage .shape.fit {scale:5.2 1.6}
-.p3 .tl {background:#15181c;color:#c9cfd2;padding:10px 12px 12px;font-size:11.5px;letter-spacing:.04em;box-shadow:var(--rx) var(--ry) 0 var(--white);margin-top:14px;font-weight:600}
+.p3 .tl {background:#15181c;color:#c9cfd2;padding:10px 12px 12px;font-size:11px;letter-spacing:.04em;box-shadow:var(--rx) var(--ry) 0 var(--white);margin-top:14px;font-weight:600}
 .p3 .tl .row {display:grid;grid-template-columns:78px 1fr;gap:10px;align-items:center;padding:5px 0;border-top:1px solid #262b31}
 .p3 .tl .row:first-child {border-top:0;color:#8a949b}
 .p3 .tl .name {white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -359,10 +359,10 @@
 .p3 .tl .track {position:relative;height:16px;background:repeating-linear-gradient(90deg,#1c2025 0 1px,transparent 1px 10%)}
 .p3 .tl .k {position:absolute;top:50%;left:var(--k);width:9px;height:9px;translate:-50% -50%;rotate:45deg;background:var(--paper);box-shadow:0 0 0 1.5px #15181c;animation:p3-kin .3s var(--ease-slip) both}
 .p3 .tl .k.red {background:var(--red)}
-.p3 .tl .expr {position:absolute;top:50%;left:var(--k);translate:0 -50%;padding:1px 6px;background:#2b1e22;color:#ff8aa0;border-radius:2px;font-size:10px}
+.p3 .tl .expr {position:absolute;top:50%;left:var(--k);translate:0 -50%;padding:1px 6px;background:#2b1e22;color:#ff8aa0;border-radius:2px;font-size:11px}
 @keyframes p3-kin{from{scale:0}to{scale:1}}
 .p3 .tl .ruler {position:relative;height:16px}
-.p3 .tl .ruler i {position:absolute;top:2px;font-style:normal;color:#8a949b;font-size:10px}
+.p3 .tl .ruler i {position:absolute;top:2px;font-style:normal;color:#8a949b;font-size:11px}
 /* 패널 7 = 스탬프 행 */
 .p3 .panels {display:grid;grid-template-columns:repeat(7,1fr);gap:14px;margin-top:56px}
 .p3 .panels>div {position:relative;padding:14px 12px 12px;border:2px solid var(--black);border-radius:8px;color:var(--black);rotate:var(--r,0deg);transition:rotate var(--t-press) var(--ease-press),box-shadow var(--t-press) var(--ease-press);
@@ -370,7 +370,7 @@
 .p3 .panels>div:nth-child(odd) {--r:-1.5deg} .panels>div:nth-child(even){--r:1.2deg}
 .p3 .panels>div:hover {rotate:0deg}
 .p3 .panels b {display:block;font-size:14px;font-weight:800;letter-spacing:-.01em}
-.p3 .panels span {display:block;font-size:11.5px;color:var(--muted);margin-top:4px;font-weight:600}
+.p3 .panels span {display:block;font-size:11px;color:var(--muted);margin-top:4px;font-weight:600}
 .p3 .panels em {display:block;font-style:normal;font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:var(--disp-w);font-size:30px;color:var(--red);line-height:1;margin-bottom:6px}
 .p3 .counts-note {margin-top:14px;color:var(--muted);font-size:12.5px;font-weight:600}
 /* 툴박스 판 8장 — 인쇄소 테스트 스트립처럼 판마다 조금씩 어긋나 있다 */
