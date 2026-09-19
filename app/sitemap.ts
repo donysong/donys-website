@@ -13,6 +13,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   return [
     { url: `${SITE}/`,        lastModified: now, changeFrequency: 'weekly', priority: 1 },
+    /* 🔴 §14 분리 — 제품은 하위 경로다. `/ae` 가 파는 면, `/ae/docs` 가 읽는 면(로그인·구매 없이 공개).
+       루트가 제품 페이지인 상태는 제품이 둘이 되는 날 반드시 깨진다. */
+    { url: `${SITE}/ae`,      lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE}/ae/docs`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+    /* 🔴 국문은 **따로 구워진 페이지**다(`?lang=ko` 클라이언트 스왑이 아니다). 색인 대상이니 싣는다.
+       법·업데이트 페이지는 국문 판본이 없어서 여기 없다 — 만들기 전엔 넣지 마라(404 를 색인시킨다). */
+    { url: `${SITE}/ko`,         lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE}/ko/ae`,      lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE}/ko/ae/docs`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
     { url: `${SITE}/update`,  lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE}/terms`,   lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },

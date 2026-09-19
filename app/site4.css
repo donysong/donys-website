@@ -1,0 +1,407 @@
+/* proto4 — 브랜드 루트(index.html) + 제품 페이지(ae.html) 분리 프로토.
+   🔴 `base.css` = 현 사이트 `app/site3p.css` 를 경로만 고쳐 그대로 가져온 것이다 (하우스 리소 시스템).
+   이 파일은 **새 컴포넌트만** 담는다 — 레퍼런스(battleaxe.co) 해부에서 나온 IA 부품들.
+   정본 = WEBSITE_RENEWAL_PLAN §14 (이 프로토와 같이 쓴 절). */
+
+/* ═══ 공통 ═══════════════════════════════════════════════════ */
+.p3 .wrap {max-width:1360px;margin:0 auto}
+.p3 .sec.tight {padding-top:84px;padding-bottom:84px}
+.p3 .eyebrow {font-family:var(--font);font-weight:600;font-size:14px;letter-spacing:.02em;color:var(--typeink)}
+.p3 .rule {border:0;border-top:1.5px solid var(--black);margin:0}
+
+/* 브랜드 루트는 제품 페이지와 같은 종이를 쓴다 — 같은 인쇄물이어야 하니까.
+   구분은 색이 아니라 **밀도**다: 루트는 여백이 넓고, 제품은 블록이 촘촘하다. */
+.p3.root .sec {padding:96px 64px}
+
+/* ═══ 라인업 행 — 레퍼런스 원리 ①: 5% 지점에 제품이 이미 있다 ═══
+   카드가 아니라 **풀블리드 행**이다. 1개일 때도 의도로 읽히고 6개가 돼도 안 깨진다.
+   메타는 넷만: 이름 · 호스트 칩 · 가격 · 배지. (버전·기능수·평점은 넣지 마라 — 레퍼런스도 안 넣는다) */
+.p3 .lineup {position:relative;z-index:2;margin:0;padding:0;list-style:none}
+.p3 .row {position:relative;display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:56px;align-items:center;
+  padding:34px 64px;border-top:1.5px solid var(--black)}
+.p3 .row:last-child {border-bottom:1.5px solid var(--black)}
+.p3 .row .row-fig {position:relative}
+.p3 .row .row-body {display:grid;gap:14px}
+.p3 .row .row-name {display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.p3 .row .row-name .pl {font-size:clamp(2.2rem,4.4vw,3.8rem);line-height:.94;letter-spacing:-.03em}
+.p3[data-lang="ko"] .row .row-name .pl {letter-spacing:-.01em}
+.p3 .row .one {font-size:17px;line-height:1.45;color:var(--text);max-width:44ch}
+.p3 .row .lmeta {display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-top:1.5px solid var(--black);padding-top:12px}
+.p3 .row .chips {display:inline-flex;gap:6px}
+.p3 .row .chip {display:inline-grid;place-items:center;min-width:28px;height:24px;padding:0 6px;border:1.5px solid var(--black);border-radius:4px;
+  font-size:11px;font-weight:800;letter-spacing:.04em}
+.p3 .row .dash {flex:1;height:1.5px;background:var(--black);opacity:.35;min-width:24px}
+.p3 .row .price {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:26px;letter-spacing:-.02em}
+.p3 .row .price s {opacity:.45;font-size:14px;font-weight:600;margin-left:8px}
+.p3 .row .price em {font-style:normal;font-size:13px;font-weight:600;letter-spacing:.06em;margin-left:6px;opacity:.7}
+/* 별 배지 — 레퍼런스의 starburst. 여기선 고무 스탬프로 번역한다(하우스 부품) */
+.p3 .row .badge {rotate:-4deg}
+/* 행 전체가 링크다 — 레퍼런스도 행 전체가 제품으로 간다(클릭 1회) */
+.p3 .row .hit {position:absolute;inset:0;z-index:4}
+.p3 .row .go {display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px}
+.p3 .row .go .arrow {transition:translate var(--t-press) var(--ease-press)}
+.p3 .row:hover .go .arrow {translate:6px 0}
+.p3 .row:hover .spot {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--white)}
+.p3 .row.open::after {content:'';position:absolute;inset:0;background:var(--red);opacity:0;mix-blend-mode:multiply;
+  transition:opacity var(--t-press);pointer-events:none}
+.p3 .row.open:hover::after {opacity:.07}
+/* 아직 이름 없는 행 — 브랜드 가이드 `IT` 조항(*"아직 이름 없는 것. 내 앞의 빈 파일"*).
+   🔴 "coming soon" 배지를 붙이지 마라 — 없는 제품을 광고하는 게 아니라, 이름이 비어 있다는 게 내용이다. */
+.p3 .row.blank {opacity:.72}
+.p3 .row.blank .row-fig .plate-empty {aspect-ratio:16/9;background:var(--cream);position:relative;isolation:isolate;
+  box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white);display:grid;place-items:center}
+.p3 .row.blank .plate-empty::after {content:'';position:absolute;inset:0;z-index:-1;
+  background:url(/riso/paper-field.webp) center/620px repeat;opacity:.24;mix-blend-mode:multiply;filter:invert(1)}
+.p3 .row.blank .plate-empty img {width:44%;opacity:.5}
+
+/* ═══ 이름 풀이 — 브랜드 루트 전용 ═════════════════════════════
+   브랜드 가이드 ESSENCE 장의 표 그대로. 3행 × (글자 · 사업에선 · 브랜드에선) */
+.p3 .name-table {display:grid;gap:0;border-top:1.5px solid var(--black)}
+.p3 .name-row {display:grid;grid-template-columns:150px 1fr 1fr;gap:32px;align-items:center;padding:22px 0;border-bottom:1.5px solid rgba(0,0,0,.2)}
+.p3 .name-row .ltr {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:40px;color:var(--red);
+  mix-blend-mode:multiply;letter-spacing:-.02em}
+.p3 .name-row .biz {font-size:15px;color:var(--muted);line-height:1.5}
+.p3 .name-row .brd {font-size:17px;font-weight:700;line-height:1.45}
+.p3 .name-heads {display:grid;grid-template-columns:150px 1fr 1fr;gap:32px;padding-bottom:10px}
+
+/* 빨간 풀쿼트 — 레퍼런스 원리: 철학 블록 한가운데 한 문장을 크게 박는다 */
+.p3 .pull {margin:52px 0;padding:0}
+.p3 .pull .pl {font-size:clamp(1.8rem,3.6vw,3rem);line-height:1.06;letter-spacing:-.02em;display:block}
+.p3[data-lang="ko"] .pull .pl {line-height:1.2;letter-spacing:-.01em}
+.p3 .pull .src {display:block;margin-top:14px;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+
+/* 안 하는 것 — BOUNDARIES 장. ✗ 목록이 브랜드를 가장 빠르게 설명한다 */
+.p3 .nots {display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;padding:0;list-style:none}
+.p3 .nots li {display:inline-flex;align-items:center;gap:9px;padding:9px 14px;border:1.5px solid var(--black);border-radius:6px;
+  font-size:14px;font-weight:600;background:rgba(246,244,238,.28)}
+.p3 .nots li::before {content:'✗';font-weight:800;color:var(--red);mix-blend-mode:multiply}
+
+/* ═══ 제품 히어로 — 레퍼런스 원리 ②: 브랜드 서사 0단어 ═══════════
+   아이브로 → 워드마크 → 데모 → 좌 BUY 원 / 우 DOCS 원. 양쪽 원이 **같은 무게**다. */
+.p3 .phero {position:relative;z-index:2;padding:26px 64px 64px;text-align:center}
+.p3 .phero .eyebrow {display:block;margin-bottom:18px}
+.p3 .phero h1 {margin:0 0 8px;font-size:clamp(3rem,9vw,8rem);line-height:.86;letter-spacing:-.045em}
+.p3[data-lang="ko"] .phero h1 {font-size:clamp(2.6rem,7.4vw,6.4rem);line-height:1.02;letter-spacing:-.02em}
+.p3 .phero h1 .pl {display:block;width:max-content;margin:0 auto}
+.p3 .phero .pstage {position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,760px) minmax(0,1fr);
+  gap:36px;align-items:center;margin-top:38px}
+.p3 .phero .pstage .side {display:grid;justify-items:center;gap:12px}
+.p3 .phero .demo {position:relative}
+.p3 .phero .demo .spot {box-shadow:calc(var(--rx)*2) calc(var(--ry)*2) 0 var(--white)}
+.p3 .phero .cap {margin-top:12px;font-size:12.5px;color:var(--muted)}
+/* 원형 CTA — 레퍼런스의 두 동그라미 */
+.p3 .circ {display:grid;place-items:center;width:172px;height:172px;border-radius:50%;text-align:center;line-height:1.25;
+  font-weight:800;font-size:17px;letter-spacing:.01em;transition:scale var(--t-press) var(--ease-press),box-shadow var(--t-press)}
+.p3 .circ.fill {background:var(--red);color:var(--white);mix-blend-mode:multiply;box-shadow:var(--rx) var(--ry) 0 var(--white)}
+.p3 .circ.line {border:1.5px solid var(--black);box-shadow:var(--rx) var(--ry) 0 var(--white)}
+.p3 .circ:hover {scale:1.04;box-shadow:calc(var(--rx)*2.4) calc(var(--ry)*2.4) 0 var(--white)}
+.p3 .circ b {display:block;font-size:24px;letter-spacing:-.01em}
+.p3 .circ small {display:block;font-size:12px;font-weight:600;opacity:.8;margin-top:3px}
+.p3 .phero .undercirc {font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.p3 .phero .metas {display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:34px}
+
+/* ═══ 포지셔닝 — 신화 한 줄 + 문자 그대로 한 줄 ═══════════════════
+   🔴 레퍼런스가 예외 없이 지키는 규칙: 멋부린 줄 **바로 다음**에 명사로 갚는 줄이 온다.
+   처음 온 사람이 멋부린 줄만 들고 나가는 일이 없다. */
+.p3 .posi {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+.p3 .posi .myth {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;
+  font-size:clamp(1.7rem,3.2vw,2.7rem);line-height:1.04;letter-spacing:-.025em;margin:0}
+.p3[data-lang="ko"] .posi .myth {line-height:1.2;letter-spacing:-.01em}
+.p3 .posi .plain {font-size:18px;line-height:1.6;margin:0;max-width:46ch}
+.p3 .posi .plain b {font-weight:700}
+
+/* ═══ 기능 블록 — 데모 좌 60% / 헤드라인·불릿 우 ═══════════════
+   🔴 서구 읽기 순서상 **증거가 먼저 읽힌다.** 주장이 빈 액자 위에 오지 않는다.
+   헤드라인은 **명사**다 — 얻는 물건의 이름이지 네가 할 동작이 아니다. */
+.p3 .feat {display:grid;grid-template-columns:minmax(0,60fr) minmax(0,40fr);gap:56px;align-items:center;
+  padding:64px 0;border-top:1.5px solid rgba(0,0,0,.22)}
+.p3 .feat:first-of-type {border-top:0}
+.p3 .feat .fig {position:relative}
+.p3 .feat .fig .spot {box-shadow:calc(var(--rx)*var(--m,1.6)) calc(var(--ry)*var(--m,1.6)) 0 var(--white)}
+.p3 .feat h3 {margin:0 0 16px;font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;
+  font-size:clamp(1.6rem,2.8vw,2.4rem);line-height:1;letter-spacing:-.025em;text-transform:uppercase}
+.p3[data-lang="ko"] .feat h3 {text-transform:none;letter-spacing:-.01em;line-height:1.18;font-size:clamp(1.5rem,2.4vw,2rem)}
+.p3 .feat h3 .u {background:linear-gradient(var(--red),var(--red)) 0 100%/100% 3px no-repeat;padding-bottom:3px}
+.p3 .feat p {margin:0 0 14px;font-size:16px;line-height:1.6;max-width:44ch}
+.p3 .feat ul {margin:18px 0 0;padding:0;list-style:none;display:grid;gap:7px}
+.p3 .feat ul li {position:relative;padding-left:16px;font-size:14.5px;line-height:1.45}
+.p3 .feat ul li::before {content:'·';position:absolute;left:3px;font-weight:800;color:var(--red);mix-blend-mode:multiply}
+.p3 .feat ul li i {font-style:normal;opacity:.62}
+.p3 .feat .strip {display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+
+/* ═══ 스티키 레일 — 45% 에서 점화한다 ═══════════════════════════
+   🔴 위에서부터 띄우지 마라. 증거 다섯 블록을 지난 뒤에 돈 얘기가 나온다. */
+.p3 .rail {position:fixed;right:22px;top:112px;z-index:38;display:grid;gap:14px;justify-items:end;
+  opacity:0;translate:14px 0;pointer-events:none;transition:opacity var(--t-press),translate var(--t-press) var(--ease-press)}
+.p3 .rail.on {opacity:1;translate:0 0;pointer-events:auto}
+.p3 .rail .links {display:grid;gap:5px;text-align:right;font-size:12.5px;font-weight:600}
+.p3 .rail .links a {opacity:.6;transition:opacity var(--t-press)}
+.p3 .rail .links a.on, .p3 .rail .links a:hover {opacity:1}
+.p3 .rail .links a.on::before {content:'▸ '}
+.p3 .rail .buy {display:grid;place-items:center;width:96px;height:96px;border-radius:50%;background:var(--red);color:var(--white);
+  mix-blend-mode:multiply;font-weight:800;font-size:15px;line-height:1.2;text-align:center;box-shadow:var(--rx) var(--ry) 0 var(--white);
+  transition:scale var(--t-press) var(--ease-press)}
+.p3 .rail .buy:hover {scale:1.06}
+.p3 .rail .buy small {display:block;font-size:11px;font-weight:600;opacity:.85}
+@media (max-width:1100px){.p3 .rail{display:none}}
+
+/* ═══ What's new ═══════════════════════════════════════════════ */
+.p3 .news {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.p3 .news .item h4 {margin:14px 0 8px;font-size:19px;font-weight:800;letter-spacing:-.01em}
+.p3 .news .item p {margin:0;font-size:14.5px;line-height:1.55;color:var(--text)}
+.p3 .news .item .v {display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--red);mix-blend-mode:multiply}
+
+/* ═══ 가격 — 🔴 여기엔 버튼이 없다. 스티키 레일이 가진다 ═══════════ */
+.p3 .pricing {display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px;align-items:start}
+.p3 .pricing .big {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;
+  font-size:clamp(3.4rem,8vw,6.4rem);line-height:.9;letter-spacing:-.04em;display:block}
+.p3 .pricing .incl {margin:24px 0 0;padding:0;list-style:none;display:grid;gap:9px}
+.p3 .pricing .incl li {position:relative;padding-left:20px;font-size:15.5px;line-height:1.5}
+.p3 .pricing .incl li::before {content:'✓';position:absolute;left:0;font-weight:800;color:var(--red);mix-blend-mode:multiply}
+.p3 .pricing .argue {padding:30px 32px}
+.p3 .pricing .argue h4 {margin:0 0 12px;font-size:22px;font-weight:800;letter-spacing:-.01em}
+.p3 .pricing .argue p {margin:0 0 12px;font-size:15.5px;line-height:1.6}
+.p3 .pricing .argue p:last-child {margin-bottom:0}
+
+/* ═══ FAQ — 🔴 답은 **판정어 한 마디**로 시작한다 (펼치기 전에 읽힌다) ═══ */
+.p3 .faq-group {margin-bottom:40px}
+.p3 .faq-group > .lab {display:block;margin-bottom:14px;color:var(--typeink)}
+.p3 .qa {border-top:1.5px solid rgba(0,0,0,.24)}
+.p3 .qa:last-child {border-bottom:1.5px solid rgba(0,0,0,.24)}
+.p3 .qa summary {list-style:none;cursor:none;padding:18px 0;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:baseline}
+.p3 .qa summary::-webkit-details-marker {display:none}
+.p3 .qa .q {font-size:18px;font-weight:700;letter-spacing:-.01em}
+.p3 .qa .verdict {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:20px;
+  color:var(--red);mix-blend-mode:multiply;letter-spacing:-.01em;white-space:nowrap}
+.p3 .qa[open] .q {text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--red)}
+.p3 .qa .a {padding:0 0 20px;margin:0;font-size:15.5px;line-height:1.62;max-width:72ch;color:var(--text)}
+.p3 .qa .a b {font-weight:700}
+
+/* ═══ specs — 8필드 3열. 마지막에 온다 ═══════════════════════════ */
+.p3 .specs {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1.5px solid var(--black)}
+.p3 .specs .f {padding:22px 24px 22px 0;border-bottom:1.5px solid rgba(0,0,0,.2)}
+.p3 .specs .f .k {display:block;margin-bottom:8px;color:var(--typeink)}
+.p3 .specs .f .v {font-size:16px;line-height:1.5;font-weight:600}
+.p3 .specs .f .n {display:block;margin-top:6px;font-size:13px;line-height:1.45;color:var(--muted);font-weight:400}
+
+/* ═══ 푸터 4열 (레퍼런스 원리 ⑥) ═══════════════════════════════
+   🔴 은퇴한 제품도 푸터엔 남긴다 — 네비에서만 뺀다. 기존 구매자의 링크를 끊지 않는다. */
+.p3 footer .cols {display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:40px}
+
+/* ═══ 반응형 ═══════════════════════════════════════════════════ */
+@media (max-width:1080px){
+  .p3 .row {grid-template-columns:minmax(0,220px) 1fr;gap:32px;padding:26px 32px}
+  .p3 .feat, .p3 .posi, .p3 .pricing {grid-template-columns:1fr;gap:28px}
+  .p3 .news, .p3 .specs {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .p3 .phero .pstage {grid-template-columns:1fr}
+  .p3 .phero .pstage .side {flex-direction:row;display:flex;justify-content:center;gap:24px}
+  .p3 .sec, .p3.root .sec, .p3 .phero {padding-left:32px;padding-right:32px}
+}
+@media (max-width:680px){
+  .p3 .row {grid-template-columns:1fr}
+  .p3 .name-row, .p3 .name-heads {grid-template-columns:1fr;gap:8px}
+  .p3 .news, .p3 .specs {grid-template-columns:1fr}
+  .p3 footer .cols {grid-template-columns:1fr 1fr}
+}
+
+/* ═══ 증거 구멍 — 🔴 이 컴포넌트가 프로토의 산출물 중 하나다 ═══
+   레퍼런스는 기능 블록마다 **실제 앱 화면 녹화**를 건다(목업 아님, 결과 몽타주 아님).
+   우리는 툴박스 39툴만 그런 자산이 있다(패널이 호버에 띄우는 그 시트 = 진짜 AE 렌더).
+   나머지 기능은 자산이 0이다. 가짜로 채우지 않고 **무엇을 찍어야 하는지 적어 둔다.**
+   출고 전에 이 판들이 전부 실제 녹화로 바뀌어야 한다. */
+.p3 .gap {position:relative;aspect-ratio:16/9;display:grid;place-content:center;gap:10px;text-align:center;padding:24px;
+  background:var(--cream);isolation:isolate;box-shadow:calc(var(--rx)*var(--m,1.6)) calc(var(--ry)*var(--m,1.6)) 0 var(--white);
+  outline:2px dashed rgba(0,0,0,.34);outline-offset:-14px}
+.p3 .gap::after {content:'';position:absolute;inset:0;z-index:-1;background:url(/riso/paper-field.webp) center/620px repeat;
+  opacity:.24;mix-blend-mode:multiply;filter:invert(1)}
+.p3 .gap .t {font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.01em;color:var(--red);mix-blend-mode:multiply}
+.p3 .gap .d {font-size:13.5px;line-height:1.5;color:#3a3a3a;max-width:36ch;margin:0 auto}
+.p3 .gap .n {font-size:11.5px;letter-spacing:.06em;font-weight:700;color:#7b7b7b}
+
+/* ═══ 제품명 조판 — 🔴 오너 확정 2026-09-16 ═══════════════════
+   브랜드명 `You Name It` · 제품명 `You Name It AE Plugin`.
+   브랜드가 제품명 안에 들어 있으므로 **두 부분을 다른 크기로 조판**한다(Adobe Photoshop 식).
+   작은 쪽이 브랜드, 큰 쪽이 제품 구분자. 둘을 같은 크기로 쓰면 로고 바로 밑에서 이름이 두 번 읽힌다. */
+.p3 .brandpart {display:block;font-size:.34em;letter-spacing:.02em;line-height:1.1;margin-bottom:.12em;opacity:.92}
+.p3 .phero h1 .brandpart {font-size:.26em}
+
+/* ═══ 툴박스 후킹 카드 — 제품 페이지 ═════════════════════════
+   🔴 툴박스가 차별점이라는 오너 판정(2026-09-16). 39개를 나열하지 않고 **몇 개를 풀어서** 보여주고
+   나머지는 Docs 로 보낸다(레퍼런스도 제품 페이지에서 설명을 끊고 `/docs` 로 넘긴다). */
+.p3 .hooks {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 22px;margin-top:38px}
+.p3 .hook {position:relative}
+.p3 .hook h4 {margin:12px 0 6px;font-size:17px;font-weight:800;letter-spacing:-.01em}
+.p3 .hook h4 em {font-style:normal;font-weight:600;font-size:12px;letter-spacing:.06em;
+  background:var(--black);color:var(--cream);padding:2px 6px;margin-right:7px;vertical-align:2px;text-transform:uppercase}
+.p3 .hook p {margin:0;font-size:14px;line-height:1.5;color:var(--text)}
+.p3 .hook p b {font-weight:700}
+.p3 .docs-cta {display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:40px;
+  border-top:1.5px solid var(--black);padding-top:24px}
+.p3 .docs-cta .txt {flex:1;min-width:260px;font-size:15.5px;line-height:1.5}
+.p3 .btn-fill {display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:7px;
+  background:var(--red);color:var(--white);mix-blend-mode:multiply;font-weight:800;font-size:15px;
+  box-shadow:var(--rx) var(--ry) 0 var(--white);transition:box-shadow var(--t-press) var(--ease-press)}
+.p3 .btn-fill:hover {box-shadow:calc(var(--rx)*2.4) calc(var(--ry)*2.4) 0 var(--white)}
+
+/* ═══ Docs 페이지 ═══════════════════════════════════════════ */
+.p3 .toc {position:sticky;top:78px;z-index:30;display:flex;gap:6px;flex-wrap:wrap;padding:12px 64px 14px;
+  background:linear-gradient(rgba(31,155,227,.96),rgba(31,155,227,.9));border-bottom:1.5px solid var(--black)}
+.p3 .toc a {padding:7px 13px;border:1.5px solid var(--black);border-radius:6px;font-size:13px;font-weight:700;
+  transition:background var(--t-press),color var(--t-press)}
+.p3 .toc a:hover, .p3 .toc a.on {background:var(--black);color:var(--white)}
+/* 툴 카드 격자 — 판 + 이름 + 한 줄 */
+.p3 .catbar {display:flex;align-items:baseline;gap:14px;margin:46px 0 20px;border-top:1.5px solid var(--black);padding-top:14px}
+.p3 .catbar h3 {margin:0;font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;
+  font-size:26px;letter-spacing:-.02em;text-transform:uppercase}
+.p3[data-lang="ko"] .catbar h3 {text-transform:none;letter-spacing:-.01em}
+.p3 .catbar .n {font-size:13px;font-weight:700;color:var(--typeink)}
+.p3 .toolgrid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 20px}
+.p3 .toolcard h4 {margin:11px 0 5px;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.p3 .toolcard p {margin:0;font-size:13px;line-height:1.5;color:#0c3b52}
+.p3 .toolcard .noimg {aspect-ratio:16/9;display:grid;place-items:center;background:var(--cream);position:relative;isolation:isolate;
+  box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white);font-size:12px;color:#8b8b8b;font-weight:700}
+/* 패널 표 */
+.p3 .ptable {width:100%;border-collapse:collapse;font-size:14.5px}
+.p3 .ptable th {text-align:left;padding:12px 16px 12px 0;border-bottom:1.5px solid var(--black);
+  font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--typeink);white-space:nowrap}
+.p3[data-lang="ko"] .ptable th {text-transform:none;letter-spacing:.02em;font-size:13px}
+.p3 .ptable td {padding:14px 16px 14px 0;border-bottom:1.5px solid rgba(0,0,0,.18);line-height:1.5;vertical-align:top}
+.p3 .ptable td:first-child {font-weight:800;white-space:nowrap}
+.p3 .ptable td .k {display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-top:3px}
+/* 카탈로그 숫자 행 */
+.p3 .cat-nums {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1.5px solid var(--black)}
+.p3 .cat-nums .c {padding:20px 20px 20px 0;border-bottom:1.5px solid rgba(0,0,0,.18)}
+.p3 .cat-nums .c b {display:block;font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;
+  font-size:40px;line-height:1;letter-spacing:-.03em;color:var(--red);mix-blend-mode:multiply}
+.p3 .cat-nums .c span {display:block;margin-top:7px;font-size:14px;font-weight:700}
+.p3 .cat-nums .c small {display:block;margin-top:3px;font-size:12.5px;color:var(--muted);font-weight:400;line-height:1.45}
+/* 이펙트 썸네일 5 */
+.p3 .fxrow {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin-top:26px}
+.p3 .fxrow figure {margin:0}
+.p3 .fxrow img {width:100%;aspect-ratio:16/9;object-fit:cover;box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white)}
+.p3 .fxrow figcaption {margin-top:9px;font-size:13px;font-weight:800}
+.p3 .fxrow figcaption small {display:block;font-weight:400;font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px}
+/* 릴리스 노트 */
+.p3 .rel {border-top:1.5px solid var(--black);padding:22px 0}
+.p3 .rel > summary {list-style:none;cursor:none;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.p3 .rel > summary::-webkit-details-marker {display:none}
+.p3 .rel .v {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:30px;letter-spacing:-.02em}
+.p3 .rel .d {font-size:13px;font-weight:700;color:var(--muted)}
+.p3 .rel .cnt {margin-left:auto;font-size:13px;font-weight:700;color:var(--red);mix-blend-mode:multiply}
+.p3 .rel ul {margin:18px 0 0;padding:0;list-style:none;display:grid;gap:11px;max-width:86ch}
+.p3 .rel ul li {position:relative;padding-left:18px;font-size:14.5px;line-height:1.62}
+.p3 .rel ul li::before {content:'—';position:absolute;left:0;color:var(--red);mix-blend-mode:multiply;font-weight:800}
+
+@media (max-width:1080px){
+  .p3 .hooks, .p3 .toolgrid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .p3 .cat-nums {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .p3 .fxrow {grid-template-columns:repeat(3,minmax(0,1fr))}
+  .p3 .toc {padding-left:32px;padding-right:32px}
+}
+@media (max-width:680px){
+  .p3 .hooks, .p3 .toolgrid, .p3 .cat-nums, .p3 .fxrow {grid-template-columns:1fr}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   2026-09-16 크리틱 수정 — 오너 지시로 8건 전부 집행
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 수정 1. 🔴 스티키 레일이 FAQ 판정어를 덮었다 (실측 46px 겹침) ──
+   원인: 본문이 `padding:0 64px` 로 1376까지 차는데 레일은 right:22 · 폭 96 = 1322 에서 시작한다.
+   레일에게 자기 차선을 준다 — 레일이 뜨는 폭에서만 본문 오른쪽을 비운다. */
+@media (min-width:1101px){
+  .p3.has-rail .sec {padding-right:168px}   /* 🔴 .phero 는 제외 — 레일은 45%에서 뜬다. 히어로에 여백을 주면 중앙정렬이 깨진다 */
+}
+/* 레일 링크 대비 — opacity .6 은 파란 종이 위에서 안 읽혔다 */
+.p3 .rail .links a {opacity:.78;color:var(--text)}
+.p3 .rail .links a.on {opacity:1;color:var(--red);mix-blend-mode:multiply;font-weight:800}
+.p3 .rail .buy {width:104px;height:104px}
+
+/* ── 수정 5. 루트 히어로 — 장식이 메시지를 19배로 눌렀다 (실측 11,158px² vs 212,470px²) ──
+   h1 을 키우고 칼럼 비를 뒤집는다. 돌은 조연이지 주연이 아니다. */
+.p3.root .hero {grid-template-columns:minmax(0,8fr) minmax(0,4fr);min-height:auto;padding-top:8px;padding-bottom:72px;align-items:center}
+.p3.root h1 {font-size:clamp(3.4rem,8.4vw,7.6rem);line-height:.98;margin:20px 0 26px}
+.p3.root .hero .sub {font-size:21px;max-width:38ch}
+.p3.root .hero .sticky {padding:18px}
+/* 스탠스 줄 — 브랜드의 핵심 문장인데 15px 파랑이라 종이에 묻혔다. 링크임을 보이게 */
+.p3 .typed-link {display:inline-block;margin-top:26px;border-bottom:2px solid var(--typeink);padding-bottom:3px;
+  transition:border-color var(--t-press)}
+.p3 .typed-link .typed {font-size:17px}
+.p3 .typed-link:hover {border-color:var(--red)}
+
+/* ── 수정 6. 레드 감량 — 레드가 5가지 일을 했다 (루트에만 빨간 글자 13개) ──
+   🔴 남기는 것: CTA 면 · 가격 숫자 · 디스플레이 활자 · 로고 · 배지 (= 브랜드 정본의 "키포인트").
+   🔴 검정으로 내리는 것: FAQ 판정어 · 목록 불릿 · 체크 — 세로로 쌓이면 그게 본문색이 된다. */
+.p3 .qa .verdict {color:var(--black);mix-blend-mode:normal}
+.p3 .qa[open] .verdict {color:var(--red);mix-blend-mode:multiply}
+.p3 .feat ul li::before, .p3 .cat-nums .c b {color:var(--typeink);mix-blend-mode:normal}
+.p3 .pricing .incl li::before {color:var(--black);mix-blend-mode:normal}
+.p3 .rel ul li::before {color:var(--black);mix-blend-mode:normal}
+.p3 .cat-nums .c b {color:var(--red);mix-blend-mode:multiply}   /* 숫자는 키포인트라 남긴다 */
+
+/* ── 수정 7. 가격 섹션 빈 304px (540 중 56%) · 섹션 아이콘 ── */
+.p3 #price .sec {padding-bottom:56px}
+.p3 .pricing {align-items:stretch}
+.p3 .pricing .argue {display:flex;flex-direction:column;justify-content:center}
+/* 섹션 머리의 돌 — 34px 어두운 덩어리가 브랜드 마크가 아니라 얼룩으로 읽혔다 */
+.p3 .sec-head .no img {width:26px;height:26px;opacity:.72}
+
+/* ── 수정 2. 히어로 대체 자료 — 브랜딩 영상이 나올 때까지 ──
+   🔴 점선 빈 상자는 "제작 슬롯"이 아니라 **공사 중**으로 읽힌다. 그 사이 자리를 비워두지 않는다.
+   재료는 발명하지 않는다 — 툴박스 프리뷰 시트(실제 AE 렌더)를 **판 교대**로 돌린다.
+   교대는 하우스 위글 원리(§8.5: 부드럽게 흔들지 않고 6fps 로 갈아끼운다)를 따른다. */
+.p3 .rotator {position:relative;aspect-ratio:16/9}
+.p3 .rotator .slide {position:absolute;inset:0;opacity:0;transition:opacity .001s steps(1,end)}
+.p3 .rotator .slide.on {opacity:1}
+.p3 .rotator .spot, .p3 .rotator img {box-shadow:calc(var(--rx)*2) calc(var(--ry)*2) 0 var(--white)}
+/* 🔴 히어로는 **2× 스틸 한 장**이다(시트가 아니다). 평시에 정지 프레임만 보이고 교대는 판째
+   갈아끼우므로 플립북이 필요 없다 — 2× 시트는 장당 680KB 라 히어로에 5장이면 3.4MB 다.
+   스틸이면 73KB. 움직임이 필요한 자리(후킹 카드·Docs)는 1× 시트가 받는다. 정본 = webAssets.mjs */
+.p3 .rotator img {width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.p3 .rotator .rot-tag {position:absolute;left:0;bottom:-34px;display:flex;align-items:center;gap:10px;
+  font-size:12px;font-weight:800;letter-spacing:.06em}
+.p3 .rotator .rot-tag .slug {margin-top:0}
+.p3 .rotator .rot-ticks {position:absolute;right:0;bottom:-30px;display:flex;gap:5px}
+.p3 .rotator .rot-ticks i {width:18px;height:3px;background:var(--black);opacity:.28;transition:opacity var(--t-press)}
+.p3 .rotator .rot-ticks i.on {opacity:1;background:var(--red);mix-blend-mode:multiply}
+
+/* ── 수정 4. Who — 🔴 내 CSS 를 쓰지 않는다.
+   `base.css` 에 proto3 의 역할 카드 시스템이 통째로 살아 있다(`.role` 22규칙 · `.say` 7규칙).
+   중복 정의하면 두 디자인이 갈라진다 — **하우스 계약에 HTML 을 맞춘다**:
+     article.role.gridp > figure.spot-fig + div.in(.top,h3,p,.hint) + div.say(b,q,small)
+   내가 `.say` 를 새로 정의했다가 평시 숨김(빨간 판 slip-in)을 덮어써서 카드가 반쯤 빈 채로
+   렌더됐다 — 이 프로토에서 잡은 **5번째 클래스 충돌**이다. */
+
+/* ── 수정 8. "우리가 먼저 쓴다" 증거 — 증언 대신 검증 가능한 사실 하나 ── */
+.p3 .dogfood {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,260px);gap:36px;align-items:center;
+  border-top:1.5px solid var(--black);border-bottom:1.5px solid var(--black);padding:30px 0;margin-top:56px}
+.p3 .dogfood p {margin:0;font-size:17px;line-height:1.6}
+.p3 .dogfood p b {font-weight:800}
+.p3 .dogfood .lab {display:block;margin-bottom:10px;color:var(--typeink)}
+.p3 .dogfood img {width:100%;box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white)}
+
+@media (max-width:1080px){
+  .p3.root .hero {grid-template-columns:1fr}
+  .p3 .roles {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .p3 .dogfood {grid-template-columns:1fr}
+}
+@media (max-width:680px){ .p3 .roles {grid-template-columns:1fr} }
+
+/* ── 후킹 카드 = 2× 스틸 + 호버 시 1× 시트 재생 ────────────────────────
+   카드 364 CSS = 레티나 728px 인데 1× 타일은 480 이라 평시에 흐릿했다.
+   🔴 정지는 2× 스틸(74KB), 움직임은 1× 시트 — 2× 시트(680KB)를 6장 깔면 4MB 다. */
+.p3 .hook-fig {position:relative;margin:0}
+.p3 .hook-fig img {width:100%;aspect-ratio:16/9;object-fit:cover;display:block;
+  box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white);
+  transition:box-shadow var(--t-press) var(--ease-press)}
+.p3 .hook-fig .spot {position:absolute;inset:0;opacity:0}
+.p3 .hook-fig:is(:hover,:focus-within) .spot {opacity:1}
+.p3 .hook-fig:is(:hover,:focus-within) img {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--white)}
+
+/* ── 언어 토글 ────────────────────────────────────────────────────────
+   🔴 `/ko` 정적 경로로 가면서 토글이 `<button>` 에서 `<a>` 로 바뀌었다(상태가 아니라 주소를 바꾼다).
+   site3p.css 의 규칙은 `.langs button` 에만 걸려 있어서 링크판이 스타일 없이 `ENKO` 로 붙어 나왔다.
+   여기서 두 판을 같이 받는다 — site3p.css 쪽 선택자를 고치면 구 페이지가 같이 흔들린다. */
+.p3 .langs a {display:inline-block;padding:8px 10px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--black);text-decoration:none}
+.p3 .langs a + a {border-left:1.5px solid var(--black)}
+.p3 .langs a.on {background:var(--black);color:var(--white)}

@@ -1,8 +1,10 @@
 'use client';
-/* 페이지 크롬 — 종이·그레인·등록 마크·커서·잉크 진행 바·네비.
-   전부 인쇄물의 어휘다: 커서는 등록 마크, 진행 바는 잉크 띠, 네비 라벨은 지금 몇 번째 판인지. */
-import { useEffect, useState } from 'react';
-import { useLang, useT } from './lang';
+/* 페이지 크롬 — 종이·그레인·등록 마크·커서·잉크 진행 바. 전부 인쇄물의 어휘다:
+   커서는 등록 마크, 진행 바는 잉크 띠.
+   🔴 네비는 여기 없다 — `components/site4/Shell.tsx` 의 `Nav4` 가 갖는다. 구 `Nav` 는
+   판 수·항목이 페이지마다 달라진 §14 분리에서 죽었고, 그게 `lib/copy/v33.ts` 의 마지막 소비자였다. */
+import { useEffect } from 'react';
+
 
 export function Defs() {
   return (
@@ -65,37 +67,4 @@ export function useChrome() {
       removeEventListener('scroll', scroll); sw.disconnect(); one.disconnect();
     };
   }, []);
-}
-
-export function Nav() {
-  const { t } = useT();
-  const { lang, setLang } = useLang();
-  const [plate, setPlate] = useState({ no: '00', name: 'nav.cover' });
-  useEffect(() => {
-    const io = new IntersectionObserver((es) => es.forEach((en) => {
-      if (!en.isIntersecting) return;
-      const el = en.target as HTMLElement;
-      setPlate({ no: el.dataset.plate || '00', name: el.dataset.name || 'nav.cover' });
-      document.querySelectorAll('#p3-navlinks a:not(.btn-line)').forEach((a) => {
-        a.classList.toggle('on', a.getAttribute('href') === '#' + el.id);
-      });
-    }), { rootMargin: '-40% 0px -55% 0px' });
-    document.querySelectorAll('section[data-plate]').forEach((s) => io.observe(s));
-    return () => io.disconnect();
-  }, []);
-  const links: [string, string][] = [['#who', 'nav.who'], ['#why', 'nav.why'], ['#what', 'nav.what'], ['#made', 'nav.made'], ['#price', 'nav.price']];
-  return (
-    <nav>
-      <div className="label lab"><span>{t('nav.plate')}</span> <b>{plate.no}</b> / 05 &nbsp;·&nbsp; <b>{t(plate.name)}</b></div>
-      <a className="logo" href="#top" data-cur><img src="/riso/logo-red.webp" alt="You Name It" /></a>
-      <div className="links" id="p3-navlinks">
-        {links.map(([href, k]) => <a key={href} href={href} data-cur>{t(k)}</a>)}
-        <a className="btn-line" href="#price" data-cur>{t('nav.buy')}</a>
-        <span className="langs">
-          <button className={lang === 'en' ? 'on' : ''} onClick={() => setLang('en')} data-cur>EN</button>
-          <button className={lang === 'ko' ? 'on' : ''} onClick={() => setLang('ko')} data-cur>KO</button>
-        </span>
-      </div>
-    </nav>
-  );
 }
