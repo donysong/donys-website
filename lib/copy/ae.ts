@@ -71,7 +71,7 @@ const AE: Dict = {
     'ae.hero.cap': 'Every frame here was rendered in real After Effects. What you get is not a video — it is <b>layers in your comp</b>.',
     'ae.meta.ae': 'AE 2022+',
     'ae.meta.os': 'Windows · macOS',
-    'ae.meta.chat': 'Chat needs a Claude plan',
+    'ae.meta.chat': 'Chat needs your own AI plan',
 
     /* ── 01 Who (역할 카드 문장은 v33 r1~r4) ─────────────────── */
     'ae.who.h': 'Everyone who opens After Effects',
@@ -90,7 +90,7 @@ const AE: Dict = {
     'ae.f1.cap': 'The actual Chat panel. Pick the model, set how it asks for approval, and run <b>Lint</b> to find house-style drift.',
     'ae.f1.h': 'Say it, <span class="u">it lands on layers</span>',
     'ae.f1.p1': 'Describe it in plain language and it gets built inside AE. It is not making you a video — it <b>writes layers and keyframes into your comp.</b>',
-    'ae.f1.p2': 'The panel drives the Claude Code on your own machine — it runs on <b>your Pro or Max plan</b>. We do not sell tokens.',
+    'ae.f1.p2': 'The panel drives the CLI already on your own machine — <b>Claude Code</b> or <b>Codex</b> — running on <b>your own plan</b>. We do not sell tokens.',
     'ae.f1.li': [
       '<b>Reads</b> the comp you are in before it changes it <i>— it looks before it decides</i>',
       '<b>{tools}</b> AE actions · <b>{skills}</b> motion skills',
@@ -171,7 +171,7 @@ const AE: Dict = {
     'ae.price.incl': ['All seven panels', 'Two machines', 'Minor updates free', '14-day refund'],
     'ae.price.why.h': 'Why it is not a subscription',
     'ae.price.why.p1': 'Charge every month and you have to invent a reason every month. Then it stops being a tool and becomes <b>a thing that keeps a subscription alive</b>.',
-    'ae.price.why.p2': 'The Chat panel runs on <b>your own Claude plan</b> for the same reason. If we resold tokens, we would earn more the more you used the tool — and that breaks the tool.',
+    'ae.price.why.p2': 'The Chat panel runs on <b>your own AI plan</b> for the same reason — Claude or ChatGPT, whichever you already pay for. If we resold tokens, we would earn more the more you used the tool — and that breaks the tool.',
     'ae.price.why.p3': 'It keeps working as long as your AE and your machine do. Skip every update and the version you bought keeps working.',
 
     /* ── 06 FAQ — 🔴 답은 판정어 한 마디로 시작한다 ──────────── */
@@ -182,7 +182,7 @@ const AE: Dict = {
     'ae.faq.g3': 'License',
     'ae.q1.q': 'Where does my work go?',
     'ae.q1.v': 'Nowhere',
-    'ae.q1.a': 'Chat runs through <b>the Claude Code installed on your machine</b>. Depth Pass and Face Track compute on your device too. There is no path that sends your project to our servers.',
+    'ae.q1.a': 'Chat runs through <b>the CLI installed on your own machine</b> — Claude Code or Codex. Depth Pass and Face Track compute on your device too. There is no path that sends your project to our servers.',
     'ae.q2.q': 'Type one brief and get a finished video?',
     'ae.q2.v': 'No',
     'ae.q2.a': 'We decided not to build that. You do the thinking, the tool <b>helps you build it.</b> Describe what you want and it lands as layers — it will not settle the finished piece for you.',
@@ -190,8 +190,8 @@ const AE: Dict = {
     'ae.q3.v': 'All of it',
     'ae.q3.a': 'Button or sentence, what comes out is <b>ordinary AE layers, keyframes and expressions</b>. Delete the plugin and everything you made stays.',
     'ae.q4.q': 'What do I need to use Chat?',
-    'ae.q4.v': 'A Claude plan',
-    'ae.q4.a': 'Install Claude Code once and sign in with a <b>Claude Pro or Max</b> account. The plugin price does not include AI usage and we do not charge for it separately. <b>Only the Chat panel</b> needs this — the other six just run.',
+    'ae.q4.v': 'Your own AI plan',
+    'ae.q4.a': 'Install one CLI and sign in — <b>Claude Code</b> with a Claude Pro or Max account, or <b>Codex</b> with a ChatGPT account. The panel walks you through it. The plugin price does not include AI usage and we do not charge for it separately. <b>Only the Chat panel</b> needs this — the other six just run.',
     'ae.q5.q': 'Do I need an internet connection?',
     'ae.q5.v': 'Partly',
     'ae.q5.a': 'Toolbox, Library, Curves and Expressions run without one. <b>Chat needs a connection.</b> The license checks in quietly once every seven days, and you can keep working up to 30 days without one.',
@@ -304,7 +304,7 @@ const AE: Dict = {
     'ae.hero.cap': '전부 실제 After Effects 에서 렌더한 화면입니다. 결과는 영상이 아니라 <b>당신 컴프의 레이어</b>입니다.',
     'ae.meta.ae': 'AE 2022+',
     'ae.meta.os': 'Windows · macOS',
-    'ae.meta.chat': 'Chat 은 Claude 구독 필요',
+    'ae.meta.chat': 'Chat 은 당신의 AI 구독 필요',
 
     /* ── 01 Who (역할 카드 문장은 v33 r1~r4) ─────────────────── */
     'ae.who.h': 'After Effects 를 여는 사람',
@@ -323,7 +323,7 @@ const AE: Dict = {
     'ae.f1.cap': '실제 Chat 패널입니다. 모델을 고르고, 승인 방식을 정하고, <b>검사</b>로 하우스스타일 이탈을 찾습니다.',
     'ae.f1.h': '말하면 <span class="u">레이어에 앉는다</span>',
     'ae.f1.p1': '자연어로 설명하면 AE 안에서 그게 만들어집니다. 영상을 생성하는 게 아니라 <b>당신 컴프에 레이어와 키프레임을 씁니다.</b>',
-    'ae.f1.p2': '패널이 당신 컴퓨터의 Claude Code 를 씁니다 — <b>당신의 Pro/Max 구독</b>으로 돌아갑니다. 우리가 토큰을 팔지 않습니다.',
+    'ae.f1.p2': '패널이 당신 컴퓨터에 이미 깔린 CLI 를 씁니다 — <b>Claude Code</b> 또는 <b>Codex</b> — <b>당신의 구독</b>으로 돌아갑니다. 우리가 토큰을 팔지 않습니다.',
     'ae.f1.li': [
       '지금 컴프를 <b>읽고</b> 고친다 <i>— 화면을 보고 판단한다</i>',
       'AE 동작 <b>{tools}가지</b> · 모션 스킬 <b>{skills}가지</b>',
@@ -404,7 +404,7 @@ const AE: Dict = {
     'ae.price.incl': ['패널 7개 전부', '컴퓨터 2대', '마이너 업데이트 무료', '14일 환불'],
     'ae.price.why.h': '왜 구독이 아닌가',
     'ae.price.why.p1': '매달 돈을 받으면 매달 이유를 만들어야 합니다. 그러면 도구가 아니라 <b>구독을 유지시키는 물건</b>이 됩니다.',
-    'ae.price.why.p2': 'Chat 패널도 같은 이유로 <b>당신의 Claude 구독</b>을 씁니다. 우리가 토큰을 되팔면 당신이 도구를 많이 쓸수록 우리가 버는 구조가 되고, 그건 도구를 망가뜨립니다.',
+    'ae.price.why.p2': 'Chat 패널도 같은 이유로 <b>당신의 AI 구독</b>을 씁니다 — Claude 든 ChatGPT 든 이미 내고 계신 것으로요. 우리가 토큰을 되팔면 당신이 도구를 많이 쓸수록 우리가 버는 구조가 되고, 그건 도구를 망가뜨립니다.',
     'ae.price.why.p3': 'AE 와 컴퓨터가 버티는 한 계속 돕니다. 업데이트를 안 받아도 갖고 계신 버전은 계속 돕니다.',
 
     /* ── 06 FAQ — 🔴 답은 판정어 한 마디로 시작한다 ──────────── */
@@ -415,7 +415,7 @@ const AE: Dict = {
     'ae.faq.g3': '라이선스',
     'ae.q1.q': '내 작업물이 어디로 나가나요?',
     'ae.q1.v': '안 나갑니다',
-    'ae.q1.a': 'Chat 은 <b>당신 컴퓨터에 깔린 Claude Code</b> 를 통해 돕니다. Depth Pass 와 Face Track 의 계산도 전부 당신 기기에서 돕니다. 우리 서버로 프로젝트가 올라가는 경로는 없습니다.',
+    'ae.q1.a': 'Chat 은 <b>당신 컴퓨터에 깔린 CLI</b> — Claude Code 또는 Codex — 를 통해 돕니다. Depth Pass 와 Face Track 의 계산도 전부 당신 기기에서 돕니다. 우리 서버로 프로젝트가 올라가는 경로는 없습니다.',
     'ae.q2.q': '브리프 한 줄 넣으면 영상이 나오나요?',
     'ae.q2.v': '아닙니다',
     'ae.q2.a': '그건 만들지 않기로 했습니다. 생각은 당신이 하고, 도구는 <b>구현을 돕습니다.</b> 원하는 걸 문장으로 설명하면 그게 레이어로 앉습니다 — 완성본을 대신 정해 주지는 않습니다.',
@@ -423,8 +423,8 @@ const AE: Dict = {
     'ae.q3.v': '전부요',
     'ae.q3.a': '버튼으로 만들든 문장으로 만들든 결과는 <b>평범한 AE 레이어·키프레임·익스프레션</b>입니다. 플러그인을 지워도 만들어 둔 것은 그대로 남습니다.',
     'ae.q4.q': 'Chat 을 쓰려면 뭐가 필요한가요?',
-    'ae.q4.v': 'Claude 구독',
-    'ae.q4.a': 'Claude Code 를 한 번 설치하고 <b>Claude Pro 또는 Max</b> 계정으로 로그인하시면 됩니다. 플러그인 값에 AI 사용료가 포함돼 있지 않고, 우리가 따로 받지도 않습니다. <b>Chat 패널만</b> 이게 필요합니다 — 나머지 여섯 패널은 그냥 돕니다.',
+    'ae.q4.v': '당신의 AI 구독',
+    'ae.q4.a': 'CLI 하나를 설치하고 로그인하시면 됩니다 — <b>Claude Code</b> 는 Claude Pro 또는 Max 계정으로, <b>Codex</b> 는 ChatGPT 계정으로요. 패널이 순서를 안내합니다. 플러그인 값에 AI 사용료가 포함돼 있지 않고, 우리가 따로 받지도 않습니다. <b>Chat 패널만</b> 이게 필요합니다 — 나머지 여섯 패널은 그냥 돕니다.',
     'ae.q5.q': '인터넷이 있어야 하나요?',
     'ae.q5.v': '일부만',
     'ae.q5.a': '툴박스·라이브러리·커브·익스프레션은 오프라인에서 돕니다. <b>Chat 은 연결이 필요합니다.</b> 라이선스는 7일마다 한 번 조용히 확인하고, 연결이 없어도 30일까지는 그대로 쓰실 수 있습니다.',

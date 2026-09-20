@@ -17,6 +17,46 @@
 export type Release = { version: string; date: string; items: { ko: string[]; en: string[] } };
 
 export const RELEASES: Release[] = [
+  /* 🔴 **출고본은 `2.7.1` 이다. `2.7.0` 은 태그까지 갔지만 나가지 않았다** (오너 2026-09-19) —
+     R2 에 오른 `donys-2.7.0.zxp` 가 오너 수정 11건 **이전** 판이었고, 같은 이름으로 덮으면 엣지가
+     최대 한 달(`.zxp` 캐시 1개월) 구판을 먹인다. 그래서 이름을 바꿔 재컷했다. 알림은 아직 안 나갔으므로
+     (`version.json` 이 2.6.0 이었다) 깨지는 사용자는 없다. **`2.7.0` 을 되살리지 마라.**
+     🔴 Codex 항목(`ko[2]`/`en[2]`)은 오너 판정으로 들어왔다. 근거는 전언이 아니라
+     태그 실측이다 — `v2.7.0`(`8286c1d`, 2.7.1 의 부모) 에 `src/chat/provider/codex.ts` 가 있고, `i18n/{ko,en}.ts`
+     의 `onboarding.altBackend` 가 **양 로캘에서** 유저에게 "Codex CLI 를 깔고 백엔드 선택에서 고르라"고
+     말하며, `LoginGate.tsx` 에 Codex 전용 로그인 흐름이 있다. 숨은 기능이 아니라 제품이 이미 말하는 것이다.
+     🟢 가격 논거는 그대로 선다 — Codex 인증이 `auth_mode="chatgpt"`(유저 본인 구독)라 "우리가 토큰을
+     되팔지 않는다"가 유지된다. 같은 이유로 카피 7키를 Claude 단독 → 양쪽 병기로 고쳤다.
+     ⚠️ **뺀 것 4건**(다음 사람이 "왜 빠졌지"로 되돌리지 않게): ⑴ 프리뷰/호버 — 죽은칸 5개 미해결 ·
+     ⑵ 이펙터 텍스트 채널 — jsx 는 서 있으나 다이얼로그 UI 가 없어 **유저가 못 쓴다** ·
+     ⑶ 재시작 배너 — v2.6.0 jsx 에 버전 스탬프가 없어 `unknown` 으로 빠지고 조용히 넘어간다, 즉
+     2.6.0→2.7.1 에선 **안 뜬다**(처음 일하는 건 2.7.1→다음 판) · ⑷ 내부 계기·리그 변경. */
+  {
+    version: '2.7.1',
+    date: '2026-09-19',
+    items: {
+      ko: [
+        '이펙터가 이펙트를 겁니다 — 프리셋을 고르면 멤버 전원에 한 번에 걸고, 거리에 반응할 속성까지 바로 이어줍니다.',
+        '직접 만든 이펙트도 이펙터에 물릴 수 있습니다 — 멤버 하나에 걸고 나머지에 복사한 뒤 그 파라미터를 고르면 됩니다.',
+        'Chat 패널이 ChatGPT 도 씁니다. Codex CLI 를 설치하시면 패널 아래 백엔드 선택에서 고르실 수 있고, 로그인도 패널이 안내합니다. 어느 쪽이든 당신의 구독으로 돌아가며, 우리가 토큰을 팔지 않는 것은 같습니다.',
+        '챗 로그인이 터미널을 떠났습니다 — 패널 안에서 바로 로그인합니다.',
+        'Auto Marker 가 무엇을 기준으로 찍었는지 화면에서 보입니다.',
+        'Riso Print 를 하우스 잉크 체인으로 다시 지었습니다 — 텍스처가 아예 안 붙던 것도 고쳤습니다.',
+        '벤토 그리드의 간격이 화면에서 줄던 것과, 이미지가 컴프 밖에 남던 것을 고쳤습니다.',
+        '챗 툴바가 화면 밖으로 나가던 것과 헤더가 엉뚱한 버전을 적던 것을 고쳤습니다.',
+      ],
+      en: [
+        'The Effector applies effects — pick a preset and it lands on every member at once, then links the property that reacts to distance.',
+        'Your own effects work too — apply one to a single member, copy it to the rest, then pick that parameter.',
+        'The Chat panel runs on ChatGPT too. Install the Codex CLI and you can pick it in the backend selector at the bottom of the panel; the panel walks you through signing in. Either way it runs on your own plan, and either way we do not sell tokens.',
+        'Chat sign-in left the terminal — you log in inside the panel.',
+        'Auto Marker shows on screen what it based its marks on.',
+        'Riso Print was rebuilt on the house ink chain — the texture that never attached is fixed.',
+        'Fixed bento grid gaps shrinking on screen, and images being left outside the comp.',
+        'Fixed the Chat toolbar escaping the screen and the header showing the wrong version.',
+      ],
+    },
+  },
   {
     version: '2.6.0',
     date: '2026-09-15',

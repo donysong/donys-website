@@ -18,7 +18,9 @@ export const metadata: Metadata = {
     canonical: '/update',
     languages: { en: '/update', ko: '/ko/update', 'x-default': '/update' },
   },
-  title: 'Updates — You Name It',
+  /* 🔴 브랜드명을 붙이지 마라 — 루트 레이아웃의 `template: '%s — You Name It'` 이 이미 붙인다.
+     붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
+  title: 'Updates',
   description: 'Download the latest You Name It build, and read what changed.',
 };
 

@@ -6,7 +6,10 @@ import { PRICE_USD, CHECKOUT_URL, VERSION, SITE } from '@/lib/product';
    🔴 루트는 **브랜드 면**이다 — 제품 면이 아니다(§14). 제품 상세·가격·FAQ 는 `/ae` 가 들고 있고,
    여기서 파는 건 스튜디오다. 그래서 canonical 만 남기고 title/description 을 브랜드로 갈았다. */
 export const metadata = {
-  title: 'You Name It — 뭐든, 말만 해.',
+  /* 🔴 `absolute` 여야 한다 — 안 그러면 부모 레이아웃의 `template: '%s — You Name It'` 이 붙어
+     "… 콘텐츠 — You Name It" 으로 **브랜드명이 두 번** 나간다(실측). EN 루트는 레이아웃과 같은
+     세그먼트라 template 이 애초에 안 붙고, `/ko` 만 자식 세그먼트라서 붙는다 — 그래서 한쪽만 겹쳤다. */
+  title: { absolute: 'You Name It — 창작하는 사람의 도구와 콘텐츠' },
   description:
     '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 영상·도구·글 — 매체는 안 가립니다. 첫 번째는 After Effects 패널, You Name It AE Plugin 입니다.',
   /* 🔴 국문은 `/ko` 에 **따로 구워진다**(클라이언트 스왑이 아니다) — 둘을 hreflang 으로 묶어 준다.

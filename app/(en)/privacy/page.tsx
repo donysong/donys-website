@@ -4,7 +4,9 @@ import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/privacy' },
-  title: "Privacy Policy — You Name It",
+  /* 🔴 브랜드명을 붙이지 마라 — 루트 레이아웃의 `template: '%s — You Name It'` 이 이미 붙인다.
+     붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
+  title: 'Privacy Policy',
   description: "Privacy Policy for You Name It After Effects plugin.",
 };
 

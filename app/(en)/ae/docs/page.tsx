@@ -10,6 +10,10 @@ import { LangProvider } from '@/components/site3p/lang';
 import DocsPage from '@/components/site4/docs/DocsPage';
 
 export const metadata = {
+  /* 🔴 자기 타이틀이 없으면 **브랜드 루트의 기본값**이 그대로 나간다 — 읽는 면 두 장이
+     2026-09-19 까지 그 상태였다(`/ae/docs` 가 루트와 같은 제목). 브랜드명은 붙이지 마라,
+     레이아웃 template 이 붙인다. */
+  title: 'Docs · What the panels do',
   alternates: {
     canonical: '/ae/docs',
     languages: { en: '/ae/docs', ko: '/ko/ae/docs', 'x-default': '/ae/docs' },

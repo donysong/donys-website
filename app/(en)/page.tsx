@@ -4,7 +4,7 @@ import { PRICE_USD, CHECKOUT_URL, VERSION, SITE } from '@/lib/product';
 /* 🔴 루트는 **브랜드 면**이다 — 제품 면이 아니다(§14). 제품 상세·가격·FAQ 는 `/ae` 가 들고 있고,
    여기서 파는 건 스튜디오다. 그래서 canonical 만 남기고 title/description 을 브랜드로 갈았다. */
 export const metadata = {
-  title: 'You Name It — Anything. Just say it.',
+  title: 'You Name It — tools and content for people who create',
   description:
     'A studio that makes tools and content for people who create. Video, tools, writing — the medium is open. First out: You Name It AE Plugin for After Effects.',
   /* 🔴 국문은 `/ko` 에 **따로 구워진다**(클라이언트 스왑이 아니다) — 둘을 hreflang 으로 묶어 준다.

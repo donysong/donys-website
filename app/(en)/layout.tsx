@@ -19,7 +19,7 @@ import { SITE } from '@/lib/product';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: 'You Name It — Say the word.',
+    default: 'You Name It — tools and content for people who create',
     template: '%s — You Name It',
   },
   description:
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     'AE panel',
   ],
   openGraph: {
-    title: 'You Name It — Say the word.',
+    title: 'You Name It — tools and content for people who create',
     description:
       'A studio that makes tools and content for people who create. We use what we sell.',
     type: 'website',
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'You Name It — Say the word.',
+    title: 'You Name It — tools and content for people who create',
     description: 'A studio that makes tools and content for people who create.',
     images: ['/images/promo/og.png'],
   },

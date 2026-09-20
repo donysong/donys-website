@@ -19,7 +19,7 @@ import { SITE } from '@/lib/product';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: 'You Name It — 뭐든, 말만 해.',
+    default: 'You Name It — 창작하는 사람의 도구와 콘텐츠',
     template: '%s — You Name It',
   },
   description:
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     'AE panel',
   ],
   openGraph: {
-    title: 'You Name It — 뭐든, 말만 해.',
+    title: 'You Name It — 창작하는 사람의 도구와 콘텐츠',
     description:
       '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 우리가 먼저 쓰는 것만 팝니다.',
     type: 'website',
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'You Name It — 뭐든, 말만 해.',
+    title: 'You Name It — 창작하는 사람의 도구와 콘텐츠',
     description: '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다.',
     images: ['/images/promo/og.png'],
   },
