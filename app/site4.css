@@ -201,6 +201,8 @@
 @media (max-width:1080px){
   .p3 .row {grid-template-columns:minmax(0,220px) 1fr;gap:32px;padding:26px 32px}
   .p3 .feat, .p3 .posi, .p3 .pricing {grid-template-columns:1fr;gap:28px}
+  /* 1열로 접히면 문단이 레일 전폭(≈62자)까지 퍼진다 — 읽기 폭을 되돌린다. */
+  .p3 #brand .posi .lead {max-width:56ch}
   .p3 .news, .p3 .specs {grid-template-columns:repeat(2,minmax(0,1fr))}
   .p3 .phero .pstage {grid-template-columns:1fr}
   .p3 .phero .pstage .side {flex-direction:row;display:flex;justify-content:center;gap:24px}
@@ -519,6 +521,11 @@
    ⚠️ 이 규칙들은 명시도(id)로 위쪽 클래스 규칙을 **이긴다** — 위에서 같은 속성을 고쳐도
    이 두 섹션에서는 안 먹는다. 고칠 땐 두 자리를 같이 봐라. */
 .p3 #brand .lead {margin-bottom:28px}
+/* 🔴 2026-09-20 — 02 의 빈 오른쪽 면. 인용문과 문단을 03 과 같은 2열(`.posi`)에 앉힌다.
+   `.posi` 를 빌렸으므로 1080px 에서 1열로 붕괴하는 것도 같이 따라온다(위 반응형 블록).
+   ⚠️ `.lead` 의 `max-width:56ch` 는 열 안에서 다시 오른쪽을 비운다 — 열이 이미 폭을 잡으므로 푼다. */
+.p3 #brand .posi .pull {margin:0}
+.p3 #brand .posi .lead {margin:0;max-width:none}
 /* 릴리스 카드 3장이 서로 안 맞았다: 2번만 16/9 이고 1·3번은 16/10 이라 제목이 14px 어긋나고,
    본문 줄 수가 3/2/2 라 버전 칩이 세 높이에 떴다(y 367·339·353). 판 비율은 `News.tsx` 에서
    16/9 로 통일했고, 칩은 카드 바닥에 못박는다 → 세 칩이 한 줄. 카드가 "세트"로 읽힌다. */

@@ -29,14 +29,21 @@ export default function Brand() {
           <h2 className="disp"><Plate3 k="home.brand.h2" boil={false} /></h2>
         </div>
 
-        <blockquote className="pull">
-          <Plate3 k="home.brand.pull.a" className="disp" />
-          <Plate3 k="home.brand.pull.b" className="disp" />
-        </blockquote>
+        {/* 🔴 2026-09-20 오너 판정 — 세로로 쌓지 않고 **바로 아래 03 이 쓰는 2열 문법**을 빌린다.
+            내부 브랜딩 블록 둘을 걷어낸 뒤 인용문+문단이 쌓이면서 1600px 에서 오른쪽 57% 가
+            통째로 비었다(실측). 새 문장은 한 줄도 안 썼다 — 배치만 바꿨다.
+            ⚠️ 풀쿼트의 **크기·순서는 닫힌 판정**이다(`site4.css` `.pull` 주석) — 안 건드렸다.
+            움직인 건 그 아래 문단이 밑에서 옆으로 간 것과 간격뿐이다. */}
+        <div className="posi">
+          <blockquote className="pull">
+            <Plate3 k="home.brand.pull.a" className="disp" />
+            <Plate3 k="home.brand.pull.b" className="disp" />
+          </blockquote>
 
-        {/* 🔴 사이트에서 제일 좋은 문단이다 — 약속이고, 구체적이고, **독자에게 말한다**.
-            표와 카드가 지금까지 이걸 가리고 있었다. 이 자리를 다른 걸로 채우지 마라. */}
-        <Html k="home.brand.lead" as="p" className="lead" />
+          {/* 🔴 사이트에서 제일 좋은 문단이다 — 약속이고, 구체적이고, **독자에게 말한다**.
+              표와 카드가 지금까지 이걸 가리고 있었다. 이 자리를 다른 걸로 채우지 마라. */}
+          <Html k="home.brand.lead" as="p" className="lead" />
+        </div>
       </div>
     </section>
   );
