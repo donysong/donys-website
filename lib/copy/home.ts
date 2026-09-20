@@ -17,11 +17,16 @@ const HOME: Dict = {
     'home.nav.brand': 'What we are',
     'home.nav.who': 'Who makes it',
 
-    /* 00 표지 — 태그라인 2줄, 그게 전부다 */
+    /* 00 표지 — 태그라인 2줄, 그게 전부다.
+       🔴 **h1a·h1b 는 양 로캘이 같은 문자열이다 — 번역하지 마라** (오너 2026-09-19).
+       브랜드명 자체가 표제다. 구 판본은 EN `Anything. / Just say it.` · KO `뭐든 / 말만 해.` 로
+       양쪽이 이 관용구를 **각자 의역**하고 있었고, 그래서 같은 면의 워드마크와 어긋났다. */
     'home.hero.stamp': 'Studio · 2026',
-    'home.hero.h1a': 'Anything.',
-    'home.hero.h1b': 'Just say it.',
-    'home.hero.sub': 'We make <b>tools that take work off your hands</b>, and content, for people who create. Video, tools, writing — the medium is open.',
+    'home.hero.h1a': 'You',
+    'home.hero.h1b': 'Name It.',
+    /* 🔴 한 문장이다 — 오너 2026-09-19 (*"이것만 남겨"*). 구 판본은 뒤에 "Video, tools, writing —
+       the medium is open." 이 붙어 있었다. 되살리지 마라. */
+    'home.hero.sub': 'We make tools and content for people who create.',
     'home.hero.typed': 'We don’t give you the answer — the [[creator]] names it.',
     'home.hero.fig': 'One stone becomes a story. Same stone, different name.',
 
@@ -82,10 +87,12 @@ const HOME: Dict = {
     'home.nav.brand': '우리는',
     'home.nav.who': '만드는 사람',
 
+    /* 🔴 EN 과 **같은 문자열이다** — 번역 금지(오너 2026-09-19). 위 EN 블록 주석 참조. */
     'home.hero.stamp': '스튜디오 · 2026',
-    'home.hero.h1a': '뭐든',
-    'home.hero.h1b': '말만 해.',
-    'home.hero.sub': '창작하는 사람의 <b>손을 더는 도구</b>와 콘텐츠를 만듭니다. 영상·도구·글 — 매체는 안 가립니다.',
+    'home.hero.h1a': 'You',
+    'home.hero.h1b': 'Name It.',
+    /* 🔴 오너가 문장을 직접 줬다 — 토씨 그대로 둬라 (2026-09-19). */
+    'home.hero.sub': '창작하는 사람들을 위한 도구와 콘텐츠를 만듭니다.',
     'home.hero.typed': '정답은 주지 않는다 — 붙이는 건 [[창작자]]가 한다.',
     'home.hero.fig': '돌 하나가 이야기가 된다. 같은 돌, 다른 이름.',
 
