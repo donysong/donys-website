@@ -29,8 +29,12 @@ export default function News() {
 
         <div className="news sweep">
           <article className="item">
+            {/* 🔴 2026-09-19 — 구 `depthPass.svg`(평면 회색 + `#05D16E` 초록, 크림 배경)를 버리고
+                리소 시트로 갈았다. 나란한 3장 중 **이 카드만 계통이 달랐다** — 옆 두 장은 리소인데
+                여기만 평면 도해라 같은 줄에서 튀었다. 제품 쪽에서도 같은 날 은퇴했다(툴 39개 전부
+                시트 보유 · 도해 0). `.spot` 문법이라 Pattern Lab 과 똑같이 호버에서 돈다. */}
             <figure className="spot-fig">
-              <img src="/riso/spots/depthPass.svg" alt="Depth Pass" style={{ ...NEWS_IMG, background: 'var(--cream)' }} />
+              <i className="spot" role="img" aria-label="Depth Pass" style={{ backgroundImage: 'url(/riso/spots/depthPass.webp)' }} />
             </figure>
             <h4>Depth Pass</h4>
             <Html k="ae.news1.p" as="p" />
@@ -46,7 +50,7 @@ export default function News() {
           </article>
           <article className="item">
             <figure className="spot-fig">
-              <img src="/riso/spots/fx-riso-print.jpg" alt="Riso Print" style={NEWS_IMG} />
+              <img src="/riso/spots/fx-riso-print.webp" alt="Riso Print" style={NEWS_IMG} />
             </figure>
             <h4>Riso Print</h4>
             <Html k="ae.news3.p" as="p" />
@@ -60,7 +64,7 @@ export default function News() {
             <Html k="ae.dog.p" as="p" />
           </div>
           <figure style={{ margin: 0 }}>
-            <img src="/riso/spots/fx-riso-print.jpg" alt="Riso Print" />
+            <img src="/riso/spots/fx-riso-print.webp" alt="Riso Print" />
             <figcaption className="lab lc" style={{ marginTop: 9, opacity: 0.7 }}>
               <Html k="ae.dog.cap" />
             </figcaption>

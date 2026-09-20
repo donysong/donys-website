@@ -26,7 +26,7 @@ export default function Library() {
       <div className="fxrow sweep">
         {DOCS_FX.map((slug) => (
           <figure key={slug}>
-            <img src={`/riso/spots/fx-${slug}.jpg`} alt={t(`docs.fx.${slug}`)} />
+            <img src={`/riso/spots/fx-${slug}.webp`} alt={t(`docs.fx.${slug}`)} />
             <figcaption>
               {t(`docs.fx.${slug}`)}
               <small>{t(`docs.fx.${slug}.d`)}</small>
