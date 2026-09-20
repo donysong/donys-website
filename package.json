@@ -5,8 +5,10 @@
   "scripts": {
     "build:docs": "node tools/build-docs-data.mjs",
     "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start"
+    "build": "node tools/build-docs-data.mjs && next build",
+    "start": "next start",
+    "check": "node tools/deployCheck.mjs",
+    "deploy": "npm run build && node tools/stripLegacy.mjs && node tools/deployCheck.mjs && npx wrangler pages deploy out --project-name=younameit --branch=main"
   },
   "dependencies": {
     "@next/third-parties": "^16.3.4",

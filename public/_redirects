@@ -1,0 +1,5 @@
+# Cloudflare Pages 전용 — Vercel 은 이 파일을 안 읽는다(vercel.json 을 본다).
+# 레거시 봉투는 `tools/stripLegacy.mjs` 가 out/ 에서 빼므로 여기 규칙이 살아난다.
+# (Pages 는 정적 파일이 있으면 그게 이기고, 없을 때만 _redirects 를 본다.)
+/donys.zxp     /ae                                      302
+/version.json  https://dl.younameit.works/version.json  302
