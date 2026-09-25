@@ -11,6 +11,7 @@ import '../site3p.css';
 import '../site4.css';   // 🔴 §14 분리본(`/` · `/ae` · `/ae/docs`)의 신규 컴포넌트. site3p.css 위에 얹힌다 — 순서를 바꾸지 마라
 import SiteHtml from '@/components/shell/SiteHtml';
 import { SITE } from '@/lib/product';
+import { share } from '@/lib/meta';
 
 /* 🔴 **루트 metadata 는 이제 브랜드다** (§14 분리, 2026-09-19).
    전에는 여기에 제품 문장("An After Effects panel that…")이 박혀 있었고, 하위 페이지가 그걸
@@ -31,26 +32,15 @@ export const metadata: Metadata = {
     'creative studio',
     'AE panel',
   ],
-  openGraph: {
+  /* 🔴 url 없는 바닥 카드다 — 페이지마다 `share()` 가 url·카드를 선언한다(`lib/meta.ts` 🔴 참조). */
+  ...share({
     title: 'You Name It — 창작하는 사람의 도구와 콘텐츠',
-    description:
-      '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 우리가 먼저 쓰는 것만 팝니다.',
-    type: 'website',
-    url: SITE,
-    siteName: 'You Name It',
-    locale: 'ko_KR',
-    alternateLocale: ['en_US'],
-    // 이 파일이 없으면 OG 카드가 빈다 — public/images/promo/og.png 존재 확인
-    images: [
-      { url: '/images/promo/og.png', width: 1200, height: 630, alt: 'You Name It' },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'You Name It — 창작하는 사람의 도구와 콘텐츠',
-    description: '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다.',
-    images: ['/images/promo/og.png'],
-  },
+    description: '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 우리가 먼저 쓰는 것만 팝니다.',
+    card: 'brand',
+    lang: 'ko',
+  }),
+  /* 파비콘 = 브랜드 락업 원본(`public/logo-lockup.png`)을 정사각 판에 앉힌 것. 새로 그린 마크가 아니다. */
+  icons: { icon: '/icon.png', apple: '/apple-touch-icon.png' },
   robots: {
     index: true,
     follow: true,

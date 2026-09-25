@@ -1,6 +1,7 @@
 import Home from '@/components/site4/home/Home';
 import { LangProvider } from '@/components/site3p/lang';
 import { PRICE_USD, CHECKOUT_URL, VERSION, SITE } from '@/lib/product';
+import { share } from '@/lib/meta';
 /* 🔴 `/ko` = 루트의 **국문 판본**. 내용은 같고 로캘만 박혀 있다(`initial="ko"`).
    국문을 클라이언트 토글로만 두면 구워진 HTML 이 EN 한 벌뿐이라 주소도 색인도 없다 — 그래서 갈라 굽는다.
    🔴 루트는 **브랜드 면**이다 — 제품 면이 아니다(§14). 제품 상세·가격·FAQ 는 `/ae` 가 들고 있고,
@@ -18,6 +19,13 @@ export const metadata = {
     canonical: '/ko',
     languages: { en: '/', ko: '/ko', 'x-default': '/' },
   },
+  ...share({
+    path: '/ko',
+    title: 'You Name It — 창작하는 사람의 도구와 콘텐츠',
+    description: '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 우리가 먼저 쓰는 것만 팝니다.',
+    card: 'brand',
+    lang: 'ko',
+  }),
 };
 
 /* 🔴 루트의 JSON-LD 는 `Organization` 이다. 구 페이지는 `SoftwareApplication` 이었는데,

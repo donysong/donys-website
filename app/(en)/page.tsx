@@ -1,6 +1,7 @@
 import Home from '@/components/site4/home/Home';
 import { LangProvider } from '@/components/site3p/lang';
 import { PRICE_USD, CHECKOUT_URL, VERSION, SITE } from '@/lib/product';
+import { share } from '@/lib/meta';
 /* 🔴 루트는 **브랜드 면**이다 — 제품 면이 아니다(§14). 제품 상세·가격·FAQ 는 `/ae` 가 들고 있고,
    여기서 파는 건 스튜디오다. 그래서 canonical 만 남기고 title/description 을 브랜드로 갈았다. */
 export const metadata = {
@@ -13,6 +14,13 @@ export const metadata = {
     canonical: '/',
     languages: { en: '/', ko: '/ko', 'x-default': '/' },
   },
+  ...share({
+    path: '/',
+    title: 'You Name It — tools and content for people who create',
+    description: 'A studio that makes tools and content for people who create. We use what we sell.',
+    card: 'brand',
+    lang: 'en',
+  }),
 };
 
 /* 🔴 루트의 JSON-LD 는 `Organization` 이다. 구 페이지는 `SoftwareApplication` 이었는데,

@@ -1,23 +1,26 @@
 import AePage from '@/components/site4/ae/AePage';
 import { LangProvider } from '@/components/site3p/lang';
 import { PRICE, PRICE_USD, CHECKOUT_URL, COUNTS, VERSION, SITE } from '@/lib/product';
+import { share } from '@/lib/meta';
 
 /* 🔴 제품 문장의 자리는 이 페이지 하나다(루트 레이아웃은 브랜드다 — §14 분리).
    canonical 은 페이지마다 선언한다. 루트에 두면 하위 페이지가 "홈의 중복" 이 된다. */
 export const metadata = {
-  title: 'AE Plugin',
-  description: `An After Effects panel that builds what you press or describe on real, editable layers — ${COUNTS.scripts} one-click tools, ${COUNTS.motion} motion presets, ${COUNTS.textPresets} text presets, a curve editor, expressions, and a Chat panel that runs on your own Claude plan. ${PRICE} once, two machines.`,
+  /* 🔴 제품명 규칙 — 한 줄 자리에는 `You Name It AE Plugin`(브랜드 = You Name It). `absolute` 라
+     레이아웃 template(`— You Name It`)이 브랜드를 두 번 붙이지 않는다. */
+  title: { absolute: 'You Name It AE Plugin — panels for After Effects' },
+  description: `After Effects panels that build what you press or describe on real, editable layers — ${COUNTS.scripts} one-click tools, ${COUNTS.motion} motion presets, ${COUNTS.textPresets} text presets, a curve editor, expressions, and a Chat panel that runs on your own Claude or ChatGPT plan. ${PRICE} once, two computers.`,
   alternates: {
     canonical: '/ae',
     languages: { en: '/ae', ko: '/ko/ae', 'x-default': '/ae' },
   },
-  openGraph: {
+  ...share({
+    path: '/ae',
     title: 'You Name It AE Plugin',
-    description: `Seven After Effects panels. One button for the chores you can name, one sentence for the ones you can't. ${PRICE} once.`,
-    type: 'website',
-    url: `${SITE}/ae`,
-    siteName: 'You Name It',
-  },
+    description: `The repetitive setup is one button. The rest you describe in plain words — and it lands on your layers, still editable. ${PRICE} once.`,
+    card: 'product',
+    lang: 'en',
+  }),
 };
 
 const jsonLd = {
