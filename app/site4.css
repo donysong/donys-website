@@ -88,7 +88,10 @@
 /* ═══ 제품 히어로 — 레퍼런스 원리 ②: 브랜드 서사 0단어 ═══════════
    아이브로 → 워드마크 → 데모 → 좌 BUY 원 / 우 DOCS 원. 양쪽 원이 **같은 무게**다. */
 .p3 .phero {position:relative;z-index:2;padding:26px 64px 64px;text-align:center}
-.p3 .phero .eyebrow {display:block;margin-bottom:18px}
+/* 약속문 — 🔴 락업 **아래**, 잉크(검정), 22px. 전엔 `.eyebrow`(14px · `--typeink` = 링크처럼 읽히는 파랑)로
+   락업 위에 떠 있었다: 페이지의 유일한 약속이 제일 작은 글자였다. `.eyebrow` 는 Docs 표지가 계속 쓴다. */
+.p3 .phero .promise {margin:18px auto 10px;max-width:34ch;font-size:22px;line-height:1.35;font-weight:700;
+  letter-spacing:-.01em;color:var(--black)}
 .p3 .phero h1 {margin:0 0 8px;font-size:clamp(3rem,9vw,8rem);line-height:.86;letter-spacing:-.045em}
 .p3[data-lang="ko"] .phero h1 {font-size:clamp(2.6rem,7.4vw,6.4rem);line-height:1.02;letter-spacing:-.02em}
 .p3 .phero h1 .pl {display:block;width:max-content;margin:0 auto}
@@ -154,11 +157,10 @@
 .p3 .rail .buy small {display:block;font-size:11px;font-weight:600;opacity:.85}
 @media (max-width:1100px){.p3 .rail{display:none}}
 
-/* ═══ What's new ═══════════════════════════════════════════════ */
-.p3 .news {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
-.p3 .news .item h4 {margin:14px 0 8px;font-size:19px;font-weight:800;letter-spacing:-.01em}
-.p3 .news .item p {margin:0;font-size:14px;line-height:1.55;color:var(--text)}
-.p3 .news .item .v {display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--red);mix-blend-mode:multiply}
+/* ═══ What's new — 🔴 `lib/releases.ts` 에서 파생한다(News.tsx). 조판은 Docs 업데이트 로그의 `.rel` 을
+   빌린다 — 같은 노트가 두 면에서 다른 모양이면 다른 것처럼 읽힌다. 여기는 접지 않으므로 `summary` 대신 머리 줄. */
+.p3 .rel .rel-head {display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.p3 .rel-all {margin:6px 0 0;border-top:1.5px solid var(--black);padding-top:16px;font-size:15px;font-weight:700}
 
 /* ═══ 가격 — 🔴 여기엔 버튼이 없다. 스티키 레일이 가진다 ═══════════ */
 .p3 .pricing {display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px;align-items:start}
@@ -194,8 +196,11 @@
 .p3 .specs .f .n {display:block;margin-top:6px;font-size:13px;line-height:1.45;color:var(--muted);font-weight:400}
 
 /* ═══ 푸터 4열 (레퍼런스 원리 ⑥) ═══════════════════════════════
-   🔴 은퇴한 제품도 푸터엔 남긴다 — 네비에서만 뺀다. 기존 구매자의 링크를 끊지 않는다. */
-.p3 footer .cols {display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:40px}
+   🔴 은퇴한 제품도 푸터엔 남긴다 — 네비에서만 뺀다. 기존 구매자의 링크를 끊지 않는다.
+   🔴 2026-09-26 — 이 규칙은 **아무 데도 안 걸려 있었다**(Shell 이 `.grid` 만 달았다). 그래서 자식 4개가
+   site3p 의 3열(`5fr 3fr 4fr`)에 들어가 LEGAL 이 로고 밑으로 떨어졌다. 이제 Shell 이 `.grid.cols` 를 단다.
+   데스크톱에서만 4열 — 960 이하는 site3p 의 1열 붕괴를 그대로 받는다(폰 레이아웃 불변). */
+@media (min-width:961px){ .p3 footer .grid.cols {grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:40px} }
 
 /* ═══ 반응형 ═══════════════════════════════════════════════════ */
 @media (max-width:1080px){
@@ -203,15 +208,14 @@
   .p3 .feat, .p3 .posi, .p3 .pricing {grid-template-columns:1fr;gap:28px}
   /* 1열로 접히면 문단이 레일 전폭(≈62자)까지 퍼진다 — 읽기 폭을 되돌린다. */
   .p3 #brand .posi .lead {max-width:56ch}
-  .p3 .news, .p3 .specs {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .p3 .specs {grid-template-columns:repeat(2,minmax(0,1fr))}
   .p3 .phero .pstage {grid-template-columns:1fr}
   .p3 .phero .pstage .side {flex-direction:row;display:flex;justify-content:center;gap:24px}
 }
 @media (max-width:680px){
   .p3 .row {grid-template-columns:1fr}
   .p3 .name-row, .p3 .name-heads {grid-template-columns:1fr;gap:8px}
-  .p3 .news, .p3 .specs {grid-template-columns:1fr}
-  .p3 footer .cols {grid-template-columns:1fr 1fr}
+  .p3 .specs {grid-template-columns:1fr}
 }
 
 /* ═══ 증거 구멍 — 🔴 이 컴포넌트가 프로토의 산출물 중 하나다 ═══
@@ -516,19 +520,68 @@
 
 
 /* ── F4 조판: 공유 선택자라 **섹션 스코프로만** 건드리는 것 ──────────────────
-   🔴 `.lead` 는 `/ae/docs` 도 쓰고, `.news .item` 은 `/` 의 성격 3카드가 같이 쓴다.
-   전역으로 바꾸면 안 지목된 면까지 리듬이 흔들린다. 그래서 여기만 id 로 좁힌다.
-   ⚠️ 이 규칙들은 명시도(id)로 위쪽 클래스 규칙을 **이긴다** — 위에서 같은 속성을 고쳐도
-   이 두 섹션에서는 안 먹는다. 고칠 땐 두 자리를 같이 봐라. */
+   🔴 `.lead` 는 `/ae/docs` 도 쓴다. 전역으로 바꾸면 안 지목된 면까지 리듬이 흔들린다.
+   그래서 여기만 id 로 좁힌다. ⚠️ 이 규칙들은 명시도(id)로 위쪽 클래스 규칙을 **이긴다** —
+   위에서 같은 속성을 고쳐도 이 섹션에서는 안 먹는다. 고칠 땐 두 자리를 같이 봐라.
+   (구 `#news .news .item` 3규칙은 2026-09-26 에 카드가 릴리스 행으로 바뀌면서 지웠다.) */
 .p3 #brand .lead {margin-bottom:28px}
 /* 🔴 2026-09-20 — 02 의 빈 오른쪽 면. 인용문과 문단을 03 과 같은 2열(`.posi`)에 앉힌다.
    `.posi` 를 빌렸으므로 1080px 에서 1열로 붕괴하는 것도 같이 따라온다(위 반응형 블록).
    ⚠️ `.lead` 의 `max-width:56ch` 는 열 안에서 다시 오른쪽을 비운다 — 열이 이미 폭을 잡으므로 푼다. */
 .p3 #brand .posi .pull {margin:0}
 .p3 #brand .posi .lead {margin:0;max-width:none}
-/* 릴리스 카드 3장이 서로 안 맞았다: 2번만 16/9 이고 1·3번은 16/10 이라 제목이 14px 어긋나고,
-   본문 줄 수가 3/2/2 라 버전 칩이 세 높이에 떴다(y 367·339·353). 판 비율은 `News.tsx` 에서
-   16/9 로 통일했고, 칩은 카드 바닥에 못박는다 → 세 칩이 한 줄. 카드가 "세트"로 읽힌다. */
-.p3 #news .news .item {display:flex;flex-direction:column;height:100%}
-.p3 #news .news .item .v {margin-top:auto;align-self:flex-start;padding-top:10px}
-.p3 #news .dogfood figcaption {margin-top:7px}
+
+/* ════ 2026-09-26 W1 — 전수 조사 수정분 ══════════════════════════════════════ */
+
+/* 본문 속 링크 — `.p3 a` 가 밑줄을 지운다(네비·버튼용 기본값). 문장 안의 링크는 **링크로 보여야** 한다.
+   FAQ 답 · 사양 주석 · 루트 03 의 증거 줄 · 릴리스 전체 링크. */
+.p3 :is(.qa .a, .specs .n, .latest, .rel-all) a {text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+.p3 :is(.qa .a, .specs .n, .latest, .rel-all) a:hover {text-decoration-color:var(--red)}
+
+/* 루트 03 — 표제(`.myth`) 밑 증거 한 줄. 표제가 말하는 *"이번 주에 창작한 것"* 을 우리 걸로 보인다.
+   버전·날짜·문장은 `lib/releases.ts` 에서 온다(home/Who.tsx). */
+.p3 .latest {margin:28px 0 0;border-top:1.5px solid var(--black);padding-top:14px;font-size:16px;line-height:1.55;max-width:44ch}
+.p3 .latest .lab {display:block;margin-bottom:6px;color:var(--typeink)}
+.p3 .latest b {font-weight:800;margin-right:4px}
+.p3 .latest a {font-weight:700;white-space:nowrap}
+
+/* 가격 판 — `결제한 뒤` 3단계. 🔴 텍스트만(가격 섹션엔 `<a>` 0 — deployCheck [price]). */
+.p3 .afterpay {margin-top:32px;border-top:1.5px solid var(--black);padding-top:16px}
+.p3 .afterpay h4 {margin:0 0 12px;color:var(--typeink)}
+.p3 .afterpay ol {margin:0;padding:0;list-style:none;counter-reset:step;display:grid;gap:10px}
+.p3 .afterpay li {position:relative;padding-left:30px;font-size:15px;line-height:1.5;counter-increment:step;max-width:52ch}
+.p3 .afterpay li::before {content:counter(step);position:absolute;left:0;top:-1px;font-family:var(--disp);
+  font-variation-settings:var(--disp-fvs);font-weight:800;font-size:18px;line-height:1.35}
+
+/* 루트 푸터의 `AE Plugin` — 헤더와 **같은 외곽선**(채움은 구매만, REBRAND §9.9 ③). 검정 바탕이라
+   선·밑판 색만 뒤집는다: 헤더 = 검정 선 + 흰 밑판 / 푸터 = 밝은 선 + 파란 밑판(`.buy` 가 푸터에서 쓰는 그 밑판). */
+.p3 footer .cta-row .btn-line {border-color:#c9cfd2;color:#f6f4ee;font-weight:700;font-size:15px;padding:13px 24px;
+  box-shadow:var(--rx) var(--ry) 0 var(--paper)}
+.p3 footer .cta-row .btn-line:hover {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--paper)}
+
+/* 역할 카드 — 🔴 터치 기기엔 hover 가 없다. `You'd say` 판이 호버 전용이면 폰에선 **영영 안 보인다**
+   (카드의 핵심 문장이다). hover 가 없는 기기에선 판을 카드 밑에 펼쳐 두고 호버 힌트를 숨긴다.
+   오버레이(absolute) 그대로 켜면 역할 설명을 덮으므로 흐름 안으로 내린다. */
+@media (hover:none){
+  .p3 .role .say {position:relative;inset:auto;translate:0 0;opacity:1;margin:18px -22px -20px}
+  .p3 .role .hint {display:none}
+}
+
+/* 네비 — 🔴 KO 버튼이 잘렸다(S-10). 링크 묶음이 오른쪽 `1fr` 칸(1440 에서 548px)보다 길면 flex 가 **맨 끝
+   `.langs` 부터 눌러** `overflow:hidden` 이 `KO` 를 21px 잘랐다(`/ae/docs` 는 모든 데스크톱 폭, `/ae` 는 1280 이하).
+   처방 둘: ⑴ 링크 칸이 `max-content` 보다 작아지지 않는다 — 들어가면 두 칸이 같아 로고가 가운데 그대로고,
+   안 들어갈 때만 왼쪽(판 라벨) 칸이 양보한다 ⑵ 링크 항목은 줄바꿈·눌림 금지(`Buy — $49.99` 가 두 줄로 접혔다).
+   960 이하는 site3p 의 `auto 1fr` 을 다시 선언한다 — 이 규칙이 뒤에 와서 그걸 덮기 때문이다. */
+.p3 nav {grid-template-columns:minmax(0,1fr) auto minmax(max-content,1fr)}
+.p3 nav .label {min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p3 nav .links > * {flex-shrink:0;white-space:nowrap}
+@media (max-width:1280px){ .p3 nav .links {gap:14px} }   /* /ae 를 1280 에서 다시 들인다(522→474 ≈ 칸 472) */
+/* Docs 는 네비의 절 링크 다섯을 **바로 밑 목차 칩(`.toc`)이 그대로 되풀이한다** — 같은 링크 두 줄이 네비를
+   넘치게 한 원인이다(1440 에서 로고가 104px 밀렸다). 네비엔 제품으로 돌아가는 CTA 와 언어만 남기고,
+   현재 절 표시(`.on`)는 Shell 이 목차 칩에 켠다. */
+.p3[data-page="docs"] nav .links > a:not(.btn-line) {display:none}
+@media (max-width:960px){
+  .p3 nav {grid-template-columns:auto 1fr}
+  /* 폰에서 언어 전환은 **누를 수 있어야** 한다(S-09) — 탭 높이 36px. */
+  .p3 .langs a {display:inline-flex;align-items:center;min-height:36px;padding:0 12px}
+}

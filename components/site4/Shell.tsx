@@ -29,7 +29,8 @@ function Nav4({ page, plateTotal, links, cta, logo }: {
       if (!en.isIntersecting) return;
       const el = en.target as HTMLElement;
       setPlate({ no: el.dataset.plate || '00', name: el.dataset.name || 's.plate.cover' });
-      document.querySelectorAll('#p4-navlinks a:not(.btn-line)').forEach((a) => {
+      /* 목차 칩(Docs 의 `.toc`)에도 같은 표시를 켠다 — Docs 는 네비의 절 링크를 숨기고 칩이 그 일을 한다. */
+      document.querySelectorAll('#p4-navlinks a:not(.btn-line), .toc a').forEach((a) => {
         a.classList.toggle('on', a.getAttribute('href') === '#' + el.id);
       });
     }), { rootMargin: '-40% 0px -55% 0px' });
@@ -46,7 +47,8 @@ function Nav4({ page, plateTotal, links, cta, logo }: {
         <img src={`/riso/${logo}`} alt="You Name It" />
       </a>
       <div className="links" id="p4-navlinks">
-        {links.map((l) => <a key={l.href} href={l.href} data-cur>{t(l.k)}</a>)}
+        {/* 🔴 네비 링크도 로캘을 탄다 — `/ko/ae` 의 `Docs` 가 영문 `/ae/docs` 로 떨어지던 결함(2026-09-26). */}
+        {links.map((l) => <a key={l.href} href={href(l.href)} data-cur>{t(l.k)}</a>)}
         {cta ? <a className="btn-line" href={href(cta.href)} data-cur>{t(cta.k)}</a> : null}
         <LangSwitch />
       </div>
@@ -58,12 +60,17 @@ function Nav4({ page, plateTotal, links, cta, logo }: {
    그래야 국문에 공유 가능한 주소가 생기고 검색에도 잡힌다(구 `?lang=ko` 스왑은 둘 다 못 했다).
    로캘이 URL 로 안 박힌 옛 경로에서는 예전처럼 상태만 바꾼다. */
 export const KO_PREFIX = '/ko';
-/* 🔴 국문 면의 내부 링크는 국문 면으로 간다. 법 페이지(`/terms` `/privacy` `/refund`)와
-   `/update` 는 국문 판본이 없으므로 **접두사를 붙이지 마라** — 붙이면 404 다. */
-const LOCALIZED = ['/', '/ae', '/ae/docs'];
-function useHref() {
+/* 🔴 국문 면의 내부 링크는 국문 면으로 간다(VOICE_AND_TERMS §5-4). 법 페이지(`/terms` `/privacy` `/refund`)는
+   국문 판본이 없으므로 **접두사를 붙이지 마라** — 붙이면 404 다. `/update` 는 `/ko/update` 가 있다(2026-09-19).
+   ⚠️ 단 푸터의 `Release notes` 는 이 함수를 안 탄다 — deployCheck `[legal]` 이 **모든 면**에서 계약 경로
+   `href="/update"` 를 글자 그대로 찾기 때문이다(`/update` 첫 화면에 국문 전환이 있다). 게이트가 국문 면에서
+   `/ko/update` 를 인정하게 바뀌면 푸터도 `href('/update')` 로 돌려라.
+   앵커(`#…`)·외부 주소·`mailto:` 는 그대로 둔다 — 앵커를 여기 통과시키면 `/ko#who` 가 된다. */
+const LOCALIZED = ['/', '/ae', '/ae/docs', '/update'];
+export function useHref() {
   const { lang, locked } = useLang();
   return (p: string) => {
+    if (!p.startsWith('/')) return p;
     if (!locked || lang !== 'ko') return p;
     const base = p.split('#')[0].replace(/\/$/, '') || '/';
     if (!LOCALIZED.includes(base)) return p;
@@ -125,13 +132,16 @@ function Footer4({ page }: { page: Page4Kind }) {
   return (
     <footer>
       <div className="band lines" />
-      <div className="grid">
+      <div className="grid cols">
         <div className="logo">
           <img src="/riso/logo-mix.webp" alt="You Name It" />
+          {/* 🔴 채움(`.buy`)은 **구매**에만 쓴다(REBRAND §9.9 ③). 루트의 이 버튼은 제품 진입이라
+              헤더의 `AE Plugin` 과 같은 외곽선(`.btn-line`)이다 — 같은 목적지·같은 라벨에 모양이 둘이면
+              둘 중 하나는 거짓말이다. `/ae`·`/ae/docs` 는 실제 결제라 채움 그대로. */}
           <div className="cta-row" style={{ marginTop: 22 }}>
-            <a className="buy" href={page === 'home' ? href('/ae') : CHECKOUT_URL} data-cur>
-              {page === 'home' ? t('s.toProduct') : t('s.buy.price')}
-            </a>
+            {page === 'home'
+              ? <a className="btn-line" href={href('/ae')} data-cur>{t('s.toProduct')}</a>
+              : <a className="buy" href={CHECKOUT_URL} data-cur>{t('s.buy.price')}</a>}
           </div>
         </div>
         <div>
@@ -146,19 +156,21 @@ function Footer4({ page }: { page: Page4Kind }) {
           <ul>
             <li><a href={href('/ae/docs')} data-cur>{t('s.ft.docs')}</a></li>
             <li><a href={href('/ae#faq')} data-cur>{t('s.ft.faq')}</a></li>
-            <li><a href={href('/ae#specs')} data-cur>{t('s.ft.specs')}</a></li>
+            {/* 설치 순서는 읽는 면(`/ae/docs#install`)에 산다 — 사양도 같은 절에 있다. */}
+            <li><a href={href('/ae/docs#install')} data-cur>{t('s.ft.specs')}</a></li>
             <li><a href="mailto:support@younameit.works" data-cur>{t('s.ft.contact')}</a></li>
           </ul>
         </div>
         <div>
           <h4>{t('s.ft.legal')}</h4>
-          <img className="stone-sm" src="/riso/stones/stone-3.webp" alt="" />
-          <ul style={{ marginTop: 18 }}>
+          <ul>
             <li><a href="/terms" data-cur>{t('s.ft.terms')}</a></li>
             <li><a href="/privacy" data-cur>{t('s.ft.privacy')}</a></li>
             <li><a href="/refund" data-cur>{t('s.ft.refund')}</a></li>
             {page !== 'home' ? <li><a href={href('/')} data-cur>{t('s.toBrand')}</a></li> : null}
           </ul>
+          {/* 돌은 열의 **끝**이다 — 라벨과 링크 사이에 있으면 라벨이 그림에 붙고 링크가 떨어진다. */}
+          <img className="stone-sm" src="/riso/stones/stone-3.webp" alt="" style={{ marginTop: 26 }} />
         </div>
       </div>
       <div className="legal"><span>{t('s.copyright')}</span><span>{t('s.legal.line')}</span></div>

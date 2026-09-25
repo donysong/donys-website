@@ -8,15 +8,28 @@ export const PRICE_USD = '49.99';
 export const CHECKOUT_URL =
   'https://buy.polar.sh/polar_cl_NebuNphvrIXOb3G8sgLi2sfZd6TUZfjxyxklW2VUPmY';
 
+/* 이미 산 사람의 자리 — 키 재확인 · 기기 해제. 구매 메일 OTP 로 로그인한다.
+   🔴 슬러그 `donys` 는 구 브랜드지만 **출고본에 컴파일된 주소**다(플러그인 `src/utils/license/config.ts`
+   `POLAR_PORTAL_URL`). 사이트만 바꾸면 패널과 사이트가 다른 포털을 가리킨다 — 둘을 같이 옮겨라.
+   사전에서는 `{portal}` 자리표시자로 쓰고 컴포넌트가 채운다(FAQ · 사양). */
+export const PORTAL_URL = 'https://polar.sh/donys/portal';
+
 /* 카탈로그 숫자 — 🔴 코드에서 센 값이다. 손으로 올리지 마라.
    2026-09-07 실측(플러그인 repo):
-     scripts        src/data/builtinScripts.ts        39  ← 🔴 2026-09-14 재실측.
-                                                            구 42 는 09-07 값이고 커밋 `4c50e0b`
-                                                            (툴 6종 삭제, 09-08)로 무효가 됐다.
-                                                            **이 주석이 "코드에서 센 값" 이라고
-                                                            적혀 있는데도 일주일 만에 낡았다** —
-                                                            카탈로그를 늘리거나 줄이면 여기도 고쳐라
-                                                            (자동 동기화 장치는 없다, 별도 repo다).
+     scripts        src/data/builtinScripts.ts        39  ← 🔴 **출고 태그 v2.7.1 에서 센 값이다, 플러그인
+                                                            HEAD 가 아니다** (2026-09-26 재실측).
+                                                            HEAD 는 40 인데 40번째(Vertex Grid, `ab6a88b`)는
+                                                            태그 **뒤에** 들어왔다 — 사는 사람이 받는 zxp 엔
+                                                            없다. 여기를 40 으로 올리면 못 사는 툴을 판다.
+                                                            ⚠️ `tools/build-docs-data.mjs` 의 대조 게이트가
+                                                            HEAD 를 읽어서 지금 39≠40 으로 빌드를 세운다 —
+                                                            고칠 곳은 이 숫자가 아니라 생성기(태그를 읽게).
+                                                            `lib/docsData.ts` 는 v2.7.1 추출본으로 돌린 결과와
+                                                            바이트까지 같다(재생성 불필요).
+                                                            구 42 는 09-07 값이고 `4c50e0b`(09-08)로 무효.
+                                                            ⚠️ `/ae` 의 카테고리 분해(`ae.f2.p1`, 모션 12 ·
+                                                            레이어 8 · 컴프 6 · 셰이프 6 · 스타일 4 ·
+                                                            내보내기 3)도 같은 태그 값이다 — 같이 고쳐라.
      motion         src/data/motionPresets.ts         26  ← 구 112 는 오너가 2026-07-19 에
                                                             26 아키타입으로 줄였다(MOTION_PRESET_SPEC).
                                                             사이트는 두 달간 없는 걸 광고했다.
