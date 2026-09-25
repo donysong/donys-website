@@ -127,7 +127,8 @@ const DOCS: Dict = {
     'docs.notes.all': 'All {n} release notes · manual download →',
 
     /* ── 05 설치 — 🔴 앵커 `#install` 은 `/ae` 히어로·FAQ·사양·푸터·결제 뒤 이동이 가리킨다. 이름 바꾸지 마라.
-       사실 근거: VOICE_AND_TERMS §4 · INSTALL_GUIDE.md (방법 2·안 될 때) · 태그 i18n `support.*`.
+       사실 근거: VOICE_AND_TERMS §4 · INSTALL_GUIDE.md(2026-09-26 개정 '구매자 문안' — 받기→설치→활성화 · 설치 앱 없이 ·
+       지우기 · 안 될 때) · 태그 i18n `support.*`. 🔴 정본의 '다른 패널 헤더 로고의 점' 은 다음 판 기능이라 여기 안 싣는다.
        ⚠️ 1단계 "주문 메일로 온다" 는 Polar 혜택(키·파일) 전달 방식에서 옮긴 것이다 — 메일 문면은 오너 확인 전. ── */
     'docs.install.h': 'Install',
     'docs.install.tag': 'Three steps,<br>once per computer.',
@@ -143,7 +144,7 @@ const DOCS: Dict = {
     'docs.hand.h': 'Installing by hand',
     'docs.hand.d': 'With After Effects closed, rename the .zxp to .zip, unzip it, and put the folder in the place below, named exactly <code>com.donys.plugin.cep</code> — any other name, especially one with an apostrophe, leaves the panels loading forever. Do not add or remove a single file: the contents must match the signature, or the panels open blank. If you unzipped over an older copy, delete the folder and unzip again.',
     'docs.rm.h': 'Removing it',
-    'docs.rm.d': 'Deactivate this computer in the Support panel first — otherwise its seat stays taken. Then remove it in ZXP Installer, or delete the <code>com.donys.plugin.cep</code> folder. If that computer is already gone, deactivate it in the <a href="{portal}" target="_blank" rel="noopener">customer portal</a>.',
+    'docs.rm.d': 'Deactivate this computer in the Support panel first — otherwise its seat stays taken. Then remove it in ZXP Installer, or delete the <code>com.donys.plugin.cep</code> folder. If that computer is already gone, deactivate it in the <a href="{portal}" target="_blank" rel="noopener">customer portal</a>. Reinstalling on the same computer to fix something does not need this — the activation stays. Your presets and settings live outside that folder (Windows <code>%LOCALAPPDATA%\\donys</code> · macOS <code>~/Library/Application Support/donys</code>); delete it too for a clean removal.',
     'docs.fix.h': 'If it does not work',
     'docs.fix.list': [
       'The panel opens blank — the files do not match the signature, usually leftovers from an older version. Delete the folder and install again.',
@@ -293,7 +294,7 @@ const DOCS: Dict = {
     'docs.hand.h': '수동 설치',
     'docs.hand.d': 'After Effects 를 닫은 채로 .zxp 의 확장자를 .zip 으로 바꿔 압축을 풀고, 폴더 이름을 정확히 <code>com.donys.plugin.cep</code> 로 해서 아래 위치에 둡니다. 다른 이름, 특히 아포스트로피가 들어간 이름이면 패널이 끝없이 로딩만 합니다. 파일은 하나도 빼거나 더하지 않습니다 — 압축 안의 파일이 서명과 정확히 맞아야 하고, 어긋나면 패널이 빈 창으로 열립니다. 이전 판 위에 덮어서 풀었다면 폴더를 통째로 지우고 다시 풉니다.',
     'docs.rm.h': '제거',
-    'docs.rm.d': '먼저 Support 패널에서 이 컴퓨터의 활성화를 해제합니다 — 안 하면 자리 하나가 계속 잡혀 있습니다. 그다음 ZXP Installer 에서 제거하거나 <code>com.donys.plugin.cep</code> 폴더를 지웁니다. 그 컴퓨터를 이미 쓸 수 없다면 <a href="{portal}" target="_blank" rel="noopener">고객 포털</a>에서 해제합니다.',
+    'docs.rm.d': '먼저 Support 패널에서 이 컴퓨터의 활성화를 해제합니다 — 안 하면 자리 하나가 계속 잡혀 있습니다. 그다음 ZXP Installer 에서 제거하거나 <code>com.donys.plugin.cep</code> 폴더를 지웁니다. 그 컴퓨터를 이미 쓸 수 없다면 <a href="{portal}" target="_blank" rel="noopener">고객 포털</a>에서 해제합니다. 고치려고 같은 컴퓨터에 다시 설치할 때는 해제하지 않아도 됩니다 — 활성화가 그대로 남습니다. 만든 프리셋·설정은 그 폴더 밖에 따로 있습니다(Windows <code>%LOCALAPPDATA%\\donys</code> · macOS <code>~/Library/Application Support/donys</code>) — 완전히 지우려면 이 폴더도 지웁니다.',
     'docs.fix.h': '안 될 때',
     'docs.fix.list': [
       '패널이 빈 창으로 열립니다 — 폴더 안 파일이 서명과 맞지 않습니다(대개 이전 판의 잔여 파일). 폴더를 통째로 지우고 다시 설치하세요.',
