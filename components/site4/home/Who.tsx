@@ -15,9 +15,20 @@
    판정이 굳으면 지워라. `.nots` CSS 도 같이 죽는다. */
 import { Plate3 } from '@/components/site3p/Plate3';
 import { Html, useT } from '@/components/site3p/lang';
+import { RELEASES } from '@/lib/releases';
+import { useHref } from '@/components/site4/Shell';
+
+/* 릴리스 노트 첫 항목의 머리 — 첫 ` — ` 또는 첫 마침표까지. 노트는 한 줄 요약이 아니라 문단이라
+   통째로 싣으면 표제 밑이 설명서가 된다. 🔴 문장을 여기서 새로 쓰지 마라 — 정본은 `lib/releases.ts`. */
+function head(s: string) {
+  const cut = s.split(/\s—\s|\.\s/)[0].trim();
+  return cut.endsWith('.') ? cut : cut + '.';
+}
 
 export default function Who() {
-  const { t } = useT();
+  const { t, lang } = useT();
+  const href = useHref();
+  const r = RELEASES[0];
   return (
     <section id="who" data-plate="03" data-name="home.nav.who">
       <div className="sec" style={{ paddingTop: 0 }}>
@@ -30,6 +41,13 @@ export default function Who() {
         <div className="posi">
           <div>
             <Html k="home.who.myth" as="p" className="myth" />
+            {/* 표제의 증거 — *"이번 주에 창작한 것으로 자신을 소개하는 사람들"* 을 우리가 먼저 한다.
+                국문 면에선 `/ko/update` 로 간다(`useHref`). */}
+            <p className="latest">
+              <span className="lab">{t('home.who.latest')}</span>
+              <b>v{r.version} · {r.date}</b> {head(r.items[lang][0])}{' '}
+              <a href={href('/update')} data-cur>{t('home.who.latest.go')}</a>
+            </p>
           </div>
           <div>
             <Html k="home.who.p1" as="p" className="plain" />

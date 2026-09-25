@@ -35,6 +35,10 @@ export default function Brand() {
             ⚠️ 풀쿼트의 **크기·순서는 닫힌 판정**이다(`site4.css` `.pull` 주석) — 안 건드렸다.
             움직인 건 그 아래 문단이 밑에서 옆으로 간 것과 간격뿐이다. */}
         <div className="posi">
+          {/* 🔴 2026-09-26 — 풀쿼트를 **긍정형으로 뒤집었다**(같은 낱말). 원문은 ENEMY 슬롯 문장
+              *"나의 생각이 아닌, 타인의 생각과 정의"* 인데, 캡션(`— 우리가 싸우는 것`)을 뗀 뒤로는
+              h2 `우리는 무엇인가` 바로 밑에서 **"우리 = 타인의 정의"** 로 읽혔다. 캡션을 되살리지 말고
+              문장이 입장을 말하게 둔다. */}
           <blockquote className="pull">
             <Plate3 k="home.brand.pull.a" className="disp" />
             <Plate3 k="home.brand.pull.b" className="disp" />

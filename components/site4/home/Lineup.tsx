@@ -4,10 +4,12 @@
    🔴 제품명 조판 = 작은 쪽이 브랜드(`.brandpart`) · 큰 쪽이 구분자(잉크 판). 같은 크기로 쓰지 마라. */
 import { Plate3 } from '@/components/site3p/Plate3';
 import { Html, useT } from '@/components/site3p/lang';
+import { useHref } from '@/components/site4/Shell';
 import { rePress } from './Hero';
 
 export default function Lineup() {
   const { t } = useT();
+  const href = useHref();
   return (
     <section id="lineup" data-plate="01" data-name="home.nav.lineup">
       <div className="sec" style={{ paddingBottom: 0 }}>
@@ -21,7 +23,7 @@ export default function Lineup() {
       <ul className="lineup sweep">
         {/* 행 1 — 출고본. 행 전체가 제품 페이지로 간다(클릭 1회) */}
         <li className="row open">
-          <a className="hit" href="/ae" aria-label={t('home.row1.aria')} data-cur />
+          <a className="hit" href={href('/ae')} aria-label={t('home.row1.aria')} data-cur />
           <figure className="spot-fig row-fig">
             <i
               className="spot"
