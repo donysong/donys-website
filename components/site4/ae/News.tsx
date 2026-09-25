@@ -1,23 +1,30 @@
 'use client';
-/* 04 새로 들어온 것 + 도그푸드 증거.
-   🔴 증언을 지어내지 않는다 — 인용할 사용자가 아직 없다. 대신 **검증 가능한 사실 하나**를 건다:
-   이 페이지의 종이 결·잉크 알갱이가 제품에 들어 있는 Riso Print 이펙트의 그 텍스처다.
-   🔴 프로토는 이 블록을 섹션 밖(전폭)에 뒀다 — `.sec` 안으로 들여서 좌우 여백과 레일 차선을 받는다.
-   문서 순서(릴리스 → 증거 → 가격)는 그대로다. */
-import { Html } from '@/components/site3p/lang';
-import { Plate3 } from '@/components/site3p/Plate3';
+/* 04 새로 들어온 것 — 🔴 **`lib/releases.ts` 에서 읽는다. 손으로 쓰지 마라.**
+   구판은 손으로 쓴 카드 3장(Depth Pass · Pattern Lab · Riso Print)에 전부 `v2.7.1` 딱지를 붙였는데,
+   그중 Depth Pass·Riso Print 는 v2.6.0 기능이었다(버전이 거짓) — 그리고 정작 2.7.1 의 새것
+   (이펙터 이펙트 · Chat 의 ChatGPT · 패널 안 로그인)은 없었다. 손으로 쓰면 이렇게 된다.
 
-/* 🔴 비율은 16/9 다 — 가운데 판(Pattern Lab)이 `.spot` 스프라이트(16/9 고정)라서,
-   1·3번만 16/10 이면 판 높이가 235 vs 211.5 로 갈리고 제목줄이 14px 어긋난다(실측).
-   나란한 3장은 판·제목·본문·버전칩이 전부 같은 줄에 앉아야 한다. 조판은 `app/compose.css` ④. */
-const NEWS_IMG: React.CSSProperties = {
-  width: '100%',
-  aspectRatio: '16/9',
-  objectFit: 'cover',
-  boxShadow: 'calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white)',
-};
+   최근 두 버전 × 앞 항목 셋, 각 항목의 **첫 문장**만. 노트 항목의 순서가 곧 편집 우선순위다
+   (`releases.ts` 가 중요한 것부터 적는다). 조판은 Docs 업데이트 로그의 `.rel` 을 그대로 쓴다 —
+   같은 노트가 두 면에서 다른 모양이면 다른 것처럼 읽힌다. 전문은 `/update` 가 갖는다.
+   🔴 도그푸드 블록은 여기 없다 — Library 판 바로 뒤로 이사했다(Features.tsx). */
+import { Html, useT } from '@/components/site3p/lang';
+import { Plate3 } from '@/components/site3p/Plate3';
+import { RELEASES } from '@/lib/releases';
+import { useHref } from '@/components/site4/Shell';
+
+const VERSIONS = 2;
+const ITEMS = 3;
+
+/* 노트 항목은 문단이다 — 첫 문장까지만 싣는다(`. ` 에서 자른다). 문장을 여기서 새로 쓰지 마라. */
+function firstSentence(s: string) {
+  const i = s.indexOf('. ');
+  return i < 0 ? s : s.slice(0, i + 1);
+}
 
 export default function News() {
+  const { t, lang } = useT();
+  const href = useHref();
   return (
     <section id="news" data-plate="04" data-name="ae.plate.news">
       <div className="sec tight">
@@ -27,49 +34,18 @@ export default function News() {
           <Html k="ae.news.tag" as="p" className="tag" />
         </div>
 
-        <div className="news sweep">
-          <article className="item">
-            {/* 🔴 2026-09-19 — 구 `depthPass.svg`(평면 회색 + `#05D16E` 초록, 크림 배경)를 버리고
-                리소 시트로 갈았다. 나란한 3장 중 **이 카드만 계통이 달랐다** — 옆 두 장은 리소인데
-                여기만 평면 도해라 같은 줄에서 튀었다. 제품 쪽에서도 같은 날 은퇴했다(툴 39개 전부
-                시트 보유 · 도해 0). `.spot` 문법이라 Pattern Lab 과 똑같이 호버에서 돈다. */}
-            <figure className="spot-fig">
-              <i className="spot" role="img" aria-label="Depth Pass" style={{ backgroundImage: 'url(/riso/spots/depthPass.webp)' }} />
-            </figure>
-            <h4>Depth Pass</h4>
-            <Html k="ae.news1.p" as="p" />
-            <Html k="ae.news.v" as="span" className="v" />
-          </article>
-          <article className="item">
-            <figure className="spot-fig">
-              <i className="spot" role="img" aria-label="Pattern Lab" style={{ backgroundImage: 'url(/riso/spots/patternLab.webp)' }} />
-            </figure>
-            <h4>Pattern Lab</h4>
-            <Html k="ae.news2.p" as="p" />
-            <Html k="ae.news.v" as="span" className="v" />
-          </article>
-          <article className="item">
-            <figure className="spot-fig">
-              <img src="/riso/spots/fx-riso-print.webp" alt="Riso Print" style={NEWS_IMG} />
-            </figure>
-            <h4>Riso Print</h4>
-            <Html k="ae.news3.p" as="p" />
-            <Html k="ae.news.v" as="span" className="v" />
-          </article>
-        </div>
-
-        <div className="dogfood sweep">
-          <div>
-            <Html k="ae.dog.lab" as="span" className="lab" />
-            <Html k="ae.dog.p" as="p" />
+        {RELEASES.slice(0, VERSIONS).map((r) => (
+          <div className="rel" key={r.version}>
+            <div className="rel-head">
+              <span className="v">v{r.version}</span>
+              <span className="d">{r.date}</span>
+            </div>
+            <ul>{r.items[lang].slice(0, ITEMS).map((it, j) => <li key={j}>{firstSentence(it)}</li>)}</ul>
           </div>
-          <figure style={{ margin: 0 }}>
-            <img src="/riso/spots/fx-riso-print.webp" alt="Riso Print" />
-            <figcaption className="lab lc" style={{ marginTop: 9, opacity: 0.7 }}>
-              <Html k="ae.dog.cap" />
-            </figcaption>
-          </figure>
-        </div>
+        ))}
+        <p className="rel-all">
+          <a href={href('/update')} data-cur>{t('ae.news.all')}</a>
+        </p>
       </div>
     </section>
   );

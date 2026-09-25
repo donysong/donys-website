@@ -1,6 +1,8 @@
 'use client';
-/* 사양 8필드 — 마지막에 온다. 판 번호를 안 갖는다(프로토 동일). */
+/* 사양 8필드 — 마지막에 온다. 판 번호를 안 갖는다(프로토 동일).
+   주석 줄(`.n`)은 링크를 품는다(설치 안내 · 고객 포털) — 그래서 HTML 로 넣는다. `{portal}` 은 여기서 채운다. */
 import { useT } from '@/components/site3p/lang';
+import { PORTAL_URL } from '@/lib/product';
 
 const FIELDS = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -14,7 +16,10 @@ export default function Specs() {
           {FIELDS.map((n) => (
             <div className="f" key={n}>
               <span className="k lab">{t(`ae.sp${n}.k`)}</span>
-              <span className="v">{t(`ae.sp${n}.v`)}<span className="n">{t(`ae.sp${n}.n`)}</span></span>
+              <span className="v">
+                {t(`ae.sp${n}.v`)}
+                <span className="n" dangerouslySetInnerHTML={{ __html: t(`ae.sp${n}.n`).split('{portal}').join(PORTAL_URL) }} />
+              </span>
             </div>
           ))}
         </div>

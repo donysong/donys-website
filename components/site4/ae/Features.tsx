@@ -1,11 +1,12 @@
 'use client';
 /* 03 기능 — 증거(판) 좌 60% / 명사 헤드라인 + 불릿 우 40%. 블록 5개 + 툴박스 후킹 6장.
-   🔴 39개를 나열하면 카탈로그가 되고, 몇 개를 풀면 제품이 된다 — 나머지는 Docs 로 넘긴다.
+   🔴 툴 전부를 나열하면 카탈로그가 되고, 몇 개를 풀면 제품이 된다 — 나머지는 Docs 로 넘긴다.
    🔴 `{rest}` 만 여기서 채운다(= 전체 툴 − 여기 푼 6장). 사전에 숫자를 박으면 그 순간 낡는다. */
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 import type { Lang } from '@/lib/copy';
 import { COUNTS } from '@/lib/product';
+import { useHref } from '@/components/site4/Shell';
 
 /* 패널 스크린샷 판 — `.feat .fig .spot` 은 시트(.spot)용 규칙이라 정지 스크린샷(img)엔 안 붙는다.
    프로토가 인라인으로 들고 있던 그 값 그대로다(밑판 = --m 배율, 등록 애니가 여기를 탄다). */
@@ -89,6 +90,7 @@ function Feat({ k, img, capTop = 12 }: { k: string; img: keyof typeof PANEL_SHOT
 
 export default function Features() {
   const { t, list } = useT();
+  const href = useHref();
   const rest = COUNTS.scripts - HOOKS.length;
   return (
     <section id="what" data-plate="03" data-name="ae.plate.what">
@@ -101,11 +103,15 @@ export default function Features() {
 
         <Feat k="ae.f1" img="panel-chat" />
 
-        {/* 기능 2 — Toolbox. 🔴 여기만 진짜 자산이 있다(패널이 버튼 위에 띄우는 그 시트) */}
+        {/* 기능 2 — Toolbox. 🔴 여기만 진짜 자산이 있다(패널이 버튼 위에 띄우는 그 시트).
+            🔴 판 = Click React — 히어로 판 교대·후킹 6장·역할 카드 어디에도 없는 툴을 고른다.
+            구판은 Effector 였는데 바로 아래 후킹에 Effector 가 또 있었다(같은 증거 두 번).
+            정지 = 2× 스틸, 호버 = 1× 시트(`.hook-fig` 계약 — 후킹 카드와 같은 부품). */}
         <div className="feat sweep">
           <figure className="fig">
-            <figure className="spot-fig">
-              <i className="spot" role="img" aria-label="Effector" style={{ backgroundImage: 'url(/riso/spots/proximityRig.webp)' }} />
+            <figure className="spot-fig hook-fig">
+              <img src="/riso/spots/still/clickReact.webp" alt="Click React" />
+              <i className="spot" aria-hidden="true" style={{ backgroundImage: 'url(/riso/spots/clickReact.webp)' }} />
             </figure>
             <figcaption className="cap" style={{ marginTop: 20 }}><Html k="ae.f2.cap" /></figcaption>
           </figure>
@@ -125,10 +131,27 @@ export default function Features() {
 
         <div className="docs-cta">
           <span className="txt" dangerouslySetInnerHTML={{ __html: t('ae.docs.txt').replace('{rest}', String(rest)) }} />
-          <a className="btn-fill" href="/ae/docs#tools" data-cur>{t('ae.docs.btn')} <span aria-hidden="true">→</span></a>
+          <a className="btn-fill" href={href('/ae/docs#tools')} data-cur>{t('ae.docs.btn')} <span aria-hidden="true">→</span></a>
         </div>
 
         <Feat k="ae.f3" img="panel-library" />
+
+        {/* 도그푸드 증거 — 🔴 Library 판(이펙트 프리셋 불릿) **바로 뒤**다. 여기서 말하는 Riso Print 가
+            바로 위 불릿의 `이펙트 프리셋` 중 하나라서 이 자리에 온다. 증언을 지어내지 않는다 —
+            인용할 사용자가 아직 없다. 대신 검증 가능한 사실 하나(§3.0: 종이 = BlackPaper, 알갱이 = Risoprint). */}
+        <div className="dogfood sweep">
+          <div>
+            <Html k="ae.dog.lab" as="span" className="lab" />
+            <Html k="ae.dog.p" as="p" />
+          </div>
+          <figure style={{ margin: 0 }}>
+            <img src="/riso/spots/fx-riso-print.webp" alt="Riso Print" />
+            <figcaption className="lab lc" style={{ marginTop: 9, opacity: 0.7 }}>
+              <Html k="ae.dog.cap" />
+            </figcaption>
+          </figure>
+        </div>
+
         <Feat k="ae.f4" img="panel-curves" />
         <Feat k="ae.f5" img="panel-custom" />
       </div>
