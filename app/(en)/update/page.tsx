@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
 import UpdateBody from '@/components/UpdateBody';
+import { share } from '@/lib/meta';
+
+const DESCRIPTION = 'Release notes for You Name It AE Plugin, and how to install by hand when the in-panel update does not go through.';
 
 /* 🔴 이 경로는 패널 `version.json` 의 `url` 이 가리키는 **계약**이다 — 라이브 R2 매니페스트가
    `https://younameit.works/update` 를 싣고 있다. **옮기지도, 지우지도 마라.**
    본문은 `components/UpdateBody.tsx` 한 벌을 국문판(`/ko/update`)과 공유한다.
 
-   ⚠️ 이 페이지는 판매 랜딩에서 링크되지 않는다. 패널 업데이트 카드의 링크로만 열린다.
+   ⚠️ 판매 랜딩의 본문 CTA 는 여기로 안 온다 — 셸 푸터(`Release notes`)와 패널 업데이트 카드가 온다.
    🔴 패널은 version.json 의 `notes` 를 **읽지 않는다** — `updateCheck.ts` 가 {version, url, download}
    만 파싱한다. **릴리스 노트의 정본은 `lib/releases.ts` 이고 이 페이지가 그걸 보여준다.**
    ⚠️ 도달 가능성이 버전마다 다르다:
@@ -20,8 +23,9 @@ export const metadata: Metadata = {
   },
   /* 🔴 브랜드명을 붙이지 마라 — 루트 레이아웃의 `template: '%s — You Name It'` 이 이미 붙인다.
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
-  title: 'Updates',
-  description: 'Download the latest You Name It build, and read what changed.',
+  title: 'AE Plugin release notes',
+  description: DESCRIPTION,
+  ...share({ path: '/update', title: 'You Name It AE Plugin — release notes', description: DESCRIPTION, card: 'product', lang: 'en' }),
 };
 
 export default function UpdatePage() {

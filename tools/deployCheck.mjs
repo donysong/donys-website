@@ -11,6 +11,8 @@
      [banned]   오너가 폐기한 메시지("브리프 하나로 완성 영상")가 카피로 되살아나는 것
      [i18n]     국문이 클라이언트 스왑이라 주소도 색인도 없었다
      [assets]   시트를 안 옮겨서 판이 비어 보였다
+     [share]    하위 경로가 레이아웃의 og:url(루트)을 물려받아 공유하면 루트 카드가 떴고, `/ae` 는 og:image 가 없었다
+     [404]      모르는 주소가 Next 기본 흰 화면(`lang` 없음·링크 0)이었다
 
    실행: node tools/deployCheck.mjs      (빌드 뒤에 돌린다)
    종료코드 0 = 통과 · 1 = 실패. 실패는 "배포하지 마라" 다. */
@@ -53,6 +55,9 @@ else ok.push(`[routes] ${REQUIRED.join(' · ')} 존재`);
 
 /* 국문 정적 경로 — 없으면 국문은 주소도 색인도 없다 */
 const KO = ['/ko.html', '/ko/ae.html', '/ko/ae/docs.html'];
+/* 셸 푸터를 쓰는 나머지 면 — 2026-09-26 전엔 구 `Navbar`/`Footer` 였고 `Buy` 가 없는 앵커(`/#pricing`)로 갔다.
+   같은 법·지원 검사를 태워서 구 크롬이 되살아나면 여기서 잡는다. */
+const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.html', '/refund.html'];
 const koMissing = KO.filter((r) => !pages.some((p) => rel(p) === r));
 if (koMissing.length) fail.push(`[i18n] 국문 정적 경로가 없다: ${koMissing.join(' · ')} — 클라이언트 토글만으로는 색인도 공유도 안 된다`);
 else ok.push('[i18n] 국문 정적 경로 3장');
@@ -77,7 +82,8 @@ for (const p of pages) {
   const html = read(p);
   const body = text(html);
   const isProduct = /^\/(ko\/)?ae(\.html|\/)/.test(r);
-  const isSurface = REQUIRED.includes(r) || KO.includes(r);
+  const isSurface = REQUIRED.includes(r) || KO.includes(r) || READING.includes(r);
+  const isKo = r === '/ko.html' || r.startsWith('/ko/');
 
   for (const [w, why] of BANNED) {
     if (body.includes(w)) fail.push(`[banned] ${r} 에 "${w}" (${why})`);
@@ -91,7 +97,10 @@ for (const p of pages) {
   }
 
   if (isSurface) {
-    for (const [href, label] of [['/terms', '약관'], ['/privacy', '개인정보'], ['/refund', '환불'], ['/update', '업데이트']]) {
+    /* 🔴 업데이트 노트는 **로캘을 따라간다**(VOICE_AND_TERMS §5-4) — 국문 면은 `/ko/update`. 계약 경로 `/update` 는
+       영문 면이 걸고, `/ko/update` 첫 화면이 영문 전환을 갖는다. 법 3장은 영문 전용이라 양쪽 다 같은 주소다. */
+    const notes = isKo ? '/ko/update' : '/update';
+    for (const [href, label] of [['/terms', '약관'], ['/privacy', '개인정보'], ['/refund', '환불'], [notes, '업데이트']]) {
       if (!html.includes(`href="${href}"`)) fail.push(`[legal] ${r} 에 ${label} 링크(${href})가 없다`);
     }
     if (!/mailto:support@younameit\.works/.test(html)) fail.push(`[contact] ${r} 에 지원 주소가 없다`);
@@ -99,11 +108,32 @@ for (const p of pages) {
     if (/\/Users\/|송동휘|DEV_BYPASS/.test(html)) fail.push(`[pii] ${r} 에 로컬 경로·내부 문자열이 새어 있다`);
   }
 
+  /* 공유 카드 — 색인되는 면은 자기 og:url(= canonical)과 실재하는 og:image 를 가진다 */
+  if (isSurface) {
+    const meta = (p) => html.match(new RegExp(`<meta[^>]*property="${p}"[^>]*content="([^"]*)"`))?.[1];
+    const canon = html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]*)"/)?.[1];
+    const ogUrl = meta('og:url'), ogImg = meta('og:image');
+    if (!ogImg) fail.push(`[share] ${r} 에 og:image 가 없다 — 링크 미리보기가 빈 카드로 나간다`);
+    else if (!fs.existsSync(path.join(OUT, new URL(ogImg).pathname))) fail.push(`[share] ${r} og:image 가 없는 파일 ${ogImg}`);
+    if (!ogUrl || !canon || ogUrl.replace(/\/$/, '') !== canon.replace(/\/$/, ''))
+      fail.push(`[share] ${r} og:url(${ogUrl}) ≠ canonical(${canon}) — 공유하면 다른 페이지로 정규화된다`);
+  }
+
   /* 로컬 자산 실존 — 깨진 이미지는 판이 비어 보인다 */
   for (const m of html.matchAll(/(?:src|href)="(\/[^"#?]+\.(?:webp|png|jpg|svg|css|js|json|zxp))"/g)) {
     const f = path.join(OUT, m[1]);
     if (!fs.existsSync(f)) fail.push(`[assets] ${r} → 없는 파일 ${m[1]}`);
   }
+}
+
+/* ── 404 ── 모르는 주소가 막다른 길이 아닌가 */
+const nf = pages.find((p) => rel(p) === '/404.html');
+if (!nf) fail.push('[404] out/404.html 이 없다');
+else {
+  const h = read(nf);
+  const need = ['href="/"', 'href="/ae"', 'href="/ae/docs"'].filter((x) => !h.includes(x));
+  if (need.length || !/<html[^>]*lang=/.test(h)) fail.push(`[404] 셸·링크가 없는 기본 화면이다 — 빠진 것: ${need.join(' · ') || '<html lang>'}`);
+  else ok.push('[404] 셸 + / · /ae · /ae/docs 링크');
 }
 
 /* ── 숫자 정본 대조 ─────────────────────────────────────────────── */

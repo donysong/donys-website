@@ -1,33 +1,42 @@
 import type { Metadata } from 'next';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import ReadingShell, { InkTitle } from '@/components/ReadingShell';
+import { share } from '@/lib/meta';
+
+const DESCRIPTION = 'Privacy Policy for You Name It AE Plugin.';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/privacy' },
   /* 🔴 브랜드명을 붙이지 마라 — 루트 레이아웃의 `template: '%s — You Name It'` 이 이미 붙인다.
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
   title: 'Privacy Policy',
-  description: "Privacy Policy for You Name It After Effects plugin.",
+  description: DESCRIPTION,
+  ...share({ path: '/privacy', title: 'Privacy Policy — You Name It', description: DESCRIPTION, card: 'brand', lang: 'en' }),
 };
 
+/* 🔴 **법 문서는 출고본과 대조해서 고친다** (2026-09-26 — 처음 대조했더니 §2.3 이 출고본과 반대 말을 했다:
+   *"렌더된 프레임은 업로드되지 않는다"* 인데 Chat 의 코어 툴 `previewFrame` 이 컴프를 PNG 로 렌더해 모델에 보낸다).
+   §2.3 의 목록은 **플러그인 출고 태그의 네트워크 호출 전수**다 — 대조 명령:
+     git -C ../Dony-s-AE-Plugin grep -ohE "https://[a-zA-Z0-9._-]+" v<VERSION> -- donys/src | sort -u
+   호스트가 늘면 여기 항목과 §4 를 같이 고치고 개정일을 올려라(§8 이 스스로 약속한 것이다).
+   조항 구조·책임 문구는 오너 사안이다 — 사실만 고친다. */
 export default function PrivacyPage() {
   return (
-    <>
-      <Navbar />
-      <main className="mx-auto max-w-3xl px-6 py-24">
-        {/* T3 — 긴 읽는 면은 파란 대지가 아니라 흰 종이 위다 (globals.css 3단 규약) */}
-        <div className="sheet">
-        <h1 className="mb-4 text-3xl font-bold tracking-tight">Privacy Policy</h1>
-        <p className="mb-10 text-sm text-[var(--text-muted)]">Last updated: April 2, 2026</p>
-
+    <ReadingShell lang="en" plate="s.ft.privacy" langSwitch={false}>
+      <header className="max-w-3xl">
+        <p className="lab">You Name It AE Plugin</p>
+        <InkTitle>Privacy Policy</InkTitle>
+        <p className="text-sm">Last updated: September 26, 2026</p>
+      </header>
+      {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
+      <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">1. Introduction</h2>
             <p>
               You Name It (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) respects your
               privacy. This Privacy Policy explains how we collect, use, and protect your
-              information when you visit our website (younameit.works) or purchase and use the
-              You Name It After Effects plugin.
+              information when you visit our website (younameit.works) or purchase and use
+              You Name It AE Plugin.
             </p>
           </section>
 
@@ -47,23 +56,17 @@ export default function PrivacyPage() {
             <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
               2.2 Automatically Collected Information
             </h3>
-            <p>Our website uses two analytics services:</p>
+            <p>Our website uses one analytics service:</p>
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>
                 <strong>Cloudflare Web Analytics</strong> — cookieless. It does not set cookies
                 and does not create a cross-site identifier.
               </li>
-              <li>
-                <strong>Google Analytics 4</strong> — sets cookies (such as <code>_ga</code>) that
-                assign a randomly generated identifier to your browser, and processes your IP
-                address to estimate approximate location. Its enhanced measurement also records
-                outbound link clicks, including when you click through to our checkout page.
-              </li>
             </ul>
             <p className="mt-2">
               We do not collect your name, email address, or anything you type through analytics.
-              However, cookie identifiers and IP addresses are treated as personal data under the
-              GDPR and similar laws, so we do not claim this analytics data is fully anonymous.
+              However, IP addresses are treated as personal data under the GDPR and similar laws,
+              so we do not claim this analytics data is fully anonymous.
             </p>
 
             <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
@@ -71,7 +74,7 @@ export default function PrivacyPage() {
             </h3>
             <p>
               The plugin does its actual work — creating layers, effects, and keyframes —
-              entirely on your machine, and it never uploads your project file. There are five
+              entirely on your machine, and it never uploads your project file. There are seven
               cases where it does talk to the network, and this is all of them:
             </p>
             <ol className="mt-2 list-decimal space-y-2 pl-6">
@@ -93,20 +96,38 @@ export default function PrivacyPage() {
                 <strong>Update checks.</strong> The plugin periodically fetches a small version
                 manifest from our download host. Like any web request, this reveals your IP address
                 and the time of the request to that host. It carries no license key, no account,
-                and no usage data.
+                and no usage data. When you choose to install an update, the new version is
+                downloaded from the same host.
               </li>
               <li>
-                <strong>The Chat panel.</strong> When you use Chat, the plugin runs Anthropic&apos;s
-                Claude on your behalf <strong>using your own Claude credentials</strong>, and sends
-                it what it needs to answer you: your messages, and the structure of the composition
-                you are working on — layer names, effect and property values, and similar metadata.
-                Rendered frames and source media files are not uploaded. We do not receive or store
-                any of this; it goes from your machine to Anthropic directly.
+                <strong>The Chat panel.</strong> When you use Chat, the plugin runs the AI tool you
+                chose — Anthropic&apos;s Claude Code or OpenAI&apos;s Codex —{' '}
+                <strong>using your own Claude or ChatGPT account</strong>, and sends it what it needs
+                to answer you: your messages; the structure of the composition you are working on —
+                layer names, effect and property values, and similar metadata; any images you attach;
+                and still frames it renders from the composition, or takes from a reference video you
+                give it, to check its work. We do not receive or store any of this; it goes from your
+                machine to Anthropic or OpenAI directly.
+              </li>
+              <li>
+                <strong>One-time downloads of helper programs.</strong> Some features fetch a free
+                helper program the first time they need it and keep it on your machine: Depth Pass
+                downloads its runtime and depth model from our download host; GIF Converter downloads
+                FFmpeg and Gifsicle from GitHub; Chat tools that read video frames download FFmpeg
+                from its public build sites (evermeet.cx on macOS, GitHub or gyan.dev on Windows).
+                Like any web request, this reveals your IP address and the time of the request to that
+                host. It carries no license key, no account, and no project data.
               </li>
               <li>
                 <strong>Stock asset search, only if you set it up.</strong> If you enter your own
                 API keys for Pexels, Giphy, or Freesound, searches you run go to those services
                 under your own account. Leave the keys empty and no request is ever made.
+              </li>
+              <li>
+                <strong>Voice in Chat, only if you set it up.</strong> If you enter your own
+                ElevenLabs API key, the text you ask Chat to turn into speech, and the audio you ask
+                it to transcribe, go to ElevenLabs under your own account. Leave the key empty and no
+                request is ever made.
               </li>
             </ol>
             <p className="mt-2">
@@ -145,8 +166,8 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
-                <strong>Anthropic</strong> — powers the Chat panel, under your own Claude
-                credentials, and receives the data described in 2.3. Their privacy policy is
+                <strong>Anthropic</strong> — powers the Chat panel when you choose Claude Code,
+                under your own Claude account, and receives the data described in 2.3. Their privacy policy is
                 available at{' '}
                 <a
                   href="https://www.anthropic.com/legal/privacy"
@@ -159,8 +180,22 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
-                <strong>Cloudflare</strong> — DNS, CDN, download hosting, and cookieless web
-                analytics. Their privacy policy is available at{' '}
+                <strong>OpenAI</strong> — powers the Chat panel when you choose Codex, under your
+                own ChatGPT account, and receives the data described in 2.3. Their privacy policy is
+                available at{' '}
+                <a
+                  href="https://openai.com/policies/privacy-policy/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--text-primary)] underline underline-offset-4 font-semibold"
+                >
+                  openai.com/policies/privacy-policy
+                </a>
+                .
+              </li>
+              <li>
+                <strong>Cloudflare</strong> — website hosting, DNS, CDN, download hosting, email
+                forwarding for support@younameit.works, and cookieless web analytics. Their privacy policy is available at{' '}
                 <a
                   href="https://www.cloudflare.com/privacypolicy/"
                   target="_blank"
@@ -172,8 +207,9 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
-                <strong>Google</strong> — Google Analytics 4 (website usage measurement). Their
-                privacy policy is available at{' '}
+                <strong>Google</strong> — Google Fonts, which serves the website&apos;s English
+                typefaces; your browser requests them from Google. Their privacy policy is available
+                at{' '}
                 <a
                   href="https://policies.google.com/privacy"
                   target="_blank"
@@ -185,13 +221,43 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
+                <strong>jsDelivr</strong> — serves the website&apos;s Korean typeface; your browser
+                requests it from jsDelivr. Their privacy policy is available at{' '}
+                <a
+                  href="https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--text-primary)] underline underline-offset-4 font-semibold"
+                >
+                  jsdelivr.com/terms/privacy-policy-jsdelivr-net
+                </a>
+                .
+              </li>
+              <li>
                 <strong>Pexels, Giphy, Freesound</strong> — asset search, and only if you supply
                 your own API keys for them.
               </li>
               <li>
-                <strong>Vercel</strong> — website hosting. We are migrating hosting to Cloudflare
-                Pages; this entry will be removed once that migration is complete. Their privacy
-                policy is available at{' '}
+                <strong>ElevenLabs</strong> — text-to-speech and speech-to-text in Chat, and only if
+                you supply your own API key. Their privacy policy is available at{' '}
+                <a
+                  href="https://elevenlabs.io/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--text-primary)] underline underline-offset-4 font-semibold"
+                >
+                  elevenlabs.io/privacy-policy
+                </a>
+                .
+              </li>
+              <li>
+                <strong>GitHub, evermeet.cx, gyan.dev</strong> — host the free helper programs
+                (FFmpeg, Gifsicle) that some features download once, as described in 2.3.
+              </li>
+              <li>
+                <strong>Vercel</strong> — serves update checks to installs of version 2.5.0 and
+                earlier, from this website&apos;s previous address. It is scheduled to be retired
+                after March 15, 2027. Their privacy policy is available at{' '}
                 <a
                   href="https://vercel.com/legal/privacy-policy"
                   target="_blank"
@@ -259,8 +325,6 @@ export default function PrivacyPage() {
           </section>
         </div>
       </div>
-      </main>
-      <Footer />
-    </>
+    </ReadingShell>
   );
 }

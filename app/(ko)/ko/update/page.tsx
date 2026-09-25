@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import UpdateBody from '@/components/UpdateBody';
+import { share } from '@/lib/meta';
+
+const DESCRIPTION = 'You Name It AE Plugin 의 업데이트 노트, 그리고 패널 안 업데이트가 안 될 때 손으로 설치하는 방법.';
 
 /* `/update` 의 **국문판**. 본문은 `components/UpdateBody.tsx` 를 영문판과 공유한다.
 
@@ -16,8 +19,9 @@ export const metadata: Metadata = {
   },
   /* 🔴 브랜드명을 붙이지 마라 — 루트 레이아웃의 `template: '%s — You Name It'` 이 이미 붙인다.
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
-  title: '업데이트',
-  description: 'You Name It 최신 버전 다운로드 및 설치 안내.',
+  title: 'AE Plugin 업데이트 노트',
+  description: DESCRIPTION,
+  ...share({ path: '/ko/update', title: 'You Name It AE Plugin — 업데이트 노트', description: DESCRIPTION, card: 'product', lang: 'ko' }),
 };
 
 export default function UpdateKoPage() {

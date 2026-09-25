@@ -26,6 +26,9 @@ const SHARED: Dict = {
     's.ft.terms': 'Terms',
     's.ft.privacy': 'Privacy',
     's.ft.refund': 'Refunds',
+    /* 법 3장이 영문 전용인 이유를 국문 독자에게만 알린다 — 영문 독자에게 "영문이다" 는 정보 0 이라 비워 둔다
+       (빈 값 = 푸터가 줄을 안 그린다). 오너 판정 2026-09-19 *"국문은 필요 없을듯"* 의 이유가 유저에게 보이게. */
+    's.ft.legal.lang': '',
     's.copyright': '© 2026 You Name It',
     /* 🔴 "세금 별도" 라고 단정하지 마라 — Polar 가 나라마다 다르게 붙인다(한국은 포함 표시, 미국·캐나다·인도는 별도). */
     's.legal.line': 'Sold by Polar as merchant of record. Tax is calculated at checkout.',
@@ -52,6 +55,7 @@ const SHARED: Dict = {
     's.ft.terms': '이용약관',
     's.ft.privacy': '개인정보',
     's.ft.refund': '환불',
+    's.ft.legal.lang': '약관은 영문만 제공합니다.',
     's.copyright': '© 2026 You Name It',
     's.legal.line': '판매는 Polar 가 대행합니다(merchant of record). 세금은 결제 화면에서 계산됩니다.',
   },

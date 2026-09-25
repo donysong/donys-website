@@ -62,9 +62,7 @@ function Nav4({ page, plateTotal, links, cta, logo }: {
 export const KO_PREFIX = '/ko';
 /* 🔴 국문 면의 내부 링크는 국문 면으로 간다(VOICE_AND_TERMS §5-4). 법 페이지(`/terms` `/privacy` `/refund`)는
    국문 판본이 없으므로 **접두사를 붙이지 마라** — 붙이면 404 다. `/update` 는 `/ko/update` 가 있다(2026-09-19).
-   ⚠️ 단 푸터의 `Release notes` 는 이 함수를 안 탄다 — deployCheck `[legal]` 이 **모든 면**에서 계약 경로
-   `href="/update"` 를 글자 그대로 찾기 때문이다(`/update` 첫 화면에 국문 전환이 있다). 게이트가 국문 면에서
-   `/ko/update` 를 인정하게 바뀌면 푸터도 `href('/update')` 로 돌려라.
+   푸터의 `Release notes` 도 이 함수를 탄다 — deployCheck `[legal]` 이 국문 면에선 `/ko/update` 를 요구한다(2026-09-26).
    앵커(`#…`)·외부 주소·`mailto:` 는 그대로 둔다 — 앵커를 여기 통과시키면 `/ko#who` 가 된다. */
 const LOCALIZED = ['/', '/ae', '/ae/docs', '/update'];
 export function useHref() {
@@ -148,7 +146,7 @@ function Footer4({ page }: { page: Page4Kind }) {
           <h4>{t('s.ft.made')}</h4>
           <ul>
             <li><a href={href('/ae')} data-cur>{t('s.product')}</a></li>
-            <li><a href="/update" data-cur>{t('s.ft.notes')}</a></li>
+            <li><a href={href('/update')} data-cur>{t('s.ft.notes')}</a></li>
           </ul>
         </div>
         <div>
@@ -167,6 +165,8 @@ function Footer4({ page }: { page: Page4Kind }) {
             <li><a href="/terms" data-cur>{t('s.ft.terms')}</a></li>
             <li><a href="/privacy" data-cur>{t('s.ft.privacy')}</a></li>
             <li><a href="/refund" data-cur>{t('s.ft.refund')}</a></li>
+            {/* 국문 면에서만 값이 있다(`s.ft.legal.lang`) — 법 3장이 영문 전용인 이유. */}
+            {t('s.ft.legal.lang') ? <li><small>{t('s.ft.legal.lang')}</small></li> : null}
             {page !== 'home' ? <li><a href={href('/')} data-cur>{t('s.toBrand')}</a></li> : null}
           </ul>
           {/* 돌은 열의 **끝**이다 — 라벨과 링크 사이에 있으면 라벨이 그림에 붙고 링크가 떨어진다. */}
