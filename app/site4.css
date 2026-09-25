@@ -271,7 +271,8 @@
 .p3 .catbar .n {font-size:13px;font-weight:700;color:var(--typeink)}
 .p3 .toolgrid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 20px}
 .p3 .toolcard h4 {margin:11px 0 5px;font-size:15px;font-weight:800;letter-spacing:-.01em}
-.p3 .toolcard p {margin:0;font-size:13px;line-height:1.5;color:#0c3b52}
+/* 설명 = `--text`(종이 파랑 위 4.88:1). 구 `#0c3b52` 는 3.89:1 로 이 페이지 본문이 페이지에서 제일 흐렸다(S-33). */
+.p3 .toolcard p {margin:0;font-size:13px;line-height:1.5;color:var(--text)}
 .p3 .toolcard .noimg {aspect-ratio:16/9;display:grid;place-items:center;background:var(--cream);position:relative;isolation:isolate;
   box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white);font-size:12px;color:#8b8b8b;font-weight:700}
 /* 패널 표 */
@@ -585,3 +586,52 @@
   /* 폰에서 언어 전환은 **누를 수 있어야** 한다(S-09) — 탭 높이 36px. */
   .p3 .langs a {display:inline-flex;align-items:center;min-height:36px;padding:0 12px}
 }
+
+/* ════ 2026-09-26 W2b — Docs: 설치 절 · 툴 앵커 · 대비 ══════════════════════════════
+   전부 `/ae/docs` 전용 선택자다(`.steps` `.howto` `.menu-list` `.paths` `.spec-h` `.toolcard .note`).
+   새 클래스를 만들기 전에 grep 했다 — 세 CSS 파일에 같은 이름 0. 글자색은 `--text`(4.88:1)·검정만 쓴다. */
+
+/* 표지 아이브로 — `--typeink` 는 종이 파랑 위 2.59:1(14px)이라 판독 실패였다. 이 클래스는 Docs 표지만 쓴다. */
+.p3[data-page="docs"] .eyebrow {color:var(--text)}
+
+/* 툴 카드 앵커(`#tool-<id>`) — sticky 네비(78) + 목차 칩(~50) 밑으로 카드 머리가 들어가지 않게.
+   ⚠️ 2026-09-26 실측: 네비·칩의 sticky 는 **지금 안 붙는다** — `.p3 {overflow-x:hidden}`(site3p.css)이 `.p3` 를
+   스크롤 컨테이너로 만든다(overflow-y 가 auto 로 계산됨). `overflow-x:clip` 이면 붙는다(측정함) — 전 페이지 사안이라 보고만.
+   딥링크로 들어오면 어느 카드인지 보이게 테를 한 번 두른다. 이름 = 그 앵커로 가는 링크(주소 복사용). */
+.p3 .toolcard {scroll-margin-top:150px}
+.p3 .toolcard:target {outline:2px solid var(--black);outline-offset:8px}
+.p3 .toolcard h4 a:hover {text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+/* 카드 한 줄 추가(`docs.note.<id>`) — 돌아가는 환경·첫 다운로드·한계. 설명과 구분되게 가는 선 위에. */
+.p3 .toolcard .note {margin-top:8px;padding-top:7px;border-top:1px solid rgba(0,0,0,.28);font-size:12px;font-weight:600;color:var(--text)}
+
+/* 설치 3단계 — 번호는 디스플레이 활자(W1 `/ae` 의 `결제한 뒤` 3단계와 같은 문법).
+   🔴 번호를 빨강으로 하지 마라 — 흰 녹아웃 없이 파란 종이에 곱한 빨강은 1.56:1 이다(사이트 CLAUDE.md). */
+.p3 .steps {margin:0;padding:0;list-style:none;counter-reset:step;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;
+  border-top:1.5px solid var(--black);padding-top:22px}
+.p3 .steps li {position:relative;padding-left:40px;counter-increment:step}
+.p3 .steps li::before {content:counter(step);position:absolute;left:0;top:-4px;font-family:var(--disp);font-variation-settings:var(--disp-fvs);
+  font-weight:800;font-size:30px;line-height:1;color:var(--black)}
+.p3 .steps h4 {margin:0 0 8px;font-size:17px;font-weight:800;letter-spacing:-.01em}
+.p3 .steps p {margin:0;font-size:15px;line-height:1.55;color:var(--text)}
+.p3 .menu-list {margin:22px 0 0;font-size:14px;line-height:1.9;color:var(--text)}
+.p3 :is(.steps, .howto, .menu-list, .paths, .specs) code {font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+  background:rgba(246,244,238,.55);padding:1px 5px;border-radius:3px;white-space:nowrap}
+.p3 .howto code, .p3 .paths code {white-space:normal;overflow-wrap:anywhere}
+/* 업데이트 · 제거 · 수동 설치 · 안 될 때 — 2열. 구매 전 독자는 건너뛰고, 산 사람은 여기서 찾는다. */
+.p3 .howto {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 48px;margin:44px 0 64px}
+.p3 .howto > div {border-top:1.5px solid rgba(0,0,0,.24);padding-top:14px}
+.p3 .howto h4 {margin:0 0 8px;font-size:16px;font-weight:800;letter-spacing:-.01em}
+.p3 .howto p, .p3 .howto li {margin:0;font-size:14px;line-height:1.6;color:var(--text)}
+.p3 .howto ul {margin:0 0 10px;padding:0;list-style:none;display:grid;gap:8px}
+.p3 .howto li {position:relative;padding-left:16px}
+.p3 .howto li::before {content:'—';position:absolute;left:0;font-weight:800}
+.p3 .paths {display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;margin:10px 0 0;font-size:13px}
+.p3 .paths dt {font-weight:800}
+.p3 .paths dd {margin:0}
+.p3 .spec-h {margin:0 0 18px;color:var(--text)}
+/* 문장 속 링크는 링크로 보여야 한다 — `.p3 a` 가 밑줄을 지운다(W1 의 `.qa .a` 등과 같은 처방). */
+.p3 :is(.steps p, .howto, .specs .v) a, .p3 .docs-cta .faq-link {text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+.p3 :is(.steps p, .howto, .specs .v) a:hover, .p3 .docs-cta .faq-link:hover {text-decoration-color:var(--red)}
+.p3 .docs-cta .faq-link {font-weight:700;white-space:nowrap}
+@media (max-width:1080px){ .p3 .steps {grid-template-columns:1fr;gap:20px} }
+@media (max-width:760px){ .p3 .howto {grid-template-columns:1fr;gap:24px} }
