@@ -34,7 +34,10 @@
 .p3 * {box-sizing:border-box}
 .p3 {scroll-behavior:smooth}
 .p3, .p3 {background:var(--paper)}
-.p3 {margin:0;color:var(--text);font-family:var(--font);font-variation-settings:'ROND' 100,'wdth' 100;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;cursor:none}
+.p3 {margin:0;color:var(--text);font-family:var(--font);font-variation-settings:'ROND' 100,'wdth' 100;-webkit-font-smoothing:antialiased;overflow-x:clip;min-height:100vh;cursor:none}
+/* 🔴 `overflow-x` 는 `clip` 이다, `hidden` 이 아니라 (2026-09-26). `hidden` 은 `overflow-y` 를 `auto` 로 끌어올려
+   `.p3` 를 스크롤 컨테이너로 만든다 — 그러면 안쪽 `position:sticky`(네비·Docs 목차 칩)가 **스크롤하지 않는 `.p3`**
+   에 붙어 영영 안 붙는다(실측 navTop −3008 @ scrollY 3008). `clip` 은 가로만 자르고 컨테이너를 만들지 않는다. */
 .p3[data-lang="ko"] {font-variation-settings:normal;word-break:keep-all}
 @media (pointer:coarse){body{cursor:auto}}
 .p3 a {color:inherit;text-decoration:none}

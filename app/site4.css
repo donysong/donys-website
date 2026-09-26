@@ -595,10 +595,18 @@
 .p3[data-page="docs"] .eyebrow {color:var(--text)}
 
 /* 툴 카드 앵커(`#tool-<id>`) — sticky 네비(78) + 목차 칩(~50) 밑으로 카드 머리가 들어가지 않게.
-   ⚠️ 2026-09-26 실측: 네비·칩의 sticky 는 **지금 안 붙는다** — `.p3 {overflow-x:hidden}`(site3p.css)이 `.p3` 를
-   스크롤 컨테이너로 만든다(overflow-y 가 auto 로 계산됨). `overflow-x:clip` 이면 붙는다(측정함) — 전 페이지 사안이라 보고만.
    딥링크로 들어오면 어느 카드인지 보이게 테를 한 번 두른다. 이름 = 그 앵커로 가는 링크(주소 복사용). */
 .p3 .toolcard {scroll-margin-top:150px}
+/* 🔴 네비·목차 칩 고정은 **데스크톱만** (2026-09-26 오너 "데스크톱만 고정"). 경계 = 960 — 네비가 두 칸으로
+   접히는 폭(위 `.p3 nav` 규칙)과 같은 선이다. 폰에서 붙이면 네비 86 + 칩 두 줄 = **182px** 가 화면을 먹는다(W2b 실측).
+   붙는 조건 자체는 site3p.css 의 `.p3 {overflow-x:clip}` 이다 — `hidden` 으로 되돌리면 데스크톱도 다시 안 붙는다.
+   `section[id]` 여백 = 붙은 네비(≈78) 밑으로 절 머리가 들어가지 않게. Docs 는 칩 줄(≈50)이 더 있다. */
+.p3 section[id] {scroll-margin-top:96px}
+.p3[data-page="docs"] section[id] {scroll-margin-top:146px}
+@media (max-width:960px){
+  .p3 nav, .p3 .toc {position:relative}
+  .p3 section[id], .p3[data-page="docs"] section[id], .p3 .toolcard {scroll-margin-top:16px}
+}
 .p3 .toolcard:target {outline:2px solid var(--black);outline-offset:8px}
 .p3 .toolcard h4 a:hover {text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
 /* 카드 한 줄 추가(`docs.note.<id>`) — 돌아가는 환경·첫 다운로드·한계. 설명과 구분되게 가는 선 위에. */
