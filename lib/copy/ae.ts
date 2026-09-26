@@ -418,7 +418,7 @@ const AE: Dict = {
     'ae.after.s': [
       '라이선스 키와 설치 파일(.zxp)이 결제 확인 메일로 옵니다 — 고객 포털에도 남아 있습니다.',
       'After Effects 를 닫고 무료 ZXP Installer 에 파일을 끌어다 놓습니다 — 설치 안내는 Docs 에 있습니다.',
-      'Window ▸ Extensions ▸ You Name It - Support 를 열어 키를 넣으면 나머지 여섯 패널이 열립니다.',
+      '창(Window) ▸ 확장명(Extensions) ▸ You Name It - Support 를 열어 키를 넣으면 나머지 여섯 패널이 열립니다.',
     ],
 
     /* ── 06 FAQ — 🔴 답은 판정어 한 마디로 시작한다 ──────────── */
