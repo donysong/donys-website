@@ -40,6 +40,10 @@ export default function TermsPage() {
 
           <section>
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">2. License</h2>
+
+            <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
+              2.1 Using the Product
+            </h3>
             <p>
               Upon purchase, we grant you a non-exclusive, non-transferable license to install
               and use the Product on up to <strong>2 devices</strong> per license key. This
@@ -51,6 +55,29 @@ export default function TermsPage() {
               <li>Reverse-engineer, decompile, or modify the Product&apos;s source code</li>
               <li>Share your license key with others</li>
             </ul>
+
+            {/* 2026-09-26 오너 판정("명시 추가") — 만든 것은 유저 것, 넘기면 안 되는 것은 제품 자체.
+                제3자 소재 한 줄은 사실 교정이다: Library 의 무료 소스(Pexels · Giphy · Freesound —
+                플러그인 `utils/freeSourceApi.ts`)는 각자 라이선스를 달고 오고, Freesound 는 저작자 표시를
+                요구하는 CC-BY 가 섞여 있다. 이 줄 없이 "표시 불필요" 라고만 쓰면 일부 작업물에 거짓이 된다. */}
+            <h3 className="mb-2 mt-6 text-[15px] font-semibold text-[var(--text-primary)]">
+              2.2 What You Make
+            </h3>
+            <p>
+              Everything you make with the Product is yours, including the layers, keyframes,
+              expressions, renders and project files. You may use that work in any personal, client
+              or commercial project, including project files you deliver to clients, and you do
+              not need to credit us or the Product. Third-party media you bring in through the
+              Product, such as images, video, GIFs or sounds from Pexels, Giphy or Freesound,
+              stays under its own license.
+            </p>
+            <p className="mt-2">
+              What the license does not cover is passing on the Product itself. You may not
+              redistribute, resell or share the Product, offer its presets or scripts as a product
+              of your own (for example, as a preset pack or script bundle), or share your license
+              key. A client who receives your project file does not receive a license to the
+              Product.
+            </p>
           </section>
 
           <section>
