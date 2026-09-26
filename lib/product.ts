@@ -68,8 +68,12 @@ export const DIST_BASE = 'https://dl.younameit.works';
 /* 🔴 파일명에 버전을 박는다. 같은 이름(donys.zxp)을 릴리스마다 덮어쓰면 R2 커스텀 도메인이
    Cloudflare 캐시를 타므로 엣지가 구버전 5MB 를 계속 먹인다. 릴리스마다 캐시 퍼지를
    기억해야 하는데 그건 언젠가 반드시 잊는다. 버전이 파일명에 있으면 새 버전 = 새 URL 이라
-   캐시 충돌이 존재 자체를 안 하고, 구버전 URL 도 살아 있어 롤백이 공짜다. */
-export const DOWNLOAD_URL = `${DIST_BASE}/donys-${VERSION}.zxp`;
+   캐시 충돌이 존재 자체를 안 하고, 구버전 URL 도 살아 있어 롤백이 공짜다.
+   🔴 접두사 = `younameit-` (2026-09-26 오너 — 내려받은 파일에 구 브랜드가 찍히지 않게). v2.7.1 부터다.
+   구 `donys-*.zxp` 객체는 R2 에 **남긴다**: 롤백 자산이고, R2 `version.json` 의 `download` 와 레거시
+   vercel 매니페스트(v2.5.0 이하 설치본이 본다)가 아직 그 이름을 가리킨다. 지우는 건 오너 확인 사안이다.
+   릴리스 때 R2 에 이 이름으로 올라갔는지 200 부터 봐라 — 없으면 `/update` 버튼이 404 다. */
+export const DOWNLOAD_URL = `${DIST_BASE}/younameit-${VERSION}.zxp`;
 
 /* 사이트 정본 주소. 🔴 컴포넌트·JSON-LD 에 다시 박지 마라 — 가격이 다섯 곳에 흩어졌던 것과 같은 계열이다. */
 export const SITE = 'https://younameit.works';

@@ -123,7 +123,7 @@ fi
 여기서는 **웹 배포 전에 그게 끝났는지만 확인**한다:
 
 ```bash
-curl -sI https://dl.younameit.works/donys-$(node -p "require('./lib/product.ts')" 2>/dev/null || echo "<버전>").zxp | head -1
+curl -sI https://dl.younameit.works/younameit-$(node -p "require('./lib/product.ts')" 2>/dev/null || echo "<버전>").zxp | head -1
 ```
 간단히는 `lib/product.ts` 의 `VERSION` 을 읽어 그 파일이 R2 에 **200** 인지 본다.
 🔴 **없는데 웹을 배포하면 `/update` 의 다운로드 버튼이 404 를 가리킨다** — 결제는 되는데 물건이 안 나간다.
