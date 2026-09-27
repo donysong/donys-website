@@ -91,9 +91,8 @@ const AE: Dict = {
     'ae.what.tag': 'Seven panels.<br>Only what gets used every day.',
 
     'ae.f1.alt': 'Chat panel — model picker, trust mode, lint',
-    /* 🔴 이 컷은 신뢰 모드 ON 이다(촬영 상태). 기본값은 OFF(`chatStore.ts` loadTrust — v2.7.1 태그 동일).
-       재촬영 전까지 캡션이 그 차이를 말한다 — 옆 문장("바꾸는 동작은 먼저 묻는다")과 증거가 어긋나지 않게. */
-    'ae.f1.cap': 'The actual Chat panel — trust mode is switched on in this shot; it is off by default, and every change asks first.',
+    /* 컷 = v2.7.1 태그 · 신뢰 모드 OFF(기본값) · 새 탭(in 0 out 0) — 2026-09-28 재촬영(`tools/promo/panelSpot.mjs`). */
+    'ae.f1.cap': 'The actual Chat panel, as it ships — trust mode is off by default, so every change asks first.',
     'ae.f1.h': 'Say it, <span class="u">it lands on layers</span>',
     'ae.f1.p1': 'Describe it in plain language and it gets built inside AE. It is not making you a video — it <b>writes layers and keyframes into your comp.</b>',
     'ae.f1.p2': 'It runs on <b>Claude Code</b> or <b>Codex</b>, installed on your computer and signed in with <b>your own plan</b> — the panel walks you through both. We do not sell tokens.',
@@ -123,9 +122,9 @@ const AE: Dict = {
     'ae.docs.txt': 'The other <b>{rest}</b> are all in the Docs with their plates — what each tool does and what it runs on. <b>Read it before you buy.</b>',
     'ae.docs.btn': 'See all {scripts} tools',
 
-    /* 🔴 판은 **Text Preset 탭**이다(`panel-library.{en,ko}.webp` 육안). Motion 탭 컷이 생기면 캡션을 되돌려라. */
-    'ae.f3.alt': 'Library panel — Text Preset tab',
-    'ae.f3.cap': 'The real Library panel — <b>{textPresets} text presets</b>, split by characters, words and lines.',
+    /* 컷 = **Motion 탭**(v2.7.1 태그 · 위치 4 · 회전 4 · 스케일 4 · 믹스 14 = {motion}) — 2026-09-28 재촬영. 이 절(등장·퇴장)의 판이다. */
+    'ae.f3.alt': 'Library panel — Motion tab',
+    'ae.f3.cap': 'The real Library panel — <b>{motion} motion presets</b>, grouped by position, rotation, scale and mix.',
     'ae.f3.h': 'In and out, <span class="u">separately</span>',
     'ae.f3.p1': 'One property takes an entrance and an exit as two separate moves. You drag both start points as <b>timeline markers</b> — no hunting the keyframes down again.',
     'ae.f3.p2': 'After it is applied you keep tuning it on the Effect Controls sliders. Apply it again and it <b>will not overwrite the values you set.</b>',
@@ -333,7 +332,7 @@ const AE: Dict = {
     'ae.what.tag': '패널 7개.<br>매일 쓰는 것만 남겼습니다.',
 
     'ae.f1.alt': 'Chat 패널 — 모델 선택 · 신뢰 모드 · 검사',
-    'ae.f1.cap': '실제 Chat 패널입니다 — 이 화면은 신뢰 모드를 켠 상태입니다. 기본은 꺼져 있고, 그때는 바꾸는 동작마다 먼저 묻습니다.',
+    'ae.f1.cap': '출고본 그대로의 Chat 패널입니다 — 신뢰 모드는 기본으로 꺼져 있어, 바꾸는 동작마다 먼저 묻습니다.',
     'ae.f1.h': '말하면 <span class="u">레이어에 앉는다</span>',
     'ae.f1.p1': '자연어로 설명하면 AE 안에서 그게 만들어집니다. 영상을 생성하는 게 아니라 <b>당신 컴프에 레이어와 키프레임을 씁니다.</b>',
     'ae.f1.p2': '<b>Claude Code</b> 나 <b>Codex</b> 로 돕니다 — 당신 컴퓨터에 설치하고 <b>당신의 구독</b>으로 로그인한 것으로요. 설치와 로그인 모두 패널이 안내합니다. 우리는 토큰을 팔지 않습니다.',
@@ -362,8 +361,8 @@ const AE: Dict = {
     'ae.docs.txt': '나머지 <b>{rest}개</b>는 Docs 에 판과 함께 전부 있습니다 — 무엇을 하는 툴인지, 어떤 레이어에 되는지. <b>사기 전에 읽으셔도 됩니다.</b>',
     'ae.docs.btn': '툴 {scripts}종 전부 보기',
 
-    'ae.f3.alt': 'Library 패널 — Text Preset 탭',
-    'ae.f3.cap': '실제 Library 패널 — <b>텍스트 프리셋 {textPresets}가지</b>, 글자·단어·줄 단위로 나뉩니다.',
+    'ae.f3.alt': 'Library 패널 — Motion 탭',
+    'ae.f3.cap': '실제 Library 패널 — <b>모션 프리셋 {motion}가지</b>, 위치·회전·스케일·믹스로 나뉩니다.',
     'ae.f3.h': '등장과 퇴장을 <span class="u">따로</span>',
     'ae.f3.p1': '한 속성에 들어오는 동작과 나가는 동작을 각각 겁니다. 두 시작점은 <b>타임라인 마커</b>로 끕니다 — 키프레임을 다시 찾아 옮길 일이 없습니다.',
     'ae.f3.p2': '적용한 뒤에도 Effect Controls 슬라이더로 계속 만집니다. 다시 적용해도 <b>당신이 맞춘 값을 안 덮습니다.</b>',
