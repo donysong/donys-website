@@ -158,14 +158,14 @@ const AE: Dict = {
       '<b>Several</b> saved layouts · pass them around as files',
     ],
 
-    /* ── 04 새로 들어온 것 ───────────────────────────────────── */
+    /* ── 05 새로 들어온 것 (가격 아래 — 오너 2026-09-29) ───────────────────────────────────── */
     'ae.news.h': 'What is new',
     'ae.news.tag': 'Minor updates are free.',
     /* 🔴 항목·버전·날짜는 `lib/releases.ts` 에서 읽는다(News.tsx). 손으로 쓴 카드 3장은 전부 `v2.7.1` 딱지였는데
        그중 둘이 v2.6.0 기능이었다 — 손으로 쓰면 버전이 거짓말을 한다. */
     'ae.news.all': 'All release notes →',
 
-    /* ── 05 가격 (🔴 버튼 없음 — 레일이 CTA 를 갖는다) ────────── */
+    /* ── 04 가격 (🔴 버튼 없음 — 레일이 CTA 를 갖는다) ────────── */
     'ae.price.h': 'Buy it once. It stays yours.',
     /* §16-1·15·16 (2026-09-28) — 구 "왜 구독이 아닌가" 카드는 걷었다. 🔴 `lifetime`·평생 금지(약관 §4 — 메이저는 유료일 수 있다).
        구 머리 태그 `Not a subscription.` 도 뺐다 — 바로 밑 `vow` 의 `No subscription` 과 같은 말이 두 번이었다. */
@@ -174,15 +174,9 @@ const AE: Dict = {
     'ae.price.keep': 'Skip every update and the version you bought keeps working.',
     /* 크게 읽히는 약속 셋 — 오너 판정 *"한 번 결제 · 구독 없음 · 마이너 무료 를 더 크게"*. 낱말은 이 페이지의 기존 것(`meta.once` · FAQ q8 · q10). */
     'ae.price.vow': ['Pay once', 'No subscription', 'Minor updates free'],
-    /* `Minor updates free` 는 위 `vow` 로 올라갔다 — 같은 줄을 두 번 쓰지 않는다. */
+    /* `Minor updates free` 는 위 `vow` 로 올라갔다 — 같은 줄을 두 번 쓰지 않는다. 판 밑 캡션 한 줄로 조판된다(체크 없음). */
     'ae.price.incl': ['All seven panels', 'Two computers', '14-day refund'],
-    /* 결제 뒤 경로 — 🔴 텍스트만. `#price` 안이라 링크도 버튼도 못 단다(deployCheck [price]). */
-    'ae.after.h': 'After you pay',
-    'ae.after.s': [
-      'Your license key and the installer (.zxp) arrive in your order email — and stay in the customer portal.',
-      'Quit After Effects and drop the file on the free ZXP Installer — the install guide is in the Docs.',
-      'Open Window ▸ Extensions ▸ You Name It - Support and paste the key. The other six panels open.',
-    ],
+    /* 구 `ae.after.*`(결제한 뒤 3단계)는 2026-09-29 오너 1-8 로 가격 판에서 뺐다 — Docs `docs.step1~3` 이 같은 순서를 갖는다. */
 
     /* ── 06 FAQ — 🔴 답은 판정어 한 마디로 시작한다 ──────────── */
     'ae.faq.h': 'Common questions',
@@ -395,23 +389,17 @@ const AE: Dict = {
       '저장한 배치 <b>여러 개</b> · 파일로 주고받기',
     ],
 
-    /* ── 04 새로 들어온 것 ───────────────────────────────────── */
+    /* ── 05 새로 들어온 것 (가격 아래 — 오너 2026-09-29) ───────────────────────────────────── */
     'ae.news.h': '새로 들어온 것',
     'ae.news.tag': '마이너 업데이트는 무료입니다.',
     'ae.news.all': '업데이트 노트 전부 →',
 
-    /* ── 05 가격 (🔴 버튼 없음 — 레일이 CTA 를 갖는다) ────────── */
+    /* ── 04 가격 (🔴 버튼 없음 — 레일이 CTA 를 갖는다) ────────── */
     'ae.price.h': '한 번 사면 계속 당신 것',
     'ae.price.amount': '{price}',
     'ae.price.keep': '업데이트를 안 받아도 갖고 계신 버전은 계속 돕니다.',
     'ae.price.vow': ['일회 구매', '구독 없음', '마이너 업데이트 무료'],
     'ae.price.incl': ['패널 7개 전부', '컴퓨터 2대', '14일 환불'],
-    'ae.after.h': '결제한 뒤',
-    'ae.after.s': [
-      '라이선스 키와 설치 파일(.zxp)이 결제 확인 메일로 옵니다 — 고객 포털에도 남아 있습니다.',
-      'After Effects 를 닫고 무료 ZXP Installer 에 파일을 끌어다 놓습니다 — 설치 안내는 Docs 에 있습니다.',
-      '창(Window) ▸ 확장명(Extensions) ▸ You Name It - Support 를 열어 키를 넣으면 나머지 여섯 패널이 열립니다.',
-    ],
 
     /* ── 06 FAQ — 🔴 답은 판정어 한 마디로 시작한다 ──────────── */
     'ae.faq.h': '자주 묻는 것',

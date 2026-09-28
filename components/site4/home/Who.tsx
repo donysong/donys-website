@@ -31,7 +31,9 @@ export default function Who() {
   const r = RELEASES[0];
   return (
     <section id="who" data-plate="03" data-name="home.nav.who">
-      <div className="sec" style={{ paddingTop: 0 }}>
+      {/* 윗여백 = 기본(96). 구 `paddingTop:0` 은 02 와 같은 종이가 이어질 때 여백이 겹쳐서였다 — 02 가 노트 판이 된 뒤로는
+          이 판이 새 종이의 첫 줄이라 제 여백이 있어야 한다(없으면 판 머리 괘선이 종이 경계에 붙는다, 2026-09-29 실측). */}
+      <div className="sec">
         <div className="sec-head">
           <div className="no"><img src="/riso/stones/stone-2.webp" alt="" /> <span className="lab">03</span></div>
           <h2 className="disp"><Plate3 k="home.nav.who" boil={false} /></h2>

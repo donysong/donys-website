@@ -18,7 +18,7 @@ const ROWS = ['motion', 'text', 'grad', 'fx', 'curve', 'expr'] as const;
 export default function Catalog() {
   const { t } = useT();
   return (
-    <section id="catalog" className="sec" data-plate="03" data-name="docs.nav.catalog">
+    <section id="catalog" className="sec onnote" data-plate="03" data-name="docs.nav.catalog">
       <SecHead no="03" stone={2} k="docs.catalog.h" tag="docs.catalog.tag" />
       <div className="cat-nums sweep">
         {ROWS.map((r) => (

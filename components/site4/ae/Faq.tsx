@@ -1,7 +1,8 @@
 'use client';
 /* 06 FAQ — 🔴 답이 **판정어 한 마디**로 시작한다(펼치기 전에 읽힌다). 12문 3그룹.
    부정문을 피하지 않는다 — *"브리프 한 줄 넣으면 영상이 나오나요? — 아닙니다"* 가 이 제품의 정의다.
-   `{portal}` 은 여기서 채운다(`lib/copy.ts` 자리표시자 표에 없다) — 이미 산 사람의 유일한 자기 서비스 창구다. */
+   `{portal}` 은 여기서 채운다(`lib/copy.ts` 자리표시자 표에 없다) — 이미 산 사람의 유일한 자기 서비스 창구다.
+   판 = 노트 — 사양과 **한 장**이다(AePage 가 둘을 `.onnote` 하나로 감싼다, 2026-09-29). 가장 긴 읽기 면이 밝은 종이 위에 온다. */
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 import { PORTAL_URL } from '@/lib/product';

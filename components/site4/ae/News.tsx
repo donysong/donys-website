@@ -1,5 +1,6 @@
 'use client';
-/* 04 새로 들어온 것 — 🔴 **`lib/releases.ts` 에서 읽는다. 손으로 쓰지 마라.**
+/* 05 새로 들어온 것 — 🔴 **`lib/releases.ts` 에서 읽는다. 손으로 쓰지 마라.**
+   자리 = 가격(04) **아래**(오너 판정 2026-09-29 — 구 04 ↔ 05 교체).
    구판은 손으로 쓴 카드 3장(Depth Pass · Pattern Lab · Riso Print)에 전부 `v2.7.1` 딱지를 붙였는데,
    그중 Depth Pass·Riso Print 는 v2.6.0 기능이었다(버전이 거짓) — 그리고 정작 2.7.1 의 새것
    (이펙터 이펙트 · Chat 의 ChatGPT · 패널 안 로그인)은 없었다. 손으로 쓰면 이렇게 된다.
@@ -26,10 +27,10 @@ export default function News() {
   const { t, lang } = useT();
   const href = useHref();
   return (
-    <section id="news" data-plate="04" data-name="ae.plate.news">
+    <section id="news" data-plate="05" data-name="ae.plate.news">
       <div className="sec tight">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-6.webp" alt="" /> <span className="lab">04</span></div>
+          <div className="no"><img src="/riso/stones/stone-6.webp" alt="" /> <span className="lab">05</span></div>
           <h2 className="disp"><Plate3 k="ae.news.h" boil={false} /></h2>
           <Html k="ae.news.tag" as="p" className="tag" />
         </div>

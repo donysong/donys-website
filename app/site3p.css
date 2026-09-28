@@ -20,7 +20,11 @@
   --rx:-3px; --ry:-4px;
   /* 잉크 판의 흰 테 어긋남 — 밑판 그림자(--rx/--ry)와 따로 둔다. 오너 2026-09-11: "너무 어긋나 있음, subtle 하게" → 절반 */
   --pl-rx:-1.5px; --pl-ry:-2px;
-  /* 빨간 판이 앉은 종이색 — 잉크가 흰 판 밖에서 곱해질 바닥(아래 `.pl` 블록). 다른 바닥의 판(`.onblack` = 검정)은 거기서 다시 선언한다. */
+  /* UI 이미지(패널 화면 · 툴 시트 · 이펙트 썸네일 · 설치 캡처)의 가장자리 = 잉크 괘선 한 줄(사이트 괘선과 같은 1.5px 검정).
+     🔴 흰 밑판(`--white` 오프셋)을 다시 깔지 마라 — 오너 2026-09-29 *"UI 이미지들에는 화이트 배경 빼기"*(모서리만 떠서 ㄱ자로 읽혔다).
+     테가 필요한 이유: 툴 시트 대지(#1494eb)가 종이 파랑과 거의 같아서 테가 없으면 판 경계가 사라진다. 어두운 패널 화면에선 안 보인다. */
+  --shot-edge:0 0 0 1.5px var(--black);
+  /* 빨간 판이 앉은 종이색 — 잉크가 흰 판 밖에서 곱해질 바닥(아래 `.pl` 블록). 다른 바닥의 판(`.onnote` = 노트, site4.css)은 거기서 다시 선언한다. */
   --pl-paper:var(--paper);
   --ease-press:cubic-bezier(.2,.9,.2,1); --ease-slip:cubic-bezier(.3,1.4,.5,1);
   --t-nudge:130ms; --t-press:260ms; --t-register:460ms; --t-develop:620ms;
@@ -97,8 +101,9 @@
       🔴 그런데 판은 전부 쌓임 맥락 안에 산다(`.sec` · `.hero` · `.phero` · `.lineup` 이 z-index) — 잉크의 multiply 는 진짜 종이까지
       못 닿는다(투명 위에 곱하면 그냥 빨강이다). 그래서 `.rim` 을 **그 판이 앉은 종이색**(`--pl-paper`)으로 바꿔 잉크 바로 밑
       (같은 자리 · 같은 필터 · 같은 끓음)에 깐다 — 곱할 바닥을 판 안에 넣었다. 잉크 알갱이 구멍도 흰 판 밖에선 종이색으로 뚫린다.
-      검정 판(`.onblack`)은 `--pl-paper` = 검정 — 빨강 × 검정 = 검정이라 테는 안 보이고 흰 판 쪽만 산다(검정 종이 위 리소가 그렇다).
+      (구 검정 판 `.onblack` 은 2026-09-29 에 걷었다 — 노트 판 `.onnote` 가 그 자리를 이었다.)
       🔴 다른 바닥(크림 `.sheet` 등)에 빨간 판을 올리면 그 바닥에서 `--pl-paper` 를 다시 선언해라 — 안 하면 글자 모양의 파란 테가 깔린다.
+         예외 = 노트 판(`.onnote`, site4.css) — 흰 종이 위 파란 테(= 짙은 자주 그림자)를 **일부러** 남긴다(2026-09-29 3값 대조).
    ③ 잉크 안의 결 — 마스크(알갱이 ∩ 롤러, 위 `.pl .ink`)는 구멍만 낸다. 롤러 얼룩(곱하기) + 알갱이(soft-light)를 깐 빨강을
       글자 모양으로 잘라 농담을 준다. 결은 px 고정이다(종이 결처럼 활자 크기를 안 따라간다).
       🔴 `background` 단축형은 `background-clip` 을 되돌린다 — clip 은 반드시 그 **뒤에** 둔다(앞에 두면 판 상자 전체가 빨강, 실측). */
@@ -185,11 +190,11 @@
 /* 제품 판 — 툴박스 호버 프리뷰 시트(4×4 · 16f, donys/src/assets/previews/sheets/) 를 그대로 쓴다. 새로 그린 것 0.
    재생 = 패널 정본(PreviewPopover.tsx): 24fps · 16f = 667ms + 끝 프레임 홀드 350ms = 1016.667ms 주기.
    🔴 쉬는 상태 = 마지막 프레임(툴이 만든 결과). 프레임 0 이 빈 칸인 툴이 있다(bentoGrid).
-   🔴 밑판은 흰색. 시트 파랑(#1494eb)이 종이 파랑과 거의 같아서 검정 밑판이면 판 경계가 사라진다. 키잉도 하지 마라(결이 날아간다).
+   🔴 가장자리 = 잉크 괘선(`--shot-edge`). 시트 파랑(#1494eb)이 종이 파랑과 거의 같아서 테가 없으면 판 경계가 사라진다.
+      구 흰 밑판은 2026-09-29 오너 판정으로 걷었다. 키잉도 하지 마라(결이 날아간다).
    ⚠️ 패널과 다른 한 곳: 손이 나가면 결과 프레임으로 돌아간다. 패널은 그 자리에 멈추지만 팝오버째 사라지고, 여기선 판이 남는다. */
 .p3 .spot-fig {position:relative;margin:0;outline:none}
-.p3 .spot {display:block;aspect-ratio:16/9;background:var(--paper) no-repeat 100% 100%/400% 400%;box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white);transition:box-shadow var(--t-press) var(--ease-press)}
-.p3 .spot-fig:is(:hover, .p3 :focus-visible) .spot {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--white)}
+.p3 .spot {display:block;aspect-ratio:16/9;background:var(--paper) no-repeat 100% 100%/400% 400%;box-shadow:var(--shot-edge)}
 .p3 .spot-fig:focus-visible .spot {outline:2px solid var(--black);outline-offset:4px}
 @media (prefers-reduced-motion:no-preference){
   .p3 .spot-fig:is(:hover, .p3 :focus-within) .spot {animation:p3-spot-run 1016.667ms steps(1,end) infinite}
@@ -446,20 +451,7 @@
 .p3 .quotes {display:grid;gap:14px;margin-top:26px}
 
 /* ── 05 Price + FAQ ──────────────────────────────────────── */
-.p3 .pricing {display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:start}
-.p3 .price-sheet {padding:36px 36px 30px;--tx:78%;--tr:4deg}
-.p3 .price-sheet .stampzone {position:absolute;right:22px;top:26px;pointer-events:none}
-.p3 .price-sheet .stampzone .stamp {opacity:0}
-.p3 .price-sheet:hover .stampzone .stamp {opacity:1;animation:p3-stamp-press .38s cubic-bezier(.2,.9,.2,1) both}
-.p3 .price-sheet .price {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:var(--disp-w);font-size:clamp(4rem,7vw,6.4rem);line-height:.9;letter-spacing:-.04em;color:var(--red);margin:8px 0 6px}
-.p3 .price-sheet .price small {font-size:.32em;letter-spacing:-.01em;color:var(--black);font-weight:700;margin-left:8px}
-.p3 .price-sheet h3 {margin:0;font-size:22px;letter-spacing:-.02em;font-weight:800}
-.p3 .price-sheet ul {list-style:none;margin:22px 0 26px;padding:0;border-top:1.5px solid var(--black)}
-.p3 .price-sheet li {padding:12px 0;border-bottom:1.5px solid rgba(0,0,0,.14);display:flex;justify-content:space-between;gap:16px;font-size:15px}
-.p3 .price-sheet li span:last-child {font-size:12.5px;color:#444;font-weight:700;text-align:right}
-.p3 .price-sheet .buy {width:100%;text-align:center;box-shadow:var(--rx) var(--ry) 0 var(--black)}
-.p3 .price-sheet .buy:hover {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--black)}
-.p3 .price-sheet .fine {margin-top:14px;color:#444;text-align:center;font-size:12.5px;font-weight:600}
+/* 가격 판(`.pricing`)은 site4.css 끝 `2026-09-29 L4` 한 곳이 쥔다 — 구 v3.3 가격 카드(`.price-sheet`)는 소비자 0 이라 지웠다. */
 .p3 .aside h3 {margin:0 0 14px;font-size:clamp(2rem,3.6vw,3.2rem);line-height:.96;letter-spacing:-.03em}
 .p3[data-lang="ko"] .aside h3 {font-size:clamp(1.7rem,3vw,2.7rem);line-height:1.15;letter-spacing:0}
 .p3 .aside p {font-size:17px;line-height:1.55;max-width:46ch;margin:0 0 18px}
@@ -511,7 +503,7 @@
      사라졌다(2026-09-26 S-09). 언어 토글이 `<button>` 이던 시절엔 안 보이던 결함이다. */
   .p3 nav {grid-template-columns:auto 1fr} nav .label{display:none} nav .links{gap:12px} nav .links > a:not(.btn-line){display:none}
   .p3 .hero {grid-template-columns:1fr;min-height:0;padding-top:24px}
-  .p3 .why-top, .p3 .loop, .p3 .labwrap, .p3 .stance, .p3 .pricing, .p3 footer .grid {grid-template-columns:1fr;gap:40px}
+  .p3 .why-top, .p3 .loop, .p3 .labwrap, .p3 .stance, .p3 footer .grid {grid-template-columns:1fr;gap:40px}
   .p3 .roles {grid-template-columns:1fr}
   .p3 .panels {grid-template-columns:1fr 1fr}
   /* 태그 왼쪽 정렬은 `.p3` 를 달아야 이긴다 — 구 `.sec-head .tag` 는 기본 규칙(`.p3 .sec-head .tag` 우측)에 명시도로 져서 폰에서도 오른쪽에 붙어 있었다. */

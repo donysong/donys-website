@@ -10,7 +10,8 @@
    ⑵ 상세 표 — 행은 `lib/docsData.ts` 의 `DOCS_PANELS`(CEP manifest 에서 읽은 것)가 정하고 설명만 사전에서 온다.
       행마다 앵커 `#panel-<key>` — 개관 판의 탭이 여기로 온다.
    🔴 패널 이름은 로케일 무관 영문이다 — AE 창 메뉴 라벨과 같은 문자열이라 한국어로 되돌리지 마라(오너 2026-09-01).
-   표 밑 주석(`docs.panels.note`)은 국문 면에만 있다 — 영문 독자에게 "이름이 영문" 은 정보가 아니다. */
+   표 밑 주석(`docs.panels.note`)은 국문 면에만 있다 — 영문 독자에게 "이름이 영문" 은 정보가 아니다.
+   판 = 노트(`.onnote`, 2026-09-29) — Docs 는 절마다 노트(01·03·05) ↔ 파랑(02·04)이 번갈아 온다(DocsPage 머리 주석). */
 import { useT } from '@/components/site3p/lang';
 import { DOCS_PANELS } from '@/lib/docsData';
 import SecHead from './SecHead';
@@ -42,7 +43,7 @@ export default function Panels() {
   const { t } = useT();
   const note = t('docs.panels.note');
   return (
-    <section id="panels" className="sec" data-plate="01" data-name="docs.nav.panels">
+    <section id="panels" className="sec onnote" data-plate="01" data-name="docs.nav.panels">
       <SecHead no="01" stone={4} k="docs.panels.h" tag="docs.panels.tag" />
 
       <figure className="dock-fig sweep">

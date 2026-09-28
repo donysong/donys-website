@@ -54,7 +54,7 @@ export default function Install() {
     .split('{others}').join(String(DOCS_PANELS.length - 1));
   const html = (k: string) => ({ __html: fill(t(k)) });
   return (
-    <section id="install" className="sec" data-plate="05" data-name="docs.nav.install">
+    <section id="install" className="sec onnote" data-plate="05" data-name="docs.nav.install">
       <SecHead no="05" stone={5} k="docs.install.h" tag="docs.install.tag" />
 
       <ol className="steps">

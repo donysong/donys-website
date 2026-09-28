@@ -16,14 +16,17 @@
 
    ⚠️ 사전 키(`home.brand.{col,you,name,it}.*` · `p1~p3` · `order` · `pull.src` · `tag`)는 **아직 안 지웠다** —
    오너가 되돌릴 수 있게 둔 것이다. 이 판정이 굳으면 지워라(안 지우면 방문자마다 내려가는 죽은 문자열이다,
-   구 `v33.ts` 171키가 그랬다). */
+   구 `v33.ts` 171키가 그랬다).
+
+   판 = 노트(`.onnote`, 2026-09-29 오너 *"파란 배경과 노트 재질 배경이 적당히 왔다갔다"*) — 루트의 유일한 노트 판.
+   브랜드의 말(*"생각은 당신이 한다"*)과 빈칸에 빨간 펜으로 긋는 `You [ ] It` 이 모눈 노트 위에 온다. 앞(01 라인업)·뒤(03)는 파랑. */
 import { Plate3 } from '@/components/site3p/Plate3';
 import { Html } from '@/components/site3p/lang';
 import YouIt from './YouIt';
 
 export default function Brand() {
   return (
-    <section id="brand" data-plate="02" data-name="home.nav.brand">
+    <section id="brand" className="onnote" data-plate="02" data-name="home.nav.brand">
       <div className="sec">
         <div className="sec-head">
           <div className="no"><img src="/riso/stones/stone-1.webp" alt="" /> <span className="lab">02</span></div>

@@ -5,7 +5,6 @@
 .p3 .pclip {position:relative;overflow:hidden;background:#0c0c0c}
 .p3 .pclip > .pclip-m, .p3 .pclip > img.pclip-m {position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:cover}
 
-/* 기능 판 — 검정 판 뒤로 **흰 판이 ↖ 로 어긋나 있다**(하우스 등록축, `.spot`·`.dock` 과 같은 값 --m 1.6).
-   구판은 파란 대지 이미지가 파란 종이 위에 놓여 판 경계가 안 보였고, 흰 판 모서리만 떠서 **ㄱ자 선**으로 읽혔다
-   (오너 2026-09-28). 판이 검정이면 흰 판은 그 뒤에 깔린 두 번째 판으로 읽힌다. */
-.p3 .pclip-wide {aspect-ratio:16/9;box-shadow:calc(var(--rx)*var(--m,1.6)) calc(var(--ry)*var(--m,1.6)) 0 var(--white)}
+/* 기능 판 — 검정 패널 화면이 제 가장자리로 선다. 🔴 흰 밑판(↖ 오프셋)은 2026-09-29 오너가 뺐다(*"UI 이미지들에는 화이트 배경 빼기"*).
+   가장자리 = UI 이미지 공통 잉크 괘선(`--shot-edge`, site3p.css) — 어두운 화면 위에선 안 보이고 종이와의 경계만 또렷하게 한다. */
+.p3 .pclip-wide {aspect-ratio:16/9;box-shadow:var(--shot-edge)}
