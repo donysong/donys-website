@@ -89,7 +89,7 @@ lib/product.ts   # 🔴 가격 · 체크아웃 URL · 카탈로그 숫자
 lib/releases.ts  # 🔴 릴리스 노트 이력 — /update 가 읽는다
 public/riso/     # 종이·잉크·그레인 · stones/ (돌 7) · spots/ (제품 판 = 툴박스 호버 시트)
 public/
-  images/promo/ videos/ logo-lockup.png
+  images/promo/ (og 카드 2장만) · logo-lockup.png
   donys.zxp · version.json   # 🔴 지우지 마라 — 출고본의 UPDATE_MANIFEST_URL 이
                              #    donys-website.vercel.app/version.json 로 컴파일돼 있고
                              #    updateCheck.ts 는 404 를 조용히 먹는다. 플러그인 Phase D 뒤에 지운다.
@@ -122,4 +122,4 @@ npm run build   # → out/
 ## 관련
 
 - 플러그인 소스: `../Dony-s-AE-Plugin/donys/`
-- 홍보 자산 렌더러: `../Dony-s-AE-Plugin/tools/promo/` (`node shot.mjs pages/f-toolbox.html f-toolbox`)
+- 홍보 자산 렌더러: `../Dony-s-AE-Plugin/tools/promo/` (`node shot.mjs pages/og.html og-ae`). 🔴 구 목업(`f-*` · `poster-*` · `anim-*` · `hero`)은 2026-09-28 삭제 — 없는 기능을 그리고 있었다. 패널 그림은 출고 태그에서만.

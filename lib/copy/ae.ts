@@ -2,7 +2,7 @@
    v3.3 에 같은 문장이 이미 있으면 새 키를 만들지 말고 그 키를 그대로 써라(EN 번역이 붙어 있다).
 
    재사용 중인 v33 키(여기 다시 적지 마라 — `lib/copy/v33.ts` 가 정본이다):
-     r1.* ~ r4.*  역할 카드 4장 · role.l · role.hint · role.say · spot.or
+     r1.* ~ r4.*  역할 카드 4장 · role.l · role.hint · role.say
      meta.once · meta.two · meta.refund   히어로 도장 3
    셸 키(`shared.ts`): s.brand · s.docs · s.buy · s.buy.price
 
@@ -49,7 +49,6 @@ const AE: Dict = {
     'ae.role.l': 'Role',
     'ae.role.hint': 'hover → what you\'d say',
     'ae.role.say': 'You\'d say',
-    'ae.spot.or': 'or press',
     /* ── 네비 · 판 이름 ───────────────────────────────────────── */
     'ae.nav.who': 'Who',
     'ae.nav.what': 'Features',
@@ -93,7 +92,9 @@ const AE: Dict = {
     'ae.f1.alt': 'Chat panel — model picker, trust mode, lint',
     /* 컷 = v2.7.1 태그 · 신뢰 모드 OFF(기본값) · 새 탭(in 0 out 0) — 2026-09-28 재촬영(`tools/promo/panelSpot.mjs`). */
     'ae.f1.cap': 'The actual Chat panel, as it ships — trust mode is off by default, so every change asks first.',
-    'ae.f1.h': 'Say it, <span class="u">it lands on layers</span>',
+    /* 🔴 쉼표 뒤에서 끊는다(2026-09-28 재인) — 쉼표 앞뒤가 한 줄에 섞여 접히면 `SAY IT, IT LANDS ON / LAYERS` 가 된다.
+       국문 표제는 쉼표가 없어 그대로 둔다. */
+    'ae.f1.h': 'Say it,<br><span class="u">it lands on layers</span>',
     'ae.f1.p1': 'Describe it in plain language and it gets built inside AE. It is not making you a video — it <b>writes layers and keyframes into your comp.</b>',
     'ae.f1.p2': 'It runs on <b>Claude Code</b> or <b>Codex</b>, installed on your computer and signed in with <b>your own plan</b> — the panel walks you through both. We do not sell tokens.',
     'ae.f1.li': [
@@ -103,8 +104,10 @@ const AE: Dict = {
     ],
 
     /* 판 = Click React — 히어로(판 교대)·후킹 6장·역할 카드 어디에도 없는 툴이다. 같은 증거를 두 번 쓰지 않는다. */
-    'ae.f2.cap': 'Click React — the selected layers press in and spring back, scale and brightness together. Hover it: this is the same preview the panel shows on the button.',
-    'ae.f2.h': '<span class="u">{scripts}</span> chores, one button each',
+    /* 판 = 실제 Toolbox 클립(v2.7.1 · 16:9) — 버튼 셋에 차례로 올린다. 툴 이름은 패널 정본이라 국문에서도 영문. */
+    'ae.f2.alt': 'Toolbox panel — button previews on hover',
+    'ae.f2.cap': 'The real Toolbox panel. Point at a button and what it builds plays on top of it — here Copy Keys, Overshoot and Sequence Layers.',
+    'ae.f2.h': '<span class="u">{scripts}</span> chores,<br>one button each',
     'ae.f2.p1': 'If you can name the chore, pressing it is the whole job. Motion 12 · Layer 8 · Comp 6 · Shape 6 · Stylize 4 · Export 3.',
     'ae.f2.p2': 'The preview on each button is not a mockup — it is <b>16 frames rendered in real AE</b>, so you see what comes out <b>before you press</b>. Settings you have dialed in freeze into <b>your own button</b>.',
     'ae.f2.li': [
@@ -146,7 +149,6 @@ const AE: Dict = {
       'Springs <b>baked to keyframes</b> <i>— keys, not expressions, so playback stays light</i>',
     ],
 
-    'ae.f5.alt': 'Custom 1 panel — mixed grid',
     'ae.f5.cap': 'The real Custom 1 panel. <b>Curve editor, expressions and gradients</b> sit in the same grid as the tools.',
     'ae.f5.h': 'A panel <span class="u">shaped to your hand</span>',
     'ae.f5.p1': 'Pick only what you use and put it where you want it. It does not hold tools alone — <b>gradients, text presets, expressions, effects and curves</b> mix into the same grid.',
@@ -163,22 +165,17 @@ const AE: Dict = {
        그중 둘이 v2.6.0 기능이었다 — 손으로 쓰면 버전이 거짓말을 한다. */
     'ae.news.all': 'All release notes →',
 
-    /* ── 도그푸드 증거 ───────────────────────────────────────── */
-    'ae.dog.lab': 'We use it first',
-    /* 근거 = WEBSITE_RENEWAL_PLAN §3.0 — 종이 = riso-print `BlackPaper00N.jpg`, 알갱이 = `Risoprint.png`. 사이트가
-       플러그인 산출물은 아니다(텍스처를 나눠 쓸 뿐) — "이 사이트가 제품의 출력물" 은 과장이라 지웠다. */
-    'ae.dog.p': 'The paper tooth and ink grain on this page are the same textures the <b>Riso Print</b> effect ships with.',
-    'ae.dog.cap': 'Library ▸ Effects ▸ Riso Print',
-
     /* ── 05 가격 (🔴 버튼 없음 — 레일이 CTA 를 갖는다) ────────── */
     'ae.price.h': 'Buy it once. It stays yours.',
-    'ae.price.tag': 'Not a subscription.',
+    /* §16-1·15·16 (2026-09-28) — 구 "왜 구독이 아닌가" 카드는 걷었다. 🔴 `lifetime`·평생 금지(약관 §4 — 메이저는 유료일 수 있다).
+       구 머리 태그 `Not a subscription.` 도 뺐다 — 바로 밑 `vow` 의 `No subscription` 과 같은 말이 두 번이었다. */
     'ae.price.amount': '{price}',
-    'ae.price.incl': ['All seven panels', 'Two computers', 'Minor updates free', '14-day refund'],
-    'ae.price.why.h': 'Why it is not a subscription',
-    'ae.price.why.p1': 'Charge every month and you have to invent a reason every month. Then it stops being a tool and becomes <b>a thing that keeps a subscription alive</b>.',
-    'ae.price.why.p2': 'The Chat panel runs on <b>your own AI plan</b> for the same reason — Claude or ChatGPT, whichever you already pay for. If we resold tokens, we would earn more the more you used the tool — and that breaks the tool.',
-    'ae.price.why.p3': 'It keeps working as long as your AE and your computer do. Skip every update and the version you bought keeps working.',
+    /* 가격 옆 한 줄 = 구 카드의 결론 문장(`why.p3` 둘째 문장) 그대로. 새 주장 0. */
+    'ae.price.keep': 'Skip every update and the version you bought keeps working.',
+    /* 크게 읽히는 약속 셋 — 오너 판정 *"한 번 결제 · 구독 없음 · 마이너 무료 를 더 크게"*. 낱말은 이 페이지의 기존 것(`meta.once` · FAQ q8 · q10). */
+    'ae.price.vow': ['Pay once', 'No subscription', 'Minor updates free'],
+    /* `Minor updates free` 는 위 `vow` 로 올라갔다 — 같은 줄을 두 번 쓰지 않는다. */
+    'ae.price.incl': ['All seven panels', 'Two computers', '14-day refund'],
     /* 결제 뒤 경로 — 🔴 텍스트만. `#price` 안이라 링크도 버튼도 못 단다(deployCheck [price]). */
     'ae.after.h': 'After you pay',
     'ae.after.s': [
@@ -258,6 +255,9 @@ const AE: Dict = {
     'ae.sp8.k': 'Support',
     'ae.sp8.v': 'support@younameit.works',
     'ae.sp8.n': 'In-app update notices · <a href="/ae/docs#install">install guide</a>',
+
+    /* 기능 5 판(Custom 1 클립)의 접근성 이름 — 화면엔 안 보인다. */
+    'ae.f5.alt': 'Custom 1 panel — two saved layouts, swapped from the dropdown',
   },
 
   ko: {
@@ -291,7 +291,6 @@ const AE: Dict = {
     'ae.role.l': '역할',
     'ae.role.hint': '올리면 → 당신이 말할 문장',
     'ae.role.say': '당신이 말할 문장',
-    'ae.spot.or': '또는 누르기',
     /* ── 네비 · 판 이름 ───────────────────────────────────────── */
     'ae.nav.who': '누구를',
     'ae.nav.what': '기능',
@@ -342,7 +341,9 @@ const AE: Dict = {
       '검사 — 엉뚱한 폰트 · 겹침 · 낮은 대비를 <b>버튼 하나로</b>',
     ],
 
-    'ae.f2.cap': 'Click React — 선택한 레이어가 눌렸다가 스프링처럼 돌아옵니다. 크기와 밝기가 같이 움직입니다. 마우스를 올리면 패널이 버튼 위에 띄우는 그 그림 그대로 돕니다.',
+    /* 판 = 실제 Toolbox 클립(v2.7.1 · 16:9) — 버튼 셋에 차례로 올린다. 툴 이름은 패널 정본이라 국문에서도 영문. */
+    'ae.f2.alt': 'Toolbox 패널 — 버튼 위 미리보기',
+    'ae.f2.cap': '실제 Toolbox 패널. 버튼에 올리면 그 툴이 만드는 결과가 버튼 위에서 돕니다 — 여기서는 Copy Keys · Overshoot · Sequence Layers.',
     'ae.f2.h': '버튼 하나로 <span class="u">{scripts}가지</span>',
     'ae.f2.p1': '이름을 아는 잡일은 누르면 끝납니다. 모션 12 · 레이어 8 · 컴프 6 · 셰이프 6 · 스타일 4 · 내보내기 3.',
     'ae.f2.p2': '버튼 위 미리보기는 목업이 아니라 <b>실제 AE 에서 렌더한 16프레임</b>입니다 — 무엇이 나오는지 <b>누르기 전에</b> 봅니다. 한 번 맞춘 설정은 굳혀서 <b>내 버튼</b>으로 만듭니다.',
@@ -374,7 +375,8 @@ const AE: Dict = {
     ],
 
     'ae.f4.alt': 'Curves 패널 — 베지어 이징 에디터',
-    'ae.f4.cap': '실제 Curves 패널. 핸들을 끌거나 숫자를 칩니다. <b>Read</b> 로 AE 에서 읽고 <b>Apply</b> 로 겁니다.',
+    /* v2.7.1 부터 국문 Curves 버튼이 한글이다(`읽기`·`적용` — 구 v2.6.0 컷은 영문이었다). 판과 같은 말을 쓴다. */
+    'ae.f4.cap': '실제 Curves 패널. 핸들을 끌거나 숫자를 칩니다. <b>읽기</b>로 AE 에서 읽고 <b>적용</b>으로 겁니다.',
     'ae.f4.h': '이징과 <span class="u">코드</span>',
     'ae.f4.p1': '그래프 에디터에서 핸들을 끌거나 숫자를 칩니다. AE 키프레임에서 <b>지금 이징을 읽어</b> 와서 다른 데 그대로 붙일 수 있습니다.',
     'ae.f4.p2': '익스프레션 에디터는 고치면 <b>0.6초 뒤 자동 적용</b>됩니다 — 껐다 켜며 확인할 일이 없습니다.',
@@ -384,7 +386,6 @@ const AE: Dict = {
       '스프링을 <b>키프레임으로 굽습니다</b> <i>— 익스프레션이 아니라 키프레임이라서 재생이 가볍습니다</i>',
     ],
 
-    'ae.f5.alt': 'Custom 1 패널 — 혼합 격자',
     'ae.f5.cap': '실제 Custom 1 패널. 툴 옆에 <b>커브 에디터·익스프레션·그라디언트</b>가 같은 격자에 있습니다.',
     'ae.f5.h': '패널을 <span class="u">내 손에 맞춘다</span>',
     'ae.f5.p1': '쓰는 것만 골라 원하는 자리에 놓습니다. 툴만 담기는 게 아닙니다 — <b>그라디언트·텍스트 프리셋·익스프레션·이펙트·커브</b>를 같은 격자에 섞습니다.',
@@ -399,20 +400,12 @@ const AE: Dict = {
     'ae.news.tag': '마이너 업데이트는 무료입니다.',
     'ae.news.all': '업데이트 노트 전부 →',
 
-    /* ── 도그푸드 증거 ───────────────────────────────────────── */
-    'ae.dog.lab': '우리가 먼저 씁니다',
-    'ae.dog.p': '이 페이지의 종이 결과 잉크 알갱이는 <b>Riso Print</b> 이펙트에 들어 있는 바로 그 텍스처입니다.',
-    'ae.dog.cap': 'Library ▸ Effects ▸ Riso Print',
-
     /* ── 05 가격 (🔴 버튼 없음 — 레일이 CTA 를 갖는다) ────────── */
     'ae.price.h': '한 번 사면 계속 당신 것',
-    'ae.price.tag': '구독이 아닙니다.',
     'ae.price.amount': '{price}',
-    'ae.price.incl': ['패널 7개 전부', '컴퓨터 2대', '마이너 업데이트 무료', '14일 환불'],
-    'ae.price.why.h': '왜 구독이 아닌가',
-    'ae.price.why.p1': '매달 돈을 받으면 매달 이유를 만들어야 합니다. 그러면 도구가 아니라 <b>구독을 유지시키는 물건</b>이 됩니다.',
-    'ae.price.why.p2': 'Chat 패널도 같은 이유로 <b>당신의 AI 구독</b>을 씁니다 — Claude 든 ChatGPT 든 이미 내고 계신 것으로요. 우리가 토큰을 되팔면 당신이 도구를 많이 쓸수록 우리가 버는 구조가 되고, 그건 도구를 망가뜨립니다.',
-    'ae.price.why.p3': 'AE 와 컴퓨터가 버티는 한 계속 돕니다. 업데이트를 안 받아도 갖고 계신 버전은 계속 돕니다.',
+    'ae.price.keep': '업데이트를 안 받아도 갖고 계신 버전은 계속 돕니다.',
+    'ae.price.vow': ['일회 구매', '구독 없음', '마이너 업데이트 무료'],
+    'ae.price.incl': ['패널 7개 전부', '컴퓨터 2대', '14일 환불'],
     'ae.after.h': '결제한 뒤',
     'ae.after.s': [
       '라이선스 키와 설치 파일(.zxp)이 결제 확인 메일로 옵니다 — 고객 포털에도 남아 있습니다.',
@@ -489,6 +482,9 @@ const AE: Dict = {
     'ae.sp8.k': '지원',
     'ae.sp8.v': 'support@younameit.works',
     'ae.sp8.n': '인앱 업데이트 알림 · <a href="/ko/ae/docs#install">설치 안내</a>',
+
+    /* 기능 5 판(Custom 1 클립)의 접근성 이름 — 화면엔 안 보인다. */
+    'ae.f5.alt': 'Custom 1 패널 — 저장한 배치 둘 · 드롭다운으로 전환',
   },
 };
 

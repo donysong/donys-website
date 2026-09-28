@@ -4,22 +4,38 @@
    를 재사용한다. 이 파일이 새로 하는 일은 **페이지별로 갈라지는 것**(판 수·네비 항목·푸터 열)뿐이다.
 
    레인 계약 — 페이지는 이렇게만 쓴다:
-     <Page4 page="ae" plateTotal={7} links={[{href:'#who',k:'ae.nav.who'}]} cta={{href:'#price',k:'s.buy'}}>
+     <Page4 page="home" plateTotal={3} links={[{href:'#lineup',k:'home.nav.lineup'}]} cta={{href:'/ae',k:'s.toProduct'}}>
        …섹션…
      </Page4>
-   섹션은 `<section id="who" data-plate="01" data-name="ae.nav.who">` 를 달면 네비 판 번호가 따라온다. */
+   섹션은 `<section id="who" data-plate="01" data-name="ae.nav.who">` 를 달면 네비 판 번호가 따라온다.
+   🔴 `links`·`cta` 는 **루트와 읽는 면(`ownNav`)만** 읽는다. 제품 면(`ae` · `docs`)의 네비는 `AE_NAV` 한 벌이다(§16-23). */
 import { useEffect, useState } from 'react';
 import { useLang, useT } from '@/components/site3p/lang';
 import { Defs, Surface, useChrome } from '@/components/site3p/Chrome';
+import { penPath } from '@/components/site3p/pen';
 import { CHECKOUT_URL } from '@/lib/product';
 
 export type NavLink = { href: string; k: string };
 export type Page4Kind = 'home' | 'ae' | 'docs';
 
 /* ── 네비 ─────────────────────────────────────────────────────────────
-   🔴 브랜드 루트는 `/about` 을 안 가진다(레퍼런스도 앵커다). 제품·Docs 는 서로를 가리킨다. */
-function Nav4({ page, plateTotal, links, cta, logo }: {
-  page: Page4Kind; plateTotal: number; links: NavLink[]; cta?: NavLink; logo: string;
+   🔴 브랜드 루트는 `/about` 을 안 가진다(레퍼런스도 앵커다).
+   🔴 **`/ae` 이하는 전부 이 한 벌이다** — `/ae` · `/ae/docs` · 국문판 둘 (오너 2026-09-28 §16-23, 재인 *"상단 UI 가
+   바뀌니까 헷갈려서 하나로 통일하기"*). 전엔 Docs 가 자기 목차를 네비에 넘기고 CSS 로 숨겨서 `AE Plugin` 외곽선만
+   남았다 — 같은 제품 안에서 네비가 두 모양이었다. 절 링크는 `/ae` 의 앵커라 Docs 에선 `/ae#…` 로 간다(`navHref`). */
+const AE_NAV: { links: NavLink[]; cta: NavLink } = {
+  links: [
+    { href: '#who', k: 'ae.nav.who' },
+    { href: '#what', k: 'ae.nav.what' },
+    { href: '#price', k: 'ae.nav.price' },
+    { href: '#faq', k: 'ae.nav.faq' },
+    { href: '/ae/docs', k: 's.docs' },
+  ],
+  cta: { href: CHECKOUT_URL, k: 's.buy.price' },
+};
+
+function Nav4({ page, plateTotal, links, cta, logo, product }: {
+  page: Page4Kind; plateTotal: number; links: NavLink[]; cta?: NavLink; logo: string; product: boolean;
 }) {
   const { t } = useT();
   const href = useHref();
@@ -29,8 +45,8 @@ function Nav4({ page, plateTotal, links, cta, logo }: {
       if (!en.isIntersecting) return;
       const el = en.target as HTMLElement;
       setPlate({ no: el.dataset.plate || '00', name: el.dataset.name || 's.plate.cover' });
-      /* 목차 칩(Docs 의 `.toc`)에도 같은 표시를 켠다 — Docs 는 네비의 절 링크를 숨기고 칩이 그 일을 한다. */
-      document.querySelectorAll('#p4-navlinks a:not(.btn-line), .toc a').forEach((a) => {
+      /* 같은 면의 앵커만 켠다(네비 · Docs 목차 칩). `/ae#who` 같은 딴 면 링크와 현재 면 표시(`aria-current`)는 안 건드린다. */
+      document.querySelectorAll('#p4-navlinks a[href^="#"], .toc a').forEach((a) => {
         a.classList.toggle('on', a.getAttribute('href') === '#' + el.id);
       });
     }), { rootMargin: '-40% 0px -55% 0px' });
@@ -38,8 +54,10 @@ function Nav4({ page, plateTotal, links, cta, logo }: {
     return () => io.disconnect();
   }, []);
   const total = String(plateTotal).padStart(2, '0');
+  /* 제품 네비의 절 앵커는 `/ae` 에서만 앵커다 — Docs 에선 `/ae#who` 로 가야 산다. */
+  const navHref = (h: string) => href(product && page !== 'ae' && h.startsWith('#') ? '/ae' + h : h);
   return (
-    <nav>
+    <nav data-nav={product ? 'ae' : undefined}>
       <div className="label lab">
         <span>{t('s.plate')}</span> <b>{plate.no}</b> / {total} &nbsp;·&nbsp; <b>{t(plate.name)}</b>
       </div>
@@ -48,7 +66,11 @@ function Nav4({ page, plateTotal, links, cta, logo }: {
       </a>
       <div className="links" id="p4-navlinks">
         {/* 🔴 네비 링크도 로캘을 탄다 — `/ko/ae` 의 `Docs` 가 영문 `/ae/docs` 로 떨어지던 결함(2026-09-26). */}
-        {links.map((l) => <a key={l.href} href={href(l.href)} data-cur>{t(l.k)}</a>)}
+        {links.map((l) => (
+          <a key={l.href} href={navHref(l.href)} aria-current={page === 'docs' && l.href === '/ae/docs' ? 'page' : undefined} data-cur>
+            {t(l.k)}
+          </a>
+        ))}
         {cta ? <a className="btn-line" href={href(cta.href)} data-cur>{t(cta.k)}</a> : null}
         <LangSwitch />
       </div>
@@ -101,22 +123,32 @@ function LangSwitch() {
 /* ── 스티키 구매 레일 (제품 페이지) ────────────────────────────────────
    레퍼런스 원리 7: 가격 섹션은 버튼을 안 가지고, **레일이 CTA 를 독점**한다. 45% 에서 점화.
    🔴 여기가 사이트의 실제 결제 진입점이다 — `#price` 앵커로 바꾸지 마라(proto4 가 그래서 팔 수 없었다).
-   🔴 레일이 뜨면 `.has-rail` 이 본문 오른쪽 차선을 비운다(FAQ 판정어를 46px 덮은 전례). */
+   🔴 레일이 뜨면 `.has-rail` 이 본문 오른쪽 차선을 비운다(FAQ 판정어를 46px 덮은 전례).
+   §16-5 (오너 2026-09-28 *"규칙 유지 — 레일 버튼만 시각 강조"*): CTA 는 늘리지 않고 이 하나를 세게 만든다.
+   **처음 점화할 때 한 번** 빨간 펜이 버튼을 두르고(`pen.ts` ring) 버튼이 찍힌다(`.lit`). 다시 숨었다 떠도
+   되풀이하지 않는다 — 원은 그려진 채로 남는다. 줄인 모션에선 원이 바로 보인다(site4.css §16 B3). */
 export function BuyRail() {
   const { t } = useT();
   const [on, setOn] = useState(false);
+  const [lit, setLit] = useState(false);
+  const ring = penPath('ring', 'rail');
   useEffect(() => {
     const onScroll = () => {
       const h = document.documentElement;
-      setOn(h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight) > 0.45);
+      const now = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight) > 0.45;
+      setOn(now);
+      if (now) setLit(true);
     };
     onScroll();
     addEventListener('scroll', onScroll, { passive: true });
     return () => removeEventListener('scroll', onScroll);
   }, []);
   return (
-    <a className={`rail${on ? ' on' : ''}`} href={CHECKOUT_URL} data-cur>
+    <a className={`rail${on ? ' on' : ''}${lit ? ' lit' : ''}`} href={CHECKOUT_URL} data-cur>
       <span className="buy">{t('s.buy')}<small>{t('s.buy.price').replace(/^.*—\s*/, '')}</small></span>
+      <svg className="pen pen-ring" viewBox={ring.vb} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d={ring.d} pathLength={1} />
+      </svg>
     </a>
   );
 }
@@ -178,19 +210,25 @@ function Footer4({ page }: { page: Page4Kind }) {
   );
 }
 
-export default function Page4({ page, plateTotal, links, cta, logo = 'logo-red.webp', rail = false, children }: {
-  page: Page4Kind; plateTotal: number; links: NavLink[]; cta?: NavLink;
-  logo?: string; rail?: boolean; children: React.ReactNode;
+export default function Page4({ page, plateTotal, links = [], cta, logo = 'logo-red.webp', rail = false, ownNav = false, children }: {
+  page: Page4Kind; plateTotal: number; links?: NavLink[]; cta?: NavLink;
+  logo?: string; rail?: boolean;
+  /** 제품 네비 대신 넘긴 `links`·`cta` 를 쓴다 — 읽는 면(`ReadingShell`: `/update` · 법 3장 · 404)만. */
+  ownNav?: boolean; children: React.ReactNode;
 }) {
   const { lang } = useLang();
   useChrome();
+  const product = page !== 'home' && !ownNav;
+  const nav = product ? AE_NAV : { links, cta };
   return (
     <div className={`p3 p4${page === 'home' ? ' root' : ''}${rail ? ' has-rail' : ''}`} data-lang={lang} data-page={page} id="top">
       <Defs />
       <Surface />
       <div className="ink-bar" id="p3-inkbar" aria-hidden="true" />
       <div className="cur" id="p3-cur" aria-hidden="true" />
-      <Nav4 page={page} plateTotal={plateTotal} links={links} cta={cta} logo={logo} />
+      {/* 빈 바탕을 끌어 긋는 빨간 펜의 종이 — 클릭을 막지 않는다(`pointer-events:none`). 획은 scrawl.ts 가 넣는다. */}
+      <svg className="scrawl" id="p3-scrawl" aria-hidden="true" focusable="false" />
+      <Nav4 page={page} plateTotal={plateTotal} links={nav.links} cta={nav.cta} logo={logo} product={product} />
       {children}
       {rail ? <BuyRail /> : null}
       <Footer4 page={page} />

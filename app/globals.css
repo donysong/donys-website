@@ -364,6 +364,9 @@ body {
    그 판은 `app/site3p.css` 의 `.spot` 이 그린다(재생 = 패널 정본 24fps + 홀드). 되살리지 마라. */
 
 /* ── 등록 마크 · 판 라벨 — 인쇄물의 어휘 ─────────────────── */
+/* 모서리 마크의 십자 팔(::after right:-8px)이 뷰포트 밖으로 8px 나가 문서가 가로로 7px 넓어졌다(2026-09-28 실측 —
+   `scroll-behavior:smooth` 라 scrollTo 직후 scrollX 가 0 으로 읽혀 그동안 "0" 으로 보고됐다). 틀이 잘라낸다. */
+.trim-marks { position: absolute; inset: 0; overflow: clip; pointer-events: none; }
 .regmark {
   position: absolute;
   width: 18px;

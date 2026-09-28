@@ -38,6 +38,11 @@ const DOCS: Dict = {
     'docs.th.does': 'What it does',
     /* 영문 독자에게 "패널 이름은 영문" 은 정보가 아니다 — 국문 면에서만 뜬다(빈 값이면 렌더 안 함). */
     'docs.panels.note': '',
+    /* 개관 판(§16-12) — 출고본 패널 컷을 AE 에서 도킹하듯 나란히. 컷이 없는 셋(Toolbox·Expressions·Support)은
+       **이름 탭으로만** 선다 — 화면을 지어내지 않는다. 탭 = 아래 표의 그 줄(`#panel-<key>`)로 가는 링크. */
+    'docs.panels.dock.alt': 'The {name} panel',
+    'docs.panels.dock.cap': 'The real panels, docked the way you might in After Effects. Each tab jumps to that panel’s row below.',
+    'docs.panels.detail': 'Panel by panel',
 
     'docs.panel.toolbox.k': 'One-click tool grid',
     'docs.panel.toolbox.d': 'Find one of the {scripts} tools by category or search, and press it. Hover a button and a 16-frame preview shows what that tool actually makes. The settings you last ran can be saved as a button of your own.',
@@ -84,7 +89,8 @@ const DOCS: Dict = {
 
     /* ── 03 카탈로그 — 🔴 칸마다 **어느 패널에 있는지** 적는다(Curves·Expressions 는 Library 가 아니다) ── */
     'docs.catalog.h': 'Catalog',
-    'docs.catalog.tag': 'The catalog is a seed, not a ceiling.',
+    /* 언어는 숫자 칸(구 `2 Languages`)이 아니라 여기서 한 번 말한다(2026-09-28 재인 *"빼고 처음에 한번 언급"*). 사양표 `docs.spec.lang` 과 같은 사실. */
+    'docs.catalog.tag': 'The catalog is a seed, not a ceiling.<br>Panels in English and Korean.',
     'docs.lib.motion.n': '{motion}',
     'docs.lib.motion.t': 'Motion presets',
     'docs.lib.motion.d': 'Library ▸ Motion. Position · Rotate · Scale · Mix, all baked on spring physics',
@@ -103,9 +109,10 @@ const DOCS: Dict = {
     'docs.lib.expr.n': '{expressions}',
     'docs.lib.expr.t': 'Expressions',
     'docs.lib.expr.d': 'Expressions panel. 10 built-in groups, plus a Custom tab for yours',
+    /* 숫자 칸이 아니라 절 끝의 따로 선 판이다(§16-18 — 오너 문구 *"Now go build your own."*). 카탈로그가 씨앗이면 이건 그 다음 줄이다. */
     'docs.lib.mine.n': '+',
-    'docs.lib.mine.t': 'Yours',
-    'docs.lib.mine.d': 'Capture an effect stack off a comp, keep it as your own preset, pass it around as a pack',
+    'docs.lib.mine.h': 'Now go build your own.',
+    'docs.lib.mine.d': 'Capture an effect stack off a comp, keep it as your own preset, pass it around as a pack.',
 
     /* 🔴 이펙트 이름은 로케일 무관이라 en/ko 가 같은 문자열이다(둘 다 적는 건 키 수를 맞추기 위함). */
     'docs.fx.riso-print': 'Riso Print',
@@ -119,12 +126,15 @@ const DOCS: Dict = {
     'docs.fx.vox-original': 'Infographic',
     'docs.fx.vox-original.d': 'Infographic typesetting treatment',
 
-    /* ── 04 릴리스 노트 — 🔴 정본은 `/update` 다(패널의 `What's new · manual install` 이 거기로 간다).
-       여기는 최신 한 판만 싣고 나머지는 `/update` 로 넘긴다 — 같은 로그가 두 면에 전량 있으면 정본이 둘이다. ── */
+    /* ── 04 릴리스 노트 — 최신 3판은 펼치고 그 앞은 한 접힘 안에(§16-6, 2026-09-28 오너). 지우는 판은 없다 — 로그는 역사다.
+       본문은 `lib/releases.ts` 한 배열을 `/update` 와 같이 읽는다(복사 없음). 수동 다운로드는 `/update` 에만 있다
+       (패널의 `What's new · manual install` 목적지). ── */
     'docs.notes.h': 'Release notes',
     'docs.notes.tag': 'Minor updates are free and arrive inside the panel.<br>A major version may be a paid upgrade.',
     'docs.notes.n': '{n} items',
-    'docs.notes.all': 'All {n} release notes · manual download →',
+    'docs.notes.older': 'Earlier versions',
+    'docs.notes.older.n': '{n} versions',
+    'docs.notes.all': 'Release notes page · manual download →',
 
     /* ── 05 설치 — 🔴 앵커 `#install` 은 `/ae` 히어로·FAQ·사양·푸터·결제 뒤 이동이 가리킨다. 이름 바꾸지 마라.
        사실 근거: VOICE_AND_TERMS §4 · INSTALL_GUIDE.md(2026-09-26 개정 '구매자 문안' — 받기→설치→활성화 · 설치 앱 없이 ·
@@ -138,21 +148,31 @@ const DOCS: Dict = {
     'docs.step2.d': 'Quit After Effects, then drop the .zxp on the free <a href="https://aescripts.com/learn/zxp-installer/" target="_blank" rel="noopener">ZXP Installer</a>. It may warn that the certificate is self-signed — we sign the file ourselves, so carry on.',
     'docs.step3.t': 'Activate',
     'docs.step3.d': 'Open After Effects and go to <b>Window ▸ Extensions ▸ You Name It - Support</b>. Paste the key and press Activate — the other {others} panels unlock straight away.',
+    /* 단계별 화면 접힘(찍은 것이 있는 단계만) — Install.tsx `SHOTS`. */
+    'docs.step.shot': 'See the screen',
+    'docs.step3.alt': 'The Support panel with a key pasted into the License Key field and the pointer on Activate',
+    /* 칩 = 패널 이름 그대로(§16-4). 메뉴의 실제 라벨은 접두어가 붙는다 — 그 사실은 칩 밑 한 줄이 말한다. */
     'docs.install.menu': 'Every panel is its own entry in that menu:',
+    'docs.install.prefix': 'In Window ▸ Extensions each one starts with “You Name It -”, as in <code>You Name It - Toolbox</code>.',
     'docs.upd.h': 'Updating',
     'docs.upd.d': 'When a new version is out, the Support panel shows it. Press Update now, then restart After Effects — a panel cannot replace itself while it is running. If the in-panel install fails, the manual download is on the <a href="{notes}">release notes page</a>.',
-    'docs.hand.h': 'Installing by hand',
+    /* 🔴 경로가 사는 곳은 접힘 하나다(§16-3 — `donys` 가 덜 보이게). 경로 **값**은 출고본에 컴파일된 신원 키라 한 글자도
+       못 바꾼다 — Install.tsx `LOCS` 가 들고 있고, 위 제거·안 될 때 문장은 경로 대신 "아래" 를 가리킨다. */
+    'docs.hand.h': 'Installing by hand & file locations',
     'docs.hand.d': 'With After Effects closed, rename the .zxp to .zip, unzip it, and put the folder in the place below, named exactly <code>com.donys.plugin.cep</code> — any other name, especially one with an apostrophe, leaves the panels loading forever. Do not add or remove a single file: the contents must match the signature, or the panels open blank. If you unzipped over an older copy, delete the folder and unzip again.',
+    'docs.loc.plugin': 'The plugin folder',
+    'docs.loc.data': 'Your presets and settings',
+    'docs.loc.log': 'Update log',
     'docs.rm.h': 'Removing it',
-    'docs.rm.d': 'Deactivate this computer in the Support panel first — otherwise its seat stays taken. Then remove it in ZXP Installer, or delete the <code>com.donys.plugin.cep</code> folder. If that computer is already gone, deactivate it in the <a href="{portal}" target="_blank" rel="noopener">customer portal</a>. Reinstalling on the same computer to fix something does not need this — the activation stays. Your presets and settings live outside that folder (Windows <code>%LOCALAPPDATA%\\donys</code> · macOS <code>~/Library/Application Support/donys</code>); delete it too for a clean removal.',
+    'docs.rm.d': 'Deactivate this computer in the Support panel first — otherwise its seat stays taken. Then remove it in ZXP Installer, or delete the plugin folder. If that computer is already gone, deactivate it in the <a href="{portal}" target="_blank" rel="noopener">customer portal</a>. Reinstalling on the same computer to fix something does not need this — the activation stays. Your presets and settings live outside that folder, in one of their own; delete it too for a clean removal. Where both folders are is listed below.',
     'docs.fix.h': 'If it does not work',
     'docs.fix.list': [
       'The panel opens blank — the files do not match the signature, usually leftovers from an older version. Delete the folder and install again.',
-      'It keeps loading — the folder is not named <code>com.donys.plugin.cep</code>. Rename it.',
-      'Nothing under Window ▸ Extensions — After Effects is older than 2022, or the folder is in the wrong place. Check the path above.',
+      'It keeps loading — the folder is not named exactly as below. Rename it.',
+      'Nothing under Window ▸ Extensions — After Effects is older than 2022, or the folder is in the wrong place. Check the path below.',
       'The update says it has no write permission — it is installed for all users. Install the .zxp again as an administrator, or by hand into your user folder.',
     ],
-    'docs.fix.mail': 'Still stuck? Email <a href="mailto:support@younameit.works">support@younameit.works</a> with this file attached — Windows <code>%TEMP%\\donys-update.log</code> · macOS <code>$TMPDIR/donys-update.log</code>.',
+    'docs.fix.mail': 'Still stuck? Email <a href="mailto:support@younameit.works">support@younameit.works</a> with the update log attached — where to find it is listed below.',
 
     /* ── 사양 8필드 — `/ae` 의 `ae.sp*` 와 같은 사실·같은 낱말(위 머리말) ── */
     'docs.spec.h': 'Specs',
@@ -184,6 +204,8 @@ const DOCS: Dict = {
     /* ── 끝 — 🔴 이 페이지의 CTA 는 여기 하나다(구매). 버튼 라벨은 사이트 공통 `s.buy.price`. ── */
     'docs.cta.txt': 'Refunds, the Chat plan, two computers — what people ask before buying is answered on the product page.',
     'docs.cta.faq': 'Common questions →',
+    /* 버튼 밑 한 줄(§16-17, 2라운드 C안 — 오너 확정 문구 그대로). 버튼 수는 그대로 하나다. */
+    'docs.cta.quip': 'Pay once. Spend next month’s on pizza.',
   },
 
   ko: {
@@ -203,6 +225,9 @@ const DOCS: Dict = {
     'docs.th.what': '무엇인가',
     'docs.th.does': '하는 일',
     'docs.panels.note': '패널 이름은 로케일과 무관하게 영문입니다 — AE 메뉴에 뜨는 문자열과 같습니다.',
+    'docs.panels.dock.alt': '{name} 패널',
+    'docs.panels.dock.cap': '실제 패널을 After Effects 에서 도킹하듯 나란히 놓았습니다. 탭을 누르면 아래 표의 그 패널 줄로 갑니다.',
+    'docs.panels.detail': '패널별 설명',
 
     'docs.panel.toolbox.k': '원클릭 툴 그리드',
     'docs.panel.toolbox.d': '툴 {scripts}개를 카테고리나 검색으로 찾아 누릅니다. 버튼 위에 마우스를 올리면 그 툴이 실제로 무엇을 만드는지 16프레임 미리보기가 뜹니다. 마지막에 돌린 설정은 내 버튼으로 저장할 수 있습니다.',
@@ -241,7 +266,7 @@ const DOCS: Dict = {
     'docs.note.patternLab': '가로 칸은 컴프 폭 2048px 이상에서 512 까지 갑니다(1920 폭은 480). 도형 수는 칸 수의 제곱으로 늘어납니다.',
 
     'docs.catalog.h': '카탈로그',
-    'docs.catalog.tag': '카탈로그는 상한이 아니라 씨앗입니다.',
+    'docs.catalog.tag': '카탈로그는 상한이 아니라 씨앗입니다.<br>패널은 한국어와 영어로 씁니다.',
     'docs.lib.motion.n': '{motion}',
     'docs.lib.motion.t': '모션 프리셋',
     'docs.lib.motion.d': 'Library ▸ Motion. Position · Rotate · Scale · Mix, 전부 스프링 물리로 구워집니다',
@@ -261,8 +286,8 @@ const DOCS: Dict = {
     'docs.lib.expr.t': '익스프레션',
     'docs.lib.expr.d': 'Expressions 패널. 빌트인 10개 묶음, 그리고 내 것을 담는 Custom 탭',
     'docs.lib.mine.n': '+',
-    'docs.lib.mine.t': '내가 만든 것',
-    'docs.lib.mine.d': '컴프의 이펙트 스택을 캡처해 내 프리셋으로 저장하고 팩으로 주고받습니다',
+    'docs.lib.mine.h': '이제 당신 것을 만들 차례입니다.',
+    'docs.lib.mine.d': '컴프의 이펙트 스택을 캡처해 내 프리셋으로 저장하고, 팩으로 주고받습니다.',
 
     'docs.fx.riso-print': 'Riso Print',
     'docs.fx.riso-print.d': '리소 인쇄의 잉크 번짐과 종이 결을 실제 텍스처로',
@@ -278,7 +303,9 @@ const DOCS: Dict = {
     'docs.notes.h': '업데이트 노트',
     'docs.notes.tag': '마이너 업데이트는 무료이고 패널 안으로 들어옵니다.<br>메이저 버전은 유료 업그레이드일 수 있습니다.',
     'docs.notes.n': '{n}건',
-    'docs.notes.all': '업데이트 노트 {n}건 전부 · 수동 다운로드 →',
+    'docs.notes.older': '이전 버전',
+    'docs.notes.older.n': '{n}개 버전',
+    'docs.notes.all': '업데이트 노트 페이지 · 수동 다운로드 →',
 
     'docs.install.h': '설치',
     'docs.install.tag': '컴퓨터마다 한 번,<br>세 단계.',
@@ -288,21 +315,28 @@ const DOCS: Dict = {
     'docs.step2.d': 'After Effects 를 닫고, 무료 <a href="https://aescripts.com/learn/zxp-installer/" target="_blank" rel="noopener">ZXP Installer</a> 에 .zxp 파일을 끌어다 놓습니다. 자체 서명 인증서라는 경고가 뜰 수 있습니다 — 파일을 우리가 직접 서명해서 그렇고, 그대로 진행하면 됩니다.',
     'docs.step3.t': '활성화',
     'docs.step3.d': 'After Effects 를 열고 <b>창(Window) ▸ 확장명(Extensions) ▸ You Name It - Support</b> 에서 키를 붙여넣어 활성화합니다. 나머지 패널 {others}개의 잠금이 바로 풀립니다.',
+    /* 단계별 화면 접힘(찍은 것이 있는 단계만) — Install.tsx `SHOTS`. */
+    'docs.step.shot': '화면 보기',
+    'docs.step3.alt': '라이선스 키 칸에 키를 붙여넣고 인증 버튼에 커서를 올린 Support 패널',
     'docs.install.menu': '패널마다 그 메뉴에 항목이 하나씩 있습니다:',
+    'docs.install.prefix': '창(Window) ▸ 확장명(Extensions) 에서는 <code>You Name It - Toolbox</code> 처럼 모두 “You Name It -” 로 시작합니다.',
     'docs.upd.h': '업데이트',
     'docs.upd.d': '새 버전이 나오면 Support 패널에 알림이 뜹니다. 지금 업데이트를 누른 뒤 After Effects 를 다시 켜면 적용됩니다 — 실행 중인 패널은 자기 자신을 바꾸지 못합니다. 패널 안 설치가 안 되면 <a href="{notes}">업데이트 노트 페이지</a>에서 직접 내려받을 수 있습니다.',
-    'docs.hand.h': '수동 설치',
+    'docs.hand.h': '수동 설치 · 파일 위치',
     'docs.hand.d': 'After Effects 를 닫은 채로 .zxp 의 확장자를 .zip 으로 바꿔 압축을 풀고, 폴더 이름을 정확히 <code>com.donys.plugin.cep</code> 로 해서 아래 위치에 둡니다. 다른 이름, 특히 아포스트로피가 들어간 이름이면 패널이 끝없이 로딩만 합니다. 파일은 하나도 빼거나 더하지 않습니다 — 압축 안의 파일이 서명과 정확히 맞아야 하고, 어긋나면 패널이 빈 창으로 열립니다. 이전 판 위에 덮어서 풀었다면 폴더를 통째로 지우고 다시 풉니다.',
+    'docs.loc.plugin': '플러그인 폴더',
+    'docs.loc.data': '만든 프리셋·설정',
+    'docs.loc.log': '업데이트 기록',
     'docs.rm.h': '제거',
-    'docs.rm.d': '먼저 Support 패널에서 이 컴퓨터의 활성화를 해제합니다 — 안 하면 자리 하나가 계속 잡혀 있습니다. 그다음 ZXP Installer 에서 제거하거나 <code>com.donys.plugin.cep</code> 폴더를 지웁니다. 그 컴퓨터를 이미 쓸 수 없다면 <a href="{portal}" target="_blank" rel="noopener">고객 포털</a>에서 해제합니다. 고치려고 같은 컴퓨터에 다시 설치할 때는 해제하지 않아도 됩니다 — 활성화가 그대로 남습니다. 만든 프리셋·설정은 그 폴더 밖에 따로 있습니다(Windows <code>%LOCALAPPDATA%\\donys</code> · macOS <code>~/Library/Application Support/donys</code>) — 완전히 지우려면 이 폴더도 지웁니다.',
+    'docs.rm.d': '먼저 Support 패널에서 이 컴퓨터의 활성화를 해제합니다 — 안 하면 자리 하나가 계속 잡혀 있습니다. 그다음 ZXP Installer 에서 제거하거나 플러그인 폴더를 지웁니다. 그 컴퓨터를 이미 쓸 수 없다면 <a href="{portal}" target="_blank" rel="noopener">고객 포털</a>에서 해제합니다. 고치려고 같은 컴퓨터에 다시 설치할 때는 해제하지 않아도 됩니다 — 활성화가 그대로 남습니다. 만든 프리셋·설정은 그 폴더 밖, 별도 폴더에 있습니다 — 완전히 지우려면 그 폴더도 지웁니다. 두 폴더의 위치는 아래에 있습니다.',
     'docs.fix.h': '안 될 때',
     'docs.fix.list': [
       '패널이 빈 창으로 열립니다 — 폴더 안 파일이 서명과 맞지 않습니다(대개 이전 판의 잔여 파일). 폴더를 통째로 지우고 다시 설치하세요.',
-      '로딩만 계속됩니다 — 폴더 이름이 <code>com.donys.plugin.cep</code> 가 아닙니다. 이름을 바꾸세요.',
-      '창(Window) ▸ 확장명(Extensions) 에 아무것도 없습니다 — After Effects 가 2022 보다 오래됐거나 폴더 위치가 틀렸습니다. 위 경로를 확인하세요.',
+      '로딩만 계속됩니다 — 폴더 이름이 아래 적힌 이름과 정확히 같지 않습니다. 이름을 바꾸세요.',
+      '창(Window) ▸ 확장명(Extensions) 에 아무것도 없습니다 — After Effects 가 2022 보다 오래됐거나 폴더 위치가 틀렸습니다. 아래 경로를 확인하세요.',
       '업데이트가 쓰기 권한이 없다고 합니다 — 모든 사용자용 위치에 설치돼 있습니다. 관리자 권한으로 .zxp 를 다시 설치하거나, 사용자 폴더에 수동으로 설치하세요.',
     ],
-    'docs.fix.mail': '그래도 안 되면 이 파일을 첨부해 <a href="mailto:support@younameit.works">support@younameit.works</a> 로 보내세요 — Windows <code>%TEMP%\\donys-update.log</code> · macOS <code>$TMPDIR/donys-update.log</code>.',
+    'docs.fix.mail': '그래도 안 되면 업데이트 기록 파일을 첨부해 <a href="mailto:support@younameit.works">support@younameit.works</a> 로 보내세요 — 파일 위치는 아래에 있습니다.',
 
     'docs.spec.h': '사양',
     'docs.spec.price.k': '가격',
@@ -332,6 +366,7 @@ const DOCS: Dict = {
 
     'docs.cta.txt': '환불, Chat 구독, 컴퓨터 2대 — 사기 전에 묻는 것들은 제품 페이지에 답이 있습니다.',
     'docs.cta.faq': '자주 묻는 것 →',
+    'docs.cta.quip': '한 번 결제. 다음 달 돈은 피자에.',
   },
 };
 

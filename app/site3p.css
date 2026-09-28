@@ -20,6 +20,8 @@
   --rx:-3px; --ry:-4px;
   /* 잉크 판의 흰 테 어긋남 — 밑판 그림자(--rx/--ry)와 따로 둔다. 오너 2026-09-11: "너무 어긋나 있음, subtle 하게" → 절반 */
   --pl-rx:-1.5px; --pl-ry:-2px;
+  /* 빨간 판이 앉은 종이색 — 잉크가 흰 판 밖에서 곱해질 바닥(아래 `.pl` 블록). 다른 바닥의 판(`.onblack` = 검정)은 거기서 다시 선언한다. */
+  --pl-paper:var(--paper);
   --ease-press:cubic-bezier(.2,.9,.2,1); --ease-slip:cubic-bezier(.3,1.4,.5,1);
   --t-nudge:130ms; --t-press:260ms; --t-register:460ms; --t-develop:620ms;
 }
@@ -65,24 +67,51 @@
 .p3 h1 .pl {display:block;width:max-content}
 .p3 .sec-head h2 .pl, .p3 .stance .stance-lines .pl, .p3 .claim .pl.block {display:block}
 .p3 .pl>span {display:block}
-.p3 .pl .rim {position:absolute;inset:0;color:var(--white);translate:var(--pl-rx) var(--pl-ry);pointer-events:none;user-select:none}
-.p3 .pl .ko {position:absolute;inset:0;color:var(--white);opacity:.9;pointer-events:none;user-select:none}
-.p3 .pl .ink {position:relative;color:var(--red);mix-blend-mode:multiply;
+/* 🔴 디센더 여백(`--pl-bleed`) — 잉크의 `mask` 와 판들의 `filter:url(#p3-press)` 는 **요소 상자 밖을 잘라낸다.**
+   표제는 행간이 .86~.98 이라 g·y·p 의 꼬리가 상자 밑으로 나가고, 그래서 빨간 꼬리가 평평하게 잘린 채
+   흰 테(마스크 없음)만 밑으로 삐져나왔다(2026-09-28 재인 *"ig — 전체적으로 안 잘리게"*).
+   상자를 아래로만 늘리고(잉크 = padding, 흰 판 두 장 = bottom) 잉크의 음수 margin 으로 **흐름 높이는 그대로** 둔다. */
+.p3 .pl {--pl-bleed:.3em}
+.p3 .pl .rim {position:absolute;inset:0 0 calc(var(--pl-bleed)*-1);color:var(--white);translate:var(--pl-rx) var(--pl-ry);pointer-events:none;user-select:none}
+.p3 .pl .ko {position:absolute;inset:0 0 calc(var(--pl-bleed)*-1);color:var(--white);opacity:.9;pointer-events:none;user-select:none}
+.p3 .pl .ink {position:relative;padding-bottom:var(--pl-bleed);margin-bottom:calc(var(--pl-bleed)*-1);color:var(--red);mix-blend-mode:multiply;
   -webkit-mask:url(/riso/ink-grain.png) 0 0/192px repeat,url(/riso/ink-roller.png) 0 0/640px repeat;mask:url(/riso/ink-grain.png) 0 0/192px repeat,url(/riso/ink-roller.png) 0 0/640px repeat;
   -webkit-mask-mode:luminance;mask-mode:luminance;-webkit-mask-composite:source-in;mask-composite:intersect}
-.p3 .pl.black .ink {color:var(--black);mix-blend-mode:normal;-webkit-mask:none;mask:none}
-.p3 .pl.black .ko {display:none}
-.p3 .pl.black .rim {translate:calc(var(--pl-rx)*.5) calc(var(--pl-ry)*.5)}
+/* ── §16 B1: 번짐 여백이 다음 줄을 먹지 않게 (2026-09-28) ──
+   🔴 위 `--pl-bleed` 상자는 **클릭도 받았다** — 잉크가 positioned 라 밑 줄(흐름 안 요소)보다 위에서 맞고, 판이 block 이면
+   잉크의 음수 margin 이 `.pl` 를 뚫고 접혀서 `.pl` 상자까지 번짐만큼 내려온다. `/ae` 약속문 윗줄 12px 가 제목 잉크였다
+   (`elementFromPoint` → `.ink`, 판 44개 중 번짐 있는 전부가 같았다). 판 전체를 포인터에서 뺀다 — 맞는 건 부모(h1·h2…)이고,
+   글자 판정(`caretPositionFromPoint`)은 여전히 잉크의 글자로 떨어져 제목도 선택된다(실측). 판을 링크 안에 넣으면 링크가 받는다. */
+.p3 .pl {pointer-events:none}
 .p3 .pl.press .ink, .p3 .pl.press .rim, .p3 .pl.press .ko {filter:url(#p3-press)}
+
+/* ── 빨간 판 = 밀린 흰 판 + 종이에 곱한 테 + 잉크 결 (§16-13·14·26 — 2026-09-28 오너: 히어로만 → **빨간 판 전부**) ──
+   *"ae plugin 에 들어간 그림자 같은 블랙 디테일 — 밑에 붉은 색 들어간 애들한테도 공통적으로"*. 표제 · 풀쿼트 · 라인업 제품명 ·
+   가격 숫자 · 읽는 면 제목(`InkTitle`)이 한 규칙을 탄다 — 절마다 따로 쓰지 마라.
+   하우스 잉크 체인(riso-print `effect.jsx`: 흰 판이 밑 · 잉크가 MULTIPLY 로 위 · 흰 판은 좌상단으로 밀림) 그대로다.
+   ① 흰 판(`.ko`)을 좌상단으로 민다 → 획의 한쪽에 흰 판이 삐져나온다. 폭 = 흰 테 토큰(`--pl-rx/ry` = 1.5·2px, 구 흰 테와 같은 폭)이
+      38~75px 활자의 값이고, 큰 활자에선 .02·.026em 으로 자란다(히어로 128px → 2.6·3.3px). 🔴 38px 밑에선 .04·.052em 으로
+      **같이 줄어든다** — 가장 작은 판(Docs 절 머리 KO 폰 27px = 1.1·1.4px)에서 토큰 폭 그대로 두면 짙은 테와 흰 판이 한글
+      속공간(ㅍ·ㅌ·ㅔ)을 메워 글자가 뭉갰다(2026-09-28 3배 확대 대조). 줄어든 판도 테는 그대로 읽힌다.
+   ② 반대쪽에선 빨강이 흰 판 밖으로 나가 **종이에 곱해진다**(빨강 × 파랑 = 거의 검정인 짙은 자주 = 그 "그림자" · 재인 `Y` 시안의 자국).
+      🔴 그런데 판은 전부 쌓임 맥락 안에 산다(`.sec` · `.hero` · `.phero` · `.lineup` 이 z-index) — 잉크의 multiply 는 진짜 종이까지
+      못 닿는다(투명 위에 곱하면 그냥 빨강이다). 그래서 `.rim` 을 **그 판이 앉은 종이색**(`--pl-paper`)으로 바꿔 잉크 바로 밑
+      (같은 자리 · 같은 필터 · 같은 끓음)에 깐다 — 곱할 바닥을 판 안에 넣었다. 잉크 알갱이 구멍도 흰 판 밖에선 종이색으로 뚫린다.
+      검정 판(`.onblack`)은 `--pl-paper` = 검정 — 빨강 × 검정 = 검정이라 테는 안 보이고 흰 판 쪽만 산다(검정 종이 위 리소가 그렇다).
+      🔴 다른 바닥(크림 `.sheet` 등)에 빨간 판을 올리면 그 바닥에서 `--pl-paper` 를 다시 선언해라 — 안 하면 글자 모양의 파란 테가 깔린다.
+   ③ 잉크 안의 결 — 마스크(알갱이 ∩ 롤러, 위 `.pl .ink`)는 구멍만 낸다. 롤러 얼룩(곱하기) + 알갱이(soft-light)를 깐 빨강을
+      글자 모양으로 잘라 농담을 준다. 결은 px 고정이다(종이 결처럼 활자 크기를 안 따라간다).
+      🔴 `background` 단축형은 `background-clip` 을 되돌린다 — clip 은 반드시 그 **뒤에** 둔다(앞에 두면 판 상자 전체가 빨강, 실측). */
+.p3 .pl .rim {color:var(--pl-paper);translate:none}
+.p3 .pl .ko {translate:min(-.02em,max(var(--pl-rx),-.04em)) min(-.026em,max(var(--pl-ry),-.052em));opacity:1}
+.p3 .pl .ink {background:url(/riso/ink-roller.png) 0 0/300px,url(/riso/grain-mid.png) 0 0/256px,var(--red);
+  background-blend-mode:multiply,soft-light;-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke-color:var(--red)}
 @media (prefers-reduced-motion:no-preference){
   .p3 .pl.boil .ink {animation:p3-boil 1s steps(1,end) infinite}
-  .p3 .pl.boil .rim {animation:p3-p3-boil-rim 1.16s steps(1,end) infinite}
-  .p3 .reg .rim {animation:p3-register linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
-  .p3 .reg.boil .rim {animation:p3-register linear both,p3-p3-boil-rim 1.16s steps(1,end) infinite;animation-timeline:view(),auto;animation-range:entry 0% entry 55%,normal}
+  .p3 .pl.boil .rim {animation:p3-boil 1s steps(1,end) infinite}   /* 잉크와 같은 박자 — 따로 끓으면 종이판이 글자 모양으로 샌다 */
 }
 @keyframes p3-boil{0%{transform:translate(0,0)}17%{transform:translate(.5px,-.3px)}34%{transform:translate(-.4px,.4px)}51%{transform:translate(.3px,.5px)}68%{transform:translate(-.5px,-.2px)}85%{transform:translate(.2px,-.5px)}}
-@keyframes p3-boil-rim{0%{transform:translate(0,0)}17%{transform:translate(-.6px,.5px)}34%{transform:translate(.5px,-.7px)}51%{transform:translate(-.3px,-.6px)}68%{transform:translate(.7px,.3px)}85%{transform:translate(-.5px,.6px)}}
-@keyframes p3-register{from{translate:calc(var(--pl-rx)*4) calc(var(--pl-ry)*4)}to{translate:var(--pl-rx) var(--pl-ry)}}
 .p3 .sweep>* {--m:4;transition:--m var(--t-register) var(--ease-press)}
 .p3 .sweep.in>* {--m:1}
 .p3 .sweep>*:nth-child(2) {transition-delay:var(--t-nudge)} .sweep>*:nth-child(3){transition-delay:calc(var(--t-nudge)*2)} .sweep>*:nth-child(4){transition-delay:calc(var(--t-nudge)*3)} .sweep>*:nth-child(5){transition-delay:calc(var(--t-nudge)*4)} .sweep>*:nth-child(6){transition-delay:calc(var(--t-nudge)*5)}
@@ -114,12 +143,27 @@
 .p3 .typed .t {white-space:pre-wrap}
 .p3 .typed .caret {display:inline-block;width:2px;height:1em;background:var(--typeink);vertical-align:-.15em;margin-left:1px;animation:p3-caret 1s steps(1,end) infinite}
 .p3 .typed.done .caret {display:none}
-.p3 .typed .ul {background:linear-gradient(var(--typeink),var(--typeink)) 0 100%/100% 2px no-repeat;padding-bottom:1px}
-.p3 .typed .circle {position:relative;display:inline-block;padding:0 .18em}
-.p3 .typed .circle svg {position:absolute;left:-10%;top:-38%;width:120%;height:176%;overflow:visible;pointer-events:none}
-.p3 .typed .circle path {fill:none;stroke:var(--typeink);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1 1;pathLength:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s var(--ease-press) .1s}
-.p3 .typed.done .circle path {stroke-dashoffset:0}
+.p3 .typed .circle {padding:0 .18em}
 @keyframes p3-caret{50%{opacity:0}}
+
+/* 빨간 펜 — 손으로 그은 밑줄·동그라미. 🔴 사이트의 빨간 선은 전부 이것이다(반듯한 CSS 선을 새로 긋지 마라).
+   획 모양·붙는 자리 = `components/site3p/pen.ts`(PEN_TARGETS) · 여기는 자리 잡기와 **긋는 조건**뿐이다.
+   밑줄 상자는 고정 10px — viewBox 세로(10)와 같아서 가로로 늘어나도 획 굵기가 px 그대로다(pen.ts 주석).
+   🔴 빨강을 `multiply` 하지 마라 — 파란 종이 위에서 남색이 된다. 펜 선은 종이 위에 얹힌 잉크다. */
+.p3 :is(.u, nav .links > a:not(.btn-line), footer ul a, .qa .q, .typed-link, .qa .a a, .specs .n a, .specs .v a, .latest a, .rel-all a, .steps p a, .howto a, .docs-cta .faq-link, .typed .ul, .typed .circle) {position:relative}
+.p3 :is(.u, footer ul a, .qa .a a, .specs .n a, .specs .v a, .latest a, .rel-all a, .steps p a, .howto a, .docs-cta .faq-link, .typed .ul, .typed .circle) {display:inline-block;max-width:100%}
+.p3 .pen {position:absolute;left:-3%;width:106%;bottom:calc(-.1em - 6px);height:10px;overflow:visible;pointer-events:none}
+.p3 .pen path {fill:none;stroke:var(--red);stroke-width:var(--pen-w,2.2);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 2;stroke-dashoffset:1.01}
+.p3 .pen-circle {left:-10%;width:120%;top:-38%;height:176%;bottom:auto;--pen-w:2.6}
+/* 표제 밑줄은 기준선 가까이 — 표제 행간이 1 이라 기본 자리(상자 밑 6px)면 다음 줄 대문자 머리를 긋는다(`39 CHORES,⏎ONE…`). */
+.p3 .u > .pen {--pen-w:3.2;bottom:calc(.02em - 5px)}
+@media (prefers-reduced-motion:no-preference){
+  .p3 .pen path {transition:stroke-dashoffset var(--pen-t,.42s) cubic-bezier(.55,.1,.3,1) var(--pen-d,0s)}
+  .p3 .pen-circle path {--pen-t:.7s;--pen-d:.1s}
+  .p3 .u > .pen path {--pen-t:.6s;--pen-d:.12s}
+}
+/* 긋는 때 — 호버 · 키보드 초점 · 현재 절(네비) · 펼친 질문 · 진입한 표제 밑줄 · 타이핑이 끝난 문장 */
+.p3 :is(a:hover, a:focus-visible, a.on, .qa[open] .q, .u.pen-on, .typed.done .ul, .typed.done .circle) > .pen path {stroke-dashoffset:0}
 /* 신문 클리핑 — 볼드 컨덴스드 + 번호 박스 */
 .p3 .clip {position:relative;background:var(--cream);color:#151515;padding:18px 20px 20px;isolation:isolate;box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--black);rotate:var(--r,0deg);transition:rotate var(--t-press) var(--ease-press)}
 .p3 .clip::after {content:'';position:absolute;inset:0;background:url(/riso/paper-field.webp) center/620px repeat;opacity:.22;mix-blend-mode:multiply;filter:invert(1);pointer-events:none;z-index:-1}
@@ -148,7 +192,7 @@
 .p3 .spot-fig:is(:hover, .p3 :focus-visible) .spot {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--white)}
 .p3 .spot-fig:focus-visible .spot {outline:2px solid var(--black);outline-offset:4px}
 @media (prefers-reduced-motion:no-preference){
-  .p3 .spot-fig:is(:hover, .p3 :focus-within) .spot, .p3 .role:is(:hover, .p3 :focus-within) .spot {animation:p3-spot-run 1016.667ms steps(1,end) infinite}
+  .p3 .spot-fig:is(:hover, .p3 :focus-within) .spot {animation:p3-spot-run 1016.667ms steps(1,end) infinite}
 }
 @keyframes p3-spot-run{0%{background-position:0% 0%}4.098%{background-position:33.333% 0%}8.197%{background-position:66.667% 0%}12.295%{background-position:100% 0%}16.393%{background-position:0% 33.333%}20.492%{background-position:33.333% 33.333%}24.59%{background-position:66.667% 33.333%}28.689%{background-position:100% 33.333%}32.787%{background-position:0% 66.667%}36.885%{background-position:33.333% 66.667%}40.984%{background-position:66.667% 66.667%}45.082%{background-position:100% 66.667%}49.18%{background-position:0% 100%}53.279%{background-position:33.333% 100%}57.377%{background-position:66.667% 100%}61.475%{background-position:100% 100%}100%{background-position:100% 100%}}
 /* 슬러그 — 판 밑의 검정 이름표. 툴 이름은 패널과 같은 영문(builtinScripts.ts name) 이라 KO 에서도 안 바꾼다 */
@@ -157,11 +201,14 @@
 .p3[data-lang="ko"] .slug i {text-transform:none;letter-spacing:.02em}
 
 /* ── 커서 · 진행 바 ───────────────────────────────────────── */
-.p3 .cur {position:fixed;left:0;top:0;width:22px;height:22px;margin:-11px 0 0 -11px;border:1.5px solid var(--black);border-radius:50%;pointer-events:none;z-index:99;transition:transform var(--t-press) var(--ease-press),border-color var(--t-press);mix-blend-mode:multiply}
-.p3 .cur::before, .p3 .cur::after {content:'';position:absolute;background:var(--black)}
+/* 🔴 커서 = 빨간 잉크 (2026-09-28 재인 *"마우스 아이콘 레드로 변경"*). `multiply` 를 걷었다 — 빨강을 파란 종이에
+   곱하면 거의 검정(남색)이 돼서 빨강으로 안 읽힌다. 대신 잉크 판과 같은 **밀린 흰 테**(drop-shadow)를 깔아
+   빨간 버튼 위에서도 커서가 사라지지 않게 한다. */
+.p3 .cur {position:fixed;left:0;top:0;width:22px;height:22px;margin:-11px 0 0 -11px;border:1.5px solid var(--red);border-radius:50%;pointer-events:none;z-index:99;transition:transform var(--t-press) var(--ease-press);filter:drop-shadow(var(--pl-rx) var(--pl-ry) 0 var(--white))}
+.p3 .cur::before, .p3 .cur::after {content:'';position:absolute;background:var(--red)}
 .p3 .cur::before {left:50%;top:-7px;bottom:-7px;width:1.5px;transform:translateX(-50%)}
 .p3 .cur::after {top:50%;left:-7px;right:-7px;height:1.5px;transform:translateY(-50%)}
-.p3 .cur.big {transform:scale(1.9);border-color:var(--red)} .cur.big::before,.cur.big::after{background:var(--red)}
+.p3 .cur.big {transform:scale(1.9)}
 .p3 .cur.down {transform:scale(.7)}
 @media (pointer:coarse){.cur{display:none}}
 .p3 .ink-bar {position:fixed;left:0;top:0;height:4px;width:0;background:var(--red);z-index:98;box-shadow:0 1.5px 0 var(--white)}
@@ -184,8 +231,6 @@
 .p3 nav .logo img {height:54px}
 .p3 nav .links {display:flex;gap:22px;align-items:center;justify-content:flex-end;font-size:14px;font-weight:600}
 .p3 nav .links a {position:relative}
-.p3 nav .links a:not(.btn-line)::after {content:'';position:absolute;left:0;right:100%;bottom:-6px;height:2px;background:var(--red);transition:right var(--t-press) var(--ease-press)}
-.p3 nav .links a:not(.btn-line):hover::after, .p3 nav .links a.on::after {right:0}
 .p3 .btn-line {padding:9px 16px;border:1.5px solid var(--black);border-radius:6px;box-shadow:var(--rx) var(--ry) 0 var(--white);transition:box-shadow var(--t-press) var(--ease-press)}
 .p3 .btn-line:hover {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--white)}
 .p3 .langs {display:inline-flex;border:1.5px solid var(--black);border-radius:6px;overflow:hidden;margin-left:6px}
@@ -237,17 +282,9 @@
 /* ── 01 Who: 모눈 카드 + 테이프 ───────────────────────────── */
 .p3 .roles {display:grid;grid-template-columns:repeat(4,1fr);gap:64px 26px;padding-top:14px}
 .p3 .role {position:relative;min-height:300px;color:var(--black);padding:26px 22px 20px;box-shadow:calc(var(--rx)*var(--m)) calc(var(--ry)*var(--m)) 0 var(--black);transition:box-shadow var(--t-press) var(--ease-press),rotate var(--t-press) var(--ease-press);display:grid;grid-template-rows:auto 1fr auto;overflow:visible;rotate:var(--r,0deg)}
-/* 테이프는 왼쪽 반에만 — 오른쪽 위 모서리는 제품 판 자리다 */
+/* 카드마다 기울기가 다르다(테이프 자리 `--tx/--tr` 는 `.tape` 를 달 때만 쓰인다).
+   구 모서리 제품 판(`.role .spot-fig` "또는 누르기")은 2026-09-28 에 뺐다 — §16-7b, 카드 = 페르소나 + 말할 문장만. */
 .p3 .role:nth-child(1) {--r:-1.2deg;--tx:30%} .role:nth-child(2){--r:.8deg;--tx:28%;--tr:3deg} .role:nth-child(3){--r:-.6deg;--tx:32%;--tr:-4deg} .role:nth-child(4){--r:1.1deg;--tx:34%}
-/* 카드 모서리에 붙은 제품 판 = "또는 누르기". 빨간 판(말하면)이 올라올 때 같은 잡일을 버튼으로 하는 툴이 돈다 */
-.p3 .role .spot-fig {position:absolute;top:-38px;right:-18px;width:min(47%,200px);z-index:3;rotate:var(--pr,2.4deg);transition:rotate var(--t-press) var(--ease-press)}
-.p3 .role:nth-child(even) .spot-fig {--pr:-2deg}
-.p3 .role:is(:hover, .p3 :focus-within) .spot-fig {rotate:0deg}
-.p3 .role:is(:hover, .p3 :focus-within) .spot {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--white)}
-/* 🔴 슬러그는 판 폭 안에서 두 줄로. 카드가 rotate 로 쌓임 맥락을 만들어서 z-index 가 카드 밖으로 못 나간다 —
-   한 줄로 두면 넘친 꼬리를 다음 카드가 덮는다(헤드리스 실측: "SEQUENCE" 에서 잘렸다) */
-.p3 .role .spot-fig .slug {position:absolute;left:8px;bottom:-12px;margin:0;max-width:calc(100% - 4px);font-size:11px}
-.p3 .role .spot-fig .slug i {display:block}
 .p3 .role .in {position:relative;overflow:hidden}
 .p3 .role .top {display:flex;justify-content:space-between;align-items:center;color:#444}
 .p3 .role .top i {font-style:normal;color:var(--red);font-weight:800}
@@ -449,16 +486,16 @@
 .p3 footer::before {content:'';position:absolute;inset:0;background:url(/riso/paper-field.webp) center/620px repeat;opacity:.55;mix-blend-mode:screen;filter:contrast(1.3) brightness(.9);pointer-events:none;z-index:-1}
 .p3 footer .band {height:18px;margin:0 -64px 56px}
 .p3 footer .grid {display:grid;grid-template-columns:minmax(0,5fr) minmax(0,3fr) minmax(0,4fr);gap:48px;align-items:start}
-.p3 footer .logo img {height:120px}
+/* 120 → 84 (2026-09-28 재인 *"로고 사이즈 줄이기"*) — 푸터 첫 칸에서 로고가 링크 세 열보다 먼저 읽혔다. */
+.p3 footer .logo img {height:84px}
 .p3 footer .cta-row {margin-top:26px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .p3 footer .cta-row .buy {box-shadow:var(--rx) var(--ry) 0 var(--paper)}
 .p3 footer .stone-sm {width:170px;filter:drop-shadow(var(--rx) var(--ry) 0 var(--paper))}
 .p3 footer h4 {margin:0 0 12px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7d8a90;font-weight:700}
 .p3[data-lang="ko"] footer h4 {letter-spacing:0;text-transform:none}
 .p3 footer ul {list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14px}
-.p3 footer ul a:hover {color:#fff;text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:4px}
+.p3 footer ul a:hover {color:#fff}   /* 밑줄은 빨간 펜(`.pen`)이 긋는다 */
 .p3 footer .typed {--typeink:#c9cfd2;color:#c9cfd2;max-width:36ch}
-.p3 footer .typed .ul {background-image:linear-gradient(#c9cfd2,#c9cfd2)}
 .p3 footer .legal {margin-top:56px;border-top:1.5px solid #2a2f32;padding-top:18px;display:flex;justify-content:space-between;gap:16px;color:#7d8a90;flex-wrap:wrap;font-size:12px;font-weight:600}
 
 .p3 .reg-mark {position:fixed;width:20px;height:20px;border:1.5px solid var(--black);border-radius:50%;opacity:.45;z-index:5;pointer-events:none}
@@ -477,7 +514,21 @@
   .p3 .why-top, .p3 .loop, .p3 .labwrap, .p3 .stance, .p3 .pricing, .p3 footer .grid {grid-template-columns:1fr;gap:40px}
   .p3 .roles {grid-template-columns:1fr}
   .p3 .panels {grid-template-columns:1fr 1fr}
-  .p3 .sec-head {grid-template-columns:1fr} .sec-head .tag{text-align:left}
+  /* 태그 왼쪽 정렬은 `.p3` 를 달아야 이긴다 — 구 `.sec-head .tag` 는 기본 규칙(`.p3 .sec-head .tag` 우측)에 명시도로 져서 폰에서도 오른쪽에 붙어 있었다. */
+  .p3 .sec-head {grid-template-columns:1fr} .p3 .sec-head .tag{text-align:left}
   .p3 .reg-mark {display:none}
   .p3 footer .band {margin-bottom:40px}
 }
+
+/* ── §16 B3: 커서 · 손그림 (2026-09-28) ─────────────────────────────────────
+   커서는 첫 움직임 전엔 안 보인다(Chrome.tsx `.live`) — 좌표를 모르는 동안 (0,0) 모서리에 박혀 있었다.
+   손그림 = 빈 바탕을 끌어 긋는 빨간 펜(`scrawl.ts`) · 펜 선과 같은 잉크(빨강 · 둥근 끝 · multiply 안 함).
+   오버레이는 클릭을 막지 않는다. z = 네비(40)·레일(38) 위, 그레인(59·60) 밑 — 획도 종이 결을 탄다.
+   🔴 `width/height:100%` 를 지우지 마라 — svg 는 대체 요소라 `inset:0` 만으론 300×150 으로 앉는다.
+   `100vw` 도 쓰지 마라 — 스크롤바만큼 넘쳐서 가로 스크롤 유령이 하나 더 생긴다. */
+.p3 .cur {opacity:0}
+.p3 .cur.live {opacity:1}
+.p3 .scrawl {position:fixed;left:0;top:0;width:100%;height:100%;z-index:50;pointer-events:none}
+.p3 :is(.scrawl, .youit-slot svg) path {fill:none;stroke:var(--red);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.p3 .scrawl path.fade {opacity:0}
+@media (prefers-reduced-motion:no-preference){ .p3 .scrawl path {transition:opacity .9s ease} }

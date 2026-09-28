@@ -7,7 +7,7 @@
    최근 두 버전 × 앞 항목 셋, 각 항목의 **첫 문장**만. 노트 항목의 순서가 곧 편집 우선순위다
    (`releases.ts` 가 중요한 것부터 적는다). 조판은 Docs 업데이트 로그의 `.rel` 을 그대로 쓴다 —
    같은 노트가 두 면에서 다른 모양이면 다른 것처럼 읽힌다. 전문은 `/update` 가 갖는다.
-   🔴 도그푸드 블록은 여기 없다 — Library 판 바로 뒤로 이사했다(Features.tsx). */
+   (구 도그푸드 블록은 2026-09-28 에 페이지에서 뺐다 — §16 2라운드 오너.) */
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 import { RELEASES } from '@/lib/releases';

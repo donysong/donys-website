@@ -8,12 +8,11 @@
 
    🔴 이 페이지가 지키는 규칙 셋(레퍼런스 battleaxe.co 실측):
      ① 본문에 브랜드 서사 0단어 — 브랜드로 가는 길은 푸터뿐이다(셸이 건다).
-     ② 가격 전에 증거 — 기능 5블록 · 후킹 6장 · 도그푸드 · 릴리스가 전부 가격 위에 있다.
+     ② 가격 전에 증거 — 기능 5블록 · 후킹 6장 · 릴리스가 전부 가격 위에 있다.
      ③ 가격 섹션에 버튼이 없다 — 스티키 레일(45% 점화)이 CTA 를 독점한다.
    🔴 CTA 는 전부 **실제 체크아웃**으로 간다(레일 · 히어로 원 · 네비 버튼). 프로토는 셋 다 `#price`
    였고 그 섹션엔 버튼이 없어서 **팔 수 없는 페이지**였다 — 그 결함을 이식하지 마라. */
-import Page4, { type NavLink } from '@/components/site4/Shell';
-import { CHECKOUT_URL } from '@/lib/product';
+import Page4 from '@/components/site4/Shell';
 import Hero from './Hero';
 import Who from './Who';
 import Posi from './Posi';
@@ -23,17 +22,10 @@ import Price from './Price';
 import Faq from './Faq';
 import Specs from './Specs';
 
-const LINKS: NavLink[] = [
-  { href: '#who', k: 'ae.nav.who' },
-  { href: '#what', k: 'ae.nav.what' },
-  { href: '#price', k: 'ae.nav.price' },
-  { href: '#faq', k: 'ae.nav.faq' },
-  { href: '/ae/docs', k: 's.docs' },
-];
-
+/* 네비(절 링크 · 구매 버튼)는 셸의 `AE_NAV` 한 벌이다(§16-23) — 여기서 `links`·`cta` 를 넘기지 마라. */
 export default function AePage() {
   return (
-    <Page4 page="ae" plateTotal={6} rail links={LINKS} cta={{ href: CHECKOUT_URL, k: 's.buy.price' }}>
+    <Page4 page="ae" plateTotal={6} rail>
       <Hero />
       <Who />
       <Posi />

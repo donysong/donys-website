@@ -4,6 +4,8 @@
    🔴 네비는 여기 없다 — `components/site4/Shell.tsx` 의 `Nav4` 가 갖는다. 구 `Nav` 는
    판 수·항목이 페이지마다 달라진 §14 분리에서 죽었고, 그게 `lib/copy/v33.ts` 의 마지막 소비자였다. */
 import { useEffect } from 'react';
+import { penify } from './pen';
+import { scrawl } from './scrawl';
 
 
 export function Defs() {
@@ -32,17 +34,25 @@ export function Surface() {
   );
 }
 
-/* 커서(등록 마크) + 상단 잉크 바. 손가락 기기에선 커서를 숨긴다(CSS). */
+/* 커서(등록 마크) + 상단 잉크 바. 손가락 기기에선 커서를 숨긴다(CSS).
+   🔴 커서는 **첫 움직임 전엔 안 보인다**(`.live`) — 좌표를 모르는 동안 (0,0) 모서리에 박혀 있었다(2026-09-28).
+   창 밖으로 나가면 다시 숨는다. */
 export function useChrome() {
   useEffect(() => {
     const cur = document.getElementById('p3-cur');
     const bar = document.getElementById('p3-inkbar');
     const fine = matchMedia('(pointer:fine)').matches;
-    const onMove = (e: PointerEvent) => { if (cur) { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; } };
+    const onMove = (e: PointerEvent) => {
+      if (!cur) return;
+      cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; cur.classList.add('live');
+    };
     const down = () => cur?.classList.add('down');
     const up = () => cur?.classList.remove('down');
     const over = (e: Event) => { if ((e.target as HTMLElement).closest?.('[data-cur]')) cur?.classList.add('big'); };
-    const out = (e: Event) => { if ((e.target as HTMLElement).closest?.('[data-cur]')) cur?.classList.remove('big'); };
+    const out = (e: PointerEvent) => {
+      if ((e.target as HTMLElement).closest?.('[data-cur]')) cur?.classList.remove('big');
+      if (!e.relatedTarget) cur?.classList.remove('live');
+    };
     const scroll = () => {
       const h = document.documentElement;
       if (bar) bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
@@ -61,10 +71,14 @@ export function useChrome() {
       if (en.isIntersecting) { (en.target as HTMLElement).style.setProperty('--m', '1'); one.unobserve(en.target); }
     }), { threshold: 0.3 });
     document.querySelectorAll('.sweep-one').forEach((el) => { (el as HTMLElement).style.setProperty('--m', '4'); one.observe(el); });
+    /* 빨간 펜 — 밑줄 자리에 손그림 획을 붙인다(pen.ts). 긋는 조건은 CSS 가 쥔다. */
+    const stopPen = penify();
+    /* 빈 바탕을 끌면 빨간 펜으로 긋는다(scrawl.ts) — 데스크톱만, 글자·링크는 안 뺏는다. */
+    const stopScrawl = scrawl();
     return () => {
       removeEventListener('pointermove', onMove); removeEventListener('pointerdown', down); removeEventListener('pointerup', up);
       document.removeEventListener('pointerover', over); document.removeEventListener('pointerout', out);
-      removeEventListener('scroll', scroll); sw.disconnect(); one.disconnect();
+      removeEventListener('scroll', scroll); sw.disconnect(); one.disconnect(); stopPen(); stopScrawl();
     };
   }, []);
 }

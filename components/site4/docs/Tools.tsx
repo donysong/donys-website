@@ -18,6 +18,14 @@ import { T } from '@/lib/copy';
 import { DOCS_CATS, DOCS_TOOLS, type DocsTool } from '@/lib/docsData';
 import SecHead from './SecHead';
 
+/* 행이 고르게 차는 열 수 — 최대 4열에서 줄 수를 먼저 정하고 그 줄들에 고르게 나눈다.
+   12 → 4·4·4 · 8 → 4·4 · 6 → 3·3 · 4 → 4 · 3 → 3. (구: 6 을 4+2 로 둬서 둘째 줄 반이 비었다.)
+   좁은 폭(≤1080)은 site4.css 의 2열·1열 규칙이 이긴다. */
+const MAX_COLS = 4;
+function balancedCols(n: number) {
+  return Math.ceil(n / Math.ceil(n / MAX_COLS));
+}
+
 function ToolCard({ tool }: { tool: DocsTool }) {
   const { t, lang } = useT();
   const noteKey = `docs.note.${tool.id}`;
@@ -54,7 +62,7 @@ export default function Tools() {
                 {t('docs.tools.n').replace('{n}', String(list.length))} · {t(`docs.cat.${cat}.s`)}
               </span>
             </div>
-            <div className="toolgrid sweep">
+            <div className="toolgrid sweep" style={{ '--cols': balancedCols(list.length) } as React.CSSProperties}>
               {list.map((tool) => <ToolCard key={tool.id} tool={tool} />)}
             </div>
           </Fragment>

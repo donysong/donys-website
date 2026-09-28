@@ -46,14 +46,8 @@
 .p3 .row.open::after {content:'';position:absolute;inset:0;background:var(--red);opacity:0;mix-blend-mode:multiply;
   transition:opacity var(--t-press);pointer-events:none}
 .p3 .row.open:hover::after {opacity:.07}
-/* 아직 이름 없는 행 — 브랜드 가이드 `IT` 조항(*"아직 이름 없는 것. 내 앞의 빈 파일"*).
-   🔴 "coming soon" 배지를 붙이지 마라 — 없는 제품을 광고하는 게 아니라, 이름이 비어 있다는 게 내용이다. */
-.p3 .row.blank {opacity:.72}
-.p3 .row.blank .row-fig .plate-empty {aspect-ratio:16/9;background:var(--cream);position:relative;isolation:isolate;
-  box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white);display:grid;place-items:center}
-.p3 .row.blank .plate-empty::after {content:'';position:absolute;inset:0;z-index:-1;
-  background:url(/riso/paper-field.webp) center/620px repeat;opacity:.24;mix-blend-mode:multiply;filter:invert(1)}
-.p3 .row.blank .plate-empty img {width:44%;opacity:.5}
+/* 구 `.row.blank`(아직 무제 행)는 2026-09-28 에 뺐다 — 재인 *"이거 빼고 처음 소개 부분에 내용 합치기"*.
+   그 문장은 01 머리의 태그(`home.lineup.tag`)로 옮겼다(Lineup.tsx 주석). */
 
 /* ═══ 이름 풀이 — 브랜드 루트 전용 ═════════════════════════════
    브랜드 가이드 ESSENCE 장의 표 그대로. 3행 × (글자 · 사업에선 · 브랜드에선) */
@@ -103,10 +97,17 @@
 .p3 .phero .cap {margin-top:12px;font-size:12.5px;color:var(--muted)}
 /* 원형 CTA — 레퍼런스의 두 동그라미 */
 .p3 .circ {display:grid;place-items:center;width:172px;height:172px;border-radius:50%;text-align:center;line-height:1.25;
-  font-weight:800;font-size:17px;letter-spacing:.01em;transition:scale var(--t-press) var(--ease-press),box-shadow var(--t-press)}
+  font-weight:800;font-size:17px;letter-spacing:.01em}
 .p3 .circ.fill {background:var(--red);color:var(--white);mix-blend-mode:multiply;box-shadow:var(--rx) var(--ry) 0 var(--white)}
 .p3 .circ.line {border:1.5px solid var(--black);box-shadow:var(--rx) var(--ry) 0 var(--white)}
-.p3 .circ:hover {scale:1.04;box-shadow:calc(var(--rx)*2.4) calc(var(--ry)*2.4) 0 var(--white)}
+/* 호버 = 돋보기 (2026-09-28 재인 *"마우스 가져다 댔을 때 확대되는 것 — 스케일 커지고 텍스트도 좀 더 확대한 것처럼"*).
+   원이 커지고 **글자는 원보다 한 번 더** 커진다(원 1.14 × 글자 1.12 = 1.28) — 렌즈 속이 더 크게 보이는 것처럼.
+   두 원은 같은 무게라(위 주석) 같이 움직인다. 줄인 모션 설정에선 크기만 바뀌고 움직임은 없다. */
+.p3 .circ > span {transition:scale var(--t-press) var(--ease-press)}
+.p3 .circ:is(:hover, :focus-visible) {scale:1.14;box-shadow:calc(var(--rx)*2.4) calc(var(--ry)*2.4) 0 var(--white)}
+.p3 .circ:is(:hover, :focus-visible) > span {scale:1.12}
+@media (prefers-reduced-motion:no-preference){ .p3 .circ {transition:scale var(--t-press) var(--ease-press),box-shadow var(--t-press)} }
+@media (prefers-reduced-motion:reduce){ .p3 .circ > span {transition:none} }
 .p3 .circ b {display:block;font-size:24px;letter-spacing:-.01em}
 .p3 .circ small {display:block;font-size:12px;font-weight:600;opacity:.8;margin-top:3px}
 .p3 .phero .undercirc {font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
@@ -133,7 +134,7 @@
 .p3 .feat h3 {margin:0 0 16px;font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;
   font-size:clamp(1.6rem,2.8vw,2.4rem);line-height:1;letter-spacing:-.025em;text-transform:uppercase}
 .p3[data-lang="ko"] .feat h3 {text-transform:none;letter-spacing:-.01em;line-height:1.18;font-size:clamp(1.5rem,2.4vw,2rem)}
-.p3 .feat h3 .u {background:linear-gradient(var(--red),var(--red)) 0 100%/100% 3px no-repeat;padding-bottom:3px}
+/* `.u` 강조 밑줄 = 빨간 펜(site3p.css `.pen`) — 표제가 뷰포트에 들어오면 그어진다. */
 .p3 .feat p {margin:0 0 14px;font-size:16px;line-height:1.6;max-width:44ch}
 .p3 .feat ul {margin:18px 0 0;padding:0;list-style:none;display:grid;gap:7px}
 .p3 .feat ul li {position:relative;padding-left:16px;font-size:14px;line-height:1.45}
@@ -176,10 +177,7 @@
 .p3 .pricing .incl {margin:24px 0 0;padding:0;list-style:none;display:grid;gap:9px}
 .p3 .pricing .incl li {position:relative;padding-left:20px;font-size:15px;line-height:1.5}
 .p3 .pricing .incl li::before {content:'✓';position:absolute;left:0;font-weight:800;color:var(--red);mix-blend-mode:multiply}
-.p3 .pricing .argue {padding:30px 32px}
-.p3 .pricing .argue h4 {margin:0 0 12px;font-size:22px;font-weight:800;letter-spacing:-.01em}
-.p3 .pricing .argue p {margin:0 0 12px;font-size:15px;line-height:1.6}
-.p3 .pricing .argue p:last-child {margin-bottom:0}
+/* (구 `.argue` "왜 구독이 아닌가" 카드는 2026-09-28 에 걷었다 — §16-15·16. 새 가격 판 = 파일 끝 §16 B1.) */
 
 /* ═══ FAQ — 🔴 답은 **판정어 한 마디**로 시작한다 (펼치기 전에 읽힌다) ═══ */
 .p3 .faq-group {margin-bottom:40px}
@@ -191,7 +189,7 @@
 .p3 .qa .q {font-size:18px;font-weight:700;letter-spacing:-.01em}
 .p3 .qa .verdict {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:20px;
   color:var(--red);mix-blend-mode:multiply;letter-spacing:-.01em;white-space:nowrap}
-.p3 .qa[open] .q {text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--red)}
+.p3 .qa .q {justify-self:start}   /* 펼치면 빨간 펜 밑줄 — 칸 전폭이 아니라 글자 폭에 긋는다 */
 .p3 .qa .a {padding:0 0 20px;margin:0;font-size:15px;line-height:1.62;max-width:72ch;color:var(--text)}
 .p3 .qa .a b {font-weight:700}
 
@@ -259,6 +257,9 @@
 .p3 .docs-cta {display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:40px;
   border-top:1.5px solid var(--black);padding-top:24px}
 .p3 .docs-cta .txt {flex:1;min-width:260px;font-size:15px;line-height:1.5}
+/* `/ae` 후킹 6장 밑의 Docs 넘김 줄은 선을 안 가진다(2026-09-28 재인 *"상단 라인 삭제"*) — 카드 격자와 바로 이어지는 줄이다.
+   Docs 설치 절 끝의 같은 부품은 사양표 뒤라 선을 그대로 둔다. */
+.p3 #what .docs-cta {border-top:0;padding-top:0}
 .p3 .btn-fill {display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:7px;
   background:var(--red);color:var(--white);mix-blend-mode:multiply;font-weight:800;font-size:15px;
   box-shadow:var(--rx) var(--ry) 0 var(--white);transition:box-shadow var(--t-press) var(--ease-press)}
@@ -276,7 +277,9 @@
   font-size:26px;letter-spacing:-.02em;text-transform:uppercase}
 .p3[data-lang="ko"] .catbar h3 {text-transform:none;letter-spacing:-.01em}
 .p3 .catbar .n {font-size:13px;font-weight:700;color:var(--typeink)}
-.p3 .toolgrid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 20px}
+.p3 .toolgrid {display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:24px 20px}
+/* ↑ `--cols` = 행이 고르게 차는 열 수(Tools.tsx `balancedCols`, 최대 4). 6개를 4+2 로 두면 둘째 줄 반이 빈다 —
+   3+3 으로 채운다(2026-09-28 재인 *"공간 남는 애들은 4/2 말구 3/3"*). 정렬은 그대로 왼쪽이다. */
 .p3 .toolcard h4 {margin:11px 0 5px;font-size:15px;font-weight:800;letter-spacing:-.01em}
 /* 설명 = `--text`(종이 파랑 위 4.88:1). 구 `#0c3b52` 는 3.89:1 로 이 페이지 본문이 페이지에서 제일 흐렸다(S-33). */
 .p3 .toolcard p {margin:0;font-size:13px;line-height:1.5;color:var(--text)}
@@ -290,8 +293,8 @@
 .p3 .ptable td {padding:14px 16px 14px 0;border-bottom:1.5px solid rgba(0,0,0,.18);line-height:1.5;vertical-align:top}
 .p3 .ptable td:first-child {font-weight:800;white-space:nowrap}
 .p3 .ptable td .k {display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-top:3px}
-/* 카탈로그 숫자 행 */
-.p3 .cat-nums {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1.5px solid var(--black)}
+/* 카탈로그 숫자 행 — 칸 6개(§16-18 로 "내 것" 이 빠졌다) = 3열 두 줄. 4열이면 4+2 로 둘째 줄 반이 빈다. */
+.p3 .cat-nums {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1.5px solid var(--black)}
 .p3 .cat-nums .c {padding:20px 20px 20px 0;border-bottom:1.5px solid rgba(0,0,0,.18)}
 .p3 .cat-nums .c b {display:block;font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;
   font-size:40px;line-height:1;letter-spacing:-.03em;color:var(--red);mix-blend-mode:multiply}
@@ -336,19 +339,23 @@
 /* 레일 링크 대비 — opacity .6 은 파란 종이 위에서 안 읽혔다 */
 .p3 .rail .links a {opacity:.78;color:var(--text)}
 .p3 .rail .links a.on {opacity:1;color:var(--red);mix-blend-mode:multiply;font-weight:800}
-.p3 .rail .buy {width:104px;height:104px}
+/* 레일 버튼 크기는 파일 끝 §16 B3 가 쥔다(104 → 112). */
 
 /* ── 수정 5. 루트 히어로 — 장식이 메시지를 19배로 눌렀다 (실측 11,158px² vs 212,470px²) ──
    h1 을 키우고 칼럼 비를 뒤집는다. 돌은 조연이지 주연이 아니다. */
 .p3.root .hero {grid-template-columns:minmax(0,8fr) minmax(0,4fr);min-height:auto;padding-top:8px;padding-bottom:72px;align-items:center}
-.p3.root h1 {font-size:clamp(3.4rem,8.4vw,7.6rem);line-height:.98;margin:20px 0 26px}
+.p3.root h1 {font-size:clamp(3rem,6vw,5.4rem);line-height:.98;margin:20px 0 26px}
+/* ↑ 7.6rem → 5.4rem (2026-09-28 재인 *"얘 사이즈 줄이기 — 이게 크니까 전체적으로 크다고 느껴지넹"*). 1440 에서 121 → 86px.
+   구 확대(19:1 → 5.2:1)의 목적은 돌 대비 표제 우위였고, 이 크기에서도 표제가 돌보다 크다. */
 .p3.root .hero .sub {font-size:21px;max-width:38ch}
 .p3.root .hero .sticky {padding:18px}
 /* 스탠스 줄 — 브랜드의 핵심 문장인데 15px 파랑이라 종이에 묻혔다. 링크임을 보이게 */
 .p3 .typed-link {display:inline-block;margin-top:26px;border-bottom:2px solid var(--typeink);padding-bottom:3px;
   transition:border-color var(--t-press)}
 .p3 .typed-link .typed {font-size:17px}
-.p3 .typed-link:hover {border-color:var(--red)}
+/* 호버 = 파란 선이 빠지고 빨간 펜이 그 자리에 그어진다 */
+.p3 .typed-link:hover {border-color:transparent}
+.p3 .typed-link > .pen {bottom:-9px}
 
 /* ── 수정 6. 레드 감량 — 레드가 5가지 일을 했다 (루트에만 빨간 글자 13개) ──
    🔴 남기는 것: CTA 면 · 가격 숫자 · 디스플레이 활자 · 로고 · 배지 (= 브랜드 정본의 "키포인트").
@@ -363,22 +370,15 @@
 /* ── 수정 7. 가격 섹션 빈 304px (540 중 56%) · 섹션 아이콘 ── */
 .p3 #price .sec {padding-bottom:56px}
 .p3 .pricing {align-items:stretch}
-.p3 .pricing .argue {display:flex;flex-direction:column;justify-content:center}
 /* 섹션 머리의 돌 — 34px 어두운 덩어리가 브랜드 마크가 아니라 얼룩으로 읽혔다 */
 .p3 .sec-head .no img {width:26px;height:26px;opacity:.72}
 
 /* ── 수정 2. 히어로 대체 자료 — 브랜딩 영상이 나올 때까지 ──
    🔴 점선 빈 상자는 "제작 슬롯"이 아니라 **공사 중**으로 읽힌다. 그 사이 자리를 비워두지 않는다.
-   재료는 발명하지 않는다 — 툴박스 프리뷰 시트(실제 AE 렌더)를 **판 교대**로 돌린다.
-   교대는 하우스 위글 원리(§8.5: 부드럽게 흔들지 않고 6fps 로 갈아끼운다)를 따른다. */
+   재료는 발명하지 않는다 — 툴박스 프리뷰 시트(실제 AE 렌더)를 돌린다. 교대는 하우스 위글 원리(§8.5: 갈아끼운다).
+   2026-09-28 §16-8 — 2× 스틸 판 교대 → **시트 몽타주 루프**(Hero.tsx). 교대·재생 규칙은 파일 끝 §16 B1. */
 .p3 .rotator {position:relative;aspect-ratio:16/9}
-.p3 .rotator .slide {position:absolute;inset:0;opacity:0;transition:opacity .001s steps(1,end)}
-.p3 .rotator .slide.on {opacity:1}
-.p3 .rotator .spot, .p3 .rotator img {box-shadow:calc(var(--rx)*2) calc(var(--ry)*2) 0 var(--white)}
-/* 🔴 히어로는 **2× 스틸 한 장**이다(시트가 아니다). 평시에 정지 프레임만 보이고 교대는 판째
-   갈아끼우므로 플립북이 필요 없다 — 2× 시트는 장당 680KB 라 히어로에 5장이면 3.4MB 다.
-   스틸이면 73KB. 움직임이 필요한 자리(후킹 카드·Docs)는 1× 시트가 받는다. 정본 = webAssets.mjs */
-.p3 .rotator img {width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.p3 .rotator .spot {box-shadow:calc(var(--rx)*2) calc(var(--ry)*2) 0 var(--white)}
 .p3 .rotator .rot-tag {position:absolute;left:0;bottom:-34px;display:flex;align-items:center;gap:10px;
   font-size:12px;font-weight:800;letter-spacing:.06em}
 .p3 .rotator .rot-tag .slug {margin-top:0}
@@ -389,22 +389,15 @@
 /* ── 수정 4. Who — 🔴 내 CSS 를 쓰지 않는다.
    `base.css` 에 proto3 의 역할 카드 시스템이 통째로 살아 있다(`.role` 22규칙 · `.say` 7규칙).
    중복 정의하면 두 디자인이 갈라진다 — **하우스 계약에 HTML 을 맞춘다**:
-     article.role.gridp > figure.spot-fig + div.in(.top,h3,p,.hint) + div.say(b,q,small)
+     article.role.gridp > div.in(.top,h3,p,.hint) + div.say(b,q,small)   (구 figure.spot-fig 는 §16-7b 로 빠졌다)
    내가 `.say` 를 새로 정의했다가 평시 숨김(빨간 판 slip-in)을 덮어써서 카드가 반쯤 빈 채로
    렌더됐다 — 이 프로토에서 잡은 **5번째 클래스 충돌**이다. */
 
-/* ── 수정 8. "우리가 먼저 쓴다" 증거 — 증언 대신 검증 가능한 사실 하나 ── */
-.p3 .dogfood {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,260px);gap:36px;align-items:center;margin-top:36px;padding:24px 0;
-  border-top:1.5px solid var(--black);border-bottom:1.5px solid var(--black);padding:30px 0;margin-top:56px}
-.p3 .dogfood p {margin:0;font-size:17px;line-height:1.6}
-.p3 .dogfood p b {font-weight:800}
-.p3 .dogfood .lab {display:block;margin-bottom:10px;color:var(--typeink)}
-.p3 .dogfood img {width:100%;box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white)}
+/* (구 수정 8 "우리가 먼저 쓴다" `.dogfood` 줄은 2026-09-28 에 뺐다 — §16 2라운드 오너 "삭제".) */
 
 @media (max-width:1080px){
   .p3.root .hero {grid-template-columns:1fr}
   .p3 .roles {grid-template-columns:repeat(2,minmax(0,1fr))}
-  .p3 .dogfood {grid-template-columns:1fr}
 }
 @media (max-width:680px){ .p3 .roles {grid-template-columns:1fr} }
 
@@ -497,8 +490,7 @@
 .p3 .qa .a,
 .p3 .toolcard p,
 .p3 .sec > p.lab,
-.p3 .feat > p,
-.p3 .dogfood p { max-width: var(--measure) }
+.p3 .feat > p { max-width: var(--measure) }
 
 /* 🔴 릴리스 목록은 **캡이 아니라 단(column)으로** 잡는다.
    `max-width` 만 걸었더니 읽히기는 하는데 판면 오른쪽 60% 가 통째로 비었다 —
@@ -542,9 +534,9 @@
 /* ════ 2026-09-26 W1 — 전수 조사 수정분 ══════════════════════════════════════ */
 
 /* 본문 속 링크 — `.p3 a` 가 밑줄을 지운다(네비·버튼용 기본값). 문장 안의 링크는 **링크로 보여야** 한다.
-   FAQ 답 · 사양 주석 · 루트 03 의 증거 줄 · 릴리스 전체 링크. */
-.p3 :is(.qa .a, .specs .n, .latest, .rel-all) a {text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
-.p3 :is(.qa .a, .specs .n, .latest, .rel-all) a:hover {text-decoration-color:var(--red)}
+   FAQ 답 · 사양 주석 · 루트 03 의 증거 줄 · 릴리스 전체 링크. 호버 = 검정 밑줄이 빠지고 빨간 펜이 긋는다(site3p.css `.pen`). */
+.p3 :is(.qa .a, .specs .n, .latest, .rel-all) a {text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;transition:text-decoration-color var(--t-press)}
+.p3 :is(.qa .a, .specs .n, .latest, .rel-all) a:hover {text-decoration-color:transparent}
 
 /* 루트 03 — 표제(`.myth`) 밑 증거 한 줄. 표제가 말하는 *"이번 주에 창작한 것"* 을 우리 걸로 보인다.
    버전·날짜·문장은 `lib/releases.ts` 에서 온다(home/Who.tsx). */
@@ -584,10 +576,7 @@
 .p3 nav .label {min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .p3 nav .links > * {flex-shrink:0;white-space:nowrap}
 @media (max-width:1280px){ .p3 nav .links {gap:14px} }   /* /ae 를 1280 에서 다시 들인다(522→474 ≈ 칸 472) */
-/* Docs 는 네비의 절 링크 다섯을 **바로 밑 목차 칩(`.toc`)이 그대로 되풀이한다** — 같은 링크 두 줄이 네비를
-   넘치게 한 원인이다(1440 에서 로고가 104px 밀렸다). 네비엔 제품으로 돌아가는 CTA 와 언어만 남기고,
-   현재 절 표시(`.on`)는 Shell 이 목차 칩에 켠다. */
-.p3[data-page="docs"] nav .links > a:not(.btn-line) {display:none}
+/* (구 Docs 네비 절 링크 숨김 규칙은 2026-09-28 에 지웠다 — Docs 가 `/ae` 네비 한 벌로 갈아탔다. 파일 끝 §16 B3.) */
 @media (max-width:960px){
   .p3 nav {grid-template-columns:auto 1fr}
   /* 폰에서 언어 전환은 **누를 수 있어야** 한다(S-09) — 탭 높이 36px. */
@@ -600,6 +589,10 @@
 
 /* 표지 아이브로 — `--typeink` 는 종이 파랑 위 2.59:1(14px)이라 판독 실패였다. 이 클래스는 Docs 표지만 쓴다. */
 .p3[data-page="docs"] .eyebrow {color:var(--text)}
+/* 읽는 면의 절 제목은 한 단 작다 (2026-09-28 재인 — `Release log`·`Panels` 표제가 그 밑의 설명(본문)보다 먼저 읽혔다).
+   파는 면(`/` · `/ae`)의 판 머리는 그대로다. 1440 에서 66 → 43px · 국문 54 → 37px. 표지 `Docs` h1 은 안 건드린다. */
+.p3[data-page="docs"] .sec-head h2 {font-size:clamp(1.9rem,3vw,2.8rem)}
+.p3[data-page="docs"][data-lang="ko"] .sec-head h2 {font-size:clamp(1.7rem,2.6vw,2.4rem)}
 
 /* 툴 카드 앵커(`#tool-<id>`) — sticky 네비(78) + 목차 칩(~50) 밑으로 카드 머리가 들어가지 않게.
    딥링크로 들어오면 어느 카드인지 보이게 테를 한 번 두른다. 이름 = 그 앵커로 가는 링크(주소 복사용). */
@@ -628,12 +621,22 @@
   font-weight:800;font-size:30px;line-height:1;color:var(--black)}
 .p3 .steps h4 {margin:0 0 8px;font-size:17px;font-weight:800;letter-spacing:-.01em}
 .p3 .steps p {margin:0;font-size:15px;line-height:1.55;color:var(--text)}
+/* 단계별 화면(접힘) — 찍은 것이 있는 단계에만 선다. 판 = 흰 판이 ↖ 로 어긋난 검정 패널(기능 판과 같은 밑판). */
+.p3 .step-shot {margin-top:12px}
+.p3 .step-shot > summary {list-style:none;cursor:none;display:inline-flex;align-items:baseline;gap:8px;font-size:14px;font-weight:800;
+  text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+.p3 .step-shot > summary::-webkit-details-marker {display:none}
+.p3 .step-shot .pm {font-size:17px;line-height:1;text-decoration:none;display:inline-block;transition:rotate var(--t-press) var(--ease-press)}
+.p3 .step-shot[open] > summary .pm {rotate:45deg}
+.p3 .step-shot img {display:block;width:100%;height:auto;margin-top:12px;background:#0c0c0c;
+  box-shadow:calc(var(--rx)*var(--m,1.6)) calc(var(--ry)*var(--m,1.6)) 0 var(--white)}
 .p3 .menu-list {margin:22px 0 0;font-size:14px;line-height:1.9;color:var(--text)}
-.p3 :is(.steps, .howto, .menu-list, .paths, .specs) code {font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+.p3 :is(.steps, .howto, .menu-list, .menu-note, .byhand, .specs) code {font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
   background:rgba(246,244,238,.55);padding:1px 5px;border-radius:3px;white-space:nowrap}
-.p3 .howto code, .p3 .paths code {white-space:normal;overflow-wrap:anywhere}
-/* 업데이트 · 제거 · 수동 설치 · 안 될 때 — 2열. 구매 전 독자는 건너뛰고, 산 사람은 여기서 찾는다. */
-.p3 .howto {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 48px;margin:44px 0 64px}
+.p3 .howto code, .p3 .byhand code {white-space:normal;overflow-wrap:anywhere}
+/* 업데이트 · 제거 · 안 될 때 — 3열(수동 설치는 §16-3 으로 경로와 함께 밑 접힘 `.byhand` 로 갔다).
+   구매 전 독자는 건너뛰고, 산 사람은 여기서 찾는다. */
+.p3 .howto {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 40px;margin:44px 0 0}
 .p3 .howto > div {border-top:1.5px solid rgba(0,0,0,.24);padding-top:14px}
 .p3 .howto h4 {margin:0 0 8px;font-size:16px;font-weight:800;letter-spacing:-.01em}
 .p3 .howto p, .p3 .howto li {margin:0;font-size:14px;line-height:1.6;color:var(--text)}
@@ -645,8 +648,190 @@
 .p3 .paths dd {margin:0}
 .p3 .spec-h {margin:0 0 18px;color:var(--text)}
 /* 문장 속 링크는 링크로 보여야 한다 — `.p3 a` 가 밑줄을 지운다(W1 의 `.qa .a` 등과 같은 처방). */
-.p3 :is(.steps p, .howto, .specs .v) a, .p3 .docs-cta .faq-link {text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
-.p3 :is(.steps p, .howto, .specs .v) a:hover, .p3 .docs-cta .faq-link:hover {text-decoration-color:var(--red)}
+.p3 :is(.steps p, .howto, .specs .v) a, .p3 .docs-cta .faq-link {text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;transition:text-decoration-color var(--t-press)}
+.p3 :is(.steps p, .howto, .specs .v) a:hover, .p3 .docs-cta .faq-link:hover {text-decoration-color:transparent}
 .p3 .docs-cta .faq-link {font-weight:700;white-space:nowrap}
 @media (max-width:1080px){ .p3 .steps {grid-template-columns:1fr;gap:20px} }
 @media (max-width:760px){ .p3 .howto {grid-template-columns:1fr;gap:24px} }
+
+/* ════ §16 B3: 셸 — 제품 네비 한 벌 · 레일 강조 · You [ ] It (2026-09-28) ═══════════════════ */
+
+/* 제품 네비(§16-23) — `/ae` 이하는 전부 `/ae` 네비다(Shell `AE_NAV`, 표시 `nav[data-nav="ae"]`).
+   Docs 판면은 1160 으로 좁지만 네비는 **`/ae` 판면(1364)으로** 잰다 — 두 면을 오갈 때 네비가 한 픽셀도 안 움직인다.
+   `--pad` 를 다시 선언하는 이유: `.p3` 에서 1160 으로 이미 풀려 내려온다(변수는 선언한 자리에서 계산된다).
+   읽는 면(`/update` · 법 3장 · 404)은 자기 네비(`ownNav`)라 여기 안 걸린다. */
+.p3[data-page="docs"] nav[data-nav="ae"] {--pad:max(var(--gut), (100% - 1364px) / 2)}
+/* 현재 면 — Docs 에서 `Docs` 링크에 펜 밑줄이 그어진 채로 있다(같은 면 앵커의 `.on` 과 같은 표시). */
+.p3 nav .links > a[aria-current="page"] > .pen path {stroke-dashoffset:0}
+
+/* 구매 레일 강조(§16-5) — CTA 수는 그대로, 이 하나를 세게: 104 → 112 · `Buy` 는 디스플레이 활자 · 밑판 1.6 배.
+   🔴 오른쪽을 22 → 14 로 당겨 **왼쪽 모서리는 그대로**(뷰포트 −126px)다 — 레일은 거터(128) 안에 산다(판면 주석).
+   처음 점화(`.lit`, Shell `BuyRail`) 때 한 번: 빨간 펜이 버튼을 두르고(`pen.ts` ring) 버튼이 찍힌다.
+   🔴 찍힘 애니메이션은 `backwards` 다, `both` 가 아니라 — 끝 상태를 붙잡으면 호버 `scale` 이 죽는다. */
+.p3 .rail {right:14px}
+.p3 .rail .buy {width:112px;height:112px;font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-size:23px;
+  line-height:1.05;letter-spacing:-.01em;box-shadow:calc(var(--rx)*1.6) calc(var(--ry)*1.6) 0 var(--white)}
+.p3 .rail .buy small {margin-top:5px;font-family:var(--font);font-variation-settings:'ROND' 100,'wdth' 100;font-size:13px;
+  font-weight:700;letter-spacing:0;opacity:.92}
+.p3 .rail > .pen {left:-15px;top:-15px;width:calc(100% + 30px);height:calc(100% + 30px);bottom:auto;--pen-w:2.2}
+.p3 .rail.lit > .pen path {stroke-dashoffset:0}
+@media (prefers-reduced-motion:no-preference){
+  .p3 .rail > .pen path {--pen-t:.8s;--pen-d:.3s}
+  .p3 .rail.lit .buy {animation:p3-rail-stamp .46s var(--ease-press) .08s backwards}
+}
+@keyframes p3-rail-stamp{0%{scale:1.3;opacity:.4}55%{scale:.94;opacity:1}100%{scale:1}}
+
+/* You [   ] It (§16-20) — 루트 02 왼쪽 단, 풀쿼트 밑(home/YouIt.tsx). 검정 잉크 · 어긋남 없음(§16-13: 어긋남은 히어로 큰 제목만).
+   대괄호는 가는 획 — 굵은 `You`·`It` 사이에서 **틀**로 읽히고 글자로 안 읽힌다.
+   빈칸 안에서만 `touch-action:none` — 손가락 긋기가 스크롤로 새지 않게. 밖은 평소처럼 스크롤된다. */
+.p3 .youit {margin-top:40px}
+.p3 .youit-line {display:flex;align-items:center;gap:.14em;margin:0;font-size:clamp(1.9rem,3.6vw,3rem);line-height:1;
+  letter-spacing:-.02em;color:var(--black)}
+.p3 .youit-br {font-variation-settings:'ROND' 0,'wdth' 100,'wght' 300;font-weight:300}
+.p3 .youit-slot {position:relative;display:block;flex:none;width:min(6.2em,46vw);height:1.3em;border-radius:4px;
+  touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;transition:background var(--t-press)}
+.p3 .youit-slot:hover {background:rgba(246,244,238,.12)}
+.p3 .youit-slot svg {position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+.p3 .youit-slot svg path {stroke-width:3.2}
+.p3 .youit-note {display:flex;align-items:baseline;gap:14px;margin:14px 0 0;font-size:13px;font-weight:600;color:var(--text)}
+.p3 .youit-clear {font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+
+/* ════ §16 B2: Docs — 01 패널 개관 판 · 03 "내 것" 판 · 04 이전 버전 접힘 · 05 경로 접힘 · 끝 CTA 한 줄 (2026-09-28) ════
+   전부 `/ae/docs` 전용 선택자다(`.dock*` `.mine-call` `.rel-older` `.byhand*` `.locs` `.menu-note` `.buy-stack` `.quip`) —
+   CSS 세 파일·컴포넌트에 같은 이름 0 을 grep 으로 확인하고 들였다. */
+
+/* 01 개관 판(§16-12) — 검정 판 위에 출고본 패널 7개의 클립(`PanelClip`)을 AE 프레임처럼 나란히(Panels.tsx).
+   검정 면은 이 페이지에서 여기 하나다. 탭 = AE 프레임 머리(프레임마다 그 패널 하나).
+   클립 안쪽 규칙은 `components/site4/PanelClip.css` 가 든다.
+   회색 셋은 AE 패널 크롬 계열이라 토큰이 아니다(종이 위 잉크가 아니라 화면 속 화면). */
+.p3 .dock-fig {margin:0 0 64px}
+.p3 .dock {padding:18px;background:var(--black);box-shadow:calc(var(--rx)*var(--m,1)) calc(var(--ry)*var(--m,1)) 0 var(--white)}
+.p3 .dock-row {display:flex;gap:10px;align-items:flex-start}
+.p3 .dock-row + .dock-row {margin-top:10px}
+.p3 .dock-strip {margin-top:10px}
+.p3 .dock-frame {flex-basis:0;min-width:0;background:#161718}
+.p3 .dock-tabs {display:flex;height:28px;overflow:hidden;border-bottom:1px solid #2a2c2e}
+.p3 .dock-tabs a {flex:none;display:flex;align-items:center;padding:0 12px;font-size:12px;font-weight:700;color:#8e959a;white-space:nowrap;
+  border-top:2px solid transparent;transition:color var(--t-press)}
+.p3 .dock-tabs a.on {color:#eef1f2;background:#202224;border-top-color:var(--paper)}
+.p3 .dock-tabs a:hover {color:#eef1f2}
+.p3 .dock-shot {position:relative;overflow:hidden;background:#0f1011}
+.p3 .dock-fig figcaption {margin-top:14px;font-size:13px;line-height:1.5;color:var(--text);max-width:var(--measure)}
+/* 개관과 표를 가르는 머리 — 판 밑 64px + 이 라벨. 표 머리줄(`th`)과 같은 잉크. */
+.p3 .dock-detail {margin:0 0 4px;color:var(--text)}
+/* 표 행 = 탭의 목적지. 붙은 네비 + 목차 칩 밑으로 머리가 들어가지 않게(`section[id]` 와 같은 값 · 폰은 안 붙는다). */
+.p3 .ptable tr[id] {scroll-margin-top:146px}
+.p3 .ptable tr:target td {background:rgba(246,244,238,.32)}
+@media (max-width:960px){ .p3 .ptable tr[id] {scroll-margin-top:16px} }
+@media (max-width:680px){
+  .p3 .dock {padding:10px}
+  .p3 .dock-row {gap:6px}
+  .p3 .dock-row + .dock-row {margin-top:6px}
+  .p3 .dock-strip {margin-top:6px}
+  .p3 .dock-tabs {height:22px}
+  .p3 .dock-tabs a {padding:0 7px;font-size:11px}
+}
+
+/* 03 "이제 당신 것" 판(§16-18) — 숫자 칸 밖으로 뺀 한 장(Catalog.tsx). 크림 종이 `.sheet` = 하우스 부품, 새 재료 0.
+   `+` 는 디스플레이 크기 · 밝은 종이 위라 빨강을 쓴다(사이트 CLAUDE.md "레드는 디스플레이 + 흰 판 위에만"). */
+/* 폭 = 내용 폭 — 판면 전폭이면 한 줄 표제 오른쪽 40% 가 빈 크림으로 남는다(1440 실측). */
+.p3 .mine-call {display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:center;width:fit-content;max-width:100%;
+  margin-top:52px;padding:26px 36px 28px 32px;--m:1.6}
+.p3 .mine-call .mk {font-size:72px;line-height:.8;color:var(--red);mix-blend-mode:multiply}
+.p3 .mine-call .h {margin:0;font-size:clamp(1.6rem,2.6vw,2.3rem);line-height:1.05;letter-spacing:-.02em;color:var(--black)}
+.p3[data-lang="ko"] .mine-call .h {line-height:1.25;letter-spacing:-.01em}
+.p3 .mine-call .d {margin:8px 0 0;font-size:15px;line-height:1.5;color:#2a2a2a;max-width:var(--measure)}
+@media (max-width:680px){ .p3 .mine-call {gap:16px;padding:20px 20px 22px} .p3 .mine-call .mk {font-size:52px} }
+
+/* 04 이전 버전(§16-6) — 접힘 하나. 머리 줄은 `.rel-head` 와 같은 문법(이름 · 회색 범위 · 오른쪽 건수) + 펼침 표시.
+   건수는 검정이다 — 펼친 판의 빨간 `n items` 와 섞이면 같은 종류의 숫자로 읽힌다. */
+.p3 .rel-older {border-top:1.5px solid var(--black)}
+.p3 :is(.rel-older, .byhand) > summary {list-style:none;cursor:none;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.p3 :is(.rel-older, .byhand) > summary::-webkit-details-marker {display:none}
+.p3 .rel-older > summary {padding:22px 0}
+.p3 .rel-older > summary .h {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:800;font-size:22px;letter-spacing:-.01em}
+.p3 .rel-older > summary .d {font-size:13px;font-weight:700;color:var(--muted)}
+.p3 .rel-older > summary .cnt {margin-left:auto;font-size:13px;font-weight:700;color:var(--text)}
+.p3 :is(.rel-older, .byhand) .pm {font-size:22px;font-weight:600;line-height:1;transition:rotate var(--t-press) var(--ease-press)}
+.p3 :is(.rel-older, .byhand)[open] > summary .pm {rotate:45deg}
+
+/* 05 수동 설치 · 파일 위치(§16-3) — `donys` 경로가 사는 유일한 자리. 접힌 채로 온다(Install.tsx). */
+.p3 .byhand {margin:40px 0 64px;border-top:1.5px solid var(--black);border-bottom:1.5px solid rgba(0,0,0,.24)}
+.p3 .byhand > summary {justify-content:space-between;padding:16px 0}
+.p3 .byhand > summary .h {font-size:16px;font-weight:800;letter-spacing:-.01em}
+.p3 .byhand-d {margin:0 0 22px;font-size:14px;line-height:1.6;color:var(--text);max-width:var(--measure)}
+.p3 .locs {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 40px;padding-bottom:26px}
+.p3 .locs h5 {margin:0;font-size:13px;font-weight:800;color:var(--text)}
+@media (max-width:1080px){ .p3 .locs {grid-template-columns:1fr} }
+/* 메뉴 칩 밑 한 줄(§16-4) — 칩은 패널 이름, 실제 메뉴 라벨의 접두어는 여기서 말한다. */
+.p3 .menu-note {margin:2px 0 0;font-size:13px;line-height:1.6;color:var(--text)}
+
+/* 끝 CTA — 버튼 밑 한 줄(§16-17). 버튼은 그대로 하나다. */
+.p3 .buy-stack {display:inline-grid;justify-items:center;gap:10px}
+.p3 .buy-stack .quip {font-size:13px;font-weight:600;color:var(--text);text-align:center}
+@media (max-width:680px){ .p3 .buy-stack {justify-items:start} .p3 .buy-stack .quip {text-align:left} }
+
+/* ════ §16 B1: /ae — 검정 판(01·05) · 가격 판 · 히어로 몽타주 · 브랜드 라벨 느림보고딕 (2026-09-28) ════
+   새 이름(`.onblack` `.pbox` `.pbox-top` `.pkeep` `.pvow`)은 CSS 세 파일·컴포넌트에 같은 이름 0 을 grep 으로 확인하고 들였다. */
+
+/* ── 느림보고딕 — `/ae` 히어로의 작은 브랜드 라벨("You Name It")에만 (§16-2) ──
+   🔴 **포맷 변환만** 했다: OTF → woff2(fontTools `woff2.compress`). 글리프 11,463 · cmap · CFF · hmtx 바이트 동일, 서브셋 없음 —
+   라이선스가 "수정" 을 금한다. 웹 사용 = 제작자 서면 허락(WEBSITE_RENEWAL §2 폰트 문단). Regular 400 한 굵기뿐이라
+   `font-synthesis:none` — 합성 볼드는 판을 뭉갠다(§2). 🔴 큰 제목(`AE PLUGIN`)은 Google Sans Flex 그대로다(2026-09-10 판정).
+   브라우저는 이 글꼴을 **쓰는 면에서만** 받는다 — 다른 페이지는 이 선언만 보고 파일을 안 받는다. */
+@font-face {font-family:'Neurimbo Gothic';src:url(/fonts/neurimboGothic.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
+.p3 .phero h1 .brandpart {font-family:'Neurimbo Gothic',var(--disp);font-weight:400;font-variation-settings:normal;font-synthesis:none;letter-spacing:.01em}
+
+/* ── 히어로 큰 제목 — 밀린 판 + 잉크 결 (§16-13·14·26) ──
+   🔴 이제 히어로 전용 규칙이 아니다 — 2026-09-28 오너가 **빨간 판 전부**로 넓혔다(*"밑에 붉은 색 들어간 애들한테도 공통적으로"*).
+   규칙은 site3p.css 잉크 판 블록(`.pl`) 한 곳에 산다. 여기 다시 쓰지 마라 — 절마다 갈라진다. */
+
+/* ── 히어로 몽타주 (§16-8) — 판 교대 → 툴 시트 루프(Hero.tsx) ──
+   재생 = `Spot` 정본 키프레임(`p3-spot-run`, site3p.css) 그대로. `.run`(화면 안 + 모션 허용)인 동안 **켜진 판 하나만** 돈다.
+   🔴 꺼진 판은 `visibility:hidden` 이다, `opacity:0` 이 아니라 — 투명한 판도 호버를 받아서 `.spot-fig:hover` 재생이
+   **안 보이는 맨 위 판**에서 돌고, 그 `animationiteration` 이 넘김 박자를 먹는다. */
+.p3 .rotator .slide {position:absolute;inset:0;visibility:hidden}
+.p3 .rotator .slide.on {visibility:visible}
+.p3 .rotator .spot-fig figcaption {display:none}   /* 이름표는 `.rot-tag` 하나가 든다 */
+@media (max-width:680px){ .p3 .rotator .rot-ticks {display:none} }   /* 폰 폭에선 눈금 6개가 첫 판의 `Made with one button` 을 덮는다 */
+@media (prefers-reduced-motion:no-preference){
+  .p3 .rotator.run .slide.on .spot {animation:p3-spot-run 1016.667ms steps(1,end) infinite}
+}
+
+/* ── 검정 판 — 01 누구를 · 05 가격 (§16-7 2라운드 오너: 포인트 두 곳만) ──
+   파란 인쇄물 중간의 간지다. 🔴 평평한 웹 검정이 아니라 **검정 종이** — 푸터와 같은 판(`--black` + BlackPaper 결 screen).
+   `paper-field.webp` 가 riso-print 의 BlackPaper 다(파란 면은 이걸 뒤집어 곱하고, 검정 면은 그대로 screen 한다).
+   글자 토큰만 판 안에서 다시 선언한다. 🔴 `--black` 은 다시 선언하지 마라 — 판 바닥이 그 값이다.
+   빨간 잉크 판(`.pl`)은 흰 녹아웃을 들고 다녀서 검정 위에서도 그대로 선다(빨강:검정 4.1:1 — 디스플레이 크기만 빨강이다).
+   판 밑 종이판(`--pl-paper`)은 여기서 검정이다 — 흰 판 밖으로 나간 잉크가 검정에 곱해져 사라진다(파랑이면 글자 모양 파란 테가 깔린다).
+   밑판 그림자는 검정 → 종이 파랑(검정 위 검정 밑판은 안 보인다 — 푸터 `.cta-row .buy` · `.stone-sm` 과 같은 처방).
+   구매 레일(`.rail`)은 자기 쌓임 맥락 안에서 곱하므로 검정 위에서도 빨강 그대로다(검정에 곱해 사라지지 않는다). */
+.p3 .onblack {position:relative;isolation:isolate;background:var(--black);color:var(--text);
+  --text:#ece9e1;--muted:#aeb8bd;--line:rgba(246,244,238,.3);--typeink:var(--paper);--pl-paper:var(--black)}
+.p3 .onblack::before {content:'';position:absolute;inset:0;z-index:-1;background:url(/riso/paper-field.webp) center/620px repeat;
+  opacity:.55;mix-blend-mode:screen;filter:contrast(1.3) brightness(.9);pointer-events:none}
+.p3 .onblack .sec-head {border-top-color:rgba(246,244,238,.55)}
+.p3 .onblack .sec-head .no img {opacity:1;filter:drop-shadow(var(--pl-rx) var(--pl-ry) 0 var(--paper))}
+
+/* 01 — 크림 모눈 카드는 그대로(글자는 카드 안 검정 잉크), 밑판만 파랑. 모서리 판(`Spot`)이 빠져 카드 머리가
+   위로 튀어나올 게 없으니 줄 간격 64 → 40(두 줄 이상으로 접히는 폭에서만 보인다). */
+.p3 .onblack .role {box-shadow:calc(var(--rx)*var(--m)) calc(var(--ry)*var(--m)) 0 var(--paper)}
+.p3 .onblack .role:hover {box-shadow:calc(var(--rx)*2.2) calc(var(--ry)*2.2) 0 var(--paper)}
+.p3 .onblack .roles {row-gap:40px}
+
+/* 05 — 가격 묶음 = 오른쪽 7fr(구 카드 자리) · `결제한 뒤` = 왼쪽. DOM 은 가격이 먼저다 — 1열로 접히는 폭(≤1080)에선 그 순서 그대로. */
+.p3 #price .pricing {align-items:start}
+@media (min-width:1081px){
+  .p3 #price .pbox {grid-column:2;grid-row:1}
+  .p3 #price .afterpay {grid-column:1;grid-row:1;margin-top:0}
+}
+.p3 .pbox-top {display:flex;align-items:flex-end;gap:14px 30px;flex-wrap:wrap}
+/* 가격 옆 한 줄 = 구 카드의 결론. 가격 기준선 쪽에 붙는다. */
+.p3 .pkeep {margin:0 0 .55em;max-width:26ch;font-size:16px;line-height:1.45;font-weight:600;color:var(--text)}
+/* 약속 셋 — 체크리스트 한 줄이 아니라 **크게**(§16-1). 흰 잉크 · 디스플레이 활자. 빨강은 가격과 표제가 쥔다. */
+.p3 .pvow {margin:28px 0 0;padding:20px 0 0;list-style:none;border-top:1.5px solid var(--line);display:grid;gap:6px;
+  font-size:clamp(1.7rem,3vw,2.6rem);line-height:1;letter-spacing:-.02em;text-transform:uppercase;color:var(--white)}
+.p3[data-lang="ko"] .pvow {text-transform:none;letter-spacing:-.01em;line-height:1.18}
+.p3 #price .incl {display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:22px;padding-top:16px;border-top:1.5px solid var(--line)}
+.p3 .onblack .pricing .incl li::before {color:var(--white)}
+.p3 .onblack .afterpay {border-top-color:var(--line)}

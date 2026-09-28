@@ -1,0 +1,11 @@
+/* ═══ 패널 클립 (`PanelClip.tsx`) ═══ 접두사 `pclip-` — 사이트 전역 클래스와 안 겹친다(2026-09-28 grep 0건).
+   `.pclip` = 패널 한 장(dock 벌 가로세로비는 인라인). `.pclip-wide` = `/ae` 기능 판 — 16:9 를 패널이 끝까지 채운다.
+   🔴 셀렉터를 한 단 높게 둔다(`img.pclip-m`) — 전역 `.p3 img {max-width:100%}` 에 눌리지 않게. */
+
+.p3 .pclip {position:relative;overflow:hidden;background:#0c0c0c}
+.p3 .pclip > .pclip-m, .p3 .pclip > img.pclip-m {position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:cover}
+
+/* 기능 판 — 검정 판 뒤로 **흰 판이 ↖ 로 어긋나 있다**(하우스 등록축, `.spot`·`.dock` 과 같은 값 --m 1.6).
+   구판은 파란 대지 이미지가 파란 종이 위에 놓여 판 경계가 안 보였고, 흰 판 모서리만 떠서 **ㄱ자 선**으로 읽혔다
+   (오너 2026-09-28). 판이 검정이면 흰 판은 그 뒤에 깔린 두 번째 판으로 읽힌다. */
+.p3 .pclip-wide {aspect-ratio:16/9;box-shadow:calc(var(--rx)*var(--m,1.6)) calc(var(--ry)*var(--m,1.6)) 0 var(--white)}

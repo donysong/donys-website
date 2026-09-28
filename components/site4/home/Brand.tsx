@@ -19,6 +19,7 @@
    구 `v33.ts` 171키가 그랬다). */
 import { Plate3 } from '@/components/site3p/Plate3';
 import { Html } from '@/components/site3p/lang';
+import YouIt from './YouIt';
 
 export default function Brand() {
   return (
@@ -39,10 +40,15 @@ export default function Brand() {
               *"나의 생각이 아닌, 타인의 생각과 정의"* 인데, 캡션(`— 우리가 싸우는 것`)을 뗀 뒤로는
               h2 `우리는 무엇인가` 바로 밑에서 **"우리 = 타인의 정의"** 로 읽혔다. 캡션을 되살리지 말고
               문장이 입장을 말하게 둔다. */}
-          <blockquote className="pull">
-            <Plate3 k="home.brand.pull.a" className="disp" />
-            <Plate3 k="home.brand.pull.b" className="disp" />
-          </blockquote>
+          {/* 왼쪽 단 = 풀쿼트 + 그 밑의 빈칸(§16-20). 인용이 입장을 말하고, 빈칸이 그 입장을 방문자 손에 넘긴다.
+              1440 에서 왼쪽 단은 인용 두 줄로 끝나고 오른쪽 문단보다 짧았다 — 빈칸이 새 줄을 늘리지 않고 그 자리를 쓴다. */}
+          <div>
+            <blockquote className="pull">
+              <Plate3 k="home.brand.pull.a" className="disp" />
+              <Plate3 k="home.brand.pull.b" className="disp" />
+            </blockquote>
+            <YouIt />
+          </div>
 
           {/* 🔴 사이트에서 제일 좋은 문단이다 — 약속이고, 구체적이고, **독자에게 말한다**.
               표와 카드가 지금까지 이걸 가리고 있었다. 이 자리를 다른 걸로 채우지 마라. */}

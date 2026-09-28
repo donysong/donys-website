@@ -1,14 +1,15 @@
 'use client';
-/* 타자기 문장 — 뷰포트에 들어오면 한 글자씩. [[말]] = 동그라미가 그려진다 · __말__ = 밑줄.
+/* 타자기 문장 — 뷰포트에 들어오면 한 글자씩. [[말]] = 빨간 펜 동그라미 · __말__ = 빨간 펜 밑줄.
+   획은 타이핑이 끝나면(`.done`) 그어진다. 모양은 `pen.ts` 한 곳이 준다.
    🔴 HTML 태그는 통째로 붙인다(한 글자씩 흘리면 태그가 화면에 보인다). */
 import { useEffect, useRef } from 'react';
 import { useT } from './lang';
+import { penSVG } from './pen';
 
-const CIRCLE = '<svg viewBox="0 0 100 60" preserveAspectRatio="none"><path d="M12 30 C 10 8, 90 4, 92 26 S 70 58, 30 54 S 4 44, 14 24" pathLength="1"/></svg>';
 export function typedHTML(s: string) {
   return s
-    .replace(/\[\[(.+?)\]\]/g, (_m, w) => `<span class="circle">${w}${CIRCLE}</span>`)
-    .replace(/__(.+?)__/g, (_m, w) => `<span class="ul">${w}</span>`);
+    .replace(/\[\[(.+?)\]\]/g, (_m, w) => `<span class="circle">${w}${penSVG('circle', w)}</span>`)
+    .replace(/__(.+?)__/g, (_m, w) => `<span class="ul">${w}${penSVG('ul', w)}</span>`);
 }
 
 export default function Typed({ k, className = '', style }: { k: string; className?: string; style?: React.CSSProperties }) {

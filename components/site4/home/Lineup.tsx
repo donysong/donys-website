@@ -1,7 +1,9 @@
 'use client';
 /* 01 만든 것 — 🔴 5% 지점. **철학보다 먼저 제품이 온다.** 이 페이지의 유일한 비율 판정이다.
    행 메타는 넷만: 이름 · 호스트 칩 · 가격 · 배지. (버전·기능 수·평점은 레퍼런스도 안 넣는다)
-   🔴 제품명 조판 = 작은 쪽이 브랜드(`.brandpart`) · 큰 쪽이 구분자(잉크 판). 같은 크기로 쓰지 마라. */
+   🔴 제품명 조판 = 작은 쪽이 브랜드(`.brandpart`) · 큰 쪽이 구분자(잉크 판). 같은 크기로 쓰지 마라.
+   구 행 2(`아직 무제`)는 2026-09-28 에 뺐다(재인 *"이거 빼고 처음 소개 부분에 내용 합치기"*) — 그 문장은
+   이 절 머리의 태그(`home.lineup.tag` 셋째 줄)로 들어갔다. 제품이 둘이 되면 행을 여기 더한다. */
 import { Plate3 } from '@/components/site3p/Plate3';
 import { Html, useT } from '@/components/site3p/lang';
 import { useHref } from '@/components/site4/Shell';
@@ -46,27 +48,6 @@ export default function Lineup() {
               <span className="dash" />
               <Html k="home.row1.price" as="span" className="price" />
               <span className="go">{t('home.row1.go')} <span className="arrow">→</span></span>
-            </div>
-          </div>
-        </li>
-
-        {/* 행 2 — 🔴 없는 제품을 광고하는 게 아니다. 브랜드 가이드 `IT` 조항이다:
-            *"아직 이름 없는 것. 내 앞의 빈 파일."* 이름이 비어 있다는 것 자체가 내용이다.
-            "coming soon" 배지나 날짜를 붙이면 그냥 공사중 팻말이 된다. */}
-        <li className="row blank">
-          <figure className="row-fig">
-            <div className="plate-empty"><img src="/riso/stones/stone-7.webp" alt="" /></div>
-          </figure>
-          <div className="row-body">
-            <div className="row-name">
-              <Plate3 k="home.row2.name" black boil={false} className="disp" />
-              <span className="stamp black badge" onClick={rePress}><span className="dot" />{t('home.row2.badge')}</span>
-            </div>
-            <p className="one">{t('home.row2.one')}</p>
-            <div className="lmeta">
-              <span className="chips"><span className="chip">{t('home.row2.chip')}</span></span>
-              <span className="dash" />
-              <span className="lab lc" style={{ opacity: 0.6 }}>{t('home.row2.note')}</span>
             </div>
           </div>
         </li>

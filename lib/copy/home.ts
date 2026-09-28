@@ -31,7 +31,10 @@ const HOME: Dict = {
     'home.hero.fig': 'One stone becomes a story. Same stone, different name.',
 
     /* 01 만든 것 — 🔴 5% 지점. 철학보다 먼저 제품이 있다 */
-    'home.lineup.tag': 'We only sell what we use first.<br>If we don’t use it, we don’t sell it.',
+    /* 🔴 셋째 줄 = 구 `아직 무제` 행의 문장(2026-09-28 재인 *"이거 빼고 처음 소개 부분에 내용 합치기"*).
+       히어로 부제(`home.hero.sub`)가 아니라 여기인 이유: 부제는 오너가 **한 문장으로 잠갔고**
+       매체 나열(*"Video, tools, writing"*)을 되살리지 말라고 적어 두었다 — 같은 뜻이 거기 붙으면 그걸 되살리는 것이다. */
+    'home.lineup.tag': 'We only sell what we use first.<br>If we don’t use it, we don’t sell it.<br>The next one has no name yet —<br>a tool, a film, or writing.',
     'home.row1.aria': 'See You Name It AE Plugin',
     'home.row1.spot': 'Bento Grid preview',
     'home.row1.brand': 'You Name It',
@@ -41,12 +44,6 @@ const HOME: Dict = {
     'home.row1.chip': 'Ae',
     'home.row1.price': '{price} <em>USD</em>',
     'home.row1.go': 'See the plugin',
-    /* 🔴 "coming soon" 이 아니다 — 이름이 비어 있다는 게 내용이다. 날짜·예고를 붙이지 마라. */
-    'home.row2.name': 'Still untitled',
-    'home.row2.badge': 'UNTITLED',
-    'home.row2.one': 'The next one has no name yet. It could be a tool, it could be a film, it could be writing.',
-    'home.row2.chip': '?',
-    'home.row2.note': 'The blank file in front of me',
 
     /* 02 우리는 무엇인가 — 🔴 35% 지점. 위가 아니라 여기 */
     'home.brand.h2': 'What we are',
@@ -62,6 +59,11 @@ const HOME: Dict = {
     'home.brand.pull.a': 'Your own thinking —',
     'home.brand.pull.b': 'not someone else’s definitions.',
     'home.brand.pull.src': '— what we fight',
+    /* `You [   ] It` 빈칸(§16-20) — 힌트는 한 줄, 조용히. 설명하지 않는다(빈칸이 스스로 읽힌다).
+       🔴 두 로캘 다 **서술**이다(VOICE_AND_TERMS R4 — 힌트에 명령형 금지: EN plain present · KO 합니다체).
+       `Write yours in.` 은 명령형이라 안 썼다. `비우기` = clear(§3 단어장). */
+    'home.youit.hint': 'You fill in the blank.',
+    'home.youit.clear': 'Clear',
     'home.brand.lead': 'A tool <b>stands in for your hands. It does not stand in for your judgment.</b> You do the thinking; we help with the building. That is why everything our tools leave behind comes out <b>ready to be taken apart</b> — as layers, as keyframes, still editable. We do not build the kind of thing that spits out a finished piece from one line of a brief. That would be taking your judgment away.',
     /* 🔴 병렬이 아니라 순서다 (브랜드 가이드 PERSONALITY 장) */
     'home.brand.p1.h': 'Take apart',
@@ -101,7 +103,7 @@ const HOME: Dict = {
     'home.hero.typed': '정답은 주지 않는다 — 붙이는 건 [[창작자]]가 한다.',
     'home.hero.fig': '돌 하나가 이야기가 된다. 같은 돌, 다른 이름.',
 
-    'home.lineup.tag': '우리가 먼저 쓰는 물건만 팝니다.<br>안 쓰는 건 안 팝니다.',
+    'home.lineup.tag': '우리가 먼저 쓰는 물건만 팝니다.<br>안 쓰는 건 안 팝니다.<br>다음 것은 아직 이름이 없습니다 —<br>도구일 수도, 영상일 수도, 글일 수도 있습니다.',
     'home.row1.aria': 'You Name It AE Plugin 보기',
     'home.row1.spot': 'Bento Grid 미리보기',
     'home.row1.brand': 'You Name It',
@@ -111,11 +113,6 @@ const HOME: Dict = {
     'home.row1.chip': 'Ae',
     'home.row1.price': '{price} <em>USD</em>',
     'home.row1.go': '플러그인 보기',
-    'home.row2.name': '아직 무제',
-    'home.row2.badge': 'UNTITLED',
-    'home.row2.one': '다음 것은 아직 이름이 없습니다. 도구일 수도, 영상일 수도, 글일 수도 있습니다.',
-    'home.row2.chip': '?',
-    'home.row2.note': '내 앞의 빈 파일',
 
     'home.brand.h2': '우리는 무엇인가',
     'home.brand.tag': '이름에 다 들어 있습니다.',
@@ -130,6 +127,8 @@ const HOME: Dict = {
     'home.brand.pull.a': '타인의 생각과 정의가 아닌,',
     'home.brand.pull.b': '나의 생각.',
     'home.brand.pull.src': '— 우리가 싸우는 것',
+    'home.youit.hint': '빈칸은 당신이 채웁니다.',
+    'home.youit.clear': '비우기',
     'home.brand.lead': '도구는 <b>손을 대신합니다. 판단은 대신하지 않습니다.</b> 생각은 당신이 하고, 구현을 우리가 돕습니다. 그래서 우리 도구의 결과물은 전부 <b>뜯어볼 수 있게</b> 나옵니다 — 레이어로, 키프레임으로, 고칠 수 있는 채로. 브리프 한 줄로 완성본을 뱉는 물건은 만들지 않습니다. 그건 당신의 판단을 가져가는 거니까요.',
     'home.brand.p1.h': '분해',
     'home.brand.p1.p': '당연해 보이는 건 그렇게 보이도록 설계된 것입니다. 뜯어보면 취향이 아니라 조건이 보입니다.',
