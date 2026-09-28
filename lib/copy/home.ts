@@ -1,8 +1,9 @@
 /* `home` 페이지 사전 — EN/KO. 🔴 이 파일은 **이 페이지 레인만** 고친다.
    v3.3 에 같은 문장이 이미 있으면 새 키를 만들지 말고 그 키를 그대로 써라(EN 번역이 붙어 있다).
 
-   🔴 국문은 `docs/research/website-2026-09/proto4/index.html` 에서 **그대로** 옮긴 것이다.
-   의역·요약·개선 금지 — 프로토가 확정본이고 이 파일은 이식본이다.
+   국문은 `docs/research/website-2026-09/proto4/index.html` 에서 옮겨 왔고, 2026-09-29 오너 요청(1-5)으로
+   양 로캘 모두 humanizer 패스를 한 번 거쳤다(대시·대구·마무리 경구 정리). 🔴 표시된 오너 잠금 문장
+   (`hero.h1a·h1b·sub·typed` · `brand.pull.*`)은 그 패스에서도 건드리지 않았다.
    (v33 대조 결과: 프로토4 루트의 문장 중 v33 과 **글자까지 같은 것은 하나도 없다** —
     `돌은 이야기가 된다`(v33 q.stone) ↔ `돌 하나가 이야기가 된다. 같은 돌, 다른 이름.` 처럼
     비슷한 쌍은 있지만 다른 문장이라 재사용하지 않았다.)
@@ -31,16 +32,16 @@ const HOME: Dict = {
     'home.hero.fig': 'One stone becomes a story. Same stone, different name.',
 
     /* 01 만든 것 — 🔴 5% 지점. 철학보다 먼저 제품이 있다 */
-    /* 🔴 셋째 줄 = 구 `아직 무제` 행의 문장(2026-09-28 재인 *"이거 빼고 처음 소개 부분에 내용 합치기"*).
+    /* 🔴 둘째·셋째 줄 = 구 `아직 무제` 행의 문장(2026-09-28 재인 *"이거 빼고 처음 소개 부분에 내용 합치기"*).
        히어로 부제(`home.hero.sub`)가 아니라 여기인 이유: 부제는 오너가 **한 문장으로 잠갔고**
        매체 나열(*"Video, tools, writing"*)을 되살리지 말라고 적어 두었다 — 같은 뜻이 거기 붙으면 그걸 되살리는 것이다. */
-    'home.lineup.tag': 'We only sell what we use first.<br>If we don’t use it, we don’t sell it.<br>The next one has no name yet —<br>a tool, a film, or writing.',
+    'home.lineup.tag': 'We only sell what we use first.<br>The next one has no name yet.<br>It could be a tool, a film, or writing.',
     'home.row1.aria': 'See You Name It AE Plugin',
     'home.row1.spot': 'Bento Grid preview',
     'home.row1.brand': 'You Name It',
     'home.row1.name': 'AE Plugin',
     'home.row1.badge': 'PLUGIN',
-    'home.row1.one': 'The repetitive setup is one button. The rest you describe in plain words — and it lands on your layers, still editable.',
+    'home.row1.one': 'Repetitive setup takes one button. The rest you describe in plain words, and it lands on your layers, still editable.',
     'home.row1.chip': 'Ae',
     'home.row1.price': '{price} <em>USD</em>',
     'home.row1.go': 'See the plugin',
@@ -64,7 +65,7 @@ const HOME: Dict = {
        `Write yours in.` 은 명령형이라 안 썼다. `비우기` = clear(§3 단어장). */
     'home.youit.hint': 'You fill in the blank.',
     'home.youit.clear': 'Clear',
-    'home.brand.lead': 'A tool <b>stands in for your hands. It does not stand in for your judgment.</b> You do the thinking; we help with the building. That is why everything our tools leave behind comes out <b>ready to be taken apart</b> — as layers, as keyframes, still editable. We do not build the kind of thing that spits out a finished piece from one line of a brief. That would be taking your judgment away.',
+    'home.brand.lead': 'A tool <b>stands in for your hands. It does not stand in for your judgment.</b> You do the thinking and we help with the building, so everything our tools leave behind comes out <b>ready to be taken apart</b>, as layers and keyframes you can still edit. We do not build things that spit out a finished piece from one line of a brief, because that would take your judgment away.',
     /* 🔴 병렬이 아니라 순서다 (브랜드 가이드 PERSONALITY 장) */
     'home.brand.p1.h': 'Take apart',
     'home.brand.p1.p': 'What looks obvious was designed to look that way. Take it apart and you see conditions, not taste.',
@@ -75,11 +76,11 @@ const HOME: Dict = {
     'home.brand.order': '↑ Not a list — an order. Take apart → give it meaning → keep going.',
 
     /* 03 만드는 사람 */
-    'home.who.tag': 'People make it, not a company.',
+    'home.who.tag': 'We use it on our own work first.',
     'home.who.myth': 'People who introduce themselves<br>not by company or title,<br>but by what they created this week.',
     'home.who.mythcap': '— what it looks like when we have won',
     'home.who.p1': 'One day, in the middle of making a video, we repeated the same setup for the tenth time and started building the thing that would do it instead. It became an After Effects plugin. <b>It is the tool we use every day</b>, and anything we do not use is not in it.',
-    'home.who.p2': 'It stays that way — we run into it first, use it first, and sell it after. The result at a professional level, the process honest.',
+    'home.who.p2': 'It stays that way: we run into it first, use it first, and sell it after. We hold the result to a professional level and keep the process honest.',
     /* 🔴 표제(`myth`) 바로 밑 증거 한 줄 — 버전·날짜·문장은 **`lib/releases.ts` 에서 읽는다**(Who.tsx).
        캡션(`— what it looks like when we have won`)이 빠진 뒤 표제가 "누구 얘기인지" 안 읽혔다.
        우리가 이번 주에 만든 것을 그 자리에 놓아 표제를 우리가 실천한다는 걸 보인다. */
@@ -103,13 +104,13 @@ const HOME: Dict = {
     'home.hero.typed': '정답은 주지 않는다 — 붙이는 건 [[창작자]]가 한다.',
     'home.hero.fig': '돌 하나가 이야기가 된다. 같은 돌, 다른 이름.',
 
-    'home.lineup.tag': '우리가 먼저 쓰는 물건만 팝니다.<br>안 쓰는 건 안 팝니다.<br>다음 것은 아직 이름이 없습니다 —<br>도구일 수도, 영상일 수도, 글일 수도 있습니다.',
+    'home.lineup.tag': '우리가 먼저 쓰는 물건만 팝니다.<br>다음 것은 아직 이름이 없습니다.<br>도구일 수도, 영상일 수도, 글일 수도 있습니다.',
     'home.row1.aria': 'You Name It AE Plugin 보기',
     'home.row1.spot': 'Bento Grid 미리보기',
     'home.row1.brand': 'You Name It',
     'home.row1.name': 'AE Plugin',
     'home.row1.badge': 'PLUGIN',
-    'home.row1.one': '반복 셋업은 버튼 하나로. 나머지는 말로 설명하면 당신 레이어 위에 앉습니다 — 고칠 수 있는 채로.',
+    'home.row1.one': '반복 셋업은 버튼 하나로 끝납니다. 나머지는 말로 설명하면 당신 레이어 위에 고칠 수 있는 채로 앉습니다.',
     'home.row1.chip': 'Ae',
     'home.row1.price': '{price} <em>USD</em>',
     'home.row1.go': '플러그인 보기',
@@ -129,7 +130,7 @@ const HOME: Dict = {
     'home.brand.pull.src': '— 우리가 싸우는 것',
     'home.youit.hint': '빈칸은 당신이 채웁니다.',
     'home.youit.clear': '비우기',
-    'home.brand.lead': '도구는 <b>손을 대신합니다. 판단은 대신하지 않습니다.</b> 생각은 당신이 하고, 구현을 우리가 돕습니다. 그래서 우리 도구의 결과물은 전부 <b>뜯어볼 수 있게</b> 나옵니다 — 레이어로, 키프레임으로, 고칠 수 있는 채로. 브리프 한 줄로 완성본을 뱉는 물건은 만들지 않습니다. 그건 당신의 판단을 가져가는 거니까요.',
+    'home.brand.lead': '도구는 <b>손을 대신합니다. 판단은 대신하지 않습니다.</b> 생각은 당신이 하고 구현은 우리가 돕습니다. 그래서 우리 도구가 남기는 건 전부 <b>뜯어볼 수 있는</b> 레이어와 키프레임이고, 나중에도 고칠 수 있습니다. 브리프 한 줄로 완성본을 뱉는 물건은 만들지 않습니다. 그러면 판단까지 도구가 가져가기 때문입니다.',
     'home.brand.p1.h': '분해',
     'home.brand.p1.p': '당연해 보이는 건 그렇게 보이도록 설계된 것입니다. 뜯어보면 취향이 아니라 조건이 보입니다.',
     'home.brand.p2.h': '의미 부여',
@@ -138,11 +139,11 @@ const HOME: Dict = {
     'home.brand.p3.p': '한 번의 각성이 아니라 계속 그러는 것. 앞서가서 순직하지 않고, 뒤처지지도 않습니다.',
     'home.brand.order': '↑ 병렬이 아니라 순서입니다. 분해 → 의미 부여 → 지속.',
 
-    'home.who.tag': '회사가 아니라 사람이 만듭니다.',
+    'home.who.tag': '우리 작업에 먼저 씁니다.',
     'home.who.myth': '첫 만남에 회사나 직책이 아니라,<br>이번 주에 창작한 것으로<br>자신을 소개하는 사람들.',
     'home.who.mythcap': '— 우리가 성공했을 때의 그림',
     'home.who.p1': '영상을 만들다가 같은 셋업을 열 번째 반복하던 날, 이걸 대신할 물건을 직접 만들기 시작했습니다. 그게 After Effects 플러그인이 됐습니다. <b>우리가 매일 쓰는 도구</b>이고, 우리가 쓰지 않는 기능은 넣지 않았습니다.',
-    'home.who.p2': '앞으로도 같습니다 — 우리가 먼저 겪고, 먼저 쓰고, 그다음에 팝니다. 결과는 프로 수준으로, 과정은 정직하게.',
+    'home.who.p2': '앞으로도 같습니다. 우리가 먼저 겪고, 먼저 쓰고, 그다음에 팝니다. 결과는 프로 수준으로 내고, 과정은 정직하게 밟습니다.',
     'home.who.latest': '가장 최근에 만든 것',
     'home.who.latest.go': '업데이트 노트 →',
     'home.who.nots.h': '안 합니다',

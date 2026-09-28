@@ -12,7 +12,7 @@ export const metadata = {
      세그먼트라 template 이 애초에 안 붙고, `/ko` 만 자식 세그먼트라서 붙는다 — 그래서 한쪽만 겹쳤다. */
   title: { absolute: 'You Name It — 창작하는 사람의 도구와 콘텐츠' },
   description:
-    '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 영상·도구·글 — 매체는 안 가립니다. 첫 번째는 After Effects 패널, You Name It AE Plugin 입니다.',
+    '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 영상이든 도구든 글이든 매체는 가리지 않습니다. 첫 번째는 After Effects 패널인 You Name It AE Plugin 입니다.',
   /* 🔴 국문은 `/ko` 에 **따로 구워진다**(클라이언트 스왑이 아니다) — 둘을 hreflang 으로 묶어 준다.
      안 묶으면 구글이 같은 내용의 두 페이지를 중복으로 읽는다. */
   alternates: {
@@ -39,7 +39,7 @@ const jsonLd = {
   logo: `${SITE}/riso/logo-red.webp`,
   email: 'support@younameit.works',
   description:
-    'A studio that makes tools and content for people who create — video, tools, writing.',
+    '창작하는 사람을 위한 도구와 콘텐츠를 만드는 스튜디오. 영상이든 도구든 글이든 매체는 가리지 않습니다.',
   makesOffer: {
     '@type': 'Offer',
     price: PRICE_USD,

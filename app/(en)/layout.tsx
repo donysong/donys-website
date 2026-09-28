@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: '%s — You Name It',
   },
   description:
-    'A studio that makes tools and content for people who create. We use what we sell — starting with an After Effects panel.',
+    'A studio that makes tools and content for people who create. We use what we sell, starting with an After Effects panel.',
   keywords: [
     'You Name It',
     'After Effects plugin',

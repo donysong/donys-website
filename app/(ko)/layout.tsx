@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: '%s — You Name It',
   },
   description:
-    '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 영상·도구·글 — 매체는 안 가립니다.',
+    '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 영상이든 도구든 글이든 매체는 가리지 않습니다.',
   keywords: [
     'You Name It',
     'After Effects plugin',

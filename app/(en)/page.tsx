@@ -7,7 +7,7 @@ import { share } from '@/lib/meta';
 export const metadata = {
   title: 'You Name It — tools and content for people who create',
   description:
-    'A studio that makes tools and content for people who create. Video, tools, writing — the medium is open. First out: You Name It AE Plugin for After Effects.',
+    'A studio that makes tools and content for people who create, in video, tools or writing. First out is You Name It AE Plugin for After Effects.',
   /* 🔴 국문은 `/ko` 에 **따로 구워진다**(클라이언트 스왑이 아니다) — 둘을 hreflang 으로 묶어 준다.
      안 묶으면 구글이 같은 내용의 두 페이지를 중복으로 읽는다. */
   alternates: {
@@ -34,7 +34,7 @@ const jsonLd = {
   logo: `${SITE}/riso/logo-red.webp`,
   email: 'support@younameit.works',
   description:
-    'A studio that makes tools and content for people who create — video, tools, writing.',
+    'A studio that makes tools and content for people who create, in video, tools and writing.',
   makesOffer: {
     '@type': 'Offer',
     price: PRICE_USD,

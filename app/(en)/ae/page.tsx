@@ -9,7 +9,7 @@ export const metadata = {
   /* 🔴 제품명 규칙 — 한 줄 자리에는 `You Name It AE Plugin`(브랜드 = You Name It). `absolute` 라
      레이아웃 template(`— You Name It`)이 브랜드를 두 번 붙이지 않는다. */
   title: { absolute: 'You Name It AE Plugin — panels for After Effects' },
-  description: `After Effects panels that build what you press or describe on real, editable layers — ${COUNTS.scripts} one-click tools, ${COUNTS.motion} motion presets, ${COUNTS.textPresets} text presets, a curve editor, expressions, and a Chat panel that runs on your own Claude or ChatGPT plan. ${PRICE} once, two computers.`,
+  description: `After Effects panels that build what you press or describe as real, editable layers: ${COUNTS.scripts} one-click tools, ${COUNTS.motion} motion presets, ${COUNTS.textPresets} text presets, a curve editor, expressions, and a Chat panel that runs on your own Claude or ChatGPT plan. ${PRICE} once, two computers.`,
   alternates: {
     canonical: '/ae',
     languages: { en: '/ae', ko: '/ko/ae', 'x-default': '/ae' },
@@ -17,7 +17,7 @@ export const metadata = {
   ...share({
     path: '/ae',
     title: 'You Name It AE Plugin',
-    description: `The repetitive setup is one button. The rest you describe in plain words — and it lands on your layers, still editable. ${PRICE} once.`,
+    description: `Repetitive setup takes one button. The rest you describe in plain words, and it lands on your layers, still editable. ${PRICE} once.`,
     card: 'product',
     lang: 'en',
   }),
@@ -31,7 +31,7 @@ const jsonLd = {
   operatingSystem: 'Windows, macOS',
   softwareVersion: VERSION,
   url: `${SITE}/ae`,
-  description: `An After Effects panel that builds what you press or describe on real, editable layers — ${COUNTS.scripts} one-click tools, ${COUNTS.motion} motion presets, ${COUNTS.gradients} gradients, ${COUNTS.curves} easing curves, ${COUNTS.expressions} expressions, and Claude working with ${COUNTS.tools} tools and ${COUNTS.skills} skills.`,
+  description: `After Effects panels that build what you press or describe as real, editable layers: ${COUNTS.scripts} one-click tools, ${COUNTS.motion} motion presets, ${COUNTS.gradients} gradients, ${COUNTS.curves} easing curves, ${COUNTS.expressions} expressions, and a Chat panel with ${COUNTS.tools} tools and ${COUNTS.skills} skills that runs on your own Claude or ChatGPT plan.`,
   offers: {
     '@type': 'Offer',
     price: PRICE_USD,
