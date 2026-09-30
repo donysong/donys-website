@@ -165,7 +165,7 @@ const AE: Dict = {
        그중 둘이 v2.6.0 기능이었다 — 손으로 쓰면 버전이 거짓말을 한다. */
     'ae.news.all': 'All release notes →',
 
-    /* ── 04 가격 (🔴 버튼 없음 — 레일이 CTA 를 갖는다) ────────── */
+    /* ── 04 가격 (구매 버튼 하나 = `s.buy` — 2026-09-30 오너, Price.tsx 머리 주석) ────────── */
     'ae.price.h': 'Buy it once. It stays yours.',
     /* §16-1·15·16 (2026-09-28) — 구 "왜 구독이 아닌가" 카드는 걷었다. 🔴 `lifetime`·평생 금지(약관 §4 — 메이저는 유료일 수 있다).
        구 머리 태그 `Not a subscription.` 도 뺐다 — 바로 밑 `vow` 의 `No subscription` 과 같은 말이 두 번이었다. */
@@ -394,7 +394,7 @@ const AE: Dict = {
     'ae.news.tag': '마이너 업데이트는 무료입니다.',
     'ae.news.all': '업데이트 노트 전부 →',
 
-    /* ── 04 가격 (🔴 버튼 없음 — 레일이 CTA 를 갖는다) ────────── */
+    /* ── 04 가격 (구매 버튼 하나 = `s.buy` — 2026-09-30 오너, Price.tsx 머리 주석) ────────── */
     'ae.price.h': '한 번 사면 계속 당신 것',
     'ae.price.amount': '{price}',
     'ae.price.keep': '업데이트를 안 받아도 갖고 계신 버전은 계속 돕니다.',

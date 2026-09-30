@@ -40,7 +40,7 @@ export default function Catalog() {
           </figure>
         ))}
       </div>
-      <aside className="mine-call sheet">
+      <aside className="mine-call">
         <b className="mk disp" aria-hidden="true">{t('docs.lib.mine.n')}</b>
         <div>
           <p className="h disp">{t('docs.lib.mine.h')}</p>

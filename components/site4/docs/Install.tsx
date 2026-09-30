@@ -129,7 +129,7 @@ export default function Install() {
         ))}
       </div>
 
-      <div className="docs-cta">
+      <div className="docs-cta docs-end">
         <span className="txt">
           {t('docs.cta.txt')}{' '}
           <a className="faq-link" href={href('/ae#faq')} data-cur>{t('docs.cta.faq')}</a>

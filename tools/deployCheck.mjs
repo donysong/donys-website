@@ -95,9 +95,13 @@ for (const p of pages) {
 
   if (isProduct) {
     if (!html.includes(CHECKOUT)) fail.push(`[checkout] ${r} 에 결제 링크(${CHECKOUT})가 없다 — 팔 수 없는 페이지다`);
-    /* 가격 섹션은 버튼을 안 가진다(레퍼런스 원리 7) — 레일이 CTA 를 독점한다 */
+    /* 가격 섹션 = 구매 버튼 **하나**, 그리고 그게 결제 링크다. 🔴 구 규칙은 "버튼 0 — 레일이 CTA 독점"(레퍼런스 원리 7)이었는데
+       2026-09-30 오너가 *"buy it once 여기에 구매 버튼 하나 달아"* 로 뒤집었다. 대신 그 버튼이 보이는 동안 레일이 숨는다(Shell `BuyRail`)
+       — 한 화면에 결제 CTA 하나는 그대로다. */
     const price = html.match(/<section[^>]*id="price"[\s\S]*?<\/section>/);
-    if (price && /<a\s/.test(price[0])) fail.push(`[price] ${r} 가격 섹션에 <a> 가 있다 — CTA 는 레일이 독점한다`);
+    const links = price ? price[0].match(/<a\s[^>]*>/g) || [] : [];
+    if (price && (links.length !== 1 || !links[0].includes(CHECKOUT)))
+      fail.push(`[price] ${r} 가격 섹션의 링크 ${links.length}개 — 결제 버튼 하나여야 한다`);
   }
 
   if (isSurface) {

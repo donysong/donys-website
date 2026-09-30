@@ -1,6 +1,7 @@
 'use client';
-/* 04 가격 — 🔴 **여기엔 버튼이 없다.** 스티키 구매 레일이 CTA 를 독점한다(레퍼런스 원리 7).
-   이 섹션에 `<a>` 를 넣지 마라 — 링크도 안 된다(deployCheck `[price]` 가 `<a` 를 센다).
+/* 04 가격 — 🔴 **구매 버튼 하나**(2026-09-30 오너 *"buy it once 여기에 구매 버튼 하나 달아"* — 구 "버튼 0 · 레일 독점"을 뒤집었다).
+   그 버튼이 화면에 있는 동안 스티키 레일은 숨는다(Shell `BuyRail` 이 `data-price-cta` 를 본다) — 한 화면에 결제 CTA 하나.
+   이 섹션의 링크는 이것 하나다(deployCheck `[price]` 가 센다). 가격이 바로 위에 크게 있으니 버튼은 가격을 되풀이하지 않는다.
 
    2026-09-29 오너 1-8 *"CTA 파트 정보가 너무 많고 레이아웃도 뭔가 정형적이지 않음"* — 덜어내고 장부로 짰다:
    · 좌 = 가격 + 풀이 한 줄(`ae.price.keep`) | 우 = 약속 셋(`ae.price.vow`) **크게**(§16 오너 판정 — 🔴 `lifetime`·평생 금지, 약관 §4).
@@ -11,9 +12,10 @@
    DOM 순서 = 가격 → 약속 → 포함(폰·스크린리더도 같은 순서로 읽는다). */
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
+import { CHECKOUT_URL } from '@/lib/product';
 
 export default function Price() {
-  const { list } = useT();
+  const { t, list } = useT();
   return (
     <section id="price" className="onnote" data-plate="04" data-name="ae.plate.price">
       <div className="sec tight">
@@ -25,6 +27,7 @@ export default function Price() {
         <div className="pricing">
           <div className="pamt">
             <Plate3 k="ae.price.amount" boil={false} className="big disp" />
+            <a className="btn-fill pbuy" href={CHECKOUT_URL} data-cur data-price-cta>{t('s.buy')} <span aria-hidden="true">→</span></a>
             <Html k="ae.price.keep" as="p" className="pkeep" />
           </div>
           <ul className="pvow disp">

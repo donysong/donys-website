@@ -121,7 +121,7 @@ function LangSwitch() {
 }
 
 /* ── 스티키 구매 레일 (제품 페이지) ────────────────────────────────────
-   레퍼런스 원리 7: 가격 섹션은 버튼을 안 가지고, **레일이 CTA 를 독점**한다. 45% 에서 점화.
+   레퍼런스 원리 7: **레일이 CTA 를 독점**한다. 45% 에서 점화. 예외 = 가격 판 버튼(2026-09-30 오너) — 그게 보이는 동안 레일이 비킨다.
    🔴 여기가 사이트의 실제 결제 진입점이다 — `#price` 앵커로 바꾸지 마라(proto4 가 그래서 팔 수 없었다).
    🔴 레일이 뜨면 `.has-rail` 이 본문 오른쪽 차선을 비운다(FAQ 판정어를 46px 덮은 전례).
    §16-5 (오너 2026-09-28 *"규칙 유지 — 레일 버튼만 시각 강조"*): CTA 는 늘리지 않고 이 하나를 세게 만든다.
@@ -133,15 +133,20 @@ export function BuyRail() {
   const [lit, setLit] = useState(false);
   const ring = penPath('ring', 'rail');
   useEffect(() => {
+    /* 가격 판의 구매 버튼(`data-price-cta`)이 보이는 동안은 숨는다 — 한 화면에 결제 CTA 하나(2026-09-30 오너가 가격 판에 버튼을 달았다) */
+    let priceShown = false;
     const onScroll = () => {
       const h = document.documentElement;
-      const now = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight) > 0.45;
-      setOn(now);
-      if (now) setLit(true);
+      const past = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight) > 0.45;
+      setOn(past && !priceShown);
+      if (past && !priceShown) setLit(true);
     };
+    const cta = document.querySelector('[data-price-cta]');
+    const io = new IntersectionObserver(([en]) => { priceShown = en.isIntersecting; onScroll(); });
+    if (cta) io.observe(cta);
     onScroll();
     addEventListener('scroll', onScroll, { passive: true });
-    return () => removeEventListener('scroll', onScroll);
+    return () => { removeEventListener('scroll', onScroll); io.disconnect(); };
   }, []);
   return (
     <a className={`rail${on ? ' on' : ''}${lit ? ' lit' : ''}`} href={CHECKOUT_URL} data-cur>
