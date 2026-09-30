@@ -71,7 +71,7 @@ export default function Hero() {
         <Plate3 k="ae.hero.plugin" />
       </h1>
       <p className="promise">{t('ae.hero.promise')}</p>
-      <p className="lab lc" style={{ opacity: 0.7 }}>{t('ae.hero.sub')}</p>
+      <p className="lab lc" style={{ color: 'var(--muted)' }}>{t('ae.hero.sub')}</p>
 
       <div className="pstage">
         <div className="side">
@@ -96,7 +96,7 @@ export default function Hero() {
             ))}
             <div className="rot-tag">
               <span className="slug">{REEL[i].name}</span>
-              {first ? <span style={{ opacity: 0.6, fontWeight: 600 }}>{t('ae.hero.rot.tag')}</span> : null}
+              {first ? <span style={{ color: 'var(--muted)', fontWeight: 600 }}>{t('ae.hero.rot.tag')}</span> : null}
             </div>
             <div className="rot-ticks" aria-hidden="true">
               {REEL.map((r, n) => <i className={n === i ? 'on' : ''} key={r.id} />)}

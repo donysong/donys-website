@@ -35,6 +35,7 @@ const T = {
       ['거부 방법·효과', '동의하지 않으시면 이전되지 않으며, 이 경우 소식 메일을 받으실 수 없습니다'],
     ],
     submit: '구독 신청',
+    busy: '보내는 중…',
     sent: '확인 메일을 보냈습니다. 72시간 안에 메일의 버튼을 누르시면 구독이 끝납니다. 메일이 안 보이면 스팸함도 확인해 주세요.',
     errEmail: '이메일 주소를 확인해 주세요.',
     errConsent: '세 가지 동의가 모두 필요합니다.',
@@ -71,6 +72,7 @@ const T = {
       ['If you refuse', 'Nothing is transferred, and you cannot receive the newsletter'],
     ],
     submit: 'Subscribe',
+    busy: 'Sending…',
     sent: 'We sent you a confirmation email. Press its button within 72 hours to finish. If you do not see it, check your spam folder.',
     errEmail: 'Please check your email address.',
     errConsent: 'All three consents are needed.',
@@ -95,11 +97,12 @@ async function post(path: string, body: unknown) {
 
 function Disclosure({ rows }: { rows: readonly (readonly [string, string])[] }) {
   return (
-    <dl className="mt-1.5 mb-1 grid grid-cols-[minmax(0,7.5rem)_1fr] gap-x-3 gap-y-1 pl-7 text-[13px] leading-snug text-[var(--text-secondary)]">
+    /* 390 폭에서 두 칸이면 값 칸이 126px 로 눌려 한 줄 서너 낱말이 됐다 — sm 미만에선 머리 밑에 값을 쌓는다 */
+    <dl className="mt-1.5 mb-1 grid grid-cols-1 gap-x-3 gap-y-1 pl-7 text-[13px] leading-snug text-[var(--text-secondary)] sm:grid-cols-[minmax(0,7.5rem)_1fr]">
       {rows.map(([k, v]) => (
         <div key={k} className="contents">
           <dt className="font-semibold text-[var(--text-primary)]">{k}</dt>
-          <dd className="m-0 [overflow-wrap:anywhere]">{v}</dd>
+          <dd className="m-0 [overflow-wrap:anywhere] max-sm:mb-1.5">{v}</dd>
         </div>
       ))}
     </dl>
@@ -145,7 +148,8 @@ export default function NewsletterForm({ lang }: { lang: Lang }) {
   }
 
   const status = msg ? (
-    <p role="status" className={`mt-4 text-[15px] font-semibold ${phase === 'error' ? 'text-[var(--red)]' : 'text-[var(--text-primary)]'}`}>{msg}</p>
+    /* 오류 글자 = 짙은 빨강. 브랜드 `--red` 는 크림 종이 위 3.88:1 이라 15px 본문에 못 쓴다(이 한 자리뿐이라 토큰으로 안 올린다) */
+    <p role="status" className={`mt-4 text-[15px] font-semibold ${phase === 'error' ? 'text-[#b0002a]' : 'text-[var(--text-primary)]'}`}>{msg}</p>
   ) : null;
 
   if (mode !== 'form') {
@@ -153,8 +157,8 @@ export default function NewsletterForm({ lang }: { lang: Lang }) {
       <div>
         <h2 className="mb-4 text-lg font-semibold text-[var(--text-primary)]">{mode === 'confirm' ? t.confirmH : t.unsubH}</h2>
         {phase === 'done' ? null : (
-          <button type="button" className="btn-line font-bold" onClick={act} disabled={phase === 'busy'} data-cur>
-            {mode === 'confirm' ? t.confirmB : t.unsubB}
+          <button type="button" className="btn-line font-bold" onClick={act} disabled={phase === 'busy'} aria-busy={phase === 'busy'} data-cur>
+            {phase === 'busy' ? t.busy : mode === 'confirm' ? t.confirmB : t.unsubB}
           </button>
         )}
         {status}
@@ -195,7 +199,9 @@ export default function NewsletterForm({ lang }: { lang: Lang }) {
         {t.note}{' '}
         <a href={lang === 'ko' ? '/ko/privacy' : '/privacy'} className="font-semibold underline underline-offset-4">{t.privacy}</a>
       </p>
-      <button type="submit" className="btn-line mt-5 font-bold" disabled={phase === 'busy'} data-cur>{t.submit}</button>
+      <button type="submit" className="btn-line mt-5 font-bold" disabled={phase === 'busy'} aria-busy={phase === 'busy'} data-cur>
+        {phase === 'busy' ? t.busy : t.submit}
+      </button>
       {status}
     </form>
   );

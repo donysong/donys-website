@@ -62,7 +62,7 @@ export default function Install() {
           const shot = SHOTS[n];
           return (
             <li key={n}>
-              <h4>{t(`docs.step${n}.t`)}</h4>
+              <h3>{t(`docs.step${n}.t`)}</h3>
               <p dangerouslySetInnerHTML={html(`docs.step${n}.d`)} />
               {shot ? (
                 <details className="step-shot">
@@ -86,12 +86,12 @@ export default function Install() {
       <div className="howto">
         {HOWTO.map((k) => (
           <div key={k}>
-            <h4>{t(`docs.${k}.h`)}</h4>
+            <h3>{t(`docs.${k}.h`)}</h3>
             <p dangerouslySetInnerHTML={html(`docs.${k}.d`)} />
           </div>
         ))}
         <div>
-          <h4>{t('docs.fix.h')}</h4>
+          <h3>{t('docs.fix.h')}</h3>
           <ul>{list('docs.fix.list').map((s, i) => <li key={i} dangerouslySetInnerHTML={{ __html: s }} />)}</ul>
           <p dangerouslySetInnerHTML={html('docs.fix.mail')} />
         </div>

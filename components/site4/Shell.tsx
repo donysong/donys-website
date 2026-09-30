@@ -175,7 +175,7 @@ function Footer4({ page }: { page: Page4Kind }) {
           </div>
         </div>
         <div>
-          <h4>{t('s.ft.made')}</h4>
+          <h2>{t('s.ft.made')}</h2>
           <ul>
             <li><a href={href('/ae')} data-cur>{t('s.product')}</a></li>
             <li><a href={href('/update')} data-cur>{t('s.ft.notes')}</a></li>
@@ -184,7 +184,7 @@ function Footer4({ page }: { page: Page4Kind }) {
           </ul>
         </div>
         <div>
-          <h4>{t('s.ft.support')}</h4>
+          <h2>{t('s.ft.support')}</h2>
           <ul>
             <li><a href={href('/ae/docs')} data-cur>{t('s.ft.docs')}</a></li>
             <li><a href={href('/ae#faq')} data-cur>{t('s.ft.faq')}</a></li>
@@ -194,7 +194,7 @@ function Footer4({ page }: { page: Page4Kind }) {
           </ul>
         </div>
         <div>
-          <h4>{t('s.ft.legal')}</h4>
+          <h2>{t('s.ft.legal')}</h2>
           <ul>
             <li><a href={href('/terms')} data-cur>{t('s.ft.terms')}</a></li>
             {/* 🔴 굵게 — 개인정보 보호위원회 처리방침 작성지침: "개인정보 처리방침" 명칭을 쓰고 글자 크기·색 등으로 다른 고지와 구분한다. */}

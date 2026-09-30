@@ -47,33 +47,38 @@ function Mail() {
   );
 }
 
-/* 여러 열 표 — 머리줄 + 행. 390 폭에선 가로로 스크롤한다(`overflow-x-auto`). */
+/* 여러 열 표 — 머리줄 + 행. 🔴 구판은 390 폭에서 가로 스크롤(`min-w-[520px]`)이었는데 스크롤 단서가 없어 오른쪽 칸이
+   **잘린 채로 읽혔다**("Polar 결제 화|" — 2026-09-30 polish 실측). sm 미만에선 행을 블록으로 풀어 첫 칸을 행 머리로,
+   나머지를 `머리 | 값` 두 칸으로 쌓는다. 값을 `<span>` 하나로 감싸는 건 격자 칸이 글자·링크마다 갈라지지 않게 하려는 것이다. */
+const TD_KEY = 'py-2 pr-4 align-top max-sm:block max-sm:py-0 max-sm:pb-1 max-sm:font-semibold max-sm:text-[var(--text-primary)]';
+const TD_VAL =
+  'py-2 pr-4 align-top max-sm:grid max-sm:grid-cols-[5.5rem_minmax(0,1fr)] max-sm:gap-x-3 max-sm:py-0.5 max-sm:pr-0 ' +
+  'max-sm:before:font-semibold max-sm:before:text-[var(--text-primary)] max-sm:before:content-[attr(data-label)]';
+
 function Table({ head, rows }: { head: string[]; rows: React.ReactNode[][] }) {
   return (
-    <div className="mt-3 overflow-x-auto">
-      <table className="w-full min-w-[520px] border-collapse text-left text-sm">
-        <thead>
-          <tr className="border-b border-black/40">
-            {head.map((h) => (
-              <th key={h} scope="col" className={TH}>
-                {h}
-              </th>
+    <table className="mt-3 w-full border-collapse text-left text-sm max-sm:block">
+      <thead className="max-sm:sr-only">
+        <tr className="border-b border-black/40">
+          {head.map((h) => (
+            <th key={h} scope="col" className={TH}>
+              {h}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody className="max-sm:block">
+        {rows.map((r, i) => (
+          <tr key={i} className="border-b border-black/15 max-sm:block max-sm:py-2.5">
+            {r.map((c, j) => (
+              <td key={j} data-label={head[j]} className={j === 0 ? TD_KEY : TD_VAL}>
+                <span className="[overflow-wrap:anywhere]">{c}</span>
+              </td>
             ))}
           </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, i) => (
-            <tr key={i} className="border-b border-black/15">
-              {r.map((c, j) => (
-                <td key={j} className="py-2 pr-4 align-top">
-                  {c}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }
 

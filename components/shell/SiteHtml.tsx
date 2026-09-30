@@ -8,11 +8,11 @@
    개인정보 처리방침의 "쿠키를 설치하지 않습니다"(국문 제10조)가 거짓이 된다. 분석은 Cloudflare Web Analytics 하나다. */
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 import RisoDefs from '@/components/RisoDefs';
-import { googleSansFlex } from './fonts';
+import { googleSansFlex, typewriter, typewriterKo } from './fonts';
 
 export default function SiteHtml({ lang, children }: { lang: 'en' | 'ko'; children: React.ReactNode }) {
   return (
-    <html lang={lang} className={googleSansFlex.variable}>
+    <html lang={lang} className={`${googleSansFlex.variable} ${typewriter.variable} ${typewriterKo.variable}`}>
       <body>
         {/* 종이 · 트림 마크 · 눌림 필터 — 페이지 전체가 이 위에 인쇄된다 */}
         <RisoDefs />

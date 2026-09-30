@@ -29,7 +29,8 @@ const HOME: Dict = {
        the medium is open." 이 붙어 있었다. 되살리지 마라. */
     'home.hero.sub': 'We make tools and content for people who create.',
     'home.hero.typed': 'We don’t give you the answer — the [[creator]] names it.',
-    'home.hero.fig': 'One stone becomes a story. Same stone, different name.',
+    'home.hero.fig1': 'One stone becomes [[a story.]]',
+    'home.hero.fig2': 'Same stone, __different name.__',
 
     /* 01 만든 것 — 🔴 5% 지점. 철학보다 먼저 제품이 있다 */
     /* 🔴 둘째·셋째 줄 = 구 `아직 무제` 행의 문장(2026-09-28 재인 *"이거 빼고 처음 소개 부분에 내용 합치기"*).
@@ -77,7 +78,7 @@ const HOME: Dict = {
 
     /* 03 만드는 사람 */
     'home.who.tag': 'We use it on our own work first.',
-    'home.who.myth': 'People who introduce themselves<br>not by company or title,<br>but by what they created this week.',
+    'home.who.myth': 'People who introduce themselves not by company or title, but by what they created this week.',
     'home.who.mythcap': '— what it looks like when we have won',
     'home.who.p1': 'One day, in the middle of making a video, we repeated the same setup for the tenth time and started building the thing that would do it instead. It became an After Effects plugin. <b>It is the tool we use every day</b>, and anything we do not use is not in it.',
     'home.who.p2': 'It stays that way: we run into it first, use it first, and sell it after. We hold the result to a professional level and keep the process honest.',
@@ -102,7 +103,8 @@ const HOME: Dict = {
     /* 🔴 오너가 문장을 직접 줬다 — 토씨 그대로 둬라 (2026-09-19). */
     'home.hero.sub': '창작하는 사람들을 위한 도구와 콘텐츠를 만듭니다.',
     'home.hero.typed': '정답은 주지 않는다 — 붙이는 건 [[창작자]]가 한다.',
-    'home.hero.fig': '돌 하나가 이야기가 된다. 같은 돌, 다른 이름.',
+    'home.hero.fig1': '돌 하나가 [[이야기]]가 된다.',
+    'home.hero.fig2': '같은 돌, __다른 이름.__',
 
     'home.lineup.tag': '우리가 먼저 쓰는 물건만 팝니다.<br>다음 것은 아직 이름이 없습니다.<br>도구일 수도, 영상일 수도, 글일 수도 있습니다.',
     'home.row1.aria': 'You Name It AE Plugin 보기',

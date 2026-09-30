@@ -6,6 +6,7 @@
 import { useEffect } from 'react';
 import { penify } from './pen';
 import { scrawl } from './scrawl';
+import { snapRules } from './ruleSnap';
 
 
 export function Defs() {
@@ -76,10 +77,12 @@ export function useChrome() {
     const stopPen = penify();
     /* 빈 바탕을 끌면 빨간 펜으로 긋는다(scrawl.ts) — 데스크톱만, 글자·링크는 안 뺏는다. */
     const stopScrawl = scrawl();
+    /* 노트 판의 가로 괘선을 모눈 선에 얹는다(ruleSnap.ts). */
+    const stopSnap = snapRules();
     return () => {
       removeEventListener('pointermove', onMove); removeEventListener('pointerdown', down); removeEventListener('pointerup', up);
       document.removeEventListener('pointerover', over); document.removeEventListener('pointerout', out);
-      removeEventListener('scroll', scroll); sw.disconnect(); one.disconnect(); stopPen(); stopScrawl();
+      removeEventListener('scroll', scroll); sw.disconnect(); one.disconnect(); stopPen(); stopScrawl(); stopSnap();
     };
   }, []);
 }
