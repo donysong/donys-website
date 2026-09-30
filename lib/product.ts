@@ -77,3 +77,32 @@ export const DOWNLOAD_URL = `${DIST_BASE}/younameit-${VERSION}.zxp`;
 
 /* 사이트 정본 주소. 🔴 컴포넌트·JSON-LD 에 다시 박지 마라 — 가격이 다섯 곳에 흩어졌던 것과 같은 계열이다. */
 export const SITE = 'https://younameit.works';
+
+/* 사업자 정보 한 곳 — 푸터 사업자 줄 · 국문 법 3장 · 개인정보 보호책임자가 여기서 읽는다.
+   🔴 전자상거래법 §10(사이버몰 초기화면 표시) · §13(통신판매업 신고번호)이 요구하는 **공개 의무 정보**다 (2026-09-30 오너
+   *"한국은 사업자등록번호, 통신판매업, 개인정보 처리방침 등 필수 정보 — 영문 국문 각각 체크"*). 원본 = 오너 사업자등록증명(2026-09-22 발급).
+   🔴 주민등록번호는 절대 싣지 마라 — 등록증에 같이 찍혀 있지만 공개 의무가 없고, 싣는 순간 개인정보 유출이다.
+   🔴 `phone` 이 빈 값이면 **deployCheck `[biz]` 가 배포를 세운다**(§10 필수 표시). `mailOrderNo` 는 면제 중이라 경고만 한다(아래).
+   번호를 발명하지 마라 — 오너가 채운다. */
+export const BUSINESS = {
+  name: { ko: '유네임잇', en: 'You Name It' },
+  /* 영문 표기는 오너 확인 전 추정이다(여권 표기가 따로 있으면 그걸로) */
+  ceo: { ko: '송동휘', en: 'Donghwi Song' },
+  regNo: '365-75-00550',
+  address: {
+    ko: '경기도 시흥시 둔대로 40, 6층 654호 (광석동, 현대 테라타워)',
+    en: '#654, 6F, 40 Dundae-ro, Siheung-si, Gyeonggi-do, Republic of Korea',
+  },
+  email: 'support@younameit.works',
+  /* 2026-09-30 오너 — 대표 휴대폰 임시(*"일단 내 번호로 해두고 나중에 교체"*). 사업용 번호로 바꾸면 여기 한 곳. */
+  phone: '010-8883-7610',
+  /* 통신판매업 신고번호 — 🔴 **지금은 신고 면제**(오너 2026-09-30 *"전년도 판매건수 50건이 안 넘어서 아직 안 해도 됨"* ·
+     공정위 고시 "직전연도 거래 50회 미만"). 빈 값이면 푸터·약관이 그 줄을 안 그린다. 매년 1월, 직전연도 판매가 50건을
+     넘었으면 시흥시청(정부24)에 신고하고 번호를 여기 넣는다 — deployCheck `[biz]` 가 매 빌드 경고로 상기시킨다. */
+  mailOrderNo: '',
+  /* 호스팅서비스 제공자(§10) — `younameit.works` 응답 헤더 `server: cloudflare` (2026-09-30 실측, Pages direct upload). */
+  hosting: 'Cloudflare, Inc.',
+};
+
+/* 공정위 사업자정보 공개페이지(§10 — 표시한 정보의 진위를 확인하는 연결). 통신판매업 신고가 공정위에 연계된 뒤에야 내용이 뜬다. */
+export const FTC_BIZ_URL = `https://www.ftc.go.kr/bizCommPop.do?wrkr_no=${BUSINESS.regNo.replace(/-/g, '')}`;

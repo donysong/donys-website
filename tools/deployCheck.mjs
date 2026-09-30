@@ -13,6 +13,8 @@
      [assets]   시트를 안 옮겨서 판이 비어 보였다
      [share]    하위 경로가 레이아웃의 og:url(루트)을 물려받아 공유하면 루트 카드가 떴고, `/ae` 는 og:image 가 없었다
      [404]      모르는 주소가 Next 기본 흰 화면(`lang` 없음·링크 0)이었다
+     [biz]      사업자 등록(2026-09-22) 뒤에도 전자상거래법 §10·§13 필수 표시(대표·사업자번호·신고번호·전화…)가 0 이었다
+     [third-party] 폰트를 Google·jsDelivr 에서 받아 방문자 IP 가 두 회사로 갔다(자체 호스팅 2026-09-30)
 
    실행: node tools/deployCheck.mjs      (빌드 뒤에 돌린다)
    종료코드 0 = 통과 · 1 = 실패. 실패는 "배포하지 마라" 다. */
@@ -57,13 +59,15 @@ else ok.push(`[routes] ${REQUIRED.join(' · ')} 존재`);
 const KO = ['/ko.html', '/ko/ae.html', '/ko/ae/docs.html'];
 /* 셸 푸터를 쓰는 나머지 면 — 2026-09-26 전엔 구 `Navbar`/`Footer` 였고 `Buy` 가 없는 앵커(`/#pricing`)로 갔다.
    같은 법·지원 검사를 태워서 구 크롬이 되살아나면 여기서 잡는다. */
-const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.html', '/refund.html'];
+const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.html', '/refund.html',
+  '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html'];
 const koMissing = KO.filter((r) => !pages.some((p) => rel(p) === r));
 if (koMissing.length) fail.push(`[i18n] 국문 정적 경로가 없다: ${koMissing.join(' · ')} — 클라이언트 토글만으로는 색인도 공유도 안 된다`);
 else ok.push('[i18n] 국문 정적 경로 3장');
 
 /* ── 페이지별 검사 ──────────────────────────────────────────────── */
 const CHECKOUT = 'buy.polar.sh';
+const BIZ_REG = read(path.join(process.cwd(), 'lib/product.ts')).match(/regNo:\s*'([^']+)'/)?.[1] || '(regNo 없음)';
 const BANNED = [
   ['브리프 하나로', '오너 2026-08-31 폐기'],
   ['완성 영상', '오너 2026-08-31 폐기'],
@@ -97,15 +101,25 @@ for (const p of pages) {
   }
 
   if (isSurface) {
-    /* 🔴 업데이트 노트는 **로캘을 따라간다**(VOICE_AND_TERMS §5-4) — 국문 면은 `/ko/update`. 계약 경로 `/update` 는
-       영문 면이 걸고, `/ko/update` 첫 화면이 영문 전환을 갖는다. 법 3장은 영문 전용이라 양쪽 다 같은 주소다. */
-    const notes = isKo ? '/ko/update' : '/update';
-    for (const [href, label] of [['/terms', '약관'], ['/privacy', '개인정보'], ['/refund', '환불'], [notes, '업데이트']]) {
+    /* 🔴 업데이트 노트·법 3장은 **로캘을 따라간다**(VOICE_AND_TERMS §5-4) — 국문 면은 `/ko/…`. 계약 경로 `/update` 는
+       영문 면이 걸고, `/ko/update` 첫 화면이 영문 전환을 갖는다. 법 3장 국문판 = 2026-09-30. */
+    const L = (h) => (isKo ? '/ko' + h : h);
+    for (const [href, label] of [[L('/terms'), '약관'], [L('/privacy'), '개인정보'], [L('/refund'), '환불'], [L('/update'), '업데이트']]) {
       if (!html.includes(`href="${href}"`)) fail.push(`[legal] ${r} 에 ${label} 링크(${href})가 없다`);
     }
+    /* 사업자 줄(Shell `BizLine`) — §10 초기화면 표시 + 공정위 공개페이지 연결. 셸 푸터라 모든 면에 있어야 한다. */
+    if (!html.includes(BIZ_REG) || !html.includes('bizCommPop.do?wrkr_no=' + BIZ_REG.replace(/-/g, '')))
+      fail.push(`[biz] ${r} 에 사업자등록번호(${BIZ_REG})·공정위 확인 링크가 없다 — 전자상거래법 §10`);
     if (!/mailto:support@younameit\.works/.test(html)) fail.push(`[contact] ${r} 에 지원 주소가 없다`);
     if (/gmail\.com/i.test(html)) fail.push(`[pii] ${r} 에 개인 Gmail 이 있다`);
-    if (/\/Users\/|송동휘|DEV_BYPASS/.test(html)) fail.push(`[pii] ${r} 에 로컬 경로·내부 문자열이 새어 있다`);
+    /* 방문자 브라우저를 제3자 서버로 보내지 않는다 — 폰트는 자체 호스팅, 분석은 Cloudflare Web Analytics 하나(2026-09-30).
+       되살아나면 개인정보 처리방침(국문 제7조 ② "다른 회사의 서버에 직접 요청하게 하지 않습니다")이 거짓이 된다. */
+    const tp = html.match(/(?:src|href)="https?:\/\/(fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net|www\.googletagmanager\.com|www\.google-analytics\.com)/);
+    if (tp) fail.push(`[third-party] ${r} 가 방문자 브라우저를 ${tp[1]} 로 보낸다 — 처리방침 제7조 ②`);
+    /* 🔴 대표자 성명은 더 이상 금지어가 아니다 — 전자상거래법 §10 이 **표시를 요구한다**(2026-09-30). 대신 주민등록번호 꼴을 막는다
+       (사업자등록증명에 같이 찍혀 있다 — 옮겨 적다 새는 자리). */
+    if (/\/Users\/|DEV_BYPASS/.test(html)) fail.push(`[pii] ${r} 에 로컬 경로·내부 문자열이 새어 있다`);
+    if (/\b\d{6}-(?:[1-4]\d{6}|[1-4]?\*{6,7})/.test(body)) fail.push(`[pii] ${r} 에 주민등록번호 꼴이 있다`);
   }
 
   /* 공유 카드 — 색인되는 면은 자기 og:url(= canonical)과 실재하는 og:image 를 가진다 */
@@ -147,6 +161,16 @@ if (home) {
     warn.push(`[numbers] /ae 에 툴 수 ${COUNTS.scripts} 가 안 보인다 — 자리표시자가 안 채워졌을 수 있다`);
   else ok.push(`[numbers] 툴 ${COUNTS.scripts} · 모션 ${COUNTS.motion} · 그라디언트 ${COUNTS.gradients} = lib/product.ts`);
 }
+
+/* ── 사업자 필수 표시 ─────────────────────────────────────────────
+   전자상거래법 §10(초기화면: 상호·대표·주소·전화·이메일·사업자등록번호·약관·호스팅) · §13(통신판매업 신고번호).
+   값은 `lib/product.ts` BUSINESS 한 곳이다 — 빈 값이면 푸터가 그 줄을 안 그리므로 **여기서** 배포를 세운다. */
+const bizVal = (k) => product.match(new RegExp(`\\n\\s*${k}:\\s*'([^']*)'`))?.[1];
+if (!bizVal('phone')) fail.push('[biz] lib/product.ts BUSINESS.phone 가 비어 있다 — 전화번호(§10) 없이 나간다. 오너가 채운다');
+else ok.push(`[biz] BUSINESS.phone = ${bizVal('phone')}`);
+/* 통신판매업 신고는 면제 중이다(오너 2026-09-30 — 직전연도 거래 50회 미만). 배포를 막지 않고 **매 빌드 상기**만 한다. */
+if (!bizVal('mailOrderNo')) warn.push('[biz] 통신판매업 신고 면제 중(직전연도 50회 미만) — 매년 1월 직전연도 판매 수를 확인하고, 50건을 넘었으면 신고 후 BUSINESS.mailOrderNo');
+else ok.push(`[biz] BUSINESS.mailOrderNo = ${bizVal('mailOrderNo')}`);
 
 /* ── 사전 EN/KO 대칭 ────────────────────────────────────────────── */
 for (const f of ['shared', 'home', 'ae', 'docs', 'v33']) {

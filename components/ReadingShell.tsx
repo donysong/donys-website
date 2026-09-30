@@ -6,8 +6,8 @@
    네비 = 로고 · `AE Plugin`(외곽선, 제품 진입) · EN/KO (`ownNav`). 이 면들의 독자는 대부분 **이미 산 사람**이라
    네비에 결제 버튼을 두지 않는다(결제는 셸 푸터의 `Buy — $49.99` 한 곳).
    ⚠️ `/ae/docs` 는 2026-09-28 에 `/ae` 네비로 갈아탔다(§16-23) — 이 면들은 거기 안 들어간다(`/ae` 이하가 아니다).
-   🔴 `langSwitch={false}` = 짝 언어가 없는 면(법 3장·404). 셸의 전환은 `/ko` 를 앞에 붙인 주소로 가므로
-   켜 두면 **404 로 가는 버튼**이 된다. 국문 독자에게 이유는 셸 푸터의 한 줄(`s.ft.legal.lang`)이 말한다. */
+   🔴 `langSwitch={false}` = 짝 언어가 없는 면(지금은 404 하나). 셸의 전환은 `/ko` 를 앞에 붙인 주소로 가므로
+   켜 두면 **404 로 가는 버튼**이 된다. 법 3장은 2026-09-30 국문판(`/ko/terms` 등)이 생겨 전환을 켰다. */
 import { LangProvider } from '@/components/site3p/lang';
 import Page4 from '@/components/site4/Shell';
 

@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { useLang, useT } from '@/components/site3p/lang';
 import { Defs, Surface, useChrome } from '@/components/site3p/Chrome';
 import { penPath } from '@/components/site3p/pen';
-import { CHECKOUT_URL } from '@/lib/product';
+import { BUSINESS, CHECKOUT_URL, FTC_BIZ_URL } from '@/lib/product';
 
 export type NavLink = { href: string; k: string };
 export type Page4Kind = 'home' | 'ae' | 'docs';
@@ -82,11 +82,11 @@ function Nav4({ page, plateTotal, links, cta, logo, product }: {
    그래야 국문에 공유 가능한 주소가 생기고 검색에도 잡힌다(구 `?lang=ko` 스왑은 둘 다 못 했다).
    로캘이 URL 로 안 박힌 옛 경로에서는 예전처럼 상태만 바꾼다. */
 export const KO_PREFIX = '/ko';
-/* 🔴 국문 면의 내부 링크는 국문 면으로 간다(VOICE_AND_TERMS §5-4). 법 페이지(`/terms` `/privacy` `/refund`)는
-   국문 판본이 없으므로 **접두사를 붙이지 마라** — 붙이면 404 다. `/update` 는 `/ko/update` 가 있다(2026-09-19).
-   푸터의 `Release notes` 도 이 함수를 탄다 — deployCheck `[legal]` 이 국문 면에선 `/ko/update` 를 요구한다(2026-09-26).
-   앵커(`#…`)·외부 주소·`mailto:` 는 그대로 둔다 — 앵커를 여기 통과시키면 `/ko#who` 가 된다. */
-const LOCALIZED = ['/', '/ae', '/ae/docs', '/update'];
+/* 🔴 국문 면의 내부 링크는 국문 면으로 간다(VOICE_AND_TERMS §5-4). `/update` 는 `/ko/update` 가 있다(2026-09-19).
+   법 3장(`/terms` `/privacy` `/refund`)도 이제 국문판이 있다 — 2026-09-30 오너가 사업자 등록(09-22) 뒤 구 "영문 전용"(09-19)을
+   다시 열었다(개인정보 처리방침은 국문 독자가 읽을 수 있어야 한다). 푸터 링크가 이 함수를 타고, deployCheck `[legal]` 이
+   국문 면에선 `/ko/…` 를 요구한다. 앵커(`#…`)·외부 주소·`mailto:` 는 그대로 둔다 — 앵커를 여기 통과시키면 `/ko#who` 가 된다. */
+const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter'];
 export function useHref() {
   const { lang, locked } = useLang();
   return (p: string) => {
@@ -179,6 +179,8 @@ function Footer4({ page }: { page: Page4Kind }) {
           <ul>
             <li><a href={href('/ae')} data-cur>{t('s.product')}</a></li>
             <li><a href={href('/update')} data-cur>{t('s.ft.notes')}</a></li>
+            {/* 광고성 정보 수신 동의 창구(2026-09-30) — 동의한 분께만 보낸다(정보통신망법 §50). */}
+            <li><a href={href('/newsletter')} data-cur>{t('s.ft.news')}</a></li>
           </ul>
         </div>
         <div>
@@ -194,11 +196,10 @@ function Footer4({ page }: { page: Page4Kind }) {
         <div>
           <h4>{t('s.ft.legal')}</h4>
           <ul>
-            <li><a href="/terms" data-cur>{t('s.ft.terms')}</a></li>
-            <li><a href="/privacy" data-cur>{t('s.ft.privacy')}</a></li>
-            <li><a href="/refund" data-cur>{t('s.ft.refund')}</a></li>
-            {/* 국문 면에서만 값이 있다(`s.ft.legal.lang`) — 법 3장이 영문 전용인 이유. */}
-            {t('s.ft.legal.lang') ? <li><small>{t('s.ft.legal.lang')}</small></li> : null}
+            <li><a href={href('/terms')} data-cur>{t('s.ft.terms')}</a></li>
+            {/* 🔴 굵게 — 개인정보 보호위원회 처리방침 작성지침: "개인정보 처리방침" 명칭을 쓰고 글자 크기·색 등으로 다른 고지와 구분한다. */}
+            <li><a href={href('/privacy')} className="ft-privacy" data-cur>{t('s.ft.privacy')}</a></li>
+            <li><a href={href('/refund')} data-cur>{t('s.ft.refund')}</a></li>
             {page !== 'home' ? <li><a href={href('/')} data-cur>{t('s.toBrand')}</a></li> : null}
           </ul>
           {/* 돌은 열의 **끝**이다 — 라벨과 링크 사이에 있으면 라벨이 그림에 붙고 링크가 떨어진다. */}
@@ -206,7 +207,32 @@ function Footer4({ page }: { page: Page4Kind }) {
         </div>
       </div>
       <div className="legal"><span>{t('s.copyright')}</span><span>{t('s.legal.line')}</span></div>
+      <BizLine />
     </footer>
+  );
+}
+
+/* 사업자 줄 — 전자상거래법 §10(사이버몰 **초기화면** 표시 + 공정위 공개페이지 연결) · §13(통신판매업 신고번호).
+   셸 푸터라 모든 면(첫 화면 포함)에 같이 선다. 값 = `lib/product.ts` BUSINESS 한 곳 · 라벨 = 사전 `s.biz.*`.
+   빈 값(전화 · 신고번호 — 오너 입력 대기)은 줄을 안 그리고, 대신 deployCheck `[biz]` 가 배포를 세운다. */
+function BizLine() {
+  const { t } = useT();
+  const { lang } = useLang();
+  const b = BUSINESS;
+  const rows: [string, React.ReactNode][] = [
+    ['s.biz.name', b.name[lang]],
+    ['s.biz.ceo', b.ceo[lang]],
+    ['s.biz.regNo', <>{b.regNo} <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer" data-cur>{t('s.biz.verify')}</a></>],
+    ...(b.mailOrderNo ? [['s.biz.mailOrder', b.mailOrderNo] as [string, React.ReactNode]] : []),
+    ['s.biz.address', b.address[lang]],
+    ...(b.phone ? [['s.biz.phone', <a key="tel" href={`tel:${b.phone.replace(/[^\d+]/g, '')}`} data-cur>{b.phone}</a>] as [string, React.ReactNode]] : []),
+    ['s.biz.email', <a key="mail" href={`mailto:${b.email}`} data-cur>{b.email}</a>],
+    ['s.biz.hosting', b.hosting],
+  ];
+  return (
+    <address className="biz">
+      {rows.map(([k, v]) => <span key={k}><b>{t(k)}</b> {v}</span>)}
+    </address>
   );
 }
 

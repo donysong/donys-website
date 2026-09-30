@@ -7,7 +7,7 @@
    그러니 페이지는 조각을 손으로 적지 말고 `share()` 가 돌려주는 **완전한** 객체를 펼친다.
 
    카드 두 장의 역할 — 브랜드 루트와 제품은 다른 물건이다(§14 분리):
-     brand   `/` · `/ko` · 법 3장        — 제품 메타 없음
+     brand   `/` · `/ko` · 법 3장(EN·KO) — 제품 메타 없음
      product `/ae` · `/ko/ae` · Docs · 업데이트 — 제품 카드
    원본 = 플러그인 repo `tools/promo/out/og-*.png` (이 repo 에서 잘라 저장하지 마라 — 다음 재생성 때 갈라진다). */
 import type { Metadata } from 'next';
@@ -41,7 +41,7 @@ export function share({ path, title, description, card, lang }: {
       type: 'website',
       ...(path ? { url: `${SITE}${path === '/' ? '' : path}` } : {}),
       siteName: 'You Name It',
-      /* 짝 언어는 `alternates.languages`(hreflang)가 말한다 — 법 3장은 짝이 없으니 여기선 적지 않는다. */
+      /* 짝 언어는 `alternates.languages`(hreflang)가 말한다 — 여기선 적지 않는다. */
       locale: lang === 'ko' ? 'ko_KR' : 'en_US',
       images: [image],
     },

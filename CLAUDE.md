@@ -84,6 +84,9 @@ app/
 components/
   site3p/        # 🔴 홈 — Page Chrome Hero Who Why What MadeBy Price Footer3P Plate3 Spot Typed lang
   RisoDefs Plate Navbar Footer MotionLab   # 나머지 페이지용
+functions/       # 🔴 Cloudflare Pages Functions — `wrangler pages deploy out` 이 cwd 의 이 폴더를 같이 올린다.
+                 #    지금은 소식 메일(광고성 정보 수신 동의)뿐: api/newsletter/* · 설정 = tools/newsletterSetup.mjs
+                 #    법 근거·검토서 = 플러그인 repo donys/docs/LEGAL_KR_REVIEW.md (🔴 이 repo 는 **공개**다 — 검토서를 여기 두지 마라)
 lib/copy.ts      # 🔴 홈 카피 정본 — EN/KO 사전 하나. 카피 수정은 **여기서만**(양 언어 같이)
 lib/product.ts   # 🔴 가격 · 체크아웃 URL · 카탈로그 숫자
 lib/releases.ts  # 🔴 릴리스 노트 이력 — /update 가 읽는다
@@ -123,3 +126,13 @@ npm run build   # → out/
 
 - 플러그인 소스: `../Dony-s-AE-Plugin/donys/`
 - 홍보 자산 렌더러: `../Dony-s-AE-Plugin/tools/promo/` (`node shot.mjs pages/og.html og-ae`). 🔴 구 목업(`f-*` · `poster-*` · `anim-*` · `hero`)은 2026-09-28 삭제 — 없는 기능을 그리고 있었다. 패널 그림은 출고 태그에서만.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

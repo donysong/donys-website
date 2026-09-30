@@ -18,9 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/ae`,      lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/ae/docs`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     /* 🔴 국문은 **따로 구워진 페이지**다(`?lang=ko` 클라이언트 스왑이 아니다). 색인 대상이니 싣는다.
-       🔴 법 페이지(`/terms` `/privacy` `/refund`)는 **국문판을 만들지 않는다**(오너 2026-09-19:
-       *"국문은 필요 없을듯"*) — 국문 법문이 영문과 갈라지면 그 자체가 책임이다. 여기 넣지 마라.
-       `/ko/update` 는 예외다: 패널이 무는 경로라 한국어 유저가 실제로 읽는 면이다. */
+       법 3장 국문판은 2026-09-30 오너가 구 "영문 전용"(09-19)을 다시 열어 생겼다(사업자 등록 뒤 — 개인정보 처리방침은
+       국문 독자가 읽을 수 있어야 한다). 🔴 국문 법문이 영문과 갈라지면 그 자체가 책임이다 — 한쪽을 고치면 같이 고쳐라. */
     { url: `${SITE}/ko`,         lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/ko/ae`,      lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE}/ko/ae/docs`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
@@ -29,5 +28,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/terms`,   lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE}/refund`,  lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE}/ko/terms`,   lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE}/ko/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE}/ko/refund`,  lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ];
 }

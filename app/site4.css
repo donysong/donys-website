@@ -795,10 +795,15 @@
       노트색 = 흰 판 밖 잉크가 흰 종이에 곱해져 **짙은 테가 사라진다**(평평한 빨강) · 검정 = 테가 굵은 외곽선으로 읽힌다 ·
       **파랑 = 파란 종이 위와 같은 짙은 자주 테**(빨강 × 파랑). 흰 종이 위에 파란 판을 한 장 먼저 찍은 2도 리소다 —
       §16 오너 *"밑에 붉은 색 들어간 애들한테도 공통적으로"* 의 그림자 디테일이 두 종이에서 같다. */
+/* 🔴 2026-09-30 오너 *"격자 부분 컬러를 위에 디자이너랑 머시기 있는 4개(01 역할 카드) 색상톤으로 맞춰줘"* —
+   바닥·선 색을 역할 카드(`.gridp` = 크림 `--cream` + 브랜드 파랑 .32 선, site3p.css)에 맞췄다. 위 스캔 유래 값(#f0f3f4 · 8.5%)은 은퇴.
+   바닥 = 크림 ÷ 결 평균(.971) — 결이 곱해진 뒤 화면에 앉는 색이 카드의 크림과 같다. 선 코어 = 카드 선과 같은 .32,
+   곁 번짐(`--nl2`)은 스캔 결의 부드러움이라 남기되 코어와 같은 비로 올렸다(.04/.085 ≈ .47 → .15).
+   칸 크기(28)는 그대로다 — 결 타일(1008)의 약수라 바꾸면 이음매가 칸 한가운데로 나온다(위 주석). */
 .p3 .onnote {position:relative;isolation:isolate;
-  --note:#f0f3f4;   /* 바닥 = 스캔 평균 ÷ 결 평균 */
+  --note:#f6eedc;   /* 바닥 = 카드 크림(#efe7d6) ÷ 결 평균(.971) */
   --pl-paper:var(--paper);
-  --nl:rgba(31,155,227,.085); --nl2:rgba(31,155,227,.04);
+  --nl:rgba(31,155,227,.32); --nl2:rgba(31,155,227,.15);
   background:
     url(/riso/note-grain.webp) 0 0/1008px 1008px,
     repeating-linear-gradient(90deg,var(--nl) 0 1px,var(--nl2) 1px 2px,transparent 2px 27px,var(--nl2) 27px 28px),
@@ -849,3 +854,14 @@
   .p3 .pamt {padding:26px 0}
   .p3 .pvow {padding:22px 0 26px;border-left:0;border-top:1.5px solid var(--black)}
 }
+
+/* ════ 2026-09-30 — 푸터 사업자 줄 · 개인정보처리방침 강조 (오너 *"한국 필수 표시 정보 — 영문 국문 각각"*) ════
+   `.biz` = 전자상거래법 §10·§13 표시 의무(상호·대표·사업자등록번호+공정위 확인·신고번호·주소·전화·이메일·호스팅, Shell `BizLine`).
+   `.legal` 줄과 같은 글자 크기·잉크다 — 법이 요구하는 건 "알아보기 쉽게" 지 크게가 아니다. 판면(`--pad`)은 `.legal` 과 같이 잡는다.
+   `.ft-privacy` = 처리방침 작성지침의 "다른 고지와 구분" — 굵게 + 밝은 잉크(검정 바탕 위 흰 종이색). 새 이름 두 개는 grep 0 확인. */
+.p3 footer .biz {display:flex;flex-wrap:wrap;gap:4px 18px;margin:10px 0 0;padding-left:var(--pad);padding-right:var(--pad);
+  font-style:normal;font-size:12px;line-height:1.6;color:#7d8a90}
+.p3 footer .biz b {font-weight:700;color:#a3aeb3;margin-right:3px}
+.p3 footer .biz a {text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.p3 footer .biz a:hover {color:#fff}
+.p3 footer .ft-privacy {font-weight:800;color:var(--white)}

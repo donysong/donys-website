@@ -79,7 +79,7 @@
   --rx: var(--rim-x);
   --ry: var(--rim-y);
 
-  --font-ui: 'Google Sans Flex', 'Pretendard Variable', ui-sans-serif, system-ui,
+  --font-ui: var(--font-gsf), 'Pretendard Variable', ui-sans-serif, system-ui,
              -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 

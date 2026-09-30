@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
+import { BUSINESS } from '@/lib/product';
 import { share } from '@/lib/meta';
 
 const DESCRIPTION = 'Privacy Policy for You Name It AE Plugin.';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/privacy' },
+  alternates: { canonical: '/privacy', languages: { en: '/privacy', ko: '/ko/privacy', 'x-default': '/privacy' } },
   /* 🔴 브랜드명을 붙이지 마라 — 루트 레이아웃의 `template: '%s — You Name It'` 이 이미 붙인다.
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
   title: 'Privacy Policy',
@@ -21,11 +22,11 @@ export const metadata: Metadata = {
    조항 구조·책임 문구는 오너 사안이다 — 사실만 고친다. */
 export default function PrivacyPage() {
   return (
-    <ReadingShell lang="en" plate="s.ft.privacy" langSwitch={false}>
+    <ReadingShell lang="en" plate="s.ft.privacy">
       <header className="max-w-3xl">
         <p className="lab">You Name It AE Plugin</p>
         <InkTitle>Privacy Policy</InkTitle>
-        <p className="text-sm">Last updated: September 26, 2026</p>
+        <p className="text-sm">Last updated: September 30, 2026</p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
@@ -37,6 +38,12 @@ export default function PrivacyPage() {
               privacy. This Privacy Policy explains how we collect, use, and protect your
               information when you visit our website (younameit.works) or purchase and use
               You Name It AE Plugin.
+            </p>
+            <p className="mt-2">
+              We are a sole proprietorship registered in the Republic of Korea ({BUSINESS.name.en} · CEO {BUSINESS.ceo.en} ·
+              {' '}{BUSINESS.address.en} · Business Registration No. {BUSINESS.regNo}), and we handle personal data under
+              Korea&apos;s Personal Information Protection Act. A Korean version of this policy is at{' '}
+              <a href="/ko/privacy">/ko/privacy</a>.
             </p>
           </section>
 
@@ -64,7 +71,8 @@ export default function PrivacyPage() {
               </li>
             </ul>
             <p className="mt-2">
-              We do not collect your name, email address, or anything you type through analytics.
+              The website serves every file, fonts included, from our own domain; your browser is not sent to other
+              companies&apos; servers. We do not collect your name, email address, or anything you type through analytics.
               However, IP addresses are treated as personal data under the GDPR and similar laws,
               so we do not claim this analytics data is fully anonymous.
             </p>
@@ -139,8 +147,19 @@ export default function PrivacyPage() {
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">3. How We Use Your Information</h2>
             <ul className="list-disc space-y-1 pl-6">
               <li>To deliver your license key and product updates</li>
-              <li>To provide customer support</li>
-              <li>To send important product announcements (you can opt out at any time)</li>
+              <li>To provide customer support, including cancellations and refunds</li>
+              <li>To keep the transaction records the law requires (see Section 5)</li>
+              <li>
+                To send service notices about your purchase, such as updates, security, license and refund notices. These are
+                not advertising.
+              </li>
+              <li>
+                To send our newsletter, <strong>only to people who opted in</strong> on the{' '}
+                <a href="/newsletter">Newsletter</a> page and confirmed by email. We store your email address, the time you
+                agreed and your language with Resend until you withdraw; when you do, we email you the result and delete them.
+                We confirm your consent every two years, mark every newsletter as promotional, and include a free unsubscribe
+                link.
+              </li>
             </ul>
             <p className="mt-2">
               We do not sell, rent, or share your personal information with third parties for
@@ -150,7 +169,11 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">4. Third-Party Services</h2>
-            <p>We use the following third-party services:</p>
+            <p>
+              We use the following third-party services. Most of them process data in the United States; we transfer data to
+              them only as needed to sell and support the Product (details, including each recipient&apos;s contact, are in the
+              Korean version, Article 7).
+            </p>
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>
                 <strong>Polar</strong> — payment processing, merchant of record, and license
@@ -194,8 +217,8 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
-                <strong>Cloudflare</strong> — website hosting, DNS, CDN, download hosting, email
-                forwarding for support@younameit.works, and cookieless web analytics. Their privacy policy is available at{' '}
+                <strong>Cloudflare</strong> — website hosting, DNS, CDN, download hosting, receiving and
+                forwarding email sent to support@younameit.works, and cookieless web analytics. Their privacy policy is available at{' '}
                 <a
                   href="https://www.cloudflare.com/privacypolicy/"
                   target="_blank"
@@ -207,9 +230,8 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
-                <strong>Google</strong> — Google Fonts, which serves the website&apos;s English
-                typefaces; your browser requests them from Google. Their privacy policy is available
-                at{' '}
+                <strong>Google (Gmail)</strong> — stores the support email you send us, where we read and
+                answer it. Their privacy policy is available at{' '}
                 <a
                   href="https://policies.google.com/privacy"
                   target="_blank"
@@ -221,15 +243,16 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
-                <strong>jsDelivr</strong> — serves the website&apos;s Korean typeface; your browser
-                requests it from jsDelivr. Their privacy policy is available at{' '}
+                <strong>Resend (Plus Five Five, Inc.)</strong> — sends our email replies to you, and keeps the newsletter
+                subscriber list and sends the newsletter if you subscribed. Their privacy
+                policy is available at{' '}
                 <a
-                  href="https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net"
+                  href="https://resend.com/legal/privacy-policy"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[var(--text-primary)] underline underline-offset-4 font-semibold"
                 >
-                  jsdelivr.com/terms/privacy-policy-jsdelivr-net
+                  resend.com/legal/privacy-policy
                 </a>
                 .
               </li>
@@ -275,8 +298,17 @@ export default function PrivacyPage() {
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">5. Data Retention</h2>
             <p>
               We retain your email and order information for as long as necessary to provide
-              support and product updates. You may request deletion of your data at any time by
-              contacting us.
+              support and product updates, and delete it when you ask, except for the records Korean e-commerce law
+              requires us to keep for a fixed period:
+            </p>
+            <ul className="mt-2 list-disc space-y-1 pl-6">
+              <li>Records of advertising and product descriptions: 6 months</li>
+              <li>Records of contracts and cancellations: 5 years</li>
+              <li>Records of payment and delivery: 5 years</li>
+              <li>Records of complaints and dispute handling: 3 years</li>
+            </ul>
+            <p className="mt-2">
+              We keep those records separately and delete them when the period ends.
             </p>
           </section>
 
@@ -286,6 +318,7 @@ export default function PrivacyPage() {
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>Access the personal data we hold about you</li>
               <li>Request correction or deletion of your data</li>
+              <li>Ask us to stop processing it</li>
               <li>Opt out of marketing communications</li>
             </ul>
             <p className="mt-2">
@@ -293,7 +326,9 @@ export default function PrivacyPage() {
               <a href="mailto:support@younameit.works" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
                 support@younameit.works
               </a>
-              .
+              {' '}from the address you bought with. We give you access <strong>within 10 days</strong> and handle
+              correction, deletion and stop requests without delay. We cannot delete the records the law requires us to keep
+              (Section 5) until their period ends.
             </p>
           </section>
 
@@ -308,19 +343,19 @@ export default function PrivacyPage() {
           <section>
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">8. Changes to This Policy</h2>
             <p>
-              We may update this Privacy Policy from time to time. Changes will be posted on
-              this page with an updated date.
+              We may update this Privacy Policy from time to time. We post changes on this page at least 7 days before they
+              take effect, or at least 30 days before if they are less favorable to you, in which case we also email you.
             </p>
           </section>
 
           <section>
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">9. Contact</h2>
             <p>
-              For privacy-related questions, contact us at{' '}
+              For privacy-related questions, contact our privacy officer, {BUSINESS.ceo.en} (CEO), at{' '}
               <a href="mailto:support@younameit.works" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
                 support@younameit.works
               </a>
-              .
+              {BUSINESS.phone ? <> or {BUSINESS.phone}</> : null}.
             </p>
           </section>
         </div>

@@ -15,8 +15,9 @@ export function Defs() {
         <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="4" result="n">
           <animate attributeName="seed" values="4;11;2;9;7;5" dur="1s" calcMode="discrete" repeatCount="indefinite" />
         </feTurbulence>
-        <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="d" />
-        <feGaussianBlur in="d" stdDeviation="0.25" />
+        {/* 🔴 끝에 `feGaussianBlur` 를 다시 달지 마라 (2026-09-30) — 크롬에선 0.25px 라 안 보이는데 Safari 는
+            판 전체를 뭉개서 표제가 초점 나간 사진처럼 읽혔다(WebKit 26 실측, 빼면 크롬은 눈으로 구분 불가). */}
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G" />
       </filter>
     </svg>
   );
