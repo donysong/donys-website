@@ -15,6 +15,8 @@
      [404]      모르는 주소가 Next 기본 흰 화면(`lang` 없음·링크 0)이었다
      [biz]      사업자 등록(2026-09-22) 뒤에도 전자상거래법 §10·§13 필수 표시(대표·사업자번호·신고번호·전화…)가 0 이었다
      [third-party] 폰트를 Google·jsDelivr 에서 받아 방문자 IP 가 두 회사로 갔다(자체 호스팅 2026-09-30)
+     [usage]    사용법을 개발 우회(`DOCS_PLUGIN_REF`)로 읽은 채 배포하면 안 나간 문서가 출고본 Docs 에 실린다
+     [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
 
    실행: node tools/deployCheck.mjs      (빌드 뒤에 돌린다)
    종료코드 0 = 통과 · 1 = 실패. 실패는 "배포하지 마라" 다. */
@@ -190,6 +192,37 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33']) {
   if (onlyEn.length || onlyKo.length)
     fail.push(`[i18n] lib/copy/${f}.ts 비대칭 — EN만 ${onlyEn.length}(${onlyEn.slice(0, 5)}) · KO만 ${onlyKo.length}(${onlyKo.slice(0, 5)})`);
   else ok.push(`[i18n] lib/copy/${f}.ts ${en.size}/${ko.size} 대칭`);
+}
+
+/* ── 사용법 생성물 — 출고본 태그에서 읽었나 ───────────────────────────
+   `lib/docsUsage.ts` 는 `DOCS_PLUGIN_REF` 개발 우회로도 찍힌다(v2.8.0 이 나오기 전에 화면을 개발하는 용도). 그 상태로 나가면
+   사이트가 안 나간 문서를 광고한다 — 카탈로그를 워킹트리가 아니라 태그에서 읽는 이유와 같다(생성기 머리말). */
+{
+  const ver = product.match(/export const VERSION\s*=\s*'(\d+\.\d+\.\d+)'/)?.[1];
+  const src = read(path.join(process.cwd(), 'lib/docsUsage.ts')).match(/DOCS_USAGE_SRC\s*=\s*"([^"]*)"/)?.[1];
+  if (!src) fail.push('[usage] lib/docsUsage.ts 에서 DOCS_USAGE_SRC 를 못 읽었다 — npm run build:docs');
+  else if (src !== `v${ver}`) fail.push(`[usage] 사용법 출처가 출고 태그(v${ver})가 아니다: ${src} — DOCS_PLUGIN_REF 를 풀고 npm run build 를 다시 돌려라`);
+  else ok.push(`[usage] 사용법 출처 = 태그 ${src}`);
+  for (const p of pages) if (/VERIFY/.test(text(read(p)))) fail.push(`[usage] ${rel(p)} 에 VERIFY 표식이 새어 있다`);
+}
+
+/* ── 앵커 — 같은 페이지 `#id` 와 다른 페이지 `/path#id` 가 가리키는 id 가 실재하나 ──────────
+   구운 HTML 의 `id="…"` 만 본다(클라이언트에서 생기는 id 는 없다). 해시 리다이렉트(`Usage.tsx` HASH_REDIRECT)는 **외부** 옛 링크용이라
+   여기서는 면제하지 않는다 — 사이트 안에 옛 앵커가 남아 있으면 그게 결함이다. */
+{
+  const idsOf = new Map(pages.map((p) => [rel(p), new Set([...read(p).matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]))]));
+  const fileOf = (u) => (u === '/' ? '/index.html' : u.replace(/\/$/, '') + '.html');
+  let n = 0;
+  for (const p of pages) {
+    for (const m of read(p).matchAll(/href="(\/[^"#?]*)?#([^"]+)"/g)) {
+      const target = m[1] ? fileOf(m[1]) : rel(p);
+      const ids = idsOf.get(target);
+      if (!ids) continue;   // 정적 페이지가 아닌 경로(외부 · 파일)는 이 검사의 몫이 아니다
+      n++;
+      if (!ids.has(decodeURIComponent(m[2]))) fail.push(`[anchors] ${rel(p)} 의 링크 ${m[1] || ''}#${m[2]} 가 ${target} 에 없는 id 를 가리킨다`);
+    }
+  }
+  ok.push(`[anchors] 앵커 링크 ${n}개 확인`);
 }
 
 /* ── 보고 ───────────────────────────────────────────────────────── */

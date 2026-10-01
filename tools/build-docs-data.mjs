@@ -22,9 +22,15 @@
 
    읽는 곳 (전부 태그 v<VERSION> 안):
      donys/src/data/builtinScripts.ts   툴 id · name · category · 순서
-     donys/src/i18n/{ko,en}.ts          툴 설명 (`scripts` 블록)
+     donys/src/i18n/{ko,en}.ts          툴 설명 (`scripts` 블록) + 사용법 표의 `{{ns.key}}` 라벨
      donys/CSXS/manifest.xml            패널 (AE 창 메뉴 라벨 = 정본)
      donys/seed-presets/effects/        출고 이펙트 슬러그
+     donys/usage/{ko,en}/<id>.md        사용법 → `lib/docsUsage.ts` (파서 = `tools/usageMd.mjs`)
+
+   🔴 **사용법 문서만 개발용 우회가 있다**: `DOCS_PLUGIN_REF=<브랜치·SHA·플러그인 체크아웃 경로>` 이면 `donys/usage/` 와
+   그 라벨 사전(`i18n`)을 태그 대신 그 ref 에서 읽는다(v2.8.0 이 나오기 전에 화면을 개발하려는 용도). 카탈로그(툴·패널·이펙트·설명)는
+   **여전히 태그**다 — 사이트가 파는 건 출고본이다. 결과 `lib/docsUsage.ts` 의 `DOCS_USAGE_SRC` 가 `dev:…` 로 찍히고
+   `deployCheck` 가 그걸 배포 실패로 막는다. 기본은 태그다.
    사이트 쪽:
      public/riso/spots/<id>.webp        프리뷰 시트 존재 여부
      lib/copy/docs.ts                   `docs.note.<id>` 가 가리키는 툴이 태그에 있는지 (대조만)
@@ -34,6 +40,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { parseUsage } from './usageMd.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.resolve(HERE, '..');
@@ -86,18 +93,30 @@ const CATS = ['motion', 'layer', 'comp', 'shape', 'stylize', 'export'];
    🔴 파일 전체를 훑고 "같은 키 중 긴 쪽" 을 고르는 휴리스틱은 쓰지 않는다. `toolboxMenu` 에도
    `copyKeyframes` 가 있어서 어느 쪽이 잡히는지가 문장 길이에 달리게 된다. 블록을 못 찾거나
    툴 하나라도 설명이 없으면 **여기서 죽는다** — 빈 카드를 내는 것보다 낫다. */
-function scriptsDict(rel) {
-  const lines = show(rel).split('\n');
-  const name = path.basename(rel);
-  const start = lines.findIndex((l) => /^\s{2}"scripts":\s*\{\s*$/.test(l));
-  if (start < 0) fail(`${name} 에 "scripts" 블록이 없다 — i18n 구조가 바뀌었다.`);
-  const out = {};
-  for (let i = start + 1; i < lines.length; i++) {
-    if (/^\s{2}\},?\s*$/.test(lines[i])) return out;
-    const m = lines[i].match(/^\s*"([A-Za-z][A-Za-z0-9_]*)":\s*("(?:[^"\\]|\\.)*")\s*,?\s*$/);
-    if (m) out[m[1]] = JSON.parse(m[2]);
+/** i18n 파일 전체를 중첩 객체로 읽는다. 파일은 `const ko = { … } as const` 꼴이고 한 줄에 한 항목이다
+    (`"key": "문자열",` · `"ns": {` · `},` · `//` 주석). 한 줄 문자열이 아닌 값이 나오면 중첩이 어긋나므로 끝에서 막는다. */
+function parseI18n(text, name) {
+  const root = {};
+  const stack = [root];
+  let opened = false;
+  for (const line of text.split('\n')) {
+    if (/^\s*(\/\/.*)?$/.test(line)) continue;
+    let m;
+    if (!opened) { if (/^const \w+ = \{\s*$/.test(line)) opened = true; continue; }
+    if ((m = line.match(/^\s*"((?:[^"\\]|\\.)+)":\s*\{\s*$/))) { const o = {}; stack.at(-1)[JSON.parse(`"${m[1]}"`)] = o; stack.push(o); continue; }
+    if (/^\s*\},?\s*(as const;)?\s*$/.test(line)) { stack.pop(); continue; }
+    if ((m = line.match(/^\s*"((?:[^"\\]|\\.)+)":\s*("(?:[^"\\]|\\.)*")\s*,?\s*(\/\/.*)?$/))) stack.at(-1)[JSON.parse(`"${m[1]}"`)] = JSON.parse(m[2]);
   }
-  fail(`${name} 의 "scripts" 블록이 안 닫힌다.`);
+  if (!opened || stack.length !== 0) fail(`${name} 의 중첩이 안 맞는다 — i18n 구조가 바뀌었다.`);
+  return root;
+}
+
+/* 🔴 파일 전체를 훑고 "같은 키 중 긴 쪽" 을 고르는 휴리스틱은 쓰지 않는다 — 블록(`scripts`)을 이름으로 짚는다. */
+function scriptsDict(rel) {
+  const name = path.basename(rel);
+  const block = parseI18n(show(rel), name).scripts;
+  if (!block) fail(`${name} 에 "scripts" 블록이 없다 — i18n 구조가 바뀌었다.`);
+  return Object.fromEntries(Object.entries(block).filter(([, v]) => typeof v === 'string'));
 }
 const KO = scriptsDict('donys/src/i18n/ko.ts');
 const EN = scriptsDict('donys/src/i18n/en.ts');
@@ -204,6 +223,89 @@ const FX_ORDER = ['riso-print', 'chromatic-aberration', 'crt-screen', 'confetti-
 const RELEASES = (readSite('lib/releases.ts').match(/^\s{4}version:\s*'/gm) || []).length;
 if (!RELEASES) fail('lib/releases.ts 에서 릴리스를 못 읽었다 — 형식이 바뀌었다.');
 
+/* ── 6b. 사용법 — `donys/usage/{ko,en}/<id>.md` ───────────────────────
+   id 규약(플러그인 repo 파일 규약 v1): 툴 = builtinScripts id · 패널 = `panel-<key>`(`custom-1` → `panel-custom`) ·
+   카탈로그 = `catalog-<kind>`. 🔴 `carouselRig` 는 갱신 중이라 문서가 없다 — 없는 id 는 **토글이 안 뜰 뿐 에러가 아니다**.
+   읽는 곳 = 기본 태그. `DOCS_PLUGIN_REF` 가 있으면 그 ref(브랜치 · SHA · 플러그인 체크아웃 경로)에서 usage 와 라벨 사전을 읽는다. */
+const CATALOG_KINDS = ['expressions', 'gradients', 'textPresets', 'curves', 'motionPresets', 'effects'];
+const USAGE_IDS = new Map([
+  ...TOOLS.map((t) => [t.id, 'tool']),
+  ...PANELS.map((p) => [`panel-${p.key.replace(/-\d+$/, '')}`, 'panel']),
+  ...CATALOG_KINDS.map((k) => [`catalog-${k}`, 'catalog']),
+]);
+
+const softGit = (ref, rel) => { try { return git('show', `${ref}:${rel}`); } catch { return null; } };
+const gitList = (ref, dir) => git('ls-tree', '--name-only', ref, `${dir}/`).split('\n').filter(Boolean).map((p) => path.posix.basename(p));
+
+function usageSource() {
+  const ref = (process.env.DOCS_PLUGIN_REF || '').trim();
+  if (!ref) return { label: TAG, dev: false, read: (rel) => softGit(TAG, rel), list: (dir) => gitList(TAG, dir) };
+  const dir = path.resolve(ref);
+  if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) {
+    return {
+      label: `dev:${dir}`, dev: true,
+      read: (rel) => (fs.existsSync(path.join(dir, rel)) ? fs.readFileSync(path.join(dir, rel), 'utf8') : null),
+      list: (d) => (fs.existsSync(path.join(dir, d)) ? fs.readdirSync(path.join(dir, d)) : []),
+    };
+  }
+  let sha;
+  try { sha = git('rev-parse', '--verify', '--quiet', `${ref}^{commit}`).trim(); }
+  catch { fail(`DOCS_PLUGIN_REF=${ref} 는 디렉토리도 플러그인 repo 의 ref 도 아니다.`); }
+  return { label: `dev:${ref}@${sha.slice(0, 7)}`, dev: true, read: (rel) => softGit(sha, rel), list: (d) => gitList(sha, d) };
+}
+
+/** `{{ns.key}}` → 제품이 출고하는 라벨. `ns` 최상위 블록 안에서 먼저 점이 든 평평한 키로, 그다음 중첩 경로로 찾는다. */
+function labeler(dict, lang, srcLabel) {
+  const lookup = (key) => {
+    const i = key.indexOf('.');
+    const ns = dict[key.slice(0, i)];
+    if (i < 0 || !ns || typeof ns !== 'object') return undefined;
+    const rest = key.slice(i + 1);
+    if (typeof ns[rest] === 'string') return ns[rest];
+    let cur = ns;
+    for (const part of rest.split('.')) cur = cur && typeof cur === 'object' ? cur[part] : undefined;
+    return typeof cur === 'string' ? cur : undefined;
+  };
+  return (key, where) => {
+    const v = lookup(key);
+    if (v === undefined) throw new Error(`${where}: {{${key}}} 가 ${srcLabel} 의 ${lang}.ts 에 없다 — 라벨을 손으로 쓰지 말고 대화상자가 쓰는 키를 적어라.`);
+    return v.replace(/\*\*/g, '').replace(/\s*\n\s*/g, ' ').trim();
+  };
+}
+
+const USAGE = {};
+const usageNotes = { verify: 0, skipped: [], orphan: [] };
+const SRC = usageSource();
+{
+  const files = Object.fromEntries(['ko', 'en'].map((l) => [l, new Set(SRC.list(`donys/usage/${l}`).filter((f) => /^[A-Za-z][A-Za-z0-9-]*\.md$/.test(f) && f !== 'README.md').map((f) => f.slice(0, -3)))]));
+  const all = [...new Set([...files.ko, ...files.en])].sort();
+  if (all.length) {
+    const resolvers = {};
+    for (const l of ['ko', 'en']) {
+      const text = SRC.read(`donys/src/i18n/${l}.ts`);
+      if (text === null) fail(`${SRC.label} 에 donys/src/i18n/${l}.ts 가 없다 — 사용법 표의 라벨을 풀 수 없다.`);
+      resolvers[l] = labeler(parseI18n(text, `${l}.ts`), l, SRC.label);
+    }
+    for (const id of all) {
+      if (!USAGE_IDS.has(id)) { usageNotes.orphan.push(id); continue; }
+      if (!files.ko.has(id) || !files.en.has(id)) { usageNotes.skipped.push(`${id}(${files.ko.has(id) ? 'en' : 'ko'} 없음)`); continue; }
+      const entry = {};
+      try {
+        for (const l of ['ko', 'en']) {
+          const where = `donys/usage/${l}/${id}.md`;
+          const r = parseUsage(SRC.read(where), l, resolvers[l], where);
+          if (r.id !== id) throw new Error(`${where}: frontmatter id(${r.id}) 가 파일명과 다르다.`);
+          if (r.kind !== USAGE_IDS.get(id)) throw new Error(`${where}: kind(${r.kind}) 가 id 규약(${USAGE_IDS.get(id)})과 다르다.`);
+          usageNotes.verify += r.verify;
+          entry.kind = r.kind;
+          entry[l] = { requires: r.requires, sel: r.sel, ctl: r.ctl, mod: r.mod, lim: r.lim };
+        }
+      } catch (e) { fail(e.message); }
+      USAGE[id] = entry;
+    }
+  }
+}
+
 /* ── 7. 출력 ──────────────────────────────────────────────────────── */
 const j = (v) => JSON.stringify(v);
 const toolLine = (t) => `  { id: ${j(t.id)}, name: ${j(t.name)}, cat: ${j(t.cat)}, preview: ${j(t.preview)}, ko: ${j(t.ko)}, en: ${j(t.en)} },`;
@@ -256,6 +358,37 @@ ${FX_ORDER.map((s) => `  ${j(s)},`).join('\n')}
 `;
 fs.writeFileSync(path.join(SITE, 'lib/docsData.ts'), out);
 
+const usageOut = `/* 🔴 **생성물이다. 손으로 고치지 마라.**
+   고칠 곳은 플러그인 repo 의 \`donys/usage/{ko,en}/<id>.md\` 이고(사이트 repo 에서 사용법 문장을 고치지 마라),
+   파서·변환기는 \`tools/usageMd.mjs\`, 읽는 쪽은 \`tools/build-docs-data.mjs\`. 고친 뒤  npm run build:docs  를 돌려라.
+   읽은 곳 = \`DOCS_USAGE_SRC\`. 기본은 출고 태그(\`lib/product.ts\` VERSION)다 — \`dev:…\` 는 \`DOCS_PLUGIN_REF\` 개발용 우회이고
+   \`deployCheck\` 가 그 상태의 배포를 막는다.
+
+   \`id\` = 툴 id · \`panel-<key>\`(\`custom-1\` = \`panel-custom\`) · \`catalog-<kind>\`. 여기 없는 id 는 그 카드에 토글이 안 뜬다(에러 아님).
+   🔴 값은 **이스케이프를 거친 최소 HTML**(\`p ul li table thead tbody tr th td code b\`)이다 — \`dangerouslySetInnerHTML\` 로 넣는다.
+   \`requires\` 는 일반 텍스트다. 표의 컨트롤 칸은 생성 때 제품 라벨(\`{{ns.key}}\`)로 이미 풀려 있다. */
+
+/** 이 파일을 찍은 곳 — 태그(\`v2.8.0\`) 또는 개발 우회(\`dev:<ref>\`). */
+export const DOCS_USAGE_SRC = ${j(SRC.label)};
+
+export type DocsUsageKind = 'tool' | 'panel' | 'catalog';
+
+/** 한 로캘의 사용법 — 4절(선택 · 컨트롤 · 수식어 · 한계·되돌리기)이 HTML 이다. */
+export type DocsUsageLoc = {
+  /** 요구 사항 한 줄씩(없으면 \`[]\`). 배지로 그린다. */
+  requires: string[];
+  sel: string;
+  ctl: string;
+  mod: string;
+  lim: string;
+};
+
+export type DocsUsage = { kind: DocsUsageKind; ko: DocsUsageLoc; en: DocsUsageLoc };
+
+export const DOCS_USAGE: Readonly<Record<string, DocsUsage>> = ${JSON.stringify(USAGE, null, 2)};
+`;
+fs.writeFileSync(path.join(SITE, 'lib/docsUsage.ts'), usageOut);
+
 /* ── 8. 사람이 읽는 확인 ──────────────────────────────────────────── */
 const byCat = CATS.map((c) => `${c} ${TOOLS.filter((t) => t.cat === c).length}`).join(' · ');
 const plates = TOOLS.filter((t) => t.preview === 'sheet').length;
@@ -266,5 +399,13 @@ console.log(`  설명     KO ${TOOLS.filter((t) => t.ko).length} · EN ${TOOLS.f
 console.log(`  패널     ${PANELS.length}  (${PANELS.map((p) => p.name).join(' · ')})`);
 console.log(`  이펙트   ${FX_ORDER.length}`);
 console.log(`  릴리스   ${RELEASES}  (복사 안 함 — lib/releases.ts 가 정본)`);
+const uBy = (k) => Object.values(USAGE).filter((u) => u.kind === k).length;
+console.log(`lib/docsUsage.ts 생성 — ${SRC.label}`);
+console.log(`  사용법   ${Object.keys(USAGE).length}  (툴 ${uBy('tool')}/${TOOLS.length} · 패널 ${uBy('panel')}/${PANELS.length} · 카탈로그 ${uBy('catalog')}/${CATALOG_KINDS.length})${Object.keys(USAGE).length ? '' : ' — 이 ref 에는 donys/usage/ 가 없다: 토글이 안 뜬다'}`);
+const warnU = (m) => console.warn('\x1b[33m⚠ ' + m + '\x1b[0m');
+if (usageNotes.verify) warnU(`사용법에 <!-- VERIFY --> 가 ${usageNotes.verify}개 남아 있다 — 검증 레인이 안 끝난 문서다(화면에서는 지웠다).`);
+if (usageNotes.skipped.length) warnU(`한 로캘만 있는 사용법은 건너뛴다: ${usageNotes.skipped.join(', ')}`);
+if (usageNotes.orphan.length) warnU(`카드가 없는 id 의 사용법(개명·은퇴·이월?): ${usageNotes.orphan.join(', ')}`);
+if (SRC.dev) warnU(`개발 우회 — 사용법을 ${SRC.label} 에서 읽었다. 이 상태로 배포하지 마라(deployCheck 가 막는다).`);
 const blank = TOOLS.filter((t) => t.preview === 'none');
 if (blank.length) console.log(`  빈 판    ${blank.map((t) => t.name).join(', ')}`);
