@@ -21,7 +21,7 @@
 - **흰 녹아웃 판(`.plate > .knock`)을 지우지 마라** — 빨강을 파란 종이에 바로 곱하면 대비 **1.56:1** 이다(실측). 녹아웃 위에서 4.60:1.
 - **11px 레드 라벨 금지.** 레드는 디스플레이 크기 + 흰 판 위에만. 그 외는 검정 잉크.
 - **라이브 SVG 필터는 소면적만** — 종이·얼룩·알갱이는 구운 이미지다(Safari 가 대면적 필터를 거부한다).
-- 재료 원본 = 오너 저작 `../Dony-s-AE-Plugin/donys/seed-presets/effects/riso-print/assets/`.
+- 재료 원본 = 오너 저작 하우스 푸티지 `../Dony-s-AE-Plugin/donys/tools/hoverPreview/project/(Footage)/` (`Risoprint_tex*.png` · `BlackPaper*`). 구 자리 `seed-presets/effects/riso-print/assets/` 는 2026-10-01 출고 중단과 함께 사라졌다(리소는 로컬 전용 `donys/local-presets/`).
 
 | 🔴 **리뉴얼 계획** — 구조·디자인 시스템·단계·오너 판정 (2026-09-09 *"처음부터"*) | **`../Dony-s-AE-Plugin/donys/docs/WEBSITE_RENEWAL_PLAN.md`** — 이 repo 의 현 코드 1,500줄은 그 계획에서 **전부 폐기 대상**이다. 살아남는 값 = `lib/product.ts` · `RELEASES` · 법 페이지 본문 |
 
