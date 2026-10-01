@@ -40,7 +40,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { parseUsage } from './usageMd.mjs';
+import { parseUsage, labelText } from './usageMd.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.resolve(HERE, '..');
@@ -254,7 +254,7 @@ function usageSource() {
   return { label: `dev:${ref}@${sha.slice(0, 7)}`, dev: true, read: (rel) => softGit(sha, rel), list: (d) => gitList(sha, d) };
 }
 
-/** `{{ns.key}}` → 제품이 출고하는 라벨. `ns` 최상위 블록 안에서 먼저 점이 든 평평한 키로, 그다음 중첩 경로로 찾는다. */
+/** `{{ns.key}}` → 제품이 출고하는 라벨(자리표시자는 `labelText` 가 중화). `ns` 최상위 블록 안에서 먼저 점이 든 평평한 키로, 그다음 중첩 경로로 찾는다. */
 function labeler(dict, lang, srcLabel) {
   const lookup = (key) => {
     const i = key.indexOf('.');
@@ -269,7 +269,7 @@ function labeler(dict, lang, srcLabel) {
   return (key, where) => {
     const v = lookup(key);
     if (v === undefined) throw new Error(`${where}: {{${key}}} 가 ${srcLabel} 의 ${lang}.ts 에 없다 — 라벨을 손으로 쓰지 말고 대화상자가 쓰는 키를 적어라.`);
-    return v.replace(/\*\*/g, '').replace(/\s*\n\s*/g, ' ').trim();
+    return labelText(v);   // `**` 벗김 · 줄 접기 · `{count}` 같은 런타임 자리표시자 중화(usageMd.mjs)
   };
 }
 
@@ -286,21 +286,25 @@ const SRC = usageSource();
       if (text === null) fail(`${SRC.label} 에 donys/src/i18n/${l}.ts 가 없다 — 사용법 표의 라벨을 풀 수 없다.`);
       resolvers[l] = labeler(parseI18n(text, `${l}.ts`), l, SRC.label);
     }
+    /* 🔴 카드가 없는 id(이 태그 뒤에 들어온 툴 — dev ref 에서 흔하다)와 한 로캘뿐인 id 도 **먼저 파싱한다** — 출력에서 빠질 뿐
+       검사에서 빠지면 안 된다. 다음 판에서 카드가 생기는 순간 처음 파싱되면 깨진 문서를 릴리스 날 발견한다. */
+    const kindOf = (id) => USAGE_IDS.get(id) ?? (id.startsWith('panel-') ? 'panel' : id.startsWith('catalog-') ? 'catalog' : 'tool');
     for (const id of all) {
-      if (!USAGE_IDS.has(id)) { usageNotes.orphan.push(id); continue; }
-      if (!files.ko.has(id) || !files.en.has(id)) { usageNotes.skipped.push(`${id}(${files.ko.has(id) ? 'en' : 'ko'} 없음)`); continue; }
       const entry = {};
       try {
         for (const l of ['ko', 'en']) {
+          if (!files[l].has(id)) continue;
           const where = `donys/usage/${l}/${id}.md`;
           const r = parseUsage(SRC.read(where), l, resolvers[l], where);
           if (r.id !== id) throw new Error(`${where}: frontmatter id(${r.id}) 가 파일명과 다르다.`);
-          if (r.kind !== USAGE_IDS.get(id)) throw new Error(`${where}: kind(${r.kind}) 가 id 규약(${USAGE_IDS.get(id)})과 다르다.`);
+          if (r.kind !== kindOf(id)) throw new Error(`${where}: kind(${r.kind}) 가 id 규약(${kindOf(id)})과 다르다.`);
           usageNotes.verify += r.verify;
           entry.kind = r.kind;
           entry[l] = { requires: r.requires, sel: r.sel, ctl: r.ctl, mod: r.mod, lim: r.lim };
         }
       } catch (e) { fail(e.message); }
+      if (!USAGE_IDS.has(id)) { usageNotes.orphan.push(id); continue; }
+      if (!entry.ko || !entry.en) { usageNotes.skipped.push(`${id}(${entry.ko ? 'en' : 'ko'} 없음)`); continue; }
       USAGE[id] = entry;
     }
   }
@@ -405,7 +409,7 @@ console.log(`  사용법   ${Object.keys(USAGE).length}  (툴 ${uBy('tool')}/${T
 const warnU = (m) => console.warn('\x1b[33m⚠ ' + m + '\x1b[0m');
 if (usageNotes.verify) warnU(`사용법에 <!-- VERIFY --> 가 ${usageNotes.verify}개 남아 있다 — 검증 레인이 안 끝난 문서다(화면에서는 지웠다).`);
 if (usageNotes.skipped.length) warnU(`한 로캘만 있는 사용법은 건너뛴다: ${usageNotes.skipped.join(', ')}`);
-if (usageNotes.orphan.length) warnU(`카드가 없는 id 의 사용법(개명·은퇴·이월?): ${usageNotes.orphan.join(', ')}`);
+if (usageNotes.orphan.length) warnU(`카드가 없는 id 의 사용법 — 파싱은 통과, 출력에서만 뺐다(개명·은퇴·이월·태그 뒤 신규?): ${usageNotes.orphan.join(', ')}`);
 if (SRC.dev) warnU(`개발 우회 — 사용법을 ${SRC.label} 에서 읽었다. 이 상태로 배포하지 마라(deployCheck 가 막는다).`);
 const blank = TOOLS.filter((t) => t.preview === 'none');
 if (blank.length) console.log(`  빈 판    ${blank.map((t) => t.name).join(', ')}`);

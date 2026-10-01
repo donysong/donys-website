@@ -45,21 +45,28 @@ export function HashRedirect() {
   return null;
 }
 
-/** 이 id 의 사용법과 펼침 상태. 해시가 `anchor` 면 펼치고 그 자리로 다시 스크롤한다(펼치면 레이아웃이 밀린다). */
+/** 이 id 의 사용법과 펼침 상태. 해시가 `anchor` 면 펼치고 그 자리로 다시 스크롤한다(펼치면 레이아웃이 밀린다).
+    🔴 스크롤은 펼침이 **커밋된 뒤**(`jump` 효과)에 건다. 구판은 `setOpen` 직후 rAF 에서 불렀는데 그 rAF 가 커밋보다 먼저 돌아
+    접힌 자리를 겨눴고, 펼친 카드가 다음 줄로 내려가면서(전폭 행) 1440 폭에서 카드 머리가 화면 중간(≈500px)에 섰다(2026-10-02 검증 적발).
+    `jump` 는 카운터라 이미 펼친 카드로 같은 앵커가 다시 와도 스크롤한다. */
 export function useUsage(usageId: string, anchor: string) {
   const entry: DocsUsage | undefined = DOCS_USAGE[usageId];
   const [open, setOpen] = useState(false);
+  const [jump, setJump] = useState(0);
   useEffect(() => {
     if (!entry) return;
     const sync = () => {
       if (resolveHash() !== anchor) return;
       setOpen(true);
-      requestAnimationFrame(() => document.getElementById(anchor)?.scrollIntoView());
+      setJump((n) => n + 1);
     };
     sync();
     window.addEventListener('hashchange', sync);
     return () => window.removeEventListener('hashchange', sync);
   }, [entry, anchor]);
+  useEffect(() => {
+    if (jump) document.getElementById(anchor)?.scrollIntoView();
+  }, [jump, anchor]);
   return { entry, open, setOpen };
 }
 

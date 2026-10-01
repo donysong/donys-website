@@ -6,13 +6,17 @@
      ⑴ frontmatter 읽기  ⑵ 4절로 가르기  ⑶ 마크다운 부분집합 → 최소 안전 HTML.
 
    🔴 마크다운 라이브러리를 들이지 않았다 — 의존성에 없고(next · react · pretendard 뿐), 이 문서가 쓰는 건
-   **표 · 불릿 · 인라인 코드 · 굵게** 넷이라 변환기가 70줄이다. 스펙 밖 문법(번호 목록 · 중첩 목록 · 링크 · 제목 H3 이하 ·
-   원시 HTML)은 **조용히 틀리게 그리지 않고 여기서 던진다** — 던지는 쪽이 낫다. 문서가 틀렸다는 신호이고
-   생성기는 그 신호를 빌드 실패로 올린다(번호 단계 목록은 스펙이 금지한다 — 튜토리얼이 되므로).
+   **표 · 불릿(한 단 중첩까지) · 인라인 코드 · 굵게** 넷이라 변환기가 짧다. 스펙 밖 문법(번호 목록 · 2단 이상 중첩 목록 ·
+   제목 H3 이하)은 **조용히 틀리게 그리지 않고 여기서 던진다** — 던지는 쪽이 낫다. 문서가 틀렸다는 신호이고
+   생성기는 그 신호를 빌드 실패로 올린다(번호 단계 목록은 스펙이 금지한다 — 튜토리얼이 되므로). 원시 HTML 은 글자로 보인다.
+   한 단 중첩은 플러그인 lint(`usageDocs.mjs` — 불릿 절의 들여쓴 줄 허용)가 통과시키고 실제 문서가 쓴다
+   (`edgeBoil` · `rgbSplit` · `typewriterCursor` 의 한계 절, 2칸 들여쓰기).
 
    🔴 **안전**: 출력은 `dangerouslySetInnerHTML` 로 들어간다. 모든 텍스트는 `esc()` 를 통과하고 태그는 이 파일이 쓴 것
    (`p ul li table thead tbody tr th td code b`)뿐이다. 문서 안의 `<script>` 는 글자 그대로 보인다.
-   `{{ns.key}}` 는 **코드 스팬 밖에서만** 사전 라벨로 갈린다(코드 안은 글자 그대로). 라벨도 `esc()` 를 탄다.
+   `{{ns.key}}` 는 사전 라벨로 갈린다. 🔴 코드 스팬이 **키 하나뿐**(`` `{{ns.key}}` ``)이면 그 라벨을 `<code>` 로 낸다 — 실제 문서가
+   옵션 값·UI 라벨을 그렇게 194곳 적는다(bentoGrid · patternLab · vertexGrid). 날것 `{{…}}` 가 화면에 나가면 안 된다(2026-10-02 검증 적발).
+   키에 다른 글자가 섞인 코드 스팬은 던진다(날것 `{{` 가 나가는 유일한 길이라서). 라벨도 `esc()` 를 탄다.
 
    테스트 = `node --test tools/usageMd.test.mjs`. */
 
@@ -22,6 +26,16 @@ export const HEADINGS = {
 };
 export const SECTION_KEYS = ['sel', 'ctl', 'mod', 'lim'];
 export const KINDS = ['tool', 'panel', 'catalog'];
+
+/** 사전 라벨 → 표 칸 글자. `**` 를 벗기고 줄바꿈을 접고, 🔴 **런타임 자리표시자(`{count}` · `{name}` · `{verb}` …)를 중화한다** —
+    패널은 그 자리를 실행 때 채우지만 사이트에는 채울 값이 없다. 날것 `{count}` 가 사용자에게 보이면 안 된다(2026-10-02 검증 적발:
+    `panel.toolCount` · `common.newHere` · `support.deactivate` · `distributeDialog.make3D`).
+    규칙 하나: 개수(`{count}` · `{n}`) → `N`, 나머지 전부 → `…`(그 자리에 바뀌는 말이 온다는 표시). 결과는 `inline()` 이 `esc()` 한다. */
+export const labelText = (v) => String(v)
+  .replace(/\*\*/g, '')
+  .replace(/\s*\n\s*/g, ' ')
+  .replace(/\{\s*(\w+)\s*\}/g, (_, name) => (/^(count|n)$/i.test(name) ? 'N' : '…'))
+  .trim();
 
 export const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -112,17 +126,22 @@ export function splitSections(body, lang, where) {
 }
 
 /* ── ⑶ 마크다운 부분집합 → HTML ──────────────────────────────────────── */
-const TOKEN = /`([^`\n]+)`|\{\{([A-Za-z0-9_.-]+)\}\}|\*\*(.+?)\*\*/g;
+const KEY = '\\{\\{([A-Za-z0-9_.-]+)\\}\\}';
+const TOKEN = new RegExp(`\`${KEY}\`|\`([^\`\\n]+)\`|${KEY}|\\*\\*(.+?)\\*\\*`, 'g');
 
-/** 인라인: 코드 스팬 · `{{ns.key}}`(사전 라벨) · `**굵게**`. 나머지는 전부 이스케이프. */
+/** 인라인: 키 하나뿐인 코드 스팬(라벨을 `<code>` 로) · 코드 스팬 · `{{ns.key}}`(사전 라벨) · `**굵게**`. 나머지는 전부 이스케이프. */
 export function inline(text, resolve, where) {
   let out = '', last = 0;
   /* matchAll 은 정규식을 복제한다 — `**굵게**` 안에서 재귀하므로 전역 정규식의 lastIndex 를 공유하면 무한 루프가 난다(테스트가 잡았다). */
   for (const m of text.matchAll(TOKEN)) {
     out += esc(text.slice(last, m.index));
-    if (m[1] !== undefined) out += `<code>${esc(m[1])}</code>`;
-    else if (m[2] !== undefined) out += esc(resolve(m[2], where));
-    else out += `<b>${inline(m[3], resolve, where)}</b>`;
+    if (m[1] !== undefined) out += `<code>${esc(resolve(m[1], where))}</code>`;
+    else if (m[2] !== undefined) {
+      if (m[2].includes('{{')) throw new Error(`${where}: 코드 스팬에 키와 다른 글자가 섞였다 — 날것 {{…}} 가 화면에 나간다. 키 하나만 감싸라: "\`${m[2].slice(0, 40)}\`"`);
+      out += `<code>${esc(m[2])}</code>`;
+    }
+    else if (m[3] !== undefined) out += esc(resolve(m[3], where));
+    else out += `<b>${inline(m[4], resolve, where)}</b>`;
     last = m.index + m[0].length;
   }
   return out + esc(text.slice(last));
@@ -159,17 +178,27 @@ export function mdToHtml(md, resolve, where) {
     }
 
     if (BULLET.test(line)) {
+      /* 한 단 중첩까지. 들여쓴 불릿 = 바로 앞 최상위 항목의 자식. 자식보다 더 들여쓴 불릿(2단)은 던진다.
+         들여쓴 비불릿 줄 = 마지막 항목(자식이면 자식)의 이어지는 줄. */
       const items = [];
+      let kidIndent = 0;
       while (i < lines.length && lines[i].trim()) {
         const b = lines[i].match(BULLET);
-        if (b) {
-          if (b[1].length) throw new Error(`${where}: 중첩 목록은 지원하지 않는다 — "${lines[i].trim().slice(0, 40)}"`);
-          items.push(b[2]);
-        } else if (/^\s+\S/.test(lines[i]) && items.length) items[items.length - 1] += ' ' + lines[i].trim();
-        else break;
+        const last = items.at(-1);
+        if (b && !b[1].length) { items.push({ text: b[2], kids: [] }); kidIndent = 0; }
+        else if (b) {
+          if (!last) throw new Error(`${where}: 부모 없는 중첩 목록 — "${lines[i].trim().slice(0, 40)}"`);
+          if (kidIndent && b[1].length > kidIndent) throw new Error(`${where}: 2단 이상 중첩 목록은 지원하지 않는다 — "${lines[i].trim().slice(0, 40)}"`);
+          kidIndent ||= b[1].length;
+          last.kids.push(b[2]);
+        } else if (/^\s+\S/.test(lines[i]) && last) {
+          if (last.kids.length) last.kids[last.kids.length - 1] += ' ' + lines[i].trim();
+          else last.text += ' ' + lines[i].trim();
+        } else break;
         i++;
       }
-      out.push(`<ul>${items.map((s) => `<li>${inline(s, resolve, where)}</li>`).join('')}</ul>`);
+      const li = (it) => `<li>${inline(it.text, resolve, where)}${it.kids.length ? `<ul>${it.kids.map((k) => `<li>${inline(k, resolve, where)}</li>`).join('')}</ul>` : ''}</li>`;
+      out.push(`<ul>${items.map(li).join('')}</ul>`);
       continue;
     }
 

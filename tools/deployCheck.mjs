@@ -124,7 +124,9 @@ for (const p of pages) {
     if (tp) fail.push(`[third-party] ${r} 가 방문자 브라우저를 ${tp[1]} 로 보낸다 — 처리방침 제7조 ②`);
     /* 🔴 대표자 성명은 더 이상 금지어가 아니다 — 전자상거래법 §10 이 **표시를 요구한다**(2026-09-30). 대신 주민등록번호 꼴을 막는다
        (사업자등록증명에 같이 찍혀 있다 — 옮겨 적다 새는 자리). */
-    if (/\/Users\/|DEV_BYPASS/.test(html)) fail.push(`[pii] ${r} 에 로컬 경로·내부 문자열이 새어 있다`);
+    /* `C:/Users/Public/…` 는 개인 경로가 아니라 Windows 공용 폴더다 — 사용법(patternLab 의 PNG 임시 폴더)이 글자로 적는다.
+       이걸 막으면 v2.8.0 사용법이 실리는 날 [pii] 가 오탐으로 배포를 막는다(2026-10-02 검증 적발). 홈 경로(`/Users/<이름>/`)는 그대로 잡는다. */
+    if (/\/Users\/(?!Public\/)|DEV_BYPASS/.test(html)) fail.push(`[pii] ${r} 에 로컬 경로·내부 문자열이 새어 있다`);
     if (/\b\d{6}-(?:[1-4]\d{6}|[1-4]?\*{6,7})/.test(body)) fail.push(`[pii] ${r} 에 주민등록번호 꼴이 있다`);
   }
 
