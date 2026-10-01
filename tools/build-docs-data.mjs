@@ -164,10 +164,11 @@ const PANELS = [];
 }
 
 /* ── 5. 출고 이펙트 — seed-presets 디렉토리가 정본 ─────────────────────
-   🔴 이력이 14 → 4 → 5 다. `harnessLint [seed]` 가 세는 것과 같은 디렉토리를 센다.
+   🔴 이력이 14 → 4 → 5 → 3 이다(2026-10-01 오너 — riso-print·vox-original 은 로컬 전용, 앞으로만 출고 중단).
+   `harnessLint [seed]` 가 세는 것과 같은 디렉토리를 센다.
    이름·설명은 사전(`docs.fx.*`)에 있다 — 사이트 표기가 제품 표기와 갈라진 자리가 있어서
    슬러그만 여기서 내고 표기는 카피 레인이 쥔다. */
-const FX_ORDER = ['riso-print', 'chromatic-aberration', 'crt-screen', 'confetti-vector', 'vox-original'];
+const FX_ORDER = ['chromatic-aberration', 'crt-screen', 'confetti-vector'];
 {
   const have = git('ls-tree', '-d', '--name-only', TAG, 'donys/seed-presets/effects/')
     .split('\n').filter(Boolean).map((p) => path.posix.basename(p)).sort();

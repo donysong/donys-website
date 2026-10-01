@@ -115,16 +115,12 @@ const DOCS: Dict = {
     'docs.lib.mine.d': 'Capture an effect stack off a comp, keep it as your own preset, pass it around as a pack.',
 
     /* 🔴 이펙트 이름은 로케일 무관이라 en/ko 가 같은 문자열이다(둘 다 적는 건 키 수를 맞추기 위함). */
-    'docs.fx.riso-print': 'Riso Print',
-    'docs.fx.riso-print.d': 'Riso ink bleed and paper tooth, as real texture',
     'docs.fx.chromatic-aberration': 'Chromatic Aberration',
     'docs.fx.chromatic-aberration.d': 'Color fringing at the edges',
     'docs.fx.crt-screen': 'CRT Screen',
     'docs.fx.crt-screen.d': 'Scanlines · screen curvature',
     'docs.fx.confetti-vector': 'Confetti',
     'docs.fx.confetti-vector.d': 'Vector confetti',
-    'docs.fx.vox-original': 'Infographic',
-    'docs.fx.vox-original.d': 'Infographic typesetting treatment',
 
     /* ── 04 릴리스 노트 — 최신 3판은 펼치고 그 앞은 한 접힘 안에(§16-6, 2026-09-28 오너). 지우는 판은 없다 — 로그는 역사다.
        본문은 `lib/releases.ts` 한 배열을 `/update` 와 같이 읽는다(복사 없음). 수동 다운로드는 `/update` 에만 있다
@@ -289,16 +285,12 @@ const DOCS: Dict = {
     'docs.lib.mine.h': '이제 당신 것을 만들 차례입니다.',
     'docs.lib.mine.d': '컴프의 이펙트 스택을 캡처해 내 프리셋으로 저장하고, 팩으로 주고받습니다.',
 
-    'docs.fx.riso-print': 'Riso Print',
-    'docs.fx.riso-print.d': '리소 인쇄의 잉크 번짐과 종이 결을 실제 텍스처로',
     'docs.fx.chromatic-aberration': 'Chromatic Aberration',
     'docs.fx.chromatic-aberration.d': '가장자리 색수차',
     'docs.fx.crt-screen': 'CRT Screen',
     'docs.fx.crt-screen.d': '주사선 · 화면 곡률',
     'docs.fx.confetti-vector': 'Confetti',
     'docs.fx.confetti-vector.d': '벡터 색종이',
-    'docs.fx.vox-original': 'Infographic',
-    'docs.fx.vox-original.d': '인포그래픽 조판 기법',
 
     'docs.notes.h': '업데이트 노트',
     'docs.notes.tag': '마이너 업데이트는 무료이고 패널 안으로 들어옵니다.<br>메이저 버전은 유료 업그레이드일 수 있습니다.',
