@@ -12,9 +12,11 @@
    🔴 패널 이름은 로케일 무관 영문이다 — AE 창 메뉴 라벨과 같은 문자열이라 한국어로 되돌리지 마라(오너 2026-09-01).
    표 밑 주석(`docs.panels.note`)은 국문 면에만 있다 — 영문 독자에게 "이름이 영문" 은 정보가 아니다.
    판 = 노트(`.onnote`, 2026-09-29) — Docs 는 절마다 노트(01·03·05) ↔ 파랑(02·04)이 번갈아 온다(DocsPage 머리 주석). */
+import { Fragment } from 'react';
 import { useT } from '@/components/site3p/lang';
 import { DOCS_PANELS } from '@/lib/docsData';
 import SecHead from './SecHead';
+import { Usage, useUsage } from './Usage';
 import PanelClip, { CLIPS, type ClipId } from '@/components/site4/PanelClip';
 
 /* 줄 = AE 의 도킹 프레임 줄. 위 둘은 세 칸, 맨 아래는 Chat 한 줄(입력 툴바 띠 — `/ae` 기능 1 과 같은 크롭). */
@@ -22,6 +24,24 @@ const ROWS: readonly (readonly ClipId[])[] = [['toolbox', 'library', 'curves'], 
 const STRIP: ClipId = 'chat';
 
 const nameOf = (key: string) => DOCS_PANELS.find((p) => p.key === key)?.name ?? key;
+
+/* 행 하나 = 표 행 + (사용법이 있으면) 그 밑 전폭 행. 사용법 id 는 `panel-<key>` 에서 슬롯 번호를 뗀 것(`custom-1` → `panel-custom`),
+   앵커는 기존 그대로 `#panel-<key>`. 펼침 행은 표 열 폭에 갇히지 않게 colSpan 3 이다. */
+function PanelRows({ p }: { p: { key: string; name: string } }) {
+  const { t } = useT();
+  const anchor = `panel-${p.key}`;
+  const { entry, open, setOpen } = useUsage(`panel-${p.key.replace(/-\d+$/, '')}`, anchor);
+  return (
+    <Fragment>
+      <tr id={anchor} className={entry ? 'has-usage' : undefined}>
+        <td>{p.name}</td>
+        <td><span className="k">{t(`docs.panel.${p.key}.k`)}</span></td>
+        <td dangerouslySetInnerHTML={{ __html: t(`docs.panel.${p.key}.d`) }} />
+      </tr>
+      {entry ? <tr className="usage-row"><td colSpan={3}><Usage entry={entry} open={open} onOpen={setOpen} /></td></tr> : null}
+    </Fragment>
+  );
+}
 
 function Frame({ id }: { id: ClipId }) {
   const { t } = useT();
@@ -60,13 +80,7 @@ export default function Panels() {
           <tr><th>{t('docs.th.panel')}</th><th>{t('docs.th.what')}</th><th>{t('docs.th.does')}</th></tr>
         </thead>
         <tbody>
-          {DOCS_PANELS.map((p) => (
-            <tr key={p.key} id={`panel-${p.key}`}>
-              <td>{p.name}</td>
-              <td><span className="k">{t(`docs.panel.${p.key}.k`)}</span></td>
-              <td dangerouslySetInnerHTML={{ __html: t(`docs.panel.${p.key}.d`) }} />
-            </tr>
-          ))}
+          {DOCS_PANELS.map((p) => <PanelRows key={p.key} p={p} />)}
         </tbody>
       </table>
       {note ? <p className="lab lc">{note}</p> : null}

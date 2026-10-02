@@ -17,6 +17,7 @@ import { useT } from '@/components/site3p/lang';
 import { T } from '@/lib/copy';
 import { DOCS_CATS, DOCS_TOOLS, type DocsTool } from '@/lib/docsData';
 import SecHead from './SecHead';
+import { Usage, useUsage } from './Usage';
 
 /* 행이 고르게 차는 열 수 — 최대 4열에서 줄 수를 먼저 정하고 그 줄들에 고르게 나눈다.
    12 → 4·4·4 · 8 → 4·4 · 6 → 3·3 · 4 → 4 · 3 → 3. (구: 6 을 4+2 로 둬서 둘째 줄 반이 비었다.)
@@ -29,19 +30,25 @@ function balancedCols(n: number) {
 function ToolCard({ tool }: { tool: DocsTool }) {
   const { t, lang } = useT();
   const noteKey = `docs.note.${tool.id}`;
+  const anchor = `tool-${tool.id}`;
+  const { entry, open, setOpen } = useUsage(tool.id, anchor);
   return (
-    <article className="toolcard" id={`tool-${tool.id}`}>
-      {tool.preview === 'sheet' ? (
-        <figure className="spot-fig">
-          <i className="spot" role="img" aria-label={tool.name}
-            style={{ backgroundImage: `url(/riso/spots/${tool.id}.webp)` }} />
-        </figure>
-      ) : (
-        <div className="noimg">{t('docs.noimg')}</div>
-      )}
-      <h4><a href={`#tool-${tool.id}`} data-cur>{tool.name}</a></h4>
-      <p dangerouslySetInnerHTML={{ __html: lang === 'ko' ? tool.ko : tool.en }} />
-      {noteKey in T[lang] ? <p className="note">{t(noteKey)}</p> : null}
+    /* 펼치면 카드가 전폭 행이 된다(`.is-open` — site4.css). 판·이름·설명은 `.tc-main` 에 묶어 왼쪽 열로, 사용법이 오른쪽 열로 간다. */
+    <article className={`toolcard${open ? ' is-open' : ''}`} id={anchor}>
+      <div className="tc-main">
+        {tool.preview === 'sheet' ? (
+          <figure className="spot-fig">
+            <i className="spot" role="img" aria-label={tool.name}
+              style={{ backgroundImage: `url(/riso/spots/${tool.id}.webp)` }} />
+          </figure>
+        ) : (
+          <div className="noimg">{t('docs.noimg')}</div>
+        )}
+        <h4><a href={`#${anchor}`} data-cur>{tool.name}</a></h4>
+        <p dangerouslySetInnerHTML={{ __html: lang === 'ko' ? tool.ko : tool.en }} />
+        {noteKey in T[lang] ? <p className="note">{t(noteKey)}</p> : null}
+      </div>
+      {entry ? <Usage entry={entry} open={open} onOpen={setOpen} /> : null}
     </article>
   );
 }

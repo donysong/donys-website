@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build:docs": "node tools/build-docs-data.mjs",
+    "test:docs": "node --test tools/usageMd.test.mjs",
     "dev": "next dev --turbopack",
     "build": "node tools/build-docs-data.mjs && next build",
     "start": "next start",

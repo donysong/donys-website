@@ -12,8 +12,28 @@
 import { useT } from '@/components/site3p/lang';
 import { DOCS_FX } from '@/lib/docsData';
 import SecHead from './SecHead';
+import { Usage, useUsage } from './Usage';
 
 const ROWS = ['motion', 'text', 'grad', 'fx', 'curve', 'expr'] as const;
+type Row = (typeof ROWS)[number];
+
+/* 칸 → 사용법 id(`catalog-<kind>`, 플러그인 repo `donys/usage/`). 칸 키는 사전(`docs.lib.<row>.*`)의 것이고 kind 는 라이브러리 탭의 것이다. */
+const KIND: Record<Row, string> = { motion: 'motionPresets', text: 'textPresets', grad: 'gradients', fx: 'effects', curve: 'curves', expr: 'expressions' };
+
+function Cell({ row }: { row: Row }) {
+  const { t } = useT();
+  const anchor = `catalog-${KIND[row]}`;
+  const { entry, open, setOpen } = useUsage(anchor, anchor);
+  return (
+    /* 펼치면 칸이 전폭 행이 된다(`.is-open`). 앵커는 사용법이 있을 때만 단다 — 없는 칸에 빈 앵커를 두지 않는다. */
+    <div className={`c${open ? ' is-open' : ''}`} id={entry ? anchor : undefined}>
+      <b>{t(`docs.lib.${row}.n`)}</b>
+      <span>{t(`docs.lib.${row}.t`)}</span>
+      <small>{t(`docs.lib.${row}.d`)}</small>
+      {entry ? <Usage entry={entry} open={open} onOpen={setOpen} /> : null}
+    </div>
+  );
+}
 
 export default function Catalog() {
   const { t } = useT();
@@ -21,13 +41,7 @@ export default function Catalog() {
     <section id="catalog" className="sec onnote" data-plate="03" data-name="docs.nav.catalog">
       <SecHead no="03" stone={2} k="docs.catalog.h" tag="docs.catalog.tag" />
       <div className="cat-nums sweep">
-        {ROWS.map((r) => (
-          <div className="c" key={r}>
-            <b>{t(`docs.lib.${r}.n`)}</b>
-            <span>{t(`docs.lib.${r}.t`)}</span>
-            <small>{t(`docs.lib.${r}.d`)}</small>
-          </div>
-        ))}
+        {ROWS.map((r) => <Cell key={r} row={r} />)}
       </div>
       <div className="fxrow sweep">
         {DOCS_FX.map((slug) => (

@@ -12,7 +12,8 @@
    이 면의 절 이동은 목차 칩(`.toc`, sticky)이 한다. `LINKS` 는 칩과 판 수(`plateTotal`)만 먹인다 —
    현재 절 표시(`.on`)는 Shell 이 칩에 켠다.
    🔴 `#install` · `#tools` 는 다른 면이 가리키는 앵커다(`/ae` 히어로·FAQ·사양·푸터 · 결제 뒤 이동).
-   툴 카드는 `#tool-<플러그인 id>` 를 갖는다(Tools.tsx). 이름을 바꾸면 들어오는 링크가 죽는다. */
+   툴 카드는 `#tool-<플러그인 id>` 를 갖는다(Tools.tsx). 이름을 바꾸면 들어오는 링크가 죽는다 — 그래서 `Usage.tsx` 의 `HASH_REDIRECT` 가
+   옛 앵커를 새 자리로 보낸다. 툴 카드 · 패널 행 · 카탈로그 칸의 "사용법" 토글도 같은 앵커로 열린다(`donys/usage/` 생성물). */
 import Page4, { type NavLink } from '@/components/site4/Shell';
 import { useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
@@ -22,6 +23,7 @@ import Tools from './Tools';
 import Catalog from './Catalog';
 import ReleaseLog from './ReleaseLog';
 import Install from './Install';
+import { HashRedirect } from './Usage';
 
 const LINKS: NavLink[] = [
   { href: '#panels', k: 'docs.nav.panels' },
@@ -48,6 +50,7 @@ export default function DocsPage() {
         {LINKS.map((l) => <a key={l.href} href={l.href} data-cur>{t(l.k)}</a>)}
       </div>
 
+      <HashRedirect />
       <Panels />
       <Tools />
       <Catalog />

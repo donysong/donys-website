@@ -90,6 +90,8 @@ functions/       # 🔴 Cloudflare Pages Functions — `wrangler pages deploy ou
 lib/copy.ts      # 🔴 홈 카피 정본 — EN/KO 사전 하나. 카피 수정은 **여기서만**(양 언어 같이)
 lib/product.ts   # 🔴 가격 · 체크아웃 URL · 카탈로그 숫자
 lib/releases.ts  # 🔴 릴리스 노트 이력 — /update 가 읽는다
+lib/docsData.ts · lib/docsUsage.ts  # 🔴 생성물 — Docs 카탈로그(출고 태그)와 툴·패널·카탈로그별 사용법(플러그인 repo `donys/usage/{ko,en}/<id>.md`).
+                 #    손으로 고치지 마라 — `npm run build:docs`. 사용법 문장은 플러그인 repo 에서 고친다. 파서 = `tools/usageMd.mjs`(`npm run test:docs`)
 public/riso/     # 종이·잉크·그레인 · stones/ (돌 7) · spots/ (제품 판 = 툴박스 호버 시트)
 public/
   images/promo/ (og 카드 2장만) · logo-lockup.png
@@ -121,6 +123,9 @@ public/
 npm run dev     # localhost:3000
 npm run build   # → out/
 ```
+
+사용법을 아직 태그에 없는 판(v2.8.0 전)에서 개발할 땐 `DOCS_PLUGIN_REF=<브랜치 · SHA · 플러그인 체크아웃 경로> npm run build:docs`.
+🔴 그 상태로 배포하지 마라 — `docsUsage.ts` 에 `dev:…` 가 찍히고 `deployCheck [usage]` 가 막는다. 풀려면 변수 없이 `npm run build:docs`.
 
 ## 관련
 
