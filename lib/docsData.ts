@@ -85,9 +85,7 @@ export const DOCS_PANELS: readonly DocsPanel[] = [
 
 /** 출고 이펙트 슬러그. 표기(이름·설명)는 `lib/copy/docs.ts` 의 `docs.fx.*` 에 있다. */
 export const DOCS_FX: readonly string[] = [
-  "riso-print",
   "chromatic-aberration",
   "crt-screen",
   "confetti-vector",
-  "vox-original",
 ];

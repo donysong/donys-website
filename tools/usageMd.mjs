@@ -225,3 +225,11 @@ export function parseUsage(src, lang, resolve, where) {
   }
   return { id: meta.id, kind: meta.kind, requires: meta.requires, ...html, verify };
 }
+
+/** 배포 게이트의 사용법 출처 판정 — 태그면 ok, `prerelease:<sha>` 면 경고와 함께 ok, 그 외(`dev:` 경로·브랜치 등)는 fail. */
+export function usageSrcVerdict(src, ver) {
+  if (src === `v${ver}`) return { level: 'ok', msg: `[usage] 사용법 출처 = 태그 ${src}` };
+  if (/^prerelease:[0-9a-f]{7}([0-9a-f]{33})?$/.test(src || ''))
+    return { level: 'warn', msg: `[usage] usage docs are a pre-release of the next plugin version (${src})` };
+  return { level: 'fail', msg: `[usage] 사용법 출처가 출고 태그(v${ver})가 아니다: ${src} — DOCS_PLUGIN_REF 를 풀고 npm run build 를 다시 돌려라` };
+}

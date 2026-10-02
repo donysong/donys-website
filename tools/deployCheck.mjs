@@ -22,6 +22,7 @@
    종료코드 0 = 통과 · 1 = 실패. 실패는 "배포하지 마라" 다. */
 import fs from 'node:fs';
 import path from 'node:path';
+import { usageSrcVerdict } from './usageMd.mjs';
 
 const OUT = path.join(process.cwd(), 'out');
 const fail = [];
@@ -203,8 +204,7 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33']) {
   const ver = product.match(/export const VERSION\s*=\s*'(\d+\.\d+\.\d+)'/)?.[1];
   const src = read(path.join(process.cwd(), 'lib/docsUsage.ts')).match(/DOCS_USAGE_SRC\s*=\s*"([^"]*)"/)?.[1];
   if (!src) fail.push('[usage] lib/docsUsage.ts 에서 DOCS_USAGE_SRC 를 못 읽었다 — npm run build:docs');
-  else if (src !== `v${ver}`) fail.push(`[usage] 사용법 출처가 출고 태그(v${ver})가 아니다: ${src} — DOCS_PLUGIN_REF 를 풀고 npm run build 를 다시 돌려라`);
-  else ok.push(`[usage] 사용법 출처 = 태그 ${src}`);
+  else { const v = usageSrcVerdict(src, ver); ({ ok, warn, fail }[v.level]).push(v.msg); }
   for (const p of pages) if (/VERIFY/.test(text(read(p)))) fail.push(`[usage] ${rel(p)} 에 VERIFY 표식이 새어 있다`);
 }
 

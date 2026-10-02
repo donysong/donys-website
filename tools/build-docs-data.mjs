@@ -189,11 +189,14 @@ const PANELS = [];
    슬러그만 여기서 내고 표기는 카피 레인이 쥔다. */
 const FX_ORDER = ['chromatic-aberration', 'crt-screen', 'confetti-vector'];
 {
-  const have = git('ls-tree', '-d', '--name-only', TAG, 'donys/seed-presets/effects/')
+  /* 사전 공개(DOCS_USAGE_PRERELEASE=1)는 이펙트 디렉토리만 그 ref 에서 센다 — 5→3 은 태그 v2.7.1 에 아직 없다. */
+  const FX_REF = process.env.DOCS_USAGE_PRERELEASE === '1'
+    ? git('rev-parse', '--verify', `${(process.env.DOCS_PLUGIN_REF || '').trim()}^{commit}`).trim() : TAG;
+  const have = git('ls-tree', '-d', '--name-only', FX_REF, 'donys/seed-presets/effects/')
     .split('\n').filter(Boolean).map((p) => path.posix.basename(p)).sort();
   if (!have.length) fail(`태그 ${TAG} 에 donys/seed-presets/effects/ 가 없다.`);
   if (have.join(',') !== [...FX_ORDER].sort().join(',')) {
-    fail(`출고 이펙트가 바뀌었다.\n  태그 ${TAG}: ${have.join(', ')}\n  FX_ORDER: ${[...FX_ORDER].sort().join(', ')}\n  CLAUDE.md 닫힌 표를 먼저 봐라 — 은퇴한 10종은 되살리지 않는다.`);
+    fail(`출고 이펙트가 바뀌었다.\n  ${FX_REF}: ${have.join(', ')}\n  FX_ORDER: ${[...FX_ORDER].sort().join(', ')}\n  CLAUDE.md 닫힌 표를 먼저 봐라 — 은퇴한 10종은 되살리지 않는다.`);
   }
 }
 
@@ -252,7 +255,9 @@ function usageSource() {
   let sha;
   try { sha = git('rev-parse', '--verify', '--quiet', `${ref}^{commit}`).trim(); }
   catch { fail(`DOCS_PLUGIN_REF=${ref} 는 디렉토리도 플러그인 repo 의 ref 도 아니다.`); }
-  return { label: `dev:${ref}@${sha.slice(0, 7)}`, dev: true, read: (rel) => softGit(sha, rel), list: (d) => gitList(sha, d) };
+  /* 의도한 사전 공개: DOCS_USAGE_PRERELEASE=1 이면 sha 로만 찍는다(`prerelease:<sha>`) — deployCheck 가 경고만 내고 통과시킨다. */
+  const label = process.env.DOCS_USAGE_PRERELEASE === '1' ? `prerelease:${sha}` : `dev:${ref}@${sha.slice(0, 7)}`;
+  return { label, dev: true, read: (rel) => softGit(sha, rel), list: (d) => gitList(sha, d) };
 }
 
 /** `{{ns.key}}` → 제품이 출고하는 라벨(자리표시자는 `labelText` 가 중화). `ns` 최상위 블록 안에서 먼저 점이 든 평평한 키로, 그다음 중첩 경로로 찾는다. */

@@ -2,7 +2,7 @@
    지키는 것: ⑴ 안전(이스케이프) ⑵ 스펙 밖 문법을 조용히 틀리게 그리지 않는 것 ⑶ 라벨 치환이 코드 스팬 밖에서만. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseFrontmatter, splitSections, mdToHtml, parseUsage, inline, labelText } from './usageMd.mjs';
+import { parseFrontmatter, splitSections, mdToHtml, parseUsage, inline, labelText, usageSrcVerdict } from './usageMd.mjs';
 
 const LABELS = { 'dlg.mode': 'Mode', 'dlg.bold': '**Fit** <mode>', 'dlg.fit': '채움 (잘림)', 'panel.toolCount': '{count} tools', 'support.deactivate': '{verb} this computer' };
 /* 생성기의 `labeler` 와 같은 길 — 사전 값은 `labelText` 를 거친다. */
@@ -107,4 +107,14 @@ test('CRLF · BOM 문서도 LF 와 같은 결과 — 독립 줄의 VERIFY 주석
   assert.deepEqual(b, a);
   assert.equal(a.verify, 2);
   assert.equal(a.lim, '<ul><li>Ctrl+Z 1회.</li></ul>');
+});
+
+test('사용법 출처 게이트: 태그 ok · prerelease:<sha> 경고 통과 · dev: 경로/브랜치 fail', () => {
+  assert.equal(usageSrcVerdict('v2.7.1', '2.7.1').level, 'ok');
+  assert.equal(usageSrcVerdict('prerelease:98869b8825179a965c3185f0c414d3e4d298aeeb', '2.7.1').level, 'warn');
+  assert.equal(usageSrcVerdict('prerelease:98869b8', '2.7.1').level, 'warn');
+  assert.match(usageSrcVerdict('prerelease:98869b8', '2.7.1').msg, /pre-release of the next plugin version/);
+  assert.equal(usageSrcVerdict('dev:/Users/x/Dony-s-AE-Plugin', '2.7.1').level, 'fail');
+  assert.equal(usageSrcVerdict('dev:main@98869b8', '2.7.1').level, 'fail');
+  assert.equal(usageSrcVerdict('prerelease:main', '2.7.1').level, 'fail');
 });
