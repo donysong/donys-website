@@ -62,7 +62,7 @@ const KO = ['/ko.html', '/ko/ae.html', '/ko/ae/docs.html'];
 /* 셸 푸터를 쓰는 나머지 면 — 2026-09-26 전엔 구 `Navbar`/`Footer` 였고 `Buy` 가 없는 앵커(`/#pricing`)로 갔다.
    같은 법·지원 검사를 태워서 구 크롬이 되살아나면 여기서 잡는다. */
 const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.html', '/refund.html',
-  '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html'];
+  '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html'];
 const koMissing = KO.filter((r) => !pages.some((p) => rel(p) === r));
 if (koMissing.length) fail.push(`[i18n] 국문 정적 경로가 없다: ${koMissing.join(' · ')} — 클라이언트 토글만으로는 색인도 공유도 안 된다`);
 else ok.push('[i18n] 국문 정적 경로 3장');
