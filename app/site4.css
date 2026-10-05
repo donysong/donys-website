@@ -96,7 +96,6 @@
   gap:36px;align-items:center;margin-top:38px}
 .p3 .phero .pstage .side {display:grid;justify-items:center;gap:12px}
 .p3 .phero .demo {position:relative}
-.p3 .phero .cap {margin-top:12px;font-size:12.5px;color:var(--muted)}
 /* 원형 CTA — 레퍼런스의 두 동그라미 */
 .p3 .circ {display:grid;place-items:center;width:172px;height:172px;border-radius:50%;text-align:center;line-height:1.25;
   font-weight:800;font-size:17px;letter-spacing:.01em}
@@ -426,17 +425,8 @@
 /* 섹션 머리의 돌 — 34px 어두운 덩어리가 브랜드 마크가 아니라 얼룩으로 읽혔다 */
 .p3 .sec-head .no img {width:26px;height:26px;opacity:.72}
 
-/* ── 수정 2. 히어로 대체 자료 — 브랜딩 영상이 나올 때까지 ──
-   🔴 점선 빈 상자는 "제작 슬롯"이 아니라 **공사 중**으로 읽힌다. 그 사이 자리를 비워두지 않는다.
-   재료는 발명하지 않는다 — 툴박스 프리뷰 시트(실제 AE 렌더)를 돌린다. 교대는 하우스 위글 원리(§8.5: 갈아끼운다).
-   2026-09-28 §16-8 — 2× 스틸 판 교대 → **시트 몽타주 루프**(Hero.tsx). 교대·재생 규칙은 파일 끝 §16 B1. */
-.p3 .rotator {position:relative;aspect-ratio:16/9}
-.p3 .rotator .rot-tag {position:absolute;left:0;bottom:-34px;display:flex;align-items:center;gap:10px;
-  font-size:12px;font-weight:800;letter-spacing:.06em}
-.p3 .rotator .rot-tag .slug {margin-top:0}
-.p3 .rotator .rot-ticks {position:absolute;right:0;bottom:-30px;display:flex;gap:5px}
-.p3 .rotator .rot-ticks i {width:18px;height:3px;background:var(--black);opacity:.28;transition:opacity var(--t-press)}
-.p3 .rotator .rot-ticks i.on {opacity:1;background:var(--red);mix-blend-mode:multiply}
+/* ── 수정 2. 히어로 가운데 판 = **브랜드 영상** (2026-10-05 오너 — `ae/Film.tsx` · `ae/Film.css`) ──
+   구 대체 자료(툴 시트 판 교대 → 시트 몽타주 루프 `.rotator`, §14.8.1·§16-8)는 영상이 나와서 걷었다. 판 폭(760)은 `.pstage` 가 그대로 쥔다. */
 
 /* ── 수정 4. Who — 🔴 내 CSS 를 쓰지 않는다.
    `base.css` 에 proto3 의 역할 카드 시스템이 통째로 살아 있다(`.role` 22규칙 · `.say` 7규칙).
@@ -831,18 +821,6 @@
 /* ── 히어로 큰 제목 — 밀린 판 + 잉크 결 (§16-13·14·26) ──
    🔴 이제 히어로 전용 규칙이 아니다 — 2026-09-28 오너가 **빨간 판 전부**로 넓혔다(*"밑에 붉은 색 들어간 애들한테도 공통적으로"*).
    규칙은 site3p.css 잉크 판 블록(`.pl`) 한 곳에 산다. 여기 다시 쓰지 마라 — 절마다 갈라진다. */
-
-/* ── 히어로 몽타주 (§16-8) — 판 교대 → 툴 시트 루프(Hero.tsx) ──
-   재생 = `Spot` 정본 키프레임(`p3-spot-run`, site3p.css) 그대로. `.run`(화면 안 + 모션 허용)인 동안 **켜진 판 하나만** 돈다.
-   🔴 꺼진 판은 `visibility:hidden` 이다, `opacity:0` 이 아니라 — 투명한 판도 호버를 받아서 `.spot-fig:hover` 재생이
-   **안 보이는 맨 위 판**에서 돌고, 그 `animationiteration` 이 넘김 박자를 먹는다. */
-.p3 .rotator .slide {position:absolute;inset:0;visibility:hidden}
-.p3 .rotator .slide.on {visibility:visible}
-.p3 .rotator .spot-fig figcaption {display:none}   /* 이름표는 `.rot-tag` 하나가 든다 */
-@media (max-width:680px){ .p3 .rotator .rot-ticks {display:none} }   /* 폰 폭에선 눈금 6개가 첫 판의 `Made with one button` 을 덮는다 */
-@media (prefers-reduced-motion:no-preference){
-  .p3 .rotator.run .slide.on .spot {animation:p3-spot-run 1016.667ms steps(1,end) infinite}
-}
 
 /* ════ 2026-09-29 L4 — 노트 판 · 가격 판 (오너 1-6 · 1-8) ════════════════════════════════════════
    새 이름(`.onnote` `.pamt` `.pvow`)은 CSS 세 파일·컴포넌트에 같은 이름 0 을 grep 으로 확인하고 들였다.

@@ -9,8 +9,8 @@
    주소를 복사할 수 있다. 🔴 id 는 태그의 id 그대로다(개명되면 앵커도 바뀐다 — 생성기가 개명을 잡는다).
 
    판 = 패널이 버튼 위에 띄우는 16프레임 시트 그대로(`.spot` 재생 규약은 site3p.css 주석).
-   ⚠️ `site3p/Spot` 을 그대로 못 쓴다 — 그 컴포넌트는 figcaption 에 `.slug` 이름표를 항상 그리는데
-   여기 카드는 `.toolcard h4` 로 이름을 들고 있어서 이름이 두 번 나온다. 그래서 판만 쓴다.
+   이름표(`.slug`)는 안 단다 — 카드가 `.toolcard h4` 로 이름을 들고 있어 두 번 나온다. 그래서 판만 쓴다.
+   (구 `site3p/Spot` 컴포넌트는 마지막 소비자 `/ae` 히어로 몽타주와 같이 2026-10-05 에 지웠다.)
    시트가 없는 툴(`none`)은 빈 판이라고 적는다 — 지금은 39/39 가 시트를 갖는다. */
 import { Fragment } from 'react';
 import { useT } from '@/components/site3p/lang';

@@ -16,6 +16,7 @@
      [biz]      사업자 등록(2026-09-22) 뒤에도 전자상거래법 §10·§13 필수 표시(대표·사업자번호·신고번호·전화…)가 0 이었다
      [third-party] 폰트를 Google·jsDelivr 에서 받아 방문자 IP 가 두 회사로 갔다(자체 호스팅 2026-09-30)
      [usage]    사용법을 개발 우회(`DOCS_PLUGIN_REF`)로 읽은 채 배포하면 안 나간 문서가 출고본 Docs 에 실린다
+     [film]     브랜드 영상(14MB)이 공개 repo 의 public/ 에 커밋될 뻔했다(2026-10-05) — 영상은 R2, 히어로 <source> 는 dl.younameit.works
      [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
 
    실행: node tools/deployCheck.mjs      (빌드 뒤에 돌린다)
@@ -142,11 +143,31 @@ for (const p of pages) {
       fail.push(`[share] ${r} og:url(${ogUrl}) ≠ canonical(${canon}) — 공유하면 다른 페이지로 정규화된다`);
   }
 
-  /* 로컬 자산 실존 — 깨진 이미지는 판이 비어 보인다 */
-  for (const m of html.matchAll(/(?:src|href)="(\/[^"#?]+\.(?:webp|png|jpg|svg|css|js|json|zxp))"/g)) {
+  /* 로컬 자산 실존 — 깨진 이미지는 판이 비어 보인다. 로컬 영상(`<source src>` · 패널 클립)도 센다 — 없는 영상은 포스터만 남아 조용히 죽는다.
+     R2 에 있는 브랜드 영상(https://…)은 이 검사의 몫이 아니다 — 아래 `[film]`. */
+  for (const m of html.matchAll(/(?:src|href)="(\/[^"#?]+\.(?:webp|png|jpg|svg|css|js|json|zxp|mp4|webm))"/g)) {
     const f = path.join(OUT, m[1]);
     if (!fs.existsSync(f)) fail.push(`[assets] ${r} → 없는 파일 ${m[1]}`);
   }
+}
+
+/* ── 브랜드 영상 ── `/ae` 히어로 가운데(`components/site4/ae/Film.tsx` `FILM_SRC`). 🔴 영상은 R2 `dl.younameit.works` 에 산다
+   (오너 2026-10-05 — 14MB 를 공개 repo·Pages 에 싣지 않는다). 여기선 **주소의 모양만** 본다 — 게이트가 네트워크를 타면 빌드가
+   바깥 사정에 묶인다. 주소가 살아 있는지(200 · video/mp4 · Range 206)는 R2 에 올릴 때 확인한다. */
+{
+  const R2 = 'https://dl.younameit.works/';
+  for (const r of ['/ae.html', '/ko/ae.html']) {
+    const p = pages.find((x) => rel(x) === r);
+    if (!p) continue;   // [routes]·[i18n] 이 이미 막는다
+    const fig = read(p).match(/<div class="bfilm">[\s\S]*?<\/div>/)?.[0] ?? '';
+    const src = fig.match(/<source src="([^"]+)"/)?.[1];
+    if (!src) fail.push(`[film] ${r} 히어로에 브랜드 영상(<source>)이 없다`);
+    else if (!src.startsWith(R2) || !src.endsWith('.mp4')) fail.push(`[film] ${r} 영상 주소 ${src} — ${R2}…mp4 여야 한다(R2 호스팅)`);
+    else ok.push(`[film] ${r} → ${src}`);
+  }
+  const local = path.join(OUT, 'riso/brand');
+  const big = fs.existsSync(local) ? fs.readdirSync(local).filter((f) => /\.(mp4|webm|mov)$/i.test(f)) : [];
+  if (big.length) fail.push(`[film] public/riso/brand/ 에 영상 파일이 있다(${big.join(' · ')}) — 영상은 R2 에만 둔다. repo 는 공개라 커밋하면 이력에 영구히 남는다`);
 }
 
 /* ── 404 ── 모르는 주소가 막다른 길이 아닌가 */

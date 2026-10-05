@@ -72,8 +72,13 @@ const AE: Dict = {
     'ae.hero.install': 'Already bought?',
     'ae.hero.install.note': 'Install in 3 steps',
     'ae.hero.faq': 'Common questions →',
-    'ae.hero.rot.tag': 'Made with one button',
-    'ae.hero.cap': 'Every frame here was rendered in real After Effects. What the button leaves behind is <b>layers in your comp</b>.',
+    /* 히어로 가운데 브랜드 영상(ae/Film.tsx). `play` = 버튼 라벨(R1 · 동사로 시작) — aria 이름도 이 낱말로 시작한다(보이는 라벨 ⊂ 이름).
+       `{n}` 은 Film.tsx 의 `SECONDS` 가 채운다(영상 길이는 사전이 아니라 파일 옆에 산다). 자막은 영상에 구워져 있다.
+       구 몽타주 키(`ae.hero.rot.tag` · `ae.hero.cap`)는 2026-10-05 몽타주와 같이 지웠다. */
+    'ae.film.title': 'You Name It brand film',
+    'ae.film.play': 'Play film',
+    'ae.film.len': '{n} seconds, with sound',
+    'ae.film.subs': 'English and Korean subtitles are part of the picture.',
     'ae.meta.chat': 'Chat needs your own AI plan',
 
     /* ── 01 Who (역할 카드 문장은 v33 r1~r4) ─────────────────── */
@@ -306,8 +311,10 @@ const AE: Dict = {
     'ae.hero.install': '이미 사셨나요?',
     'ae.hero.install.note': '설치 3단계',
     'ae.hero.faq': '자주 묻는 것 →',
-    'ae.hero.rot.tag': '버튼 하나로 만든 것',
-    'ae.hero.cap': '전부 실제 After Effects 에서 렌더한 화면이고, 버튼은 <b>당신 컴프에 레이어</b>를 남깁니다.',
+    'ae.film.title': 'You Name It 브랜드 영상',
+    'ae.film.play': '영상 재생',
+    'ae.film.len': '{n}초, 소리 있음',
+    'ae.film.subs': '영어·한국어 자막이 화면에 들어 있습니다.',
     'ae.meta.chat': 'Chat 은 본인 AI 구독 필요',
 
     /* ── 01 Who (역할 카드 문장은 v33 r1~r4) ─────────────────── */

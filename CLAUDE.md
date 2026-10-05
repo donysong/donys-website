@@ -82,7 +82,7 @@ app/
   globals.css    # 나머지 페이지의 인쇄 어휘
   update/ terms/ privacy/ refund/ motion/
 components/
-  site3p/        # 🔴 홈 — Page Chrome Hero Who Why What MadeBy Price Footer3P Plate3 Spot Typed lang
+  site3p/        # 🔴 홈 — Page Chrome Hero Who Why What MadeBy Price Footer3P Plate3 Typed lang
   RisoDefs Plate Navbar Footer MotionLab   # 나머지 페이지용
 functions/       # 🔴 Cloudflare Pages Functions — `wrangler pages deploy out` 이 cwd 의 이 폴더를 같이 올린다.
                  #    지금은 소식 메일(광고성 정보 수신 동의)뿐: api/newsletter/* · 설정 = tools/newsletterSetup.mjs
@@ -92,7 +92,7 @@ lib/product.ts   # 🔴 가격 · 체크아웃 URL · 카탈로그 숫자
 lib/releases.ts  # 🔴 릴리스 노트 이력 — /update 가 읽는다
 lib/docsData.ts · lib/docsUsage.ts  # 🔴 생성물 — Docs 카탈로그(출고 태그)와 툴·패널·카탈로그별 사용법(플러그인 repo `donys/usage/{ko,en}/<id>.md`).
                  #    손으로 고치지 마라 — `npm run build:docs`. 사용법 문장은 플러그인 repo 에서 고친다. 파서 = `tools/usageMd.mjs`(`npm run test:docs`)
-public/riso/     # 종이·잉크·그레인 · stones/ (돌 7) · spots/ (제품 판 = 툴박스 호버 시트)
+public/riso/     # 종이·잉크·그레인 · stones/ (돌 7) · spots/ (제품 판 = 툴박스 호버 시트) · brand/ (브랜드 영상 **포스터만** — 영상 본체는 R2 `dl.younameit.works/brand/…mp4`, 주소 = `components/site4/ae/Film.tsx` `FILM_SRC` 한 줄. 🔴 영상 파일을 public/ 에 넣지 마라 — 공개 repo 이력에 영구히 남는다 · `deployCheck [film]`)
 public/
   images/promo/ (og 카드 2장만) · logo-lockup.png
   donys.zxp · version.json   # 🔴 지우지 마라 — 출고본의 UPDATE_MANIFEST_URL 이
@@ -106,6 +106,9 @@ public/
   ⚠️ CSS 200 을 "폰트 뜬다" 로 읽지 마라 — 파일까지 받아야 판정이다.
 - **브랜드 월 크롭 2점은 안 싣는다.** 큐브릭 = 제3자 촬영 사진 + 초상 · 시지프스 = 신문 원문이 읽힌다.
   비공개 프로토와 **공개·상업 사이트는 기준이 다르다.** 대체 = 돌 + 인용 조판.
+  🟢 **예외 — 브랜드 영상은 싣는다** (오너 2026-10-05 *"그대로 공개해"*). `/ae` 히어로의 35초 필름은 끝 장면의 시지프스 신문 지면 +
+  초상까지 **영상 그대로** 공개 승인됐다. 승인 범위는 그 영상 하나다 — 위 크롭 두 점을 **스틸·포스터·카드로 따로 싣는 건 여전히 금지**다
+  (포스터가 `We ink it.` 프레임인 이유이기도 하다).
 - **숫자는 사전에 박지 않는다.** `lib/copy.ts` 는 `{scripts}` 같은 자리표시자만 들고 `lib/product.ts` 가 채운다.
 
 ## 값이 흩어지면 안 되는 자리 (전례가 있다)
