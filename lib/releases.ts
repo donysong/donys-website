@@ -17,6 +17,53 @@
 export type Release = { version: string; date: string; items: { ko: string[]; en: string[] } };
 
 export const RELEASES: Release[] = [
+  /* 🔴 **날짜 `2026-10-06` 은 자리표시자다** — 컷·R2 업로드·`version.json` 이 서는 실제 날에 오너가 고친다.
+     🔴 **초안 근거 = 플러그인 main `bb6be638`(v2.8.0 후보)** 의 `git log v2.7.1..main` · `donys/usage/{ko,en}` · i18n.
+     태그가 서면 한 번 더 대조해라. 항목마다 코드에서 찾은 것만 적었다(Carousel Controls · Fit to my cards / Fit to preset ·
+     Follow selected path · Reasoning effort · CLI Update 버튼 · Comp Library 탭 · Distribute Values · Vertex Grid ·
+     Bento 셀 모양/Cut 타일 등).
+     ⚠️ **뺀 것**(다음 사람이 "왜 빠졌지"로 되돌리지 않게):
+     ⑴ Riso Print · Vox Original — 2026-10-01 오너 판정으로 로컬 전용(출고 중단). 2.7.1 항목의 Riso Print 는 역사라 그대로 둔다 ·
+     ⑵ 호버 프리뷰·패널 영상·썸네일 재제작 — 눈에 보이지만 기능 변화가 아니다 ·
+     ⑶ 토스트(붉은 돌)·텍스트 3단·다이얼로그 폭·한국어 문구 전수 정리·라이선스 안내 문구 — 표면 다듬기 ·
+     ⑷ Chat 의 ElevenLabs(Enhance·모델 고르기)·`renameLayers` 툴 — 이 릴리스가 처음인지·유저가 부르는 면인지 확정 못 해 뺐다
+        (`renameLayers` 는 COUNTS.tools 56 → 57 에 걸린다) ·
+     ⑸ Effector 3D 모델/메쉬 멤버·Depth Pass 프리필·벤토/이펙터 레이어 수 상한 해제 — 세부 개선 ·
+     ⑹ 하네스·bench·자·린트·문서·리팩터·검증 수리 전부. */
+  {
+    version: '2.8.0',
+    date: '2026-10-06',
+    items: {
+      ko: [
+        'Carousel 을 새로 지었습니다. 이펙트 하나 `Carousel Controls` 에 맨 위 `Preset` 드롭다운이 있고, 레이아웃 35가지를 여기서 바로 바꿉니다. 적용하면 별도의 스테이지 컴프가 만들어지고 내 컴프에는 레이어 하나만 놓입니다.',
+        'Carousel 에서 고른 레이어가 프리셋의 칸보다 적을 때 Fit to my cards(내 카드 수에 맞춰 배치, 기본) 와 Fit to preset(프리셋 칸을 내 카드로 채움) 중에서 고릅니다. 셰이프 레이어의 경로를 따라 카드가 흐르게 할 수도 있습니다(Follow selected path).',
+        '이전 버전으로 만든 캐러셀은 편집되지 않으니 해제하고 다시 만드셔야 합니다. 이전 Carousel 로 저장한 프리셋은 옮겨지지 않습니다.',
+        'Chat 의 모델 목록을 백엔드가 알려 주는 대로 보여 줍니다. 모델 옆에서 Claude Code · Codex CLI 버전을 확인하고 버튼 한 번으로 업데이트하며, CLI 가 없으면 패널이 설치합니다.',
+        'Chat 에 추론 강도(Reasoning effort) 선택이 생겼습니다. 단계는 고른 모델이 정합니다.',
+        'Chat 이 대화를 몰래 압축하지 않습니다. 컨텍스트 사용량을 % 로 늘 보여 주고, 80% 가 넘으면 압축 버튼이 있는 배너가 뜹니다.',
+        'Curves 가 키프레임 복사·붙여넣기(역순 포함)를 맡습니다. Elastic · Bounce 는 꺾일 때마다 키프레임을 넣고, 그래프의 첫 꺾임 손잡이를 끌어 크기와 횟수를 조절합니다.',
+        'Library 에 Comp 탭(Comp Library)이 생겼습니다. 열린 컴프를 담아 두었다가 다른 프로젝트에서 가져옵니다.',
+        'Distribute Values 와 Vertex Grid 가 들어왔습니다. 전자는 선택한 레이어마다 위치 · 회전 · 스케일 · 불투명도 값을 간격 · 범위 · 수식으로 나누어 넣고, 후자는 레이어 꼭지점에서 컴프 끝까지 뻗는 그리드 선과 마크를 셰이프로 만듭니다.',
+        'Bento Grid 의 칸 모양을 사각형 · 타원 · 폴리곤 · 스타 중에서 고릅니다. Cut 은 칸마다 원본의 해당 영역을 담은 프리컴프 타일을 만듭니다.',
+        'Effector 에 Library 프리셋뿐 아니라 After Effects 의 어떤 이펙트든 얹을 수 있고, 적용하면 바로 연결됩니다. Text Preset 의 Glitch In 은 박스 모자이크로 다시 만들었습니다.',
+        'Loop In/Out 이 가짜 오류를 내던 것, 오버슈트 곡선이 Position 에서 분리만 하고 멈추던 것, Anchor Point 가 스케일 · 회전 · 3D 방향을 못 따르던 것, Multi Fill 의 색 입력 칸이 닫히던 것, Pattern Lab 의 ASCII 색 · 폰트 목록을 고쳤습니다.',
+      ],
+      en: [
+        'Carousel was rebuilt. One effect, `Carousel Controls`, has a `Preset` dropdown at the top, and you switch between 35 layouts right there. Applying it creates a separate stage comp and puts a single layer in your comp.',
+        'When you pick fewer layers than the preset has slots, choose Fit to my cards (lay out for your card count, the default) or Fit to preset (fill the preset\'s slots with your cards). Cards can also flow along a shape layer\'s path (Follow selected path).',
+        'Carousels made with an earlier version cannot be edited; release them and make them again. Presets saved with the old Carousel are not carried over.',
+        'The Chat model list now comes from the backend. Next to the models you can see the Claude Code and Codex CLI versions and update with one button, and the panel installs the CLI if it is missing.',
+        'Chat has a Reasoning effort selector. The steps are set by the model you pick.',
+        'Chat no longer compacts the conversation behind your back. It always shows context usage as a percentage, and above 80% a banner with a compact button appears.',
+        'Curves now handles copying and pasting keyframes (reversed too). Elastic and Bounce add a keyframe at every turn, and you drag the first bend handle on the graph to set size and count.',
+        'The Library has a Comp tab (Comp Library). Save an open comp and bring it into another project.',
+        'Distribute Values and Vertex Grid are new. The first sets position, rotation, scale or opacity values across the selected layers by step, range or formula; the second builds grid lines and marks as shapes, reaching from a layer\'s corners to the comp edge.',
+        'Bento Grid cell shapes can be rectangle, ellipse, polygon or star. Cut makes a precomp tile per cell that holds that cell\'s region of the original.',
+        'The Effector accepts any After Effects effect, not only Library presets, and links it as soon as you apply it. The Text Preset Glitch In was rebuilt as a box mosaic.',
+        'Fixed Loop In/Out raising false errors, the overshoot curve stopping after separating on Position, Anchor Point ignoring scale, rotation and 3D orientation, the Multi Fill color input closing, and the Pattern Lab ASCII color and font list.',
+      ],
+    },
+  },
   /* 🔴 **출고본은 `2.7.1` 이다. `2.7.0` 은 태그까지 갔지만 나가지 않았다** (오너 2026-09-19) —
      R2 에 오른 `donys-2.7.0.zxp` 가 오너 수정 11건 **이전** 판이었고, 같은 이름으로 덮으면 엣지가
      최대 한 달(`.zxp` 캐시 1개월) 구판을 먹인다. 그래서 이름을 바꿔 재컷했다. 알림은 아직 안 나갔으므로
