@@ -15,6 +15,9 @@ export const CHECKOUT_URL =
 export const PORTAL_URL = 'https://polar.sh/donys/portal';
 
 /* 카탈로그 숫자 — 🔴 코드에서 센 값이다. 손으로 올리지 마라.
+   🔴 2026-10-05 v2.8.0 태그에서 전부 다시 쟀다(v2.7.1 값으로 셈법을 먼저 검증 — 39·62·21·29·61·69·56 일치).
+      바뀐 것 = curves 21→19 · tools 56→57 · scripts 는 39 그대로지만 분류가 모션 10 · 레이어 9 · 컴프 6 ·
+      셰이프 7 · 스타일 4 · 내보내기 3 으로 바뀌었다(`ae.f2.p1` 같이 고침). 아래 표의 나머지 줄은 옛 실측 이력이다.
    2026-09-07 실측(플러그인 repo):
      scripts        src/data/builtinScripts.ts        39  ← 🔴 **출고 태그 v2.7.1 에서 센 값이다, 플러그인
                                                             HEAD 가 아니다** (2026-09-26 재실측).
@@ -35,18 +38,19 @@ export const PORTAL_URL = 'https://polar.sh/donys/portal';
                                                             사이트는 두 달간 없는 걸 광고했다.
      text presets   src/data/builtinTextPresets.ts    61
      gradients      src/data/builtinGradients.ts      62
-     curves         src/data/builtinCurves.ts         21
+     curves         src/data/builtinCurves.ts         19  ← v2.8.0 태그 실측(2026-10-05): bounce-end·elastic-end 삭제
+                                                            (Curves 의 Elastic·Bounce 가 꺾임마다 키를 넣는 기능으로 대체)
      expressions    src/data/builtinExpressions.ts    69  ← 구 "80+" 는 과장이었다
-     MCP tools      src/chat/mcp/schemas.ts           56
+     MCP tools      src/chat/mcp/schemas.ts           57  ← v2.8.0 태그 실측: renameLayers 추가
      skills         src/chat/runtime/skillsBundle.ts  29 */
 export const COUNTS = {
   scripts: 39,
   motion: 26,
   textPresets: 61,
   gradients: 62,
-  curves: 21,
+  curves: 19,
   expressions: 69,
-  tools: 56,
+  tools: 57,
   skills: 29,
   /* 출고 이펙트. 🔴 이력이 14 → 4 → 5 → 3 이다 — 2026-09-09 오너가 `riso-print` 를 더했고,
      2026-10-01 오너가 `riso-print`·`vox-original` 을 로컬 전용으로 돌렸다(앞으로만 출고 중단 · 회수 없음).

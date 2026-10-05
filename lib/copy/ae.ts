@@ -113,7 +113,7 @@ const AE: Dict = {
     'ae.f2.alt': 'Toolbox panel — button previews on hover',
     'ae.f2.cap': 'The real Toolbox panel. Point at a button and what it builds plays on top of it — here Copy Keys, Overshoot and Sequence Layers.',
     'ae.f2.h': '<span class="u">{scripts}</span> chores,<br>one button each',
-    'ae.f2.p1': 'If you can name the chore, pressing it is the whole job. Motion 12 · Layer 8 · Comp 6 · Shape 6 · Stylize 4 · Export 3.',
+    'ae.f2.p1': 'If you can name the chore, pressing it is the whole job. Motion 10 · Layer 9 · Comp 6 · Shape 7 · Stylize 4 · Export 3.',
     'ae.f2.p2': 'The preview on each button is <b>16 frames rendered in real AE</b>, so you see what comes out <b>before you press</b>. Settings you have dialed in freeze into <b>your own button</b>.',
     'ae.f2.li': [
       'Find it by category or search',
@@ -121,7 +121,7 @@ const AE: Dict = {
       '<b>Your own button</b>, with its arguments saved',
     ],
 
-    'ae.hook1.p': 'Alt-click copies <b>the easing only</b>. Velocity is normalized on the way in, so the <b>feel carries over</b> even when the distance and the duration differ. Paste it reversed if you want.',
+    'ae.hook1.p': 'Gives each selected layer <b>its own value</b> on position, rotation, scale or opacity, by step, range or formula. It writes values, not expressions, so <b>you keep editing them in AE</b>.',
     'ae.hook2.p': 'Rigs the selected layers into an effector. Move one null and scale and opacity answer <b>nearest first</b>. Radius and falloff sit on knobs.',
     'ae.hook3.p': 'Pick a layout pattern and the cells come in as <b>real layers</b>, shapes or precomps, each with its own entrance.',
     'ae.hook4.p': 'Pulls markers out of the audio, at <b>onsets</b> (bass hits and the like) or on a <b>tempo grid</b>, so you are not tapping beats against a waveform.',
@@ -346,7 +346,7 @@ const AE: Dict = {
     'ae.f2.alt': 'Toolbox 패널 — 버튼 위 미리보기',
     'ae.f2.cap': '실제 Toolbox 패널. 버튼에 올리면 그 툴이 만드는 결과가 버튼 위에서 돕니다 — 여기서는 Copy Keys · Overshoot · Sequence Layers.',
     'ae.f2.h': '버튼 하나로 <span class="u">{scripts}가지</span>',
-    'ae.f2.p1': '이름을 아는 잡일은 누르면 끝납니다. 모션 12 · 레이어 8 · 컴프 6 · 셰이프 6 · 스타일 4 · 내보내기 3.',
+    'ae.f2.p1': '이름을 아는 잡일은 누르면 끝납니다. 모션 10 · 레이어 9 · 컴프 6 · 셰이프 7 · 스타일 4 · 내보내기 3.',
     'ae.f2.p2': '버튼 위 미리보기는 <b>실제 AE 에서 렌더한 16프레임</b>이라 무엇이 나오는지 <b>누르기 전에</b> 봅니다. 한 번 맞춘 설정은 굳혀서 <b>내 버튼</b>으로 만듭니다.',
     'ae.f2.li': [
       '카테고리나 검색으로 찾습니다',
@@ -354,7 +354,7 @@ const AE: Dict = {
       '인자까지 저장되는 <b>내 버튼</b>',
     ],
 
-    'ae.hook1.p': 'Alt+클릭이면 <b>이징만</b> 복사합니다. 속도를 정규화해서 담기 때문에 이동 거리와 길이가 달라도 <b>느낌이 그대로 옮겨갑니다.</b> 반전해서 붙일 수도 있습니다.',
+    'ae.hook1.p': '선택한 레이어마다 위치, 회전, 스케일, 불투명도 중 하나에 <b>서로 다른 값</b>을 간격이나 범위, 수식으로 넣습니다. 익스프레션이 아니라 값이 들어가서 <b>AE 에서 그대로 고칠 수 있습니다.</b>',
     'ae.hook2.p': '선택한 레이어들을 이펙터 리그로 묶습니다. 널 하나를 움직이면 <b>가까운 것부터</b> 크기와 불투명도가 반응합니다. 반경과 감쇠는 노브로 조절합니다.',
     'ae.hook3.p': '배치 패턴을 고르면 셀이 셰이프나 프리컴프 <b>실물 레이어</b>로 깔리고, 셀마다 등장 애니메이션이 따로 붙습니다.',
     'ae.hook4.p': '오디오에서 마커를 땁니다. <b>온셋</b>(베이스 타격 지점)이나 <b>템포 격자</b> 중에 고릅니다. 파형을 보며 박자를 손으로 찍을 일이 없습니다.',

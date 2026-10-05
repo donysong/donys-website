@@ -17,7 +17,7 @@
 export type Release = { version: string; date: string; items: { ko: string[]; en: string[] } };
 
 export const RELEASES: Release[] = [
-  /* 🔴 **날짜 `2026-10-06` 은 자리표시자다** — 컷·R2 업로드·`version.json` 이 서는 실제 날에 오너가 고친다.
+  /* 날짜 = 실제 출고일 2026-10-05(태그 · R2 · Polar · 배포 같은 날).
      🔴 **초안 근거 = 플러그인 main `bb6be638`(v2.8.0 후보)** 의 `git log v2.7.1..main` · `donys/usage/{ko,en}` · i18n.
      태그가 서면 한 번 더 대조해라. 항목마다 코드에서 찾은 것만 적었다(Carousel Controls · 내 카드 수에 맞추기 / 프리셋에 맞추기 ·
      선택한 경로 따라가기 · Reasoning effort · CLI Update 버튼 · Comp Library 탭 · Distribute Values · Vertex Grid ·
@@ -35,7 +35,7 @@ export const RELEASES: Release[] = [
      문구는 humanizer 기준으로 다듬었다(2026-10-05): 백틱 제거(2.7.1 판처럼 평문) · 대조 수사("~뿐 아니라") 제거 · 화면 이름은 한국어 UI 그대로. */
   {
     version: '2.8.0',
-    date: '2026-10-06',
+    date: '2026-10-05',
     items: {
       ko: [
         'Carousel 을 새로 지었습니다. Carousel Controls 이펙트 맨 위의 Preset 드롭다운에서 레이아웃 35가지를 바로 바꿉니다. 적용하면 캐러셀은 따로 만든 스테이지 컴프에 들어가고, 내 컴프에는 레이어 하나만 놓입니다.',

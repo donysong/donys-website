@@ -10,8 +10,8 @@ import PanelClip, { type WideId } from '@/components/site4/PanelClip';
 
 /* 카테고리 라벨·툴 이름은 패널 정본이라 국문에서도 영문이다. */
 const HOOKS = [
-  { id: 'copyKeyframes', alt: 'Copy Keys', cat: 'Motion', name: 'Copy / Paste Keys' },
-  { id: 'proximityRig', alt: 'Effector', cat: 'Motion', name: 'Effector' },
+  { id: 'distributeValues', alt: 'Distribute Values', cat: 'Layer', name: 'Distribute Values' },
+  { id: 'effectorRig', alt: 'Effector', cat: 'Motion', name: 'Effector' },
   { id: 'bentoGrid', alt: 'Bento Grid', cat: 'Shape', name: 'Bento Grid' },
   { id: 'autoMarker', alt: 'Auto Marker', cat: 'Motion', name: 'Auto Marker' },
   { id: 'typewriterCursor', alt: 'Typewriter (Cursor)', cat: 'Stylize', name: 'Typewriter (Cursor)' },
