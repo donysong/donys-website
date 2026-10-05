@@ -19,8 +19,8 @@ export type Release = { version: string; date: string; items: { ko: string[]; en
 export const RELEASES: Release[] = [
   /* 🔴 **날짜 `2026-10-06` 은 자리표시자다** — 컷·R2 업로드·`version.json` 이 서는 실제 날에 오너가 고친다.
      🔴 **초안 근거 = 플러그인 main `bb6be638`(v2.8.0 후보)** 의 `git log v2.7.1..main` · `donys/usage/{ko,en}` · i18n.
-     태그가 서면 한 번 더 대조해라. 항목마다 코드에서 찾은 것만 적었다(Carousel Controls · Fit to my cards / Fit to preset ·
-     Follow selected path · Reasoning effort · CLI Update 버튼 · Comp Library 탭 · Distribute Values · Vertex Grid ·
+     태그가 서면 한 번 더 대조해라. 항목마다 코드에서 찾은 것만 적었다(Carousel Controls · 내 카드 수에 맞추기 / 프리셋에 맞추기 ·
+     선택한 경로 따라가기 · Reasoning effort · CLI Update 버튼 · Comp Library 탭 · Distribute Values · Vertex Grid ·
      Bento 셀 모양/Cut 타일 등).
      ⚠️ **뺀 것**(다음 사람이 "왜 빠졌지"로 되돌리지 않게):
      ⑴ Riso Print · Vox Original — 2026-10-01 오너 판정으로 로컬 전용(출고 중단). 2.7.1 항목의 Riso Print 는 역사라 그대로 둔다 ·
@@ -29,38 +29,41 @@ export const RELEASES: Release[] = [
      ⑷ Chat 의 ElevenLabs(Enhance·모델 고르기)·`renameLayers` 툴 — 이 릴리스가 처음인지·유저가 부르는 면인지 확정 못 해 뺐다
         (`renameLayers` 는 COUNTS.tools 56 → 57 에 걸린다) ·
      ⑸ Effector 3D 모델/메쉬 멤버·Depth Pass 프리필·벤토/이펙터 레이어 수 상한 해제 — 세부 개선 ·
-     ⑹ 하네스·bench·자·린트·문서·리팩터·검증 수리 전부. */
+     ⑹ 하네스·bench·자·린트·문서·리팩터·검증 수리 전부 ·
+     ⑺ 초안의 "Chat 이 대화를 몰래 압축하지 않는다 · 사용량 % · 80% 배너" — **v2.7.1 에 이미 있던 기능**이라 뺐다(태그 i18n 실측).
+        게다가 CLI 는 창이 차면 스스로 요약할 수 있다(사용법 panel-chat 한계 줄) → "몰래 압축 안 함" 은 사실도 아니다.
+     문구는 humanizer 기준으로 다듬었다(2026-10-05): 백틱 제거(2.7.1 판처럼 평문) · 대조 수사("~뿐 아니라") 제거 · 화면 이름은 한국어 UI 그대로. */
   {
     version: '2.8.0',
     date: '2026-10-06',
     items: {
       ko: [
-        'Carousel 을 새로 지었습니다. 이펙트 하나 `Carousel Controls` 에 맨 위 `Preset` 드롭다운이 있고, 레이아웃 35가지를 여기서 바로 바꿉니다. 적용하면 별도의 스테이지 컴프가 만들어지고 내 컴프에는 레이어 하나만 놓입니다.',
-        'Carousel 에서 고른 레이어가 프리셋의 칸보다 적을 때 Fit to my cards(내 카드 수에 맞춰 배치, 기본) 와 Fit to preset(프리셋 칸을 내 카드로 채움) 중에서 고릅니다. 셰이프 레이어의 경로를 따라 카드가 흐르게 할 수도 있습니다(Follow selected path).',
-        '이전 버전으로 만든 캐러셀은 편집되지 않으니 해제하고 다시 만드셔야 합니다. 이전 Carousel 로 저장한 프리셋은 옮겨지지 않습니다.',
-        'Chat 의 모델 목록을 백엔드가 알려 주는 대로 보여 줍니다. 모델 옆에서 Claude Code · Codex CLI 버전을 확인하고 버튼 한 번으로 업데이트하며, CLI 가 없으면 패널이 설치합니다.',
-        'Chat 에 추론 강도(Reasoning effort) 선택이 생겼습니다. 단계는 고른 모델이 정합니다.',
-        'Chat 이 대화를 몰래 압축하지 않습니다. 컨텍스트 사용량을 % 로 늘 보여 주고, 80% 가 넘으면 압축 버튼이 있는 배너가 뜹니다.',
-        'Curves 가 키프레임 복사·붙여넣기(역순 포함)를 맡습니다. Elastic · Bounce 는 꺾일 때마다 키프레임을 넣고, 그래프의 첫 꺾임 손잡이를 끌어 크기와 횟수를 조절합니다.',
-        'Library 에 Comp 탭(Comp Library)이 생겼습니다. 열린 컴프를 담아 두었다가 다른 프로젝트에서 가져옵니다.',
-        'Distribute Values 와 Vertex Grid 가 들어왔습니다. 전자는 선택한 레이어마다 위치 · 회전 · 스케일 · 불투명도 값을 간격 · 범위 · 수식으로 나누어 넣고, 후자는 레이어 꼭지점에서 컴프 끝까지 뻗는 그리드 선과 마크를 셰이프로 만듭니다.',
-        'Bento Grid 의 칸 모양을 사각형 · 타원 · 폴리곤 · 스타 중에서 고릅니다. Cut 은 칸마다 원본의 해당 영역을 담은 프리컴프 타일을 만듭니다.',
-        'Effector 에 Library 프리셋뿐 아니라 After Effects 의 어떤 이펙트든 얹을 수 있고, 적용하면 바로 연결됩니다. Text Preset 의 Glitch In 은 박스 모자이크로 다시 만들었습니다.',
-        'Loop In/Out 이 가짜 오류를 내던 것, 오버슈트 곡선이 Position 에서 분리만 하고 멈추던 것, Anchor Point 가 스케일 · 회전 · 3D 방향을 못 따르던 것, Multi Fill 의 색 입력 칸이 닫히던 것, Pattern Lab 의 ASCII 색 · 폰트 목록을 고쳤습니다.',
+        'Carousel 을 새로 지었습니다. Carousel Controls 이펙트 맨 위의 Preset 드롭다운에서 레이아웃 35가지를 바로 바꿉니다. 적용하면 캐러셀은 따로 만든 스테이지 컴프에 들어가고, 내 컴프에는 레이어 하나만 놓입니다.',
+        'Carousel 에 고른 레이어가 프리셋의 카드 수보다 적으면 내 카드 수에 맞추기(기본)와 프리셋에 맞추기 중에서 고릅니다. 앞쪽은 내 레이어 수로 다시 배치하고, 뒤쪽은 프리셋 카드 수를 유지하며 내 레이어를 반복해 채웁니다. 셰이프 레이어의 경로를 따라 카드가 흐르게 할 수도 있습니다.',
+        '이전 버전에서 만든 캐러셀은 편집할 수 없습니다. 해제하고 다시 만들어 주세요. 이전 Carousel 로 저장한 프리셋은 옮겨지지 않습니다.',
+        'Chat 모델 목록은 설치된 Claude Code 와 Codex CLI 가 지원하는 모델을 그대로 보여 줍니다. 목록에서 CLI 버전을 확인하고 버튼 한 번으로 업데이트할 수 있으며, CLI 가 없으면 패널이 설치합니다.',
+        'Chat 에서 추론 강도(Reasoning effort)를 고를 수 있습니다. 고를 수 있는 단계는 모델마다 다릅니다.',
+        'Copy/Paste Keys 가 Curves 패널로 옮겨 왔고, 역순으로 붙여 넣을 수도 있습니다. Elastic 과 Bounce 는 꺾이는 자리마다 키프레임을 넣고, 그래프의 첫 꺾임 손잡이를 끌어 크기와 횟수를 정합니다.',
+        'Library 에 Comp 탭이 생겼습니다. 열린 컴프를 담아 두었다가 다른 프로젝트에서 꺼내 씁니다.',
+        'Distribute Values 는 선택한 레이어들의 위치, 회전, 스케일, 불투명도를 간격이나 범위, 수식으로 나눠 넣습니다. Vertex Grid 는 레이어 꼭지점에서 컴프 끝까지 뻗는 그리드 선과 마크를 셰이프로 그립니다. 둘 다 새 툴입니다.',
+        'Bento Grid 칸 모양을 사각형, 타원, 폴리곤, 스타 중에서 고릅니다. Cut 은 칸마다 원본의 그 영역만 담은 프리컴프를 만듭니다.',
+        'Effector 에 After Effects 이펙트를 바로 얹을 수 있고, 얹으면 거리에 반응하도록 곧바로 연결됩니다. Text Preset 의 Glitch In 은 박스 모자이크로 다시 만들었습니다.',
+        'Loop In/Out 이 잘못된 오류를 내던 것과, Position 에 오버슈트 곡선을 걸면 분리만 하고 멈추던 것을 고쳤습니다.',
+        'Anchor Point 가 스케일, 회전, 3D 방향을 따르지 않던 것, Multi Fill 의 색 입력 칸이 닫히던 것, Pattern Lab 의 ASCII 색과 폰트 목록이 안 열리던 것을 고쳤습니다.',
       ],
       en: [
-        'Carousel was rebuilt. One effect, `Carousel Controls`, has a `Preset` dropdown at the top, and you switch between 35 layouts right there. Applying it creates a separate stage comp and puts a single layer in your comp.',
-        'When you pick fewer layers than the preset has slots, choose Fit to my cards (lay out for your card count, the default) or Fit to preset (fill the preset\'s slots with your cards). Cards can also flow along a shape layer\'s path (Follow selected path).',
-        'Carousels made with an earlier version cannot be edited; release them and make them again. Presets saved with the old Carousel are not carried over.',
-        'The Chat model list now comes from the backend. Next to the models you can see the Claude Code and Codex CLI versions and update with one button, and the panel installs the CLI if it is missing.',
-        'Chat has a Reasoning effort selector. The steps are set by the model you pick.',
-        'Chat no longer compacts the conversation behind your back. It always shows context usage as a percentage, and above 80% a banner with a compact button appears.',
-        'Curves now handles copying and pasting keyframes (reversed too). Elastic and Bounce add a keyframe at every turn, and you drag the first bend handle on the graph to set size and count.',
-        'The Library has a Comp tab (Comp Library). Save an open comp and bring it into another project.',
-        'Distribute Values and Vertex Grid are new. The first sets position, rotation, scale or opacity values across the selected layers by step, range or formula; the second builds grid lines and marks as shapes, reaching from a layer\'s corners to the comp edge.',
-        'Bento Grid cell shapes can be rectangle, ellipse, polygon or star. Cut makes a precomp tile per cell that holds that cell\'s region of the original.',
-        'The Effector accepts any After Effects effect, not only Library presets, and links it as soon as you apply it. The Text Preset Glitch In was rebuilt as a box mosaic.',
-        'Fixed Loop In/Out raising false errors, the overshoot curve stopping after separating on Position, Anchor Point ignoring scale, rotation and 3D orientation, the Multi Fill color input closing, and the Pattern Lab ASCII color and font list.',
+        'Carousel was rebuilt. The Preset dropdown at the top of the Carousel Controls effect switches between 35 layouts. Applying it puts the carousel in a stage comp of its own, and your comp gets a single layer.',
+        'When you pick fewer layers than the preset has cards, choose Fit to my cards (the default) or Fit to preset. The first lays the preset out for your layer count; the second keeps the preset\'s card count and repeats your layers to fill it. Cards can also flow along a shape layer\'s path.',
+        'Carousels made in an earlier version can\'t be edited. Release them and make them again. Presets saved with the old Carousel are not carried over.',
+        'The Chat model list shows the models your installed Claude Code and Codex CLI support. You can check the CLI version in the list and update it with one button, and the panel installs the CLI if it\'s missing.',
+        'Chat lets you pick a reasoning effort. The available steps depend on the model.',
+        'Copy/Paste Keys moved to the Curves panel, and it can paste in reverse. Elastic and Bounce add a keyframe at every turn, and you drag the first bend handle on the graph to set size and count.',
+        'The Library has a Comp tab. Save an open comp there and bring it into another project.',
+        'Distribute Values spreads position, rotation, scale or opacity across the selected layers by step, range or formula. Vertex Grid draws grid lines and marks as shapes, running from a layer\'s corners to the comp edge. Both are new tools.',
+        'Bento Grid cells can be rectangles, ellipses, polygons or stars. Cut makes a precomp per cell holding only that region of the original.',
+        'The Effector takes any After Effects effect directly and links it to distance as soon as you apply it. The Text Preset Glitch In was rebuilt as a box mosaic.',
+        'Fixed Loop In/Out raising false errors, and the overshoot curve stopping after it separated Position.',
+        'Fixed Anchor Point ignoring scale, rotation and 3D orientation, the Multi Fill color input closing, and the Pattern Lab ASCII color and font list not opening.',
       ],
     },
   },
