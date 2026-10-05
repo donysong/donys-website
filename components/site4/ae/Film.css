@@ -1,21 +1,16 @@
 /* ═══ 브랜드 영상 (`ae/Film.tsx`) — `/ae` 히어로 가운데 판 ═══ 접두사 `bfilm-` — 구 페이지의 `.film-grain`(globals.css)과 안 헷갈리게(2026-10-05 grep).
-   재료는 발명하지 않았다: 가장자리 = UI 이미지와 같은 잉크 괘선(`--shot-edge`) · 재생 원 = 검정 판 + 밀린 흰 판(`--rx/--ry`, 양옆 `.circ` 와 같은 밑판)
-   · 라벨 = 판 밑 검정 이름표(`.slug`, site3p.css). 🔴 빨간 채움을 쓰지 않는다 — 채움은 구매에만(REBRAND §9.9 ③). 바로 왼쪽의 `$` 원이 그 채움이다.
-   재생 표시는 왼쪽 아래 — 포스터(`We ink it.` 빨간 카드)의 글자를 안 가린다. 크기는 판 폭(`cqw`)을 따른다(히어로 760 · 폰 ≈340).
-   🔴 셀렉터를 한 단 높게 둔다(`.bfilm-play > img`) — 전역 `.p3 img {max-width:100%}` 에 눌리지 않게(PanelClip.css 와 같은 함정). */
+   재료는 발명하지 않았다: 가장자리 = UI 이미지와 같은 잉크 괘선(`--shot-edge`) · 소리 원 = 검정 판 + 밀린 흰 판(`--rx/--ry`, 양옆 `.circ` 와 같은 밑판).
+   🔴 빨간 채움을 쓰지 않는다 — 채움은 구매에만(REBRAND §9.9 ③). 바로 왼쪽의 `$` 원이 그 채움이다.
+   소리 원은 오른쪽 아래 — 구워진 자막(가운데 아래)을 안 가린다. 크기는 판 폭(`cqw`)을 따른다(히어로 760 · 폰 ≈340). */
 
 .p3 .bfilm {position:relative;aspect-ratio:16/9;container-type:inline-size;background:var(--black);box-shadow:var(--shot-edge)}
-.p3 .bfilm > video {position:absolute;inset:0;display:block;width:100%;height:100%;background:var(--black)}
-.p3 .bfilm-play {position:absolute;inset:0;display:block;width:100%;height:100%}
-.p3 .bfilm-play > img {position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:cover}
+.p3 .bfilm > video {position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;background:var(--black)}
 
-.p3 .bfilm-cue {position:absolute;left:clamp(10px,2.4cqw,32px);bottom:clamp(10px,2.8cqw,32px);display:flex;align-items:center;gap:clamp(8px,1.4cqw,14px)}
-.p3 .bfilm-mark {display:grid;place-items:center;width:clamp(44px,7.2cqw,76px);aspect-ratio:1;border-radius:50%;
-  background:var(--black);box-shadow:var(--rx) var(--ry) 0 var(--white)}
-.p3 .bfilm-mark::before {content:'';width:34%;aspect-ratio:1;margin-left:9%;background:var(--cream);clip-path:polygon(0 0,100% 50%,0 100%)}
-.p3 .bfilm-cue .slug {margin:0;font-size:12px}
-.p3 .bfilm-cue .slug i {margin-left:8px}
+.p3 .bfilm-sound {position:absolute;right:clamp(8px,2cqw,20px);bottom:clamp(8px,2.4cqw,22px);display:grid;place-items:center;
+  width:clamp(30px,4.6cqw,44px);aspect-ratio:1;border-radius:50%;background:var(--black);box-shadow:var(--rx) var(--ry) 0 var(--white)}
+.p3 .bfilm-sound svg {width:56%;height:56%;fill:var(--cream);stroke:none}
+.p3 .bfilm-sound svg .w {fill:none;stroke:var(--cream);stroke-width:2;stroke-linecap:round}
 
 /* 호버·초점 = `.circ` 와 같은 돋보기(원이 커지고 밑판이 더 밀린다). 줄인 모션 설정에선 크기만 바뀐다. */
-.p3 .bfilm-play:is(:hover, :focus-visible) .bfilm-mark {scale:1.12;box-shadow:calc(var(--rx)*2.4) calc(var(--ry)*2.4) 0 var(--white)}
-@media (prefers-reduced-motion:no-preference){ .p3 .bfilm-mark {transition:scale var(--t-press) var(--ease-press),box-shadow var(--t-press)} }
+.p3 .bfilm-sound:is(:hover, :focus-visible) {scale:1.12;box-shadow:calc(var(--rx)*2.4) calc(var(--ry)*2.4) 0 var(--white)}
+@media (prefers-reduced-motion:no-preference){ .p3 .bfilm-sound {transition:scale var(--t-press) var(--ease-press),box-shadow var(--t-press)} }

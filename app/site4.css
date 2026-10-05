@@ -92,7 +92,9 @@
 .p3 .phero h1 {margin:0 0 8px;font-size:clamp(3rem,9vw,8rem);line-height:.86;letter-spacing:-.045em}
 .p3[data-lang="ko"] .phero h1 {font-size:clamp(2.6rem,7.4vw,6.4rem);line-height:1.02;letter-spacing:-.02em}
 .p3 .phero h1 .pl {display:block;width:max-content;margin:0 auto}
-.p3 .phero .pstage {position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,760px) minmax(0,1fr);
+/* 🔴 양옆 칸 바닥 = 원 지름(172) — 판(760)이 줄어든다, 원이 판을 덮지 않는다. 전엔 `minmax(0,1fr)` 이라 1081~1300px(브라우저 확대 포함)에서
+   칸이 172 밑으로 줄고 원이 판 위로 올라탔다(2026-10-05 오너 *"확대시 레이아웃도 이상함"*). 호버 1.14배(196)는 gap 36 안에서 끝난다. */
+.p3 .phero .pstage {position:relative;display:grid;grid-template-columns:minmax(172px,1fr) minmax(0,760px) minmax(172px,1fr);
   gap:36px;align-items:center;margin-top:38px}
 .p3 .phero .pstage .side {display:grid;justify-items:center;gap:12px}
 .p3 .phero .demo {position:relative}

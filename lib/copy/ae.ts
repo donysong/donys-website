@@ -76,8 +76,8 @@ const AE: Dict = {
        `{n}` 은 Film.tsx 의 `SECONDS` 가 채운다(영상 길이는 사전이 아니라 파일 옆에 산다). 자막은 영상에 구워져 있다.
        구 몽타주 키(`ae.hero.rot.tag` · `ae.hero.cap`)는 2026-10-05 몽타주와 같이 지웠다. */
     'ae.film.title': 'You Name It brand film',
-    'ae.film.play': 'Play film',
-    'ae.film.len': '{n} seconds, with sound',
+    'ae.film.soundOn': 'Turn sound on',
+    'ae.film.soundOff': 'Turn sound off',
     'ae.film.subs': 'English and Korean subtitles are part of the picture.',
     'ae.meta.chat': 'Chat needs your own AI plan',
 
@@ -312,8 +312,8 @@ const AE: Dict = {
     'ae.hero.install.note': '설치 3단계',
     'ae.hero.faq': '자주 묻는 것 →',
     'ae.film.title': 'You Name It 브랜드 영상',
-    'ae.film.play': '영상 재생',
-    'ae.film.len': '{n}초, 소리 있음',
+    'ae.film.soundOn': '소리 켜기',
+    'ae.film.soundOff': '소리 끄기',
     'ae.film.subs': '영어·한국어 자막이 화면에 들어 있습니다.',
     'ae.meta.chat': 'Chat 은 본인 AI 구독 필요',
 

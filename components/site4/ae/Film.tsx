@@ -1,15 +1,17 @@
 'use client';
 /* 브랜드 영상 — 오너가 만든 35초 필름(2026-10-05). 자리 = `/ae` 히어로 가운데(Hero.tsx 주석이 왜 거기인지 든다).
 
-   🔴 **누르면 소리와 함께 돈다.** 내레이션·음악이 있는 35초라 자동재생(무음 루프)이 아니다 — `PanelClip` 과 반대다.
-   재생은 클릭 핸들러 **안에서 바로** `play()` 를 부른다(사파리는 사용자 제스처 밖의 소리 재생을 막는다).
-   누르기 전엔 영상이 1바이트도 안 내려온다(`preload="none"`). 포스터는 `<img>` 다 — 히어로라 첫 화면에 걸리므로 지연 로드하지 않는다.
-   누른 뒤에만 같은 주소를 `poster` 로 건다(캐시에 이미 있다) — 첫 프레임이 올 때까지 검은 화면이 안 비친다.
-   누른 뒤 조작은 브라우저 기본 컨트롤이다 — 정지·탐색·음량·전체화면·키보드가 다 거기 있다. 다시 그리지 않는다.
-   🔴 자막(EN·KO)은 **영상에 구워져 있다** — 파일 하나가 두 로캘을 맡는다. 그래서 `<track>` 이 없고, 그 사실을 보조기기에 말한다(aria).
-   줄인 모션 설정: 원래 자동으로 움직이는 게 없다(누를 때만 돈다). 재생 표시의 호버 확대만 끈다(Film.css).
+   🔴 **무음 자동재생 루프 · 플레이어 UI 없음** (2026-10-05 오너 *"자동 재생되게 못함? 플레이어 UI 안보이게"*).
+   브라우저는 소리 있는 자동재생을 막는다(크롬·사파리 정책) — 그래서 무음으로 돈다. 자막(EN·KO)이 **영상에 구워져 있어**
+   무음으로도 읽힌다(`<track>` 없음 · 그 사실을 aria 로 말한다). 소리는 모서리 원 하나로만 켠다 — 그게 남은 조작의 전부다.
+   `muted` 는 HTML 속성으로 나간다(React 19 SSR 실측 `muted=""`). `autoPlay` 속성은 안 쓰고 마운트 뒤 `play()` 를 직접 부른다 —
+   줄인 모션 설정이면 안 돌려야 해서다(속성으로 걸면 일단 돈다). 그 설정에선 포스터만 남고 소리 원을 눌러야 돈다.
+   막히면(아이폰 저전력 모드 등) 포스터가 남고, 소리 원을 누르면 그 제스처 안에서 소리와 함께 돈다.
+   ⚠️ Playwright WebKit 은 이 경로를 검증하지 못한다 — 표준 `autoplay muted playsinline` 정적 마크업조차 NotAllowedError 로 막는다
+   (2026-10-05 실측 · `setContent` 의 about:blank 에서만 돈다). 자동재생 확인은 크롬(Playwright)과 실제 사파리로 한다.
+   화면 밖에서 도는 무음 자동재생은 크롬·사파리가 알아서 멈춘다 — IntersectionObserver 를 따로 달지 않는다.
 
-   파일 = 영상 R2(`FILM_SRC`) · 포스터 `public/riso/brand/film.webp`. 굽는 법 = 이 파일을 들인 커밋 메시지(x264 2-pass · tune grain · 3.1 Mbps · AAC 128k · faststart).
+   파일 = 영상 R2(`FILM_SRC`) · 포스터 `public/riso/brand/film.webp`. 굽는 법 = 이 파일을 들인 커밋(7a91cc4) 메시지(x264 2-pass · tune grain · 3.1 Mbps · AAC 128k · faststart).
    🔴 webm 을 안 붙인 이유도 거기 있다 — 이 필름은 결이 촘촘해서 같은 바이트에서 VP9 가 x264 보다 나쁘다(VMAF 실측). */
 import { useEffect, useRef, useState } from 'react';
 import { useT } from '@/components/site3p/lang';
@@ -22,53 +24,56 @@ import './Film.css';
     `deployCheck [film]` 이 이 호스트를 지킨다(네트워크는 안 탄다 — 주소가 살아 있는지는 업로드 때 확인). 포스터는 사이트에 남는다. */
 export const FILM_SRC = 'https://dl.younameit.works/brand/younameit-brand-film-2026-10.mp4';
 const POSTER = '/riso/brand/film.webp';
-/** 영상 길이(초) — 영상을 다시 뽑으면 같이 고친다. 보이는 `0:35` 와 aria 의 `35초` 가 여기서 나온다. */
-const SECONDS = 35;
 
 export default function Film() {
   const { t } = useT();
   const ref = useRef<HTMLVideoElement>(null);
-  const [on, setOn] = useState(false);
+  const [sound, setSound] = useState(false);
 
-  /* 키보드로 눌렀으면 버튼이 사라지면서 초점이 길을 잃는다 — 영상(기본 컨트롤)으로 넘긴다. */
-  useEffect(() => { if (on) ref.current?.focus(); }, [on]);
+  useEffect(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    ref.current?.play().catch(() => { /* 막히면 포스터가 남는다 — 소리 원이 재생 버튼을 겸한다 */ });
+  }, []);
 
-  const play = () => {
+  /* 제스처 안에서 바로 play() — 사파리는 제스처 밖의 소리 재생을 막는다. */
+  const toggle = () => {
     const v = ref.current;
     if (!v) return;
-    setOn(true);
-    v.play().catch(() => { /* 막히면 기본 컨트롤의 재생 버튼이 남는다 */ });
+    const on = v.muted || v.paused;
+    v.muted = !on;
+    if (on && v.paused) v.play().catch(() => {});
+    setSound(on);
   };
 
-  const len = `0:${String(SECONDS).padStart(2, '0')}`;
   const subs = t('ae.film.subs');
   return (
     <div className="bfilm">
       <video
         ref={ref}
-        preload="none"
+        muted={!sound}
+        loop
         playsInline
-        controls={on}
-        poster={on ? POSTER : undefined}
+        preload="auto"
+        poster={POSTER}
         aria-label={`${t('ae.film.title')}. ${subs}`}
       >
         <source src={FILM_SRC} type="video/mp4" />
       </video>
-      {on ? null : (
-        <button
-          type="button"
-          className="bfilm-play"
-          onClick={play}
-          aria-label={`${t('ae.film.play')}, ${t('ae.film.len').replace('{n}', String(SECONDS))}. ${subs}`}
-          data-cur
-        >
-          <img src={POSTER} alt="" width={1920} height={1080} decoding="async" />
-          <span className="bfilm-cue" aria-hidden="true">
-            <span className="bfilm-mark" />
-            <span className="slug">{t('ae.film.play')}<i>{len}</i></span>
-          </span>
-        </button>
-      )}
+      <button
+        type="button"
+        className="bfilm-sound"
+        onClick={toggle}
+        aria-pressed={sound}
+        aria-label={t(sound ? 'ae.film.soundOff' : 'ae.film.soundOn')}
+        data-cur
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9h4l5-4v14l-5-4H4z" />
+          {sound
+            ? <path className="w" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" />
+            : <path className="w" d="M16.5 9.5l5 5M21.5 9.5l-5 5" />}
+        </svg>
+      </button>
     </div>
   );
 }
