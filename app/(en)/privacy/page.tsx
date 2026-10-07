@@ -154,7 +154,8 @@ export default function PrivacyPage() {
                 not advertising.
               </li>
               <li>
-                To send our newsletter, <strong>only to people who opted in</strong> on the Newsletter page and confirmed by email. We store your email address, the time you
+                To send our newsletter, <strong>only to people who opted in</strong> on the{' '}
+                <a href="/newsletter">Newsletter</a> page and confirmed by email. We store your email address, the time you
                 agreed and your language with Resend until you withdraw; when you do, we email you the result and delete them.
                 We confirm your consent every two years, mark every newsletter as promotional, and include a free unsubscribe
                 link.

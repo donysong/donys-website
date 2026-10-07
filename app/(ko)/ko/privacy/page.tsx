@@ -143,7 +143,7 @@ export default function PrivacyKoPage() {
               <li>고객 지원 — 문의 응답, 청약철회·환불 처리, 분쟁 처리</li>
               <li>법령상 의무 이행 — 전자상거래 거래기록 보존, 세무</li>
               <li>웹사이트 운영 — 페이지 제공, 보안, 쿠키를 쓰지 않는 방문 통계</li>
-              <li>광고성 정보 전송 — 소식 받기에 따로 동의하신 분께만</li>
+              <li>광고성 정보 전송 — <a href="/ko/newsletter" className={LINK}>소식 받기</a>에 따로 동의하신 분께만</li>
             </ol>
           </section>
 
@@ -413,7 +413,7 @@ export default function PrivacyKoPage() {
                 보내 드릴 수 있습니다.
               </li>
               <li>
-                새 도구나 할인 같은 <strong>광고성 정보는 소식 받기에서 미리
+                새 도구나 할인 같은 <strong>광고성 정보는 <a href="/ko/newsletter" className={LINK}>소식 받기</a>에서 미리
                 명시적으로 동의하신 분께만</strong> 보냅니다(「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제50조). 동의는 확인
                 메일의 버튼을 누르셔야 끝납니다.
               </li>
