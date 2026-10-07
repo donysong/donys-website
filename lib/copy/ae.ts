@@ -111,7 +111,7 @@ const AE: Dict = {
     /* 판 = Click React — 히어로(판 교대)·후킹 6장·역할 카드 어디에도 없는 툴이다. 같은 증거를 두 번 쓰지 않는다. */
     /* 판 = 실제 Toolbox 클립(v2.7.1 · 16:9) — 버튼 셋에 차례로 올린다. 툴 이름은 패널 정본이라 국문에서도 영문. */
     'ae.f2.alt': 'Toolbox panel — button previews on hover',
-    'ae.f2.cap': 'The real Toolbox panel. Point at a button and what it builds plays on top of it — here Copy Keys, Overshoot and Sequence Layers.',
+    'ae.f2.cap': 'The real Toolbox panel. Point at a button and what it builds plays on top of it — here Overshoot and Sequence Layers.',
     'ae.f2.h': '<span class="u">{scripts}</span> chores,<br>one button each',
     'ae.f2.p1': 'If you can name the chore, pressing it is the whole job. Motion 10 · Layer 9 · Comp 6 · Shape 7 · Stylize 4 · Export 3.',
     'ae.f2.p2': 'The preview on each button is <b>16 frames rendered in real AE</b>, so you see what comes out <b>before you press</b>. Settings you have dialed in freeze into <b>your own button</b>.',
@@ -344,7 +344,7 @@ const AE: Dict = {
 
     /* 판 = 실제 Toolbox 클립(v2.7.1 · 16:9) — 버튼 셋에 차례로 올린다. 툴 이름은 패널 정본이라 국문에서도 영문. */
     'ae.f2.alt': 'Toolbox 패널 — 버튼 위 미리보기',
-    'ae.f2.cap': '실제 Toolbox 패널. 버튼에 올리면 그 툴이 만드는 결과가 버튼 위에서 돕니다 — 여기서는 Copy Keys · Overshoot · Sequence Layers.',
+    'ae.f2.cap': '실제 Toolbox 패널. 버튼에 올리면 그 툴이 만드는 결과가 버튼 위에서 돕니다 — 여기서는 Overshoot · Sequence Layers.',
     'ae.f2.h': '버튼 하나로 <span class="u">{scripts}가지</span>',
     'ae.f2.p1': '이름을 아는 잡일은 누르면 끝납니다. 모션 10 · 레이어 9 · 컴프 6 · 셰이프 7 · 스타일 4 · 내보내기 3.',
     'ae.f2.p2': '버튼 위 미리보기는 <b>실제 AE 에서 렌더한 16프레임</b>이라 무엇이 나오는지 <b>누르기 전에</b> 봅니다. 한 번 맞춘 설정은 굳혀서 <b>내 버튼</b>으로 만듭니다.',
