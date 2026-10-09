@@ -55,7 +55,8 @@ const missing = Object.entries(secrets).filter(([, v]) => !v).map(([k]) => k);
 if (missing.length) { console.error(`값을 못 얻었다: ${missing.join(' · ')} — 대시보드에서 확인해라`); process.exit(1); }
 if (!PUSH) { console.log(`\nPages 비밀값으로 넣으려면 --push 를 더해 다시 돌려라(프로젝트 ${PROJECT}).`); process.exit(0); }
 for (const [name, value] of Object.entries(secrets)) {
-  const r = spawnSync('npx', ['wrangler', 'pages', 'secret', 'put', name, `--project-name=${PROJECT}`], { input: value, encoding: 'utf8' });
-  console.log(r.status === 0 ? `✓ Pages 비밀값 ${name}` : `✗ ${name} 실패: ${(r.stderr || r.stdout).split('\n').filter((l) => /error|✘/i.test(l)).join(' ')}`);
+  // 윈도의 npx 는 npx.cmd 라 셸 없이는 spawn 이 안 된다(Node 는 .cmd 직접 실행도 막는다). 인자는 고정 리터럴이라 셸에 안전하다.
+  const r = spawnSync('npx', ['wrangler', 'pages', 'secret', 'put', name, `--project-name=${PROJECT}`], { input: value, encoding: 'utf8', shell: process.platform === 'win32' });
+  console.log(r.status === 0 ? `✓ Pages 비밀값 ${name}` : `✗ ${name} 실패: ${r.error ? r.error.message : (r.stderr || r.stdout || '').split('\n').filter((l) => /error|✘/i.test(l)).join(' ')}`);
 }
 console.log('다음 = 배포(npm run deploy). 그 전엔 함수가 새 값을 못 읽는다.');
