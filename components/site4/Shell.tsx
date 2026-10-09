@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useLang, useT } from '@/components/site3p/lang';
 import { Defs, Surface, useChrome } from '@/components/site3p/Chrome';
 import { penPath } from '@/components/site3p/pen';
+import { useSmoothScroll } from './motion';
 import { BUSINESS, CHECKOUT_URL, FTC_BIZ_URL } from '@/lib/product';
 
 export type NavLink = { href: string; k: string };
@@ -249,6 +250,7 @@ export default function Page4({ page, plateTotal, links = [], cta, logo = 'logo-
 }) {
   const { lang } = useLang();
   useChrome();
+  useSmoothScroll();   // v5 — Lenis + ScrollTrigger 한 박자(motion.ts)
   const product = page !== 'home' && !ownNav;
   const nav = product ? AE_NAV : { links, cta };
   return (

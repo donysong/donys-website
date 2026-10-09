@@ -3,11 +3,14 @@
    행 메타는 넷만: 이름 · 호스트 칩 · 가격 · 배지. (버전·기능 수·평점은 레퍼런스도 안 넣는다)
    🔴 제품명 조판 = 작은 쪽이 브랜드(`.brandpart`) · 큰 쪽이 구분자(잉크 판). 같은 크기로 쓰지 마라.
    구 행 2(`아직 무제`)는 2026-09-28 에 뺐다(재인 *"이거 빼고 처음 소개 부분에 내용 합치기"*) — 그 문장은
-   이 절 머리의 태그(`home.lineup.tag` 셋째 줄)로 들어갔다. 제품이 둘이 되면 행을 여기 더한다. */
+   이 절 머리의 태그(`home.lineup.tag` 셋째 줄)로 들어갔다. 제품이 둘이 되면 행을 여기 더한다.
+
+   v5 P2 (2026-10-09 · WEBSITE_RENEWAL_PLAN §17.8) — 레퍼런스의 타임라인 판 머리: 소개문 + 큰 그림 + CTA.
+   소개문 = 구 머리 태그(`home.lineup.tag`, 문장 그대로) · 큰 그림 = 표지에서 옮겨 온 돌 카드(뒤에 Rive 메인 일러스트) · CTA = 제품 행. */
 import { Plate3 } from '@/components/site3p/Plate3';
 import { Html, useT } from '@/components/site3p/lang';
 import { useHref } from '@/components/site4/Shell';
-import { rePress } from './Hero';
+import { rePress, StoneCard } from './Hero';
 
 export default function Lineup() {
   const { t } = useT();
@@ -18,7 +21,10 @@ export default function Lineup() {
         <div className="sec-head">
           <div className="no"><img src="/riso/stones/stone-4.webp" alt="" /> <span className="lab">01</span></div>
           <h2 className="disp"><Plate3 k="home.nav.lineup" boil={false} /></h2>
-          <Html k="home.lineup.tag" as="p" className="tag" />
+        </div>
+        <div className="lu-intro">
+          <Html k="home.lineup.tag" as="p" className="lu-tag" />
+          <StoneCard />
         </div>
       </div>
 

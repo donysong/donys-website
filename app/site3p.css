@@ -29,9 +29,38 @@
   --shot-edge:0 0 0 1.5px var(--black);
   /* 빨간 판이 앉은 종이색 — 잉크가 흰 판 밖에서 곱해질 바닥(아래 `.pl` 블록). 다른 바닥의 판(`.onnote` = 노트, site4.css)은 거기서 다시 선언한다. */
   --pl-paper:var(--paper);
-  --ease-press:cubic-bezier(.2,.9,.2,1); --ease-slip:cubic-bezier(.3,1.4,.5,1);
-  --t-nudge:130ms; --t-press:260ms; --t-register:460ms; --t-develop:620ms;
+  /* ── 모션 · 크기 · 간격 · 모서리 = 리뉴얼 v5 (2026-10-09 · 플러그인 repo WEBSITE_RENEWAL_PLAN §17.7) ──
+     값 출처 = mindmarket.com 홈 원문 CSS. 🔴 **이름은 우리 것, 값은 레퍼런스** (오너 판정) — press·slip 은 인쇄 동작의 이름이다.
+     press ← 레퍼런스 `--ease`(기본 23회) · slip ← `--ease-bounce`(호버 18회). 구 값 = press (.2,.9,.2,1) · slip (.3,1.4,.5,1).
+     시간은 레퍼런스가 셋(.15 · .4 · .6)이라 register 와 develop 이 같은 .6 을 쓴다. 구 값 = 130 · 260 · 460 · 620ms.
+     ⚠️ globals.css(`/motion` 등 구 판 어휘)의 같은 이름 토큰은 따로다 — 여기만 바꿨다. */
+  --ease-press:cubic-bezier(.5,0,0,1); --ease-slip:cubic-bezier(.17,.67,.3,1.33);
+  --ease-smooth:cubic-bezier(.38,.005,.215,1); --ease-inout:cubic-bezier(.455,.03,.515,.955);
+  --t-nudge:150ms; --t-press:400ms; --t-register:600ms; --t-develop:600ms;
+  /* 크기 — 🔴 `--t-*` 는 **시간**이다, 글자 크기를 `--t-` 로 짓지 마라. 굵기·축·자간·행간은 우리 것(위 `--disp-*`)이다. */
+  --fs-hero:clamp(3.625rem,1.1033rem + 12.6087vw,10.875rem);
+  --fs-xl:clamp(3.4375rem,2.0245rem + 7.0652vw,7.5rem);
+  --fs-lg:clamp(2.75rem,2.0543rem + 3.4783vw,4.75rem);
+  --fs-md:clamp(2.125rem,1.7772rem + 1.7391vw,3.125rem);
+  --fs-sm:clamp(1.625rem,1.3641rem + 1.3043vw,2.375rem);
+  --fs-xs:clamp(1.5rem,1.413rem + .4348vw,1.75rem);
+  --fs-body-lg:clamp(1.1563rem,1.1454rem + .0543vw,1.1875rem);
+  --fs-body:clamp(1rem,.9783rem + .1087vw,1.0625rem);
+  --fs-body-sm:clamp(.75rem,.7065rem + .2174vw,.875rem);
+  /* 간격 — 섹션 사이 */
+  --sp-xs:clamp(.5rem,.4565rem + .2174vw,.625rem);
+  --sp-sm:clamp(1rem,.8261rem + .8696vw,1.5rem);
+  --sp-md:clamp(1.5rem,1.3261rem + .8696vw,2rem);
+  --sp-lg:clamp(2rem,1.8261rem + .8696vw,2.5rem);
+  --sp-xl:clamp(2.5rem,2.1522rem + 1.7391vw,3.5rem);
+  --sp-2xl:clamp(3.5rem,2.9783rem + 2.6087vw,5rem);
+  --sp-3xl:clamp(5rem,3.9565rem + 5.2174vw,8rem);
+  --sp-4xl:clamp(8rem,7.3043rem + 3.4783vw,10rem);
+  /* 모서리 — 판 = 섹션 종이 한 장 · 카드 = 카드·타일·버튼 · 입력. 1000px 미만은 아래 미디어 쿼리.
+     🔴 카드의 1.5px 검정 괘선은 남긴다(오너 판정) — 모서리만 레퍼런스다. */
+  --r-panel:50px; --r-card:10px; --r-input:20px;
 }
+@media (max-width:999px){ .p3 { --r-panel:35px; --r-input:15px } }
 .p3[data-lang="ko"] {
   /* 국문 = **한글만** Pretendard 가변(OFL) — 영문 Flex 와 같은 얼굴은 원리상 불가(파일이 400, layout.tsx 주석 참조).
      Pretendard 는 제품 패널이 쓰는 폰트라 사이트와 패널이 같은 목소리로 읽힌다.
