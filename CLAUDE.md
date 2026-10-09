@@ -1,5 +1,16 @@
 # You Name It — 제품 랜딩 페이지
 
+## 🔴 진행 중 — 리뉴얼 v5: mindmarket 레퍼런스 (2026-10-09 · 브랜치 `renewal-v5`)
+
+색·텍스처·폰트만 우리 것, **컴포넌트·레이아웃·모션은 mindmarket.com 에 맞춘다** · 일러스트에 스크롤+리깅(Rive).
+**세션을 열면 정본부터 읽어라 — `../Dony-s-AE-Plugin/donys/docs/WEBSITE_RENEWAL_PLAN.md` §17.**
+오너 작업 규약 5개 · 충돌 판정 5건 · 설치물 · 레퍼런스 실측 · 다음 할 일 순서가 전부 거기 있다. 여기엔 링크만 둔다.
+
+- 🔴 **추가할 내용은 먼저 보여주고, 오너가 확인한 뒤에 쓴다**(§17.1 ⑤). 바깥 자료를 쓸 때마다 출처와 바꾼 곳을 보고한다.
+- 이 폴더에서 세션을 열어야 impeccable(이 repo local 플러그인)이 뜬다. Refero MCP 는 `/mcp` 에서 connected 인지 확인.
+- 🔴 **공개 repo** — 오너 PSD 원본 · 레퍼런스 사이트 원본 코드(mindmarket JS · `.riv`)를 커밋하지 마라. 우리 `.riv` 와 구운 출력만.
+- `main` = 프로덕션 거울. v5 작업은 `renewal-v5` 에서만.
+
 ## 🔴 브랜드 정본은 이 repo 밖이다
 
 색·로고·폰트·톤·제품명은 **여기서 정하지 않는다.** 정본 =
@@ -35,6 +46,7 @@ Indigo `#6366f1`"* 라고 선언하는데 실제 `globals.css` 는 크림 `#d4cc
 |------|------|
 | 프레임워크 | Next.js 16 (App Router) |
 | 스타일 | Tailwind 4 + `app/globals.css` 의 CSS 변수 |
+| 모션 (v5) | Rive `@rive-app/react-canvas-lite` · GSAP(DrawSVG·CustomEase) · Lenis — 2026-10-09 오너 지시로 구 *"라이브러리 0"* 폐기(`WEBSITE_RENEWAL_PLAN.md` §17.2) |
 | 빌드 | 정적 export (`output: 'export'`) → `out/` |
 | 호스팅 | **현재 = Vercel** (실측 `server: Vercel`) · **이전 중 → Cloudflare Pages** |
 | 도메인 | ✅ **`younameit.works` 가 정본이다** (apex 200 · `www` 308 → apex) |
