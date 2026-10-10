@@ -137,3 +137,108 @@ export const IG_REELS = [
   { id: 'De6dKj8uy8U', url: 'https://www.instagram.com/willyounameit/reel/De6dKj8uy8U/', alt: { ko: '인스타 릴: Pattern Lab 소개', en: 'Instagram reel: Pattern Lab' } },
   { id: 'DewOVCCOikZ', url: 'https://www.instagram.com/willyounameit/reel/DewOVCCOikZ/', alt: { ko: '인스타 릴: 긴장감 만드는 법', en: 'Instagram reel: how to build suspense' } },
 ] as const;
+
+/* ════ You Name It PR Plugin (`/pr` · `/ko/pr`) — 가격 · 날짜 · 링크 · 판 스위치 한 곳 ════════════════════════
+   정본 = PR 플러그인 repo `gtm/facts.md`(맨 끝 절 "Proposed PR block"). 값을 여기서 바꾸면 그 표도 같이 바꾼다 —
+   GTM 메일·영상·법 초안이 같은 표를 읽는다.
+   🔴 위 AE 값(PRICE · CHECKOUT_URL · COUNTS · VERSION)과 섞지 마라. PR 사전(`lib/copy/pr.ts`)의 `{price}` `{version}` 은
+      AE 값이 아니라 **이 블록**이 채운다(`lib/copy.ts` `prNums`) — 지금 PR 정가와 AE 가격이 같은 $49.99 라서 섞여도 티가 안 난다.
+   날짜 = 전부 **KST 달력 날짜**, 끝 날짜는 그날 23:59:59 KST 까지다(`lib/pr.ts` 가 경계를 계산한다).
+   🔴 체크아웃 세 개가 빈 값이면 deployCheck `[pr]` 가 배포를 세운다 — 누를 수 없는 구매 버튼을 내보내지 않는다.
+      주소 = Polar 설정 체크리스트(PR repo `gtm/polar/polar-setup.md` §4 L1·L2·L3)에서 만든 링크. 발명하지 마라 — 오너가 채운다. */
+export type PrMode = 'full' | 'preorder';
+export const PR = {
+  price: '$49.99',
+  priceUsd: '49.99',
+  earlyPrice: '$34.99',
+  earlyPriceUsd: '34.99',
+  earlyStart: '2026-10-31',       // KST — 런칭일. Polar D1 `starts_at` 과 같은 순간
+  earlyEnd: '2026-11-13',         // KST, 그날 포함 — full 판의 얼리버드 마지막 날
+  openEarlyDays: 14,              // preorder → Pro 가 열린 날부터(그날 포함) 얼리버드가 이어지는 날 수
+  /* Pro 가 실제로 열린 날(KST). preorder 판이 full 판으로 넘어가는 날 오너가 채운다 — 그날이 earlyEnd 보다 뒤면
+     얼리버드 끝 = 이 날 + openEarlyDays − 1 (facts.md "Early-bird after Pro opens"). 처음부터 full 이면 빈 값 그대로. */
+  proOpenedOn: '',
+  bundlePrice: '$79.99',          // AE + PR Pro 번들 — 키 하나로 둘 다(활성화 4)
+  preorderDeadline: '2026-12-15', // KST, 그날 포함 — 그때까지 안 열리면 사전예약 전부 자동 전액 환불
+  aeCouponPct: 30,                // AE 구매자 PR Pro 할인 코드
+  aeCouponEnd: '2026-12-31',      // KST, 그날 포함 — 지나면 페이지가 코드 안내를 스스로 걷는다(`lib/pr.ts`)
+  computers: 2,
+  refundDays: 14,
+  revalidateDays: 7,
+  offlineDays: 30,
+  remoteOffRefundDays: 30,        // Pro 기능을 원격으로 이보다 오래 끄면 14일이 지나도 환불
+  minPremiere: '25.6.4',          // 25.6.2 · 25.6.3 은 스크립트가 멈춰 막혀 있다
+  testedWin: '25.6.4 · 26.5.2',
+  testedMac: '26.5.2',
+  version: '1.0.0',               // 🔴 손으로 올리지 마라 — 출고 태그 값(AE `VERSION` 과 같은 규칙)
+  sttRate: '$0.22',               // ElevenLabs 오디오 1시간 정가(2026-10) — 런칭 때 다시 확인
+  /* Polar 체크아웃 — 🔴 빈 값 = 아직 없음(자리표시자). 컴포넌트는 빈 값이면 href 없는 버튼(`data-pending="checkout"`)을 그리고
+     deployCheck `[pr]` 가 실패한다. L2(Pro) 에는 D1 얼리버드 할인이 링크에 미리 걸린다(polar-setup.md §4). */
+  checkoutFree: '',
+  checkoutPro: '',
+  checkoutBundle: '',
+  /* 🔴 판 스위치 — 'full'(Pro 결제 열림) | 'preorder'(무료판 + Pro 사전예약). 10/28 동결일에 오너가 정한다(PRD §0).
+     빌드 때 `NEXT_PUBLIC_PR_MODE=preorder npm run build` 로 덮어 미리 볼 수 있다(아래 `PR_MODE`) — 배포는 이 값으로. */
+  launchMode: 'full' as PrMode,
+  /* 동반 플러그인(UXP `.ccx`)이 v1.0 에 들어가나 — 스파이크 D2. false 면 `.ccx` 문장이 전부 빠지고 대체 문장이 선다. */
+  companion: true,
+  /* 기능 상태를 출고 레지스트리에서 옮겨 적은 날(KST). 빈 값 = 아직 안 옮겼다 → deployCheck `[pr]` 실패.
+     동결일(10/28) 절차: PR repo `node gtm/tools/check-gtm.mjs --claims --registry <release>/src/features/registry.ts`
+     → `off` 인 id 를 아래 `PR_OFF` 에 적고 → 이 값을 그날로. */
+  featuresFrozenOn: '',
+  /* 약관·개인정보·환불 페이지에 PR 추가 조항(PR repo `gtm/legal/*-additions.md`)을 실었나. 🔴 10/24 까지(약관 제4조 7일 고지).
+     false 면 deployCheck `[pr]` 실패 — 결제 페이지가 그 제품을 다루지 않는 약관을 걸고 나가지 않게. */
+  legalReady: false,
+} as const;
+
+/* 빌드 때 판 덮어쓰기 — `NEXT_PUBLIC_` 이라 서버 렌더와 클라이언트 번들에 **같은 값으로** 박힌다(하이드레이션이 안 갈린다).
+   값이 없거나 이상하면 `PR.launchMode`. deployCheck `[pr]` 가 구운 판(`data-pr-mode`)이 이 상수와 다르면 경고한다. */
+const PR_MODE_ENV = process.env.NEXT_PUBLIC_PR_MODE;
+export const PR_MODE: PrMode = PR_MODE_ENV === 'full' || PR_MODE_ENV === 'preorder' ? PR_MODE_ENV : PR.launchMode;
+
+/* PR 기능 목록 — PR repo `src/features/registry.ts` 의 id · tier · group 그대로(순서 = 레지스트리 = 화면 순서).
+   🔴 tier 는 사실이다(무엇이 무료인가) — 여기서 바꾸지 마라, 레지스트리가 정본이다.
+   `keyauto` 는 파는 기능이 아니라 설정이라 표·목록에 안 나온다(FAQ 만). */
+export const PR_FEATURES = [
+  { id: 'autocut.basic', tier: 'free', group: 'autocut' },
+  { id: 'autocut.advanced', tier: 'pro', group: 'autocut' },
+  { id: 'autocut.filler', tier: 'pro', group: 'autocut' },
+  { id: 'autocut.ngTakes', tier: 'pro', group: 'autocut' },
+  { id: 'autocut.xmlFastPath', tier: 'pro', group: 'autocut' },
+  { id: 'captions.longform', tier: 'pro', group: 'captions' },
+  { id: 'captions.shortform', tier: 'pro', group: 'captions' },
+  { id: 'chat', tier: 'pro', group: 'chat' },
+  { id: 'offset', tier: 'free', group: 'toolkit' },
+  { id: 'anchor', tier: 'free', group: 'toolkit' },
+  { id: 'bins', tier: 'free', group: 'toolkit' },
+  { id: 'watchfolder', tier: 'free', group: 'toolkit' },
+  { id: 'assets', tier: 'free', group: 'toolkit' },
+  { id: 'fxconsole', tier: 'pro', group: 'toolkit' },
+  { id: 'wiggle', tier: 'pro', group: 'toolkit' },
+  { id: 'speedramp', tier: 'pro', group: 'toolkit' },
+  { id: 'unnest', tier: 'pro', group: 'toolkit' },
+  { id: 'nest', tier: 'pro', group: 'toolkit' },
+  { id: 'facetrack', tier: 'pro', group: 'toolkit' },
+  { id: 'denoise', tier: 'pro', group: 'toolkit' },
+  { id: 'collect', tier: 'pro', group: 'toolkit' },
+  { id: 'keyauto', tier: 'free', group: 'infra' },
+] as const;
+export type PrFeature = (typeof PR_FEATURES)[number]['id'];
+
+/* 🔴 출고 빌드에서 `off` 인 기능 — 동결일에 채운다(위 `featuresFrozenOn`). 여기 있는 기능은 페이지가 **이름만** 싣는다
+   ("준비 중" 목록) — 주장·표 행·카드·FAQ 가 빠진다(PRD §0 "판매 페이지와 데모에는 출시본에 실제로 들어간 기능만").
+   preorder 판에선 여기 없어도 Pro 기능은 전부 "사전예약 블록" 으로만 나간다(`lib/pr.ts` `prClaimable`). */
+export const PR_OFF: readonly PrFeature[] = [];
+
+/* preorder 판이 "Pro 가 열릴 때 들어온다" 고 약속하는 묶음(PRD §0) — 이 넷이 전부 §15 를 통과해야 Pro 가 열린다. */
+export const PR_LAUNCH_SET: readonly PrFeature[] = ['autocut.advanced', 'captions.longform', 'captions.shortform', 'chat'];
+
+/* 법 링크 — PR 추가 조항은 **기존 세 페이지에 붙는다**(PR repo `gtm/legal/README.md` — 두 제품이 갈라지지 않게 한 벌).
+   그래서 주소는 지금 있는 면 그대로다. 조항별 앵커(`#…`)는 조항을 실은 뒤에만 단다 — 없는 id 는 deployCheck `[anchors]` 가 세운다.
+   `notices` = 제3자 라이선스 고지 면(PRD §8 "앱과 사이트에"). 🔴 아직 없다 — 빈 값이면 링크를 안 그리고 deployCheck `[pr]` 가 실패한다. */
+export const PR_LEGAL = {
+  terms: '/terms',
+  privacy: '/privacy',
+  refund: '/refund',
+  notices: '',
+} as const;

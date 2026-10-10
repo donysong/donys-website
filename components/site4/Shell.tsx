@@ -19,7 +19,11 @@ import { ANALYTICS_ON } from '@/lib/analytics';
 import { openConsent } from '@/lib/consent';
 
 export type NavLink = { href: string; k: string };
-export type Page4Kind = 'home' | 'ae' | 'docs';
+export type Page4Kind = 'home' | 'ae' | 'docs' | 'pr';
+/** 제품 면의 구매 버튼 한 벌 — 레일 · 푸터가 같은 목적지·라벨을 쓴다. 안 넘기면 AE 결제(`CHECKOUT_URL` · `s.buy.price`).
+ *  `/pr` 이 넘긴다(PR Pro 결제). `href` 가 빈 값이면 결제 링크가 아직 없다는 뜻이다 — href 없는 버튼을 그리고
+ *  deployCheck `[pr]` 가 배포를 세운다(`lib/product.ts` `PR.checkoutPro`). */
+export type BuyCta = { href: string; label: string; big: string; small: string };
 
 /* ── 네비 ─────────────────────────────────────────────────────────────
    🔴 브랜드 루트는 `/about` 을 안 가진다(레퍼런스도 앵커다).
@@ -74,7 +78,7 @@ function Nav4({ page, plateTotal, links, cta, logo, product }: {
             {t(l.k)}
           </a>
         ))}
-        {cta ? <a className="btn-line" href={href(cta.href)} data-cur>{t(cta.k)}</a> : null}
+        {cta ? <a className="btn-line" href={cta.href ? href(cta.href) : undefined} data-pending={cta.href ? undefined : 'checkout'} data-cur>{t(cta.k)}</a> : null}
         <LangSwitch />
       </div>
     </nav>
@@ -89,7 +93,7 @@ export const KO_PREFIX = '/ko';
    법 3장(`/terms` `/privacy` `/refund`)도 이제 국문판이 있다 — 2026-09-30 오너가 사업자 등록(09-22) 뒤 구 "영문 전용"(09-19)을
    다시 열었다(개인정보 처리방침은 국문 독자가 읽을 수 있어야 한다). 푸터 링크가 이 함수를 타고, deployCheck `[legal]` 이
    국문 면에선 `/ko/…` 를 요구한다. 앵커(`#…`)·외부 주소·`mailto:` 는 그대로 둔다 — 앵커를 여기 통과시키면 `/ko#who` 가 된다. */
-const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter', '/download'];
+const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter', '/download', '/pr'];
 export function useHref() {
   const { lang, locked } = useLang();
   return (p: string) => {
@@ -130,7 +134,7 @@ function LangSwitch() {
    §16-5 (오너 2026-09-28 *"규칙 유지 — 레일 버튼만 시각 강조"*): CTA 는 늘리지 않고 이 하나를 세게 만든다.
    **처음 점화할 때 한 번** 빨간 펜이 버튼을 두르고(`pen.ts` ring) 버튼이 찍힌다(`.lit`). 다시 숨었다 떠도
    되풀이하지 않는다 — 원은 그려진 채로 남는다. 줄인 모션에선 원이 바로 보인다(site4.css §16 B3). */
-export function BuyRail() {
+export function BuyRail({ buy }: { buy?: BuyCta }) {
   const { t } = useT();
   const [on, setOn] = useState(false);
   const [lit, setLit] = useState(false);
@@ -152,8 +156,9 @@ export function BuyRail() {
     return () => { removeEventListener('scroll', onScroll); io.disconnect(); };
   }, []);
   return (
-    <a className={`rail${on ? ' on' : ''}${lit ? ' lit' : ''}`} href={CHECKOUT_URL} data-cur>
-      <span className="buy">{t('s.buy')}<small>{t('s.buy.price').replace(/^.*—\s*/, '')}</small></span>
+    <a className={`rail${on ? ' on' : ''}${lit ? ' lit' : ''}`} href={buy ? buy.href || undefined : CHECKOUT_URL}
+      data-pending={buy && !buy.href ? 'checkout' : undefined} data-cur>
+      <span className="buy">{buy ? buy.big : t('s.buy')}<small>{buy ? buy.small : t('s.buy.price').replace(/^.*—\s*/, '')}</small></span>
       <svg className="pen pen-ring" viewBox={ring.vb} preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <path d={ring.d} pathLength={1} />
       </svg>
@@ -164,7 +169,7 @@ export function BuyRail() {
 /* ── 푸터 ─────────────────────────────────────────────────────────────
    🔴 법 4줄(약관·개인정보·환불·연락처)은 **실링크**다. proto4 정적본은 이걸 텍스트로 잃어버렸고,
    결제 페이지가 약관 없이 나가는 상태였다. `/update` 도 패널 `version.json` 이 가리키는 계약 경로다. */
-function Footer4({ page }: { page: Page4Kind }) {
+function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
   const { t } = useT();
   const href = useHref();
   return (
@@ -179,7 +184,9 @@ function Footer4({ page }: { page: Page4Kind }) {
           <div className="cta-row" style={{ marginTop: 22 }}>
             {page === 'home'
               ? <a className="btn-line" href={href('/ae')} data-cur>{t('s.toProduct')}</a>
-              : <a className="buy" href={CHECKOUT_URL} data-cur>{t('s.buy.price')}</a>}
+              : buy
+                ? <a className="buy" href={buy.href || undefined} data-pending={buy.href ? undefined : 'checkout'} data-cur>{buy.label}</a>
+                : <a className="buy" href={CHECKOUT_URL} data-cur>{t('s.buy.price')}</a>}
           </div>
           {/* SNS 아이콘 줄(오너 2026-10-26 *"메인이랑 AE 둘 다"*) — 셸 푸터라 모든 면에 선다. 주소 = lib/product.ts SOCIAL. */}
           <p className="ft-follow-l">{t('s.ft.follow')}</p>
@@ -202,10 +209,20 @@ function Footer4({ page }: { page: Page4Kind }) {
         <div>
           <h2>{t('s.ft.support')}</h2>
           <ul>
-            <li><a href={href('/ae/docs')} data-cur>{t('s.ft.docs')}</a></li>
-            <li><a href={href('/ae#faq')} data-cur>{t('s.ft.faq')}</a></li>
-            {/* 설치 순서는 읽는 면(`/ae/docs#install`)에 산다 — 사양도 같은 절에 있다. */}
-            <li><a href={href('/ae/docs#install')} data-cur>{t('s.ft.specs')}</a></li>
+            {/* `/pr` 의 지원 열은 그 면의 FAQ · 설치 절을 가리킨다 — AE Docs 로 보내면 다른 제품의 설치 순서를 읽는다. */}
+            {page === 'pr' ? (
+              <>
+                <li><a href="#faq" data-cur>{t('s.ft.faq')}</a></li>
+                <li><a href="#install" data-cur>{t('s.ft.specs')}</a></li>
+              </>
+            ) : (
+              <>
+                <li><a href={href('/ae/docs')} data-cur>{t('s.ft.docs')}</a></li>
+                <li><a href={href('/ae#faq')} data-cur>{t('s.ft.faq')}</a></li>
+                {/* 설치 순서는 읽는 면(`/ae/docs#install`)에 산다 — 사양도 같은 절에 있다. */}
+                <li><a href={href('/ae/docs#install')} data-cur>{t('s.ft.specs')}</a></li>
+              </>
+            )}
             <li><a href="mailto:support@younameit.works" data-cur>{t('s.ft.contact')}</a></li>
           </ul>
         </div>
@@ -265,16 +282,20 @@ function BizLine() {
   );
 }
 
-export default function Page4({ page, plateTotal, links = [], cta, logo = 'logo-red.webp', rail = false, ownNav = false, children }: {
+export default function Page4({ page, plateTotal, links = [], cta, logo = 'logo-red.webp', rail = false, ownNav = false, buy, children }: {
   page: Page4Kind; plateTotal: number; links?: NavLink[]; cta?: NavLink;
   logo?: string; rail?: boolean;
   /** 제품 네비 대신 넘긴 `links`·`cta` 를 쓴다 — 읽는 면(`ReadingShell`: `/update` · 법 3장 · 404)만. */
-  ownNav?: boolean; children: React.ReactNode;
+  ownNav?: boolean;
+  /** 레일·푸터의 구매 버튼(안 넘기면 AE 결제) — `/pr` 만 넘긴다. */
+  buy?: BuyCta;
+  children: React.ReactNode;
 }) {
   const { lang } = useLang();
   useChrome();
   useSmoothScroll();   // v5 — Lenis + ScrollTrigger 한 박자(motion.ts)
-  const product = page !== 'home' && !ownNav;
+  /* 🔴 `/pr` 은 `/ae` 이하가 아니다 — `AE_NAV`(AE 절 앵커 · AE 결제)를 타면 PR 면에서 AE 를 판다. 자기 `links`·`cta` 를 넘긴다. */
+  const product = page !== 'home' && page !== 'pr' && !ownNav;
   const nav = product ? AE_NAV : { links, cta };
   return (
     <div className={`p3 p4${page === 'home' ? ' root' : ''}${rail ? ' has-rail' : ''}`} data-lang={lang} data-page={page} id="top">
@@ -286,8 +307,8 @@ export default function Page4({ page, plateTotal, links = [], cta, logo = 'logo-
       <svg className="scrawl" id="p3-scrawl" aria-hidden="true" focusable="false" />
       <Nav4 page={page} plateTotal={plateTotal} links={nav.links} cta={nav.cta} logo={logo} product={product} />
       {children}
-      {rail ? <BuyRail /> : null}
-      <Footer4 page={page} />
+      {rail ? <BuyRail buy={buy} /> : null}
+      <Footer4 page={page} buy={buy} />
     </div>
   );
 }
