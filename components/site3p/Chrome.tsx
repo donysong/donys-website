@@ -27,7 +27,7 @@ export function Defs() {
 export function Surface() {
   return (
     <>
-      <div className="paper" aria-hidden="true"><div className="fiber" /><div className="roller" /></div>
+      {/* 구 고정 종이 레이어(`.paper` 결 + 롤러)는 2026-10-10 에 지웠다 — 한 번도 안 보였고 켜 보니 기각됐다(site3p.css 종이 절). */}
       <div className="grain tooth" aria-hidden="true" />
       <div className="grain" aria-hidden="true" />
       <div className="reg-mark tl" aria-hidden="true" /><div className="reg-mark tr" aria-hidden="true" />

@@ -95,9 +95,10 @@
 .p3[data-lang="ko"] .pl>span {-webkit-text-stroke:.55px currentColor}
 
 /* ── 종이 · 그레인 ─────────────────────────────────────────── */
-.p3 .paper {position:fixed;inset:0;z-index:-3;background:var(--paper)}
-.p3 .paper .fiber {position:absolute;inset:0;background:url(/riso/paper-field.webp) center/620px repeat;opacity:.42;mix-blend-mode:multiply;filter:invert(1) contrast(1.2)}
-.p3 .paper .roller {position:absolute;inset:0;background:url(/riso/ink-roller.png) 0 0/900px repeat;opacity:.5;mix-blend-mode:multiply}
+/* 파란 종이 = `.p3` 단색 배경(`--paper`) + 아래 고정 그레인 두 장. 그게 전부다.
+   🔴 구 고정 종이 레이어(`.p3 .paper` = 결 + 롤러, z−3)는 2026-10-10 에 지웠다 — `.p3` 가 쌓임 맥락이 아니라서 `.p3` 단색 배경에
+   덮여 **한 번도 화면에 안 나왔다**(실측: 꺼도 같다). 켜 보니 너무 얼룩덜룩해서 오너가 기각했다(*"지금 너무 얼룩덜룩함. 꺼봐"* → *"지워"*).
+   되살리지 마라 — 결을 원하면 그건 새 판정이다(플러그인 repo WEBSITE_RENEWAL_PLAN §17.8). */
 .p3 .grain {position:fixed;inset:0;z-index:60;pointer-events:none;background:url(/riso/grain-fine.png) 0 0/256px repeat;mix-blend-mode:overlay;opacity:.30}
 .p3 .grain.tooth {background:url(/riso/grain-mid.png) 0 0/256px repeat;mix-blend-mode:soft-light;opacity:.16;z-index:59}
 
