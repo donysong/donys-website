@@ -17,6 +17,41 @@
 export type Release = { version: string; date: string; items: { ko: string[]; en: string[] } };
 
 export const RELEASES: Release[] = [
+  /* 날짜 = 실제 출고일 2026-10-13(태그 · R2 · Polar · 배포 같은 날).
+     근거 = 플러그인 태그 `v2.9.0`(`5b261f8b`) 의 `git log v2.8.0..v2.9.0` 중 유저가 체감하는 feat·fix·perf 만.
+     카탈로그 숫자(COUNTS)는 이 태그에서 그대로다 — src/data/* diff 0 · schemas.ts 는 설명 문구만 바뀌었다.
+     ⚠️ **뺀 것**: 하네스·bench·린트·문서 · 의사 이펙트 matchName 개명 등 내부 수리 · Chat 프롬프트 다듬기와 토큰 절감 ·
+     evalScript 와이어 교체(체감은 빨라짐뿐이라 항목을 세우지 않았다) · 캐러셀 호버 시트 재제작(기능 변화 아님). */
+  {
+    version: '2.9.0',
+    date: '2026-10-13',
+    items: {
+      ko: [
+        'Effector, Click React, Cursor Click, Round Corners, Master Shadow, Depth Pass, Overshoot, Edge Boil, Typewriter 의 조절 값이 Effect Controls 에서 이펙트 한 장으로 모였습니다. 슬라이더 여러 개를 찾아다니지 않아도 됩니다.',
+        '이전 버전에서 위 툴로 만든 리그는 그대로 다시 적용할 수 없습니다. 해제하거나 그 컨트롤을 지운 뒤 다시 적용해 주세요. 패널이 같은 안내를 띄웁니다.',
+        'Effector 에서 간헐적으로 나던 "내부 오류" 를 고쳤습니다. 한국어 After Effects 에서 Fill Opacity 같은 % 속성이 목록에서 빠지던 것과, 오디오·구형 이펙트가 이펙트 고르기에 섞이던 것도 고쳤습니다.',
+        'Chat 을 Claude 와 Codex 구독 대신 API 키로도 쓸 수 있습니다. 설정의 계정 탭에서 백엔드마다 구독 로그인과 API 키 중에 고르면 됩니다. 키는 맥에서는 키체인에, 윈도에서는 암호화해 저장합니다.',
+        'Chat 에 이미지를 레퍼런스로 주면 색을 뽑지 못하던 것을 고쳤습니다. 여러 시각을 미리 볼 때 일부 프레임이 실패해도 나머지 프레임은 그대로 보여 줍니다.',
+        'Bento Grid 의 Fill 과 Cut 이 빨라졌고, 적용이 끝났는데 시간 초과로 알리던 것을 고쳤습니다.',
+        '드롭다운이 After Effects 안에서 열리지 않던 것을 고쳤습니다. 좁게 도킹한 패널에서 다이얼로그 버튼이 넘치거나 Effector 이펙트 고르기 칸이 찌그러지던 것도 고쳤습니다.',
+        'Carousel 갤러리 미리보기가 초당 30프레임으로 부드럽게 돕니다. 툴 미리보기 이미지는 7.7MB 에서 3.5MB 로 가벼워졌습니다.',
+        '맥의 Pattern Lab 폰트 목록에서 시스템이 숨긴 폰트를 뺐고, After Effects 가 받지 않는 폰트 이름은 목록에 넣지 않습니다.',
+        '잘못된 라이선스 키를 넣어도 기존 활성화가 풀리지 않습니다. 윈도에서 오프라인인데 CLI 가 "이미 최신" 이라고 나오던 것도 고쳤습니다.',
+      ],
+      en: [
+        'The controls for Effector, Click React, Cursor Click, Round Corners, Master Shadow, Depth Pass, Overshoot, Edge Boil and Typewriter now sit in a single effect in Effect Controls. No more hunting through separate sliders.',
+        'Rigs made with these tools in an earlier version can\'t be re-applied as they are. Release them or delete their controls, then apply again. The panel shows the same message.',
+        'Fixed the intermittent "internal error" in the Effector. In Korean After Effects, % properties such as Fill Opacity no longer drop out of the list, and audio and obsolete effects no longer show up in the effect picker.',
+        'Chat can run on an API key instead of a Claude or Codex subscription. In the Account tab of settings, choose subscription login or API key for each backend. Keys are kept in the Keychain on Mac and stored encrypted on Windows.',
+        'Fixed Chat failing to pull colors from an image reference. When previewing several times at once, the frames that succeed are still shown if some fail.',
+        'Bento Grid Fill and Cut are faster, and they no longer report a timeout after the apply has finished.',
+        'Fixed dropdowns not opening inside After Effects. In a narrowly docked panel, dialog buttons no longer overflow and the Effector effect picker no longer collapses.',
+        'Carousel gallery previews play smoothly at 30 fps. Tool preview images went from 7.7MB to 3.5MB.',
+        'The Pattern Lab font list on Mac leaves out fonts the system hides, and skips font names After Effects won\'t accept.',
+        'Entering a wrong license key no longer undoes an existing activation. Fixed the CLI saying "already up to date" on Windows while offline.',
+      ],
+    },
+  },
   /* 날짜 = 실제 출고일 2026-10-05(태그 · R2 · Polar · 배포 같은 날).
      🔴 **초안 근거 = 플러그인 main `bb6be638`(v2.8.0 후보)** 의 `git log v2.7.1..main` · `donys/usage/{ko,en}` · i18n.
      태그가 서면 한 번 더 대조해라. 항목마다 코드에서 찾은 것만 적었다(Carousel Controls · 내 카드 수에 맞추기 / 프리셋에 맞추기 ·
