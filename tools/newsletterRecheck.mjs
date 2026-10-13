@@ -37,7 +37,9 @@ do {
     if (c.unsubscribed) continue;
     const full = c.properties ? c : await api('GET', `/contacts/${c.id}`);
     const base = val(full.properties?.recheck_at) || val(full.properties?.consent_at);
-    if (base && Date.now() - Date.parse(base) >= DUE_MS) due.push({ email: c.email, lang: val(full.properties?.lang) === 'en' ? 'en' : 'ko', consentAt: val(full.properties?.consent_at), base });
+    /* lang 이 없는 연락처 = PR 결제 화면 동의(`prConsentSync.mjs`, 결제 화면은 언어를 안 남긴다) → 한 통에 두 언어 */
+    const lang = val(full.properties?.lang);
+    if (base && Date.now() - Date.parse(base) >= DUE_MS) due.push({ email: c.email, lang: lang === 'en' ? 'en' : lang === 'ko' ? 'ko' : 'both', consentAt: val(full.properties?.consent_at), base });
   }
   after = page.has_more ? page.data.at(-1).id : '';
 } while (after);
@@ -45,12 +47,12 @@ do {
 console.log(`확인 대상 ${due.length}명`); due.forEach((d) => console.log(' ', d.email, '동의', d.consentAt.slice(0, 10), '기준', d.base.slice(0, 10)));
 if (!SEND) { console.log('(미리보기 — 보내려면 --send)'); process.exit(0); }
 for (const d of due) {
-  const day = d.consentAt.slice(0, 10), link = unsubLink(d.email, d.lang);
-  const ko = d.lang === 'ko';
-  const lines = ko
-    ? [`전송자: ${NAME_KO}(${NAME_EN})`, `고객님은 ${day} 에 이메일로 광고성 정보(새 도구·업데이트·할인 소식)를 받는 데 동의하셨습니다.`, '법에 따라 2년마다 수신 동의를 확인해 드립니다.', '계속 받으시려면 아무것도 하지 않으셔도 됩니다. 그만 받으시려면 아래 링크를 눌러 주세요(무료).', link, EMAIL]
-    : [`Sender: ${NAME_EN}`, `On ${day} you agreed to receive promotional email (new tools, updates and deals) from us.`, 'Korean law asks us to confirm this every two years.', 'To keep receiving it, do nothing. To stop, use the link below (free).', link, EMAIL];
-  await api('POST', '/emails', { from: 'You Name It <news@younameit.works>', reply_to: EMAIL, to: d.email, subject: ko ? '[You Name It] 광고성 정보 수신 동의 확인 안내' : '[You Name It] Checking your newsletter consent', text: lines.join('\n\n') });
+  const day = d.consentAt.slice(0, 10);
+  const koLines = [`전송자: ${NAME_KO}(${NAME_EN})`, `고객님은 ${day} 에 이메일로 광고성 정보(새 도구·업데이트·할인 소식)를 받는 데 동의하셨습니다.`, '법에 따라 2년마다 수신 동의를 확인해 드립니다.', '계속 받으시려면 아무것도 하지 않으셔도 됩니다. 그만 받으시려면 아래 링크를 눌러 주세요(무료).', unsubLink(d.email, 'ko')];
+  const enLines = [`Sender: ${NAME_EN}`, `On ${day} you agreed to receive promotional email (new tools, updates and deals) from us.`, 'Korean law asks us to confirm this every two years.', 'To keep receiving it, do nothing. To stop, use the link below (free).', unsubLink(d.email, 'en')];
+  const text = d.lang === 'ko' ? [...koLines, EMAIL].join('\n\n') : d.lang === 'en' ? [...enLines, EMAIL].join('\n\n') : [koLines.join('\n\n'), '—', enLines.join('\n\n'), EMAIL].join('\n\n');
+  const subject = d.lang === 'ko' ? '[You Name It] 광고성 정보 수신 동의 확인 안내' : d.lang === 'en' ? '[You Name It] Checking your newsletter consent' : '[You Name It] 광고성 정보 수신 동의 확인 안내 · Checking your newsletter consent';
+  await api('POST', '/emails', { from: 'You Name It <news@younameit.works>', reply_to: EMAIL, to: d.email, subject, text });
   await api('PATCH', `/contacts/${encodeURIComponent(d.email)}`, { properties: { recheck_at: new Date().toISOString() } });
   console.log('보냄', d.email);
 }
