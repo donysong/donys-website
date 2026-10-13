@@ -356,6 +356,9 @@ const PR_COPY: Dict = {
     'pr.faq.q26.q': 'A feature I was using is suddenly off',
     'pr.faq.q26.v': 'We may have paused it',
     'pr.faq.q26.a': 'If a Premiere update or similar makes a feature risky for your projects, we switch just that feature off through the update info file. The panel shows it as off, with the reason, and we switch it back on once it is fixed. Other features and your projects are not affected. If a Pro feature stays off for more than {remoteOffDays} days, you can get a refund even after the {refundDays} days from purchase; a bundle is refunded as a whole.',
+    'pr.faq.q27.q': 'The checkout button does nothing',
+    'pr.faq.q27.v': 'Usually the terms box',
+    'pr.faq.q27.a': 'Checkout needs the box agreeing to the terms and refund policy. Without it, the button does nothing and no message appears. The three newsletter boxes are optional; leaving them unticked never blocks a purchase.',
 
     /* ── 07 설치 (`pr-install.md`, 키 `inst.*` → `pr.inst.*`) — 기계적 절차라 지시형이 허용된다 ── */
     'pr.inst.h': 'Install',
@@ -736,6 +739,9 @@ const PR_COPY: Dict = {
     'pr.faq.q26.q': '쓰던 기능이 갑자기 꺼졌어요',
     'pr.faq.q26.v': '저희가 잠시 껐을 수 있습니다',
     'pr.faq.q26.a': 'Premiere 업데이트 등으로 어떤 기능이 프로젝트를 망가뜨릴 위험이 보이면, 업데이트 정보 파일로 그 기능만 잠시 끕니다. 꺼진 기능은 패널에 이유와 함께 표시되고, 고치면 다시 켭니다. 다른 기능과 프로젝트에는 영향이 없습니다. Pro 기능이 {remoteOffDays}일 넘게 꺼져 있으면, 구매 후 {refundDays}일이 지났어도 환불받으실 수 있습니다. 번들은 전체를 환불해 드립니다.',
+    'pr.faq.q27.q': '결제 버튼을 눌러도 넘어가지 않아요',
+    'pr.faq.q27.v': '대개 약관 동의 칸입니다',
+    'pr.faq.q27.a': '결제하려면 약관 · 환불 정책 동의 칸에 체크해야 합니다. 체크하지 않으면 버튼을 눌러도 안내 문구 없이 그대로 멈춰 있습니다. 소식 메일 동의 세 칸은 선택이라, 체크하지 않아도 구매에는 영향이 없습니다.',
 
     /* ── 07 설치 — 기계적 절차라 지시형이 허용된다(VOICE_AND_TERMS §1). 합니다체는 그대로 ── */
     'pr.inst.h': '설치',

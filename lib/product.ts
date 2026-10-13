@@ -173,10 +173,12 @@ export const PR = {
   version: '1.0.0',               // 🔴 손으로 올리지 마라 — 출고 태그 값(AE `VERSION` 과 같은 규칙)
   sttRate: '$0.22',               // ElevenLabs 오디오 1시간 정가(2026-10) — 런칭 때 다시 확인
   /* Polar 체크아웃 — 🔴 빈 값 = 아직 없음(자리표시자). 컴포넌트는 빈 값이면 href 없는 버튼(`data-pending="checkout"`)을 그리고
-     deployCheck `[pr]` 가 실패한다. L2(Pro) 에는 D1 얼리버드 할인이 링크에 미리 걸린다(polar-setup.md §4). */
-  checkoutFree: '',
-  checkoutPro: '',
-  checkoutBundle: '',
+     deployCheck `[pr]` 가 실패한다. L2(Pro) 에는 D1 얼리버드 할인이 링크에 미리 걸린다(polar-setup.md §4).
+     운영 링크 = 2026-10-13 운영 설정(PR repo polar-setup.md §8). 상품은 10/31 까지 비공개라 링크를 아는 사람만 연다.
+     L2 는 코드 입력 켬(sandbox T3 → 옵션 A: 얼리버드가 걸려 있으면 코드 칸이 잠겨 할인이 겹치지 않는다). */
+  checkoutFree: 'https://buy.polar.sh/polar_cl_bEiq2i8tdwneJHwg1ziLo4vm9ivA1qXWoEppG37fX6n',
+  checkoutPro: 'https://buy.polar.sh/polar_cl_TLpmGgP3luqCCFROg32FhyT3020MbhXPKblle4FIHYN',
+  checkoutBundle: 'https://buy.polar.sh/polar_cl_9aU6PT1I0uE2NL6ukNCdcsdSGkmANGq7TT9fg2Acf5c',
   /* 🔴 판 스위치 — 'full'(Pro 결제 열림) | 'preorder'(무료판 + Pro 사전예약). 10/28 동결일에 오너가 정한다(PRD §0).
      빌드 때 `NEXT_PUBLIC_PR_MODE=preorder npm run build` 로 덮어 미리 볼 수 있다(아래 `PR_MODE`) — 배포는 이 값으로. */
   launchMode: 'full' as PrMode,

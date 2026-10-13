@@ -1,6 +1,6 @@
 'use client';
 /* 06 FAQ — `/ae` 06 과 같은 판정어 먼저 조판(`details.qa` · summary = 질문 + 판정어). 원문 = PR repo `gtm/site/pr-faq.md`.
-   묶음: 작업 q1–q10 · 기술 q11–q17 · 라이선스 q18–q26 · (판 B) 사전예약 p1–p6 — 판 B 에선 p 묶음이 q20(환불)을 대신한다.
+   묶음: 작업 q1–q10 · 기술 q11–q17 · 라이선스 q18–q27 · (판 B) 사전예약 p1–p6 — 판 B 에선 p 묶음이 q20(환불)을 대신한다.
    🔴 원문 태그대로 빠지는 문답: q2 autocut.basic · q4 captions.longform · q5·q6 chat · q7 autocut.ngTakes ·
       q8 (autocut.advanced · captions.longform · chat — 전부 꺼져야 빠진다) · q15 keyauto. 판 B 에선 Pro 태그 문답이 전부 빠진다.
    🔴 q16(한글 입력 상자)은 **싣지 않았다** — 스파이크 D1 결과 대기(원문 지시: 문제가 없으면 빼고, 자체 입력기를 넣으면 답을 바꾼다).
@@ -25,7 +25,7 @@ const TAGS: Record<string, PrFeature[]> = {
 const GROUPS: { lab: string; qs: string[]; pre?: boolean }[] = [
   { lab: 'pr.faq.g1', qs: ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'] },
   { lab: 'pr.faq.g2', qs: ['q11', 'q12', 'q13', 'q14', 'q15', 'q17'] },
-  { lab: 'pr.faq.g3', qs: ['q18', 'q19', 'q20', 'q21', 'q22', 'q23', 'q24', 'q25', 'q26'] },
+  { lab: 'pr.faq.g3', qs: ['q18', 'q19', 'q20', 'q21', 'q22', 'q23', 'q24', 'q25', 'q26', 'q27'] },
   { lab: 'pr.faq.g4', qs: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'], pre: true },
 ];
 
