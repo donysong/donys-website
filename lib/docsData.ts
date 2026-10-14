@@ -1,6 +1,6 @@
 /* 🔴 **생성물이다. 손으로 고치지 마라.**
    고칠 곳은 `tools/build-docs-data.mjs` 이고, 고친 뒤에는  npm run build:docs  를 돌려라.
-   내용의 정본은 플러그인 repo 의 **출고 태그 v2.8.0** 다 — 툴은 `src/data/builtinScripts.ts`,
+   내용의 정본은 플러그인 repo 의 **출고 태그 v2.9.0** 다 — 툴은 `src/data/builtinScripts.ts`,
    설명은 `src/i18n/{ko,en}.ts`, 패널은 `CSXS/manifest.xml`, 이펙트는 `seed-presets/effects/`.
    (워킹트리가 아니다 — 사이트가 파는 건 구매자가 받는 zxp 다.)
    여기 숫자를 손으로 올리면 그 순간 사이트가 없는 걸 광고하기 시작한다(전례 둘 — 생성기 머리말).
@@ -8,7 +8,7 @@
    🔴 릴리스 노트는 여기 없다 — `lib/releases.ts` 가 정본이고 페이지가 직접 읽는다. */
 
 /** 이 파일을 찍은 플러그인 태그. `lib/product.ts` VERSION 과 같아야 한다. */
-export const DOCS_TAG = "v2.8.0";
+export const DOCS_TAG = "v2.9.0";
 
 export type DocsCat = "motion" | "layer" | "comp" | "shape" | "stylize" | "export";
 export type DocsPreview = 'sheet' | 'none';
