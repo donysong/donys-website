@@ -72,6 +72,8 @@ else ok.push('[i18n] 국문 정적 경로 3장');
 /* ── 페이지별 검사 ──────────────────────────────────────────────── */
 const CHECKOUT = 'buy.polar.sh';
 const BIZ_REG = read(path.join(process.cwd(), 'lib/product.ts')).match(/regNo:\s*'([^']+)'/)?.[1] || '(regNo 없음)';
+/* 통신판매업 신고번호 — 비어 있으면 신고 면제 중(공정위 확인 링크를 걸지 않는다). */
+const MAIL_ORDER = read(path.join(process.cwd(), 'lib/product.ts')).match(/mailOrderNo:\s*'([^']*)'/)?.[1] || '';
 const BANNED = [
   ['브리프 하나로', '오너 2026-08-31 폐기'],
   ['완성 영상', '오너 2026-08-31 폐기'],
@@ -115,9 +117,12 @@ for (const p of pages) {
     for (const [href, label] of [[L('/terms'), '약관'], [L('/privacy'), '개인정보'], [L('/refund'), '환불'], [L('/update'), '업데이트']]) {
       if (!html.includes(`href="${href}"`)) fail.push(`[legal] ${r} 에 ${label} 링크(${href})가 없다`);
     }
-    /* 사업자 줄(Shell `BizLine`) — §10 초기화면 표시 + 공정위 공개페이지 연결. 셸 푸터라 모든 면에 있어야 한다. */
-    if (!html.includes(BIZ_REG) || !html.includes('bizCommPop.do?wrkr_no=' + BIZ_REG.replace(/-/g, '')))
-      fail.push(`[biz] ${r} 에 사업자등록번호(${BIZ_REG})·공정위 확인 링크가 없다 — 전자상거래법 §10`);
+    /* 사업자 줄(Shell `BizLine`) — §10 초기화면 표시. 셸 푸터라 모든 면에 있어야 한다. 공정위 공개페이지 링크는 통신판매업 신고 정보를
+       띄우는 페이지라 **신고번호가 있을 때만** 요구한다(면제 중엔 빈 결과 — 2026-10-14). 면제 중엔 반대로 그 링크가 없어야 한다. */
+    const ftcLink = html.includes('bizCommPop.do?wrkr_no=' + BIZ_REG.replace(/-/g, ''));
+    if (!html.includes(BIZ_REG)) fail.push(`[biz] ${r} 에 사업자등록번호(${BIZ_REG})가 없다 — 전자상거래법 §10`);
+    if (MAIL_ORDER && !ftcLink) fail.push(`[biz] ${r} 에 공정위 사업자정보 확인 링크가 없다(신고번호 있음)`);
+    if (!MAIL_ORDER && ftcLink) fail.push(`[biz] ${r} 에 공정위 확인 링크가 있다 — 신고 면제 중엔 빈 결과라 걸지 않는다`);
     if (!/mailto:support@younameit\.works/.test(html)) fail.push(`[contact] ${r} 에 지원 주소가 없다`);
     if (/gmail\.com/i.test(html)) fail.push(`[pii] ${r} 에 개인 Gmail 이 있다`);
     /* 방문자 브라우저를 제3자 서버로 보내지 않는다 — 폰트는 자체 호스팅, 분석은 Cloudflare Web Analytics 하나(2026-09-30).

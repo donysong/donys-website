@@ -108,5 +108,7 @@ export const BUSINESS = {
   hosting: 'Cloudflare, Inc.',
 };
 
-/* 공정위 사업자정보 공개페이지(§10 — 표시한 정보의 진위를 확인하는 연결). 통신판매업 신고가 공정위에 연계된 뒤에야 내용이 뜬다. */
-export const FTC_BIZ_URL = `https://www.ftc.go.kr/bizCommPop.do?wrkr_no=${BUSINESS.regNo.replace(/-/g, '')}`;
+/* 공정위 사업자정보 공개페이지(§10 — 표시한 정보의 진위를 확인하는 연결). 통신판매업 **신고 정보**를 띄우는 페이지라, 신고 면제 중
+   (`mailOrderNo` 빈 값)엔 조회해도 빈 결과다(2026-10-14 실측 — 보안문자 뒤 무결과) → 그동안은 링크를 안 그린다(빈 문자열).
+   신고하고 `mailOrderNo` 를 채우면 푸터·약관 링크와 deployCheck `[biz]` 링크 검사가 같이 켜진다. */
+export const FTC_BIZ_URL = BUSINESS.mailOrderNo ? `https://www.ftc.go.kr/bizCommPop.do?wrkr_no=${BUSINESS.regNo.replace(/-/g, '')}` : '';

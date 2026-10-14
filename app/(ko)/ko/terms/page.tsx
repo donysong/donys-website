@@ -352,11 +352,13 @@ export default function TermsKoPage() {
               </li>
               <li>호스팅 제공: {BUSINESS.hosting}</li>
             </ul>
-            <p className="mt-2">
-              <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
-                사업자정보 확인
-              </a>
-            </p>
+            {FTC_BIZ_URL ? (
+              <p className="mt-2">
+                <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
+                  사업자정보 확인
+                </a>
+              </p>
+            ) : null}
           </section>
         </div>
       </div>

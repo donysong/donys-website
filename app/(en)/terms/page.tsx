@@ -343,11 +343,13 @@ export default function TermsPage() {
               </li>
               <li>Hosting: {BUSINESS.hosting}</li>
             </ul>
-            <p className="mt-2">
-              <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
-                Verify business information (Korea Fair Trade Commission)
-              </a>
-            </p>
+            {FTC_BIZ_URL ? (
+              <p className="mt-2">
+                <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
+                  Verify business information (Korea Fair Trade Commission)
+                </a>
+              </p>
+            ) : null}
           </section>
         </div>
       </div>

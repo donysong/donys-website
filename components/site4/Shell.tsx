@@ -227,7 +227,7 @@ function BizLine() {
   const rows: [string, React.ReactNode][] = [
     ['s.biz.name', b.name[lang]],
     ['s.biz.ceo', b.ceo[lang]],
-    ['s.biz.regNo', <>{b.regNo} <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer" data-cur>{t('s.biz.verify')}</a></>],
+    ['s.biz.regNo', <>{b.regNo}{FTC_BIZ_URL ? <> <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer" data-cur>{t('s.biz.verify')}</a></> : null}</>],
     ...(b.mailOrderNo ? [['s.biz.mailOrder', b.mailOrderNo] as [string, React.ReactNode]] : []),
     ['s.biz.address', b.address[lang]],
     ...(b.phone ? [['s.biz.phone', <a key="tel" href={`tel:${b.phone.replace(/[^\d+]/g, '')}`} data-cur>{b.phone}</a>] as [string, React.ReactNode]] : []),
