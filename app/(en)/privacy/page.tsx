@@ -26,7 +26,7 @@ export default function PrivacyPage() {
       <header className="max-w-3xl">
         <p className="lab">You Name It AE Plugin</p>
         <InkTitle>Privacy Policy</InkTitle>
-        <p className="text-sm">Last updated: September 30, 2026</p>
+        <p className="text-sm">Last updated: October 22, 2026</p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
@@ -59,6 +59,12 @@ export default function PrivacyPage() {
               details — we do <strong>not</strong> receive or store your payment card
               information.
             </p>
+            <p className="mt-2">
+              <strong>Free download.</strong> If you ask for the free version, we collect your email address, the time you asked
+              and your language. You confirm with the button in the email we send, and the download link opens only then. We use
+              them to send the link, to keep a list of free-version users, and to send notices you need to use the Product
+              (security and updates, not advertising).
+            </p>
 
             <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
               2.2 Automatically Collected Information
@@ -75,6 +81,12 @@ export default function PrivacyPage() {
               companies&apos; servers. We do not collect your name, email address, or anything you type through analytics.
               However, IP addresses are treated as personal data under the GDPR and similar laws,
               so we do not claim this analytics data is fully anonymous.
+            </p>
+            <p className="mt-2">
+              Buttons marked Pro inside the plugin open a page on this website (/go/pro), which forwards you to the pricing
+              section. We count those clicks <strong>in aggregate only</strong> — which feature&apos;s button was pressed and the
+              language of the page. The count holds no IP address, browser details, cookie or other identifier. The request itself
+              is handled by our host like any other page visit.
             </p>
 
             <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
@@ -150,12 +162,17 @@ export default function PrivacyPage() {
               <li>To provide customer support, including cancellations and refunds</li>
               <li>To keep the transaction records the law requires (see Section 5)</li>
               <li>
-                To send service notices about your purchase, such as updates, security, license and refund notices. These are
-                not advertising.
+                To send service notices about your purchase or your free download, such as updates, security, license and refund
+                notices. These are not advertising.
+              </li>
+              <li>
+                To send the free-version download link and keep a list of free-version users. We store your email address, the
+                time you asked and your language with Resend until you ask us to delete them. Downloading the free version does
+                not by itself get you promotional email.
               </li>
               <li>
                 To send our newsletter, <strong>only to people who opted in</strong> on the{' '}
-                <a href="/newsletter">Newsletter</a> page and confirmed by email. We store your email address, the time you
+                <a href="/newsletter">Newsletter</a> page, or in the optional box on the free-download form, and confirmed by email. We store your email address, the time you
                 agreed and your language with Resend until you withdraw; when you do, we email you the result and delete them.
                 We confirm your consent every two years, mark every newsletter as promotional, and include a free unsubscribe
                 link.
@@ -217,7 +234,7 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
-                <strong>Cloudflare</strong> — website hosting, DNS, CDN, download hosting, receiving and
+                <strong>Cloudflare</strong> — website hosting, DNS, CDN, download hosting, processing free-download requests, receiving and
                 forwarding email sent to support@younameit.works, and cookieless web analytics. Their privacy policy is available at{' '}
                 <a
                   href="https://www.cloudflare.com/privacypolicy/"
@@ -243,8 +260,9 @@ export default function PrivacyPage() {
                 .
               </li>
               <li>
-                <strong>Resend (Plus Five Five, Inc.)</strong> — sends our email replies to you, and keeps the newsletter
-                subscriber list and sends the newsletter if you subscribed. Their privacy
+                <strong>Resend (Plus Five Five, Inc.)</strong> — sends our email replies to you, sends the free-version download
+                link and keeps the list of free-version users, and keeps the newsletter subscriber list and sends the newsletter
+                if you subscribed. Their privacy
                 policy is available at{' '}
                 <a
                   href="https://resend.com/legal/privacy-policy"
@@ -310,6 +328,10 @@ export default function PrivacyPage() {
             <p className="mt-2">
               We keep those records separately and delete them when the period ends.
             </p>
+            <p className="mt-2">
+              Free-download information (email address, time and language) is kept until you ask us to delete it, and we delete it
+              without delay. If you withdraw from the newsletter, we also delete the free-download record for the same address.
+            </p>
           </section>
 
           <section>
@@ -326,7 +348,7 @@ export default function PrivacyPage() {
               <a href="mailto:support@younameit.works" className="text-[var(--text-primary)] underline underline-offset-4 font-semibold">
                 support@younameit.works
               </a>
-              {' '}from the address you bought with. We give you access <strong>within 10 days</strong> and handle
+              {' '}from the address you bought with or used for the free download. We give you access <strong>within 10 days</strong> and handle
               correction, deletion and stop requests without delay. We cannot delete the records the law requires us to keep
               (Section 5) until their period ends.
             </p>
