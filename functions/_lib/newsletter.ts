@@ -139,14 +139,20 @@ const kstDate = (d = new Date()) => {
   return `${k.getUTCFullYear()}-${String(k.getUTCMonth() + 1).padStart(2, '0')}-${String(k.getUTCDate()).padStart(2, '0')}`;
 };
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
-export function frame(lang: Lang, paras: string[], button?: { href: string; label: string }) {
+/* `after` = 버튼 **밑**에 작은 글씨로 붙는 고지 문단들(무료 다운로드 확인 메일의 국외 이전 안내 — `_lib/download.ts`). 버튼이 첫 화면에 보이게 본문 뒤가 아니라 버튼 뒤에 둔다. */
+export function frame(lang: Lang, paras: string[], button?: { href: string; label: string }, after?: string[]) {
   const p = paras.map((x) => `<p style="margin:0 0 14px;font-size:15px;line-height:1.6;color:#0d2a38">${x}</p>`).join('');
   const b = button
     ? `<p style="margin:22px 0"><a href="${esc(button.href)}" style="display:inline-block;padding:12px 20px;background:#e50437;color:#fff;border-radius:6px;font-weight:700;text-decoration:none">${esc(button.label)}</a></p>`
     : '';
-  return `<div style="max-width:560px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Apple SD Gothic Neo',sans-serif">${p}${b}<p style="margin:28px 0 0;font-size:12px;line-height:1.6;color:#5b6b73">${esc(FOOT[lang])}</p></div>`;
+  const a = after?.length
+    ? `<div style="margin:22px 0 0;padding-top:14px;border-top:1px solid #d5dde1">${after.map((x) => `<p style="margin:0 0 6px;font-size:13px;line-height:1.55;color:#33454e">${x}</p>`).join('')}</div>`
+    : '';
+  return `<div style="max-width:560px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Apple SD Gothic Neo',sans-serif">${p}${b}${a}<p style="margin:28px 0 0;font-size:12px;line-height:1.6;color:#5b6b73">${esc(FOOT[lang])}</p></div>`;
 }
-export const plain = (lang: Lang, paras: string[], link?: string) => [...paras.map((x) => x.replace(/<[^>]+>/g, '')), link || '', '', FOOT[lang]].join('\n\n');
+const strip = (x: string) => x.replace(/<[^>]+>/g, '');
+export const plain = (lang: Lang, paras: string[], link?: string, after?: string[]) =>
+  [...paras.map(strip), link || '', ...(after?.length ? [after.map(strip).join('\n')] : []), '', FOOT[lang]].join('\n\n');
 
 export function confirmMail(lang: Lang, link: string) {
   const T = {

@@ -121,6 +121,9 @@ for (const p of pages) {
     if (price && !(price[0].includes('data-free-form') && price[0].includes('id="free-email"') && price[0].includes('name="website"')))
       fail.push(`[free] ${r} 가격 판에 무료 다운로드 폼(data-free-form · #free-email · 봇 덫)이 없다`);
     else if (price) ok.push(`[free] ${r} 가격 판에 무료 다운로드 폼`);
+    /* 필수 동의는 **둘**이다(이용약관 · 개인정보 수집·이용 — 2026-10-15). 하나로 합친 옛 폼이 되돌아오는 걸 막는다. */
+    if (price && !(price[0].includes('data-consent="terms"') && price[0].includes('data-consent="privacy"')))
+      fail.push(`[free] ${r} 가격 판의 무료 다운로드 폼에 필수 동의 둘(data-consent="terms" · "privacy")이 없다`);
   }
 
   if (isSurface) {
@@ -196,6 +199,20 @@ for (const r of ['/download.html', '/ko/download.html']) {
   if (!h.includes('data-free-form') || !h.includes('id="free-email"')) fail.push(`[free] ${r} 에 무료 다운로드 폼이 없다`);
   else if (!/<meta[^>]*name="robots"[^>]*noindex/.test(h)) fail.push(`[free] ${r} 가 색인된다 — 확인 토큰이 주소에 달려 오는 면이다(noindex)`);
   else ok.push(`[free] ${r} 폼 + noindex`);
+  if (!h.includes('data-consent="terms"') || !h.includes('data-consent="privacy"')) fail.push(`[free] ${r} 의 폼에 필수 동의 둘(data-consent="terms" · "privacy")이 없다`);
+}
+
+/* ── 무료 다운로드 정보 보유 기간 ── "그 주소로 마지막 안내 메일을 보낸 날부터 3년"(2026-10-15 오너 판정)이 방침·폼에 **같은 말로** 적혀 있어야 한다.
+   방침 제3조 · 폼 고지 · 확인 메일(`functions/_lib/download.ts` transferNotice — 시험 `test:fn`) 중 하나만 고치면 동의 화면과 방침이 서로 다른 기간을 말한다.
+   표현을 일부러 고정했다(ko "마지막 안내 메일" + "3년" · en "last notice email" + "3 years") — 문구를 바꿀 땐 이 줄도 같이. */
+for (const [r, a, b] of [['/ko/privacy.html', '마지막 안내 메일', '3년'], ['/ko/download.html', '마지막 안내 메일', '3년'], ['/ko/ae.html', '마지막 안내 메일', '3년'],
+  ['/privacy.html', 'last notice email', '3 years'], ['/download.html', 'last notice email', '3 years'], ['/ae.html', 'last notice email', '3 years']]) {
+  const p = pages.find((x) => rel(x) === r);
+  if (!p) continue;
+  const h = read(p);
+  if (!h.includes(a) || !h.includes(b)) fail.push(`[retention] ${r} 에 보유 기간 문구("${a}" · "${b}")가 없다 — 방침 제3조·폼 고지·확인 메일이 같은 기간을 말해야 한다`);
+  else if (/삭제를 요청하실 때까지|Resend until you ask us to delete|is kept until you ask us to delete/.test(h)) fail.push(`[retention] ${r} 에 옛 보유 기간("삭제를 요청하실 때까지")이 남았다`);
+  else ok.push(`[retention] ${r} ${b} (마지막 안내 메일 기준)`);
 }
 
 /* ── 방침·약관 시행일 ── 방침 제16조·약관 제4조 = "시행 7일 전부터 사이트에 알린다". 시행일 = `lib/policy.ts` 한 곳.

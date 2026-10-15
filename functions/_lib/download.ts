@@ -6,7 +6,18 @@
       광고 수신 동의(`consent_at` · 세그먼트 `newsletter`)는 폼의 **선택 항목**(동의 셋)을 모두 체크했을 때만 같은 확인 버튼으로 같이 확정된다
       (정보통신망법 §50① · 개인정보 보호법 §22① — 필수와 선택·마케팅은 구분해서 받는다). 브로드캐스트는 `newsletter` 세그먼트로만 보낸다 —
       "모든 연락처"로 보내면 다운로드만 한 사람에게 광고가 나간다.
-   🔴 파일 주소는 `lib/product.ts` DOWNLOAD_URL 이다(공개 R2). 이메일을 받는 건 명단을 위해서고 파일 보호가 아니다. */
+   🔴 파일 주소는 `lib/product.ts` DOWNLOAD_URL 이다(공개 R2). 이메일을 받는 건 명단을 위해서고 파일 보호가 아니다.
+
+   🔴 **보유 기간 = 그 주소로 마지막 안내 메일을 보낸 날부터 3년**(2026-10-15 오너 판정 · 방침 제3조 · 폼 고지 · 확인 메일 고지가 같은 문구).
+      삭제를 요청하거나 소식 메일을 철회하면 그 전에 지운다(철회는 `withdraw()` 가 연락처를 통째로 지운다).
+      ⚠️ **한계 — 자동 삭제가 아직 없다.** 3년이 지난 연락처를 지우는 일은 운영자가 **연 1회 손으로** 한다(달력 알림):
+         Resend 의 `free-download` 세그먼트 연락처 중 속성 `free_at` 이 3년 넘은 것을 지운다. 단 `newsletter` 세그먼트에도 있는 주소는 건너뛴다
+         (소식 메일은 철회할 때까지 보유 — 방침 제3조 앞 항목).
+      기준을 `free_at` 하나로 쓰는 이유: 확인할 때마다 `free_at` 이 덮어써지고(upsertContact) 그 순간 나가는 `readyMail` 이 이 세그먼트가 받는 **유일한** 안내 메일이다.
+         그래서 `free_at` 은 마지막 안내 메일 날짜와 같다. 나중에 안내 메일이 더 나가더라도 `free_at` 기준 삭제는 약속(마지막 안내 메일 + 3년)보다 **늦지 않다** — 일찍 지울 뿐이다.
+         그 안내 메일을 받은 사람을 더 오래 두고 싶어지면 그때 `last_notice_at` 속성을 `tools/newsletterSetup.mjs` PROPS 에 더하고 안내 메일을 보내는 곳이 갱신하게 한다.
+      업그레이드 경로: 예약 실행(Cloudflare Cron Trigger Worker)이 같은 규칙으로 지운다. 확인 전 신청(확인 메일만 나가고 명단에 안 들어간 주소)은 우리 쪽 명단에 없다 —
+         Resend 의 발송 기록 보관은 Resend 방침을 따른다(방침 제7조 표). */
 import { DOWNLOAD_URL, VERSION } from '../../lib/product';
 import {
   CONSENT_VERSION, type Env, type Lang, frame, isEmail, json, pageUrl, plain, readToken, resultMail, sendMail, signToken, site, upsertContact,
@@ -21,9 +32,10 @@ export const downloadUrl = (env: Env, lang: Lang, q: string) => `${site(env)}${l
 /* ── 요청 검증 — 순수 함수라 `tools/functions.test.mjs` 가 직접 돌린다 ── */
 export type DownloadRequest =
   | { ok: true; email: string; lang: Lang; news: boolean }
-  | { ok: false; status: number; error: 'bad_request' | 'email' | 'consent' | 'news_consent'; silent?: boolean };
+  | { ok: false; status: number; error: 'bad_request' | 'email' | 'consent_terms' | 'consent_privacy' | 'news_consent'; silent?: boolean };
 
-/** 폼 본문을 읽는다. 필수 동의(`agreeTerms`)가 참이어야 하고, 소식 메일은 선택이지만 **셋이 모두 참이거나 모두 아니거나**다(일부만이면 되돌려 보낸다). */
+/** 폼 본문을 읽는다. 필수 동의 **둘**(`agreeTerms` 이용약관 · `agreePrivacy` 개인정보 수집·이용)이 각각 참이어야 한다 — 보호위 지침: 약관 동의와 수집·이용 동의는 따로 받는다
+ *  (개인정보 처리방침은 동의 대상이 아니라 공개 대상이라 여기 없다). 소식 메일은 선택이지만 **셋이 모두 참이거나 모두 아니거나**다(일부만이면 되돌려 보낸다). */
 export function parseDownloadRequest(b: unknown): DownloadRequest {
   if (!b || typeof b !== 'object') return { ok: false, status: 400, error: 'bad_request' };
   const r = b as Record<string, unknown>;
@@ -31,7 +43,8 @@ export function parseDownloadRequest(b: unknown): DownloadRequest {
   if (typeof r.website === 'string' && r.website) return { ok: false, status: 200, error: 'bad_request', silent: true };
   const email = typeof r.email === 'string' ? r.email.trim().toLowerCase() : '';
   if (!isEmail(email)) return { ok: false, status: 400, error: 'email' };
-  if (r.agreeTerms !== true) return { ok: false, status: 400, error: 'consent' };
+  if (r.agreeTerms !== true) return { ok: false, status: 400, error: 'consent_terms' };
+  if (r.agreePrivacy !== true) return { ok: false, status: 400, error: 'consent_privacy' };
   const n = (r.news && typeof r.news === 'object' ? r.news : {}) as Record<string, unknown>;
   const yes = [n.collect, n.ads, n.transfer].filter((x) => x === true).length;
   if (yes !== 0 && yes !== 3) return { ok: false, status: 400, error: 'news_consent' };
@@ -43,7 +56,7 @@ export async function requestDownload(env: Env, body: unknown) {
   const r = parseDownloadRequest(body);
   if (!r.ok) return r.silent ? json({ ok: true }) : json({ ok: false, error: r.error }, r.status);
   const token = await signToken(env, { e: r.email, l: r.lang, a: 'd', ...(r.news ? { n: 1 as const } : {}) });
-  await sendMail(env, r.email, confirmMail(r.lang, downloadUrl(env, r.lang, `confirm=${token}`), r.news));
+  await sendMail(env, r.email, confirmMail(r.lang, downloadUrl(env, r.lang, `confirm=${token}`), r.news, `${site(env)}${r.lang === 'ko' ? '/ko' : ''}/privacy`));
   return json({ ok: true });
 }
 
@@ -52,6 +65,7 @@ export async function confirmDownload(env: Env, body: unknown) {
   const t = await readToken(env, (body as { token?: unknown } | null)?.token, 'd');
   if (!t) return json({ ok: false, error: 'token' }, 400);
   const now = new Date().toISOString();
+  /* `free_at` = 보유 기간 3년의 기준(마지막 안내 메일 날짜) — 머리 주석의 "보유 기간"·한계·업그레이드 경로. 지우는 쪽은 아직 수동이다. */
   const properties: Record<string, string> = { free_at: now, free_ver: FREE_VERSION, lang: t.l };
   if (t.n) Object.assign(properties, { consent_at: now, consent_ver: CONSENT_VERSION });
   const ok = await upsertContact(env, t.e, {
@@ -69,7 +83,39 @@ export async function confirmDownload(env: Env, body: unknown) {
 }
 
 /* ── 메일 본문 — 둘 다 거래·이용 안내다(광고 아님). 🔴 업그레이드·할인 같은 홍보 문장을 넣지 마라: 광고 수신에 동의하지 않은 사람에게 가는 메일이다. ── */
-export function confirmMail(lang: Lang, link: string, news: boolean) {
+
+/* 국외 이전 고지 — Resend(미국)로의 이전. 근거는 방침 공개(개인정보 보호법 제28조의8 제1항 제3호 가목)로 두고, 2026-10-15 오너 판정으로 **확인 메일에도 같은 사항을 적어 알린다**
+   (§28의8 ② 다섯 항목 + 보유 기간: 이전받는 자 · 국가 · 시기와 방법 · 목적 · 보유 기간 · 거부 방법과 효과). 내용은 방침 제7조 Resend 표와 같아야 한다 —
+   방침 표나 보유 기간 문구를 바꾸면 여기와 `components/site4/FreeDownloadForm.tsx` 를 같이 고쳐라(`tools/deployCheck.mjs` [retention] 이 "3년" 문구의 어긋남을 잡는다). */
+export function transferNotice(lang: Lang, privacyUrl: string): string[] {
+  const link = `<a href="${privacyUrl}">${privacyUrl}</a>`;
+  return {
+    ko: [
+      '<strong>[개인정보 국외 이전 안내]</strong> 신청하신 이메일 주소는 이메일 발송과 명단 보관을 맡은 아래 사업자에게 국외로 이전됩니다.',
+      '· 이전받는 자: Plus Five Five, Inc. (Resend) · support@resend.com',
+      '· 이전 국가: 미국 (발송 처리 지역: 일본 도쿄)',
+      '· 이전 항목: 이메일 주소, 신청 일시, 언어',
+      '· 이전 시기와 방법: 신청하실 때 이 확인 메일을 보내면서, 그리고 위 버튼으로 확인하실 때 명단에 보관하면서 — 암호화된 통신(HTTPS·TLS)으로 전송',
+      '· 이용 목적: 확인 메일과 다운로드 링크 발송, 무료 버전 신청자 명단 보관',
+      '· 보유·이용 기간: 그 주소로 마지막 안내 메일을 보낸 날부터 3년 (삭제를 요청하시면 그 전에 삭제)',
+      '· 거부 방법과 효과: 위 버튼을 누르지 않으시면 명단에 보관되지 않고 다운로드 링크도 열리지 않습니다. 확인하신 뒤에는 이 메일에 회신하시거나 support@younameit.works 로 알려 주시면 지체 없이 삭제합니다.',
+      `개인정보 처리방침 제7조: ${link}`,
+    ],
+    en: [
+      '<strong>[Notice of transfer of personal data abroad]</strong> The email address you gave is sent abroad to the company below, which sends our email and keeps the list.',
+      '· Recipient: Plus Five Five, Inc. (Resend) · support@resend.com',
+      '· Country: United States (sending region: Tokyo, Japan)',
+      '· Data: email address, time of request, language',
+      '· When and how: when we send you this confirmation email, and when you press the button above and we put you on the list — over an encrypted connection (HTTPS/TLS)',
+      '· Purpose: sending the confirmation email and the download link, and keeping the list of free-version users',
+      '· How long: 3 years after the last notice email we send to that address (sooner if you ask us to delete it)',
+      '· How to refuse and what happens: if you do not press the button above, nothing is kept on the list and the download link does not open. After you confirm, reply to this email or write to support@younameit.works and we delete it without delay.',
+      `Privacy Policy (Section 4): ${link}`,
+    ],
+  }[lang];
+}
+
+export function confirmMail(lang: Lang, link: string, news: boolean, privacyUrl: string) {
   const T = {
     ko: {
       subject: '[You Name It] 무료 버전 다운로드 링크를 받으려면 확인해 주세요',
@@ -92,7 +138,8 @@ export function confirmMail(lang: Lang, link: string, news: boolean) {
       b: 'Get the download link',
     },
   }[lang];
-  return { subject: T.subject, html: frame(lang, T.p, { href: link, label: T.b }), text: plain(lang, T.p, link) };
+  const notice = transferNotice(lang, privacyUrl);
+  return { subject: T.subject, html: frame(lang, T.p, { href: link, label: T.b }, notice), text: plain(lang, T.p, link, notice) };
 }
 
 export function readyMail(env: Env, lang: Lang) {

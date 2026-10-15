@@ -135,10 +135,10 @@ const post = (body) => ({ request: new Request('https://example.test/x', { metho
 const mails = (calls) => calls.filter((c) => c.path === '/emails');
 const tokenOf = (mail) => decodeURIComponent(mail.body.text.match(/confirm=([^\s]+)/)[1]);
 
-const FORM = { email: ' Me@Example.COM ', lang: 'ko', agreeTerms: true, website: '' };
+const FORM = { email: ' Me@Example.COM ', lang: 'ko', agreeTerms: true, agreePrivacy: true, website: '' };
 const NEWS = { collect: true, ads: true, transfer: true };
 
-test('parseDownloadRequest: 필수 동의 · 소식 메일은 셋 모두거나 모두 아니거나', () => {
+test('parseDownloadRequest: 필수 동의 둘(약관 · 개인정보 수집·이용)은 각각 · 소식 메일은 셋 모두거나 모두 아니거나', () => {
   const ok = dl.parseDownloadRequest(FORM);
   assert.deepEqual(ok, { ok: true, email: 'me@example.com', lang: 'ko', news: false });
   assert.equal(dl.parseDownloadRequest({ ...FORM, news: NEWS }).news, true);
@@ -146,9 +146,17 @@ test('parseDownloadRequest: 필수 동의 · 소식 메일은 셋 모두거나 �
   assert.equal(dl.parseDownloadRequest({ ...FORM, lang: 'en' }).lang, 'en');
   assert.equal(dl.parseDownloadRequest({ ...FORM, lang: 'fr' }).lang, 'ko');
   const err = (b) => dl.parseDownloadRequest(b).error;
-  assert.equal(err({ ...FORM, agreeTerms: false }), 'consent');
-  assert.equal(err({ ...FORM, agreeTerms: 'true' }), 'consent');
-  assert.equal(err({ ...FORM, agreeTerms: undefined }), 'consent');
+  /* 필수 둘은 서로 대신하지 못한다 — 하나만 참이면 나머지 이름으로 되돌린다(뮤턴트: 한쪽 검사를 지우면 아래 둘 중 하나가 깨진다). */
+  assert.equal(err({ ...FORM, agreeTerms: false }), 'consent_terms');
+  assert.equal(err({ ...FORM, agreeTerms: 'true' }), 'consent_terms');
+  assert.equal(err({ ...FORM, agreeTerms: undefined }), 'consent_terms');
+  assert.equal(err({ ...FORM, agreePrivacy: false }), 'consent_privacy');
+  assert.equal(err({ ...FORM, agreePrivacy: 'true' }), 'consent_privacy');
+  assert.equal(err({ ...FORM, agreePrivacy: undefined }), 'consent_privacy');
+  assert.equal(err({ ...FORM, agreePrivacy: 1 }), 'consent_privacy');
+  const { agreePrivacy: _p, ...legacy } = FORM;   // 옛 폼 본문(체크박스 하나) — 개인정보 동의가 없으면 받지 않는다
+  assert.equal(err(legacy), 'consent_privacy');
+  assert.equal(err({ ...FORM, agreeTerms: false, agreePrivacy: false }), 'consent_terms');
   assert.equal(err({ ...FORM, email: 'nope' }), 'email');
   assert.equal(err({ ...FORM, email: 'a@b' }), 'email');
   assert.equal(err({ ...FORM, news: { collect: true, ads: true, transfer: false } }), 'news_consent');
@@ -179,11 +187,36 @@ test('다운로드 요청: 확인 메일 한 통 · 명단엔 아직 없다 · �
   } finally { restore(); }
 });
 
-test('다운로드 요청: 동의가 빠지면 400 · 메일 0 · 봇 덫은 200 인데 메일 0', async () => {
+test('확인 메일의 국외 이전 고지: 이전받는 자 · 국가 · 항목 · 시기 · 목적 · 보유 3년 · 거부 방법 — ko·en, 소식 메일 동의 유무와 무관, 본문 버튼 밑', async () => {
+  const REQUIRED = {
+    ko: ['Plus Five Five', '미국', '이메일 주소, 신청 일시, 언어', '신청하실 때', '확인하실 때', '다운로드 링크', '마지막 안내 메일을 보낸 날부터 3년', '거부 방법과 효과', '삭제를 요청', 'support@younameit.works', 'https://example.test/ko/privacy'],
+    en: ['Plus Five Five', 'United States', 'email address, time of request, language', 'When and how', 'download link', 'last notice email', '3 years', 'How to refuse', 'ask us to delete', 'support@younameit.works', 'https://example.test/privacy'],
+  };
+  for (const lang of ['ko', 'en']) {
+    for (const news of [undefined, NEWS]) {
+      const calls = fakeResend();
+      try {
+        await dlRequest.onRequestPost({ ...post({ ...FORM, lang, news }), env: baseEnv() });
+        const [mail] = mails(calls);
+        for (const need of REQUIRED[lang]) {
+          assert.ok(mail.body.html.includes(need), `${lang} html 에 "${need}" 가 없다`);
+          assert.ok(mail.body.text.includes(need), `${lang} text 에 "${need}" 가 없다`);
+        }
+        assert.ok(mail.body.html.indexOf('Plus Five Five') > mail.body.html.indexOf('confirm='), '고지가 버튼보다 앞에 있다');
+        assert.ok(!/할인|discount|upgrade|업그레이드|광고 메일/i.test(mail.body.text.replace(/광고성 정보|promotional email/g, '')), '확인 메일에 홍보 문장이 들어갔다');
+      } finally { restore(); }
+    }
+  }
+});
+
+test('다운로드 요청: 필수 동의 중 하나라도 빠지면 400 · 메일 0 · 봇 덫은 200 인데 메일 0', async () => {
   const calls = fakeResend();
   try {
     const env = baseEnv();
     assert.equal((await dlRequest.onRequestPost({ ...post({ ...FORM, agreeTerms: false }), env })).status, 400);
+    const noPrivacy = await dlRequest.onRequestPost({ ...post({ ...FORM, agreePrivacy: false }), env });
+    assert.equal(noPrivacy.status, 400);
+    assert.deepEqual(await noPrivacy.json(), { ok: false, error: 'consent_privacy' });
     assert.equal((await dlRequest.onRequestPost({ ...post({ ...FORM, news: { collect: true, ads: false, transfer: true } }), env })).status, 400);
     assert.equal((await dlRequest.onRequestPost({ request: new Request('https://example.test/x', { method: 'POST', body: '{' }), env })).status, 400);
     assert.equal((await dlRequest.onRequestPost({ ...post({ ...FORM, website: 'x' }), env })).status, 200);
