@@ -172,7 +172,8 @@ const AE: Dict = {
 
     /* ── 04 Free · Pro (구매 버튼 하나 = `s.buy` · 무료 다운로드 폼 = Free 칸 — Price.tsx 머리 주석) ────────── */
     /* 2026-10-15 오너 — v2.10.0 부터 Free/Pro. Free = Library · Curves · Expressions · Support + Toolbox {freeTools}개. Pro = Chat · Custom + Toolbox {proTools}개.
-       Pro 한 줄 = *"tell AE what to do in words (Chat) + tools nobody else has"*. 🔴 경쟁 제품 이름·비교를 쓰지 마라. */
+       Pro 한 줄 = *"tell AE what to do in words (Chat) + tools you won't easily find elsewhere"*(10-15 오너: 절대형 "nobody else has"·"다른 곳에 없는" 을 낮췄다 — 비교 주장은 입증 부담이 크다).
+       🔴 경쟁 제품 이름·비교·"없다"류 단정을 쓰지 마라. */
     'ae.price.h': 'Start free. Pay once for Pro.',
     'ae.price.free.l': 'Free',
     'ae.price.free.amount': '$0',
@@ -187,7 +188,7 @@ const AE: Dict = {
     'ae.price.pro.list': [
       '<b>Chat</b> — tell AE what to do in words. It runs on your own Claude or ChatGPT plan.',
       '<b>Custom</b> panel — your own layout of tools, presets and curves',
-      '<b>{proTools} Toolbox tools</b> nobody else has',
+      '<b>{proTools} Toolbox tools</b> you won\'t easily find elsewhere',
     ],
     /* 약속 셋 + 포함 셋은 Pro 칸 밑 캡션 한 줄로 합친다(칸이 둘이 되면서 구 큰 약속 목록 `.pvow` 는 걷었다). */
     'ae.price.vow': ['Pay once', 'No subscription', 'Minor updates free'],
@@ -425,7 +426,7 @@ const AE: Dict = {
     'ae.price.pro.list': [
       '<b>Chat</b> — AE 에게 할 일을 말로 시킵니다. 본인의 Claude 또는 ChatGPT 구독으로 돕니다.',
       '<b>Custom</b> 패널 — 툴·프리셋·커브로 만드는 나만의 배치',
-      '다른 곳에 없는 <b>Toolbox 툴 {proTools}개</b>',
+      '다른 데선 보기 힘든 <b>Toolbox 툴 {proTools}개</b>',
     ],
     'ae.price.vow': ['일회 구매', '구독 없음', '마이너 업데이트 무료'],
     'ae.price.incl': ['패널 7개 전부', '컴퓨터 2대', '14일 환불'],

@@ -1,7 +1,7 @@
 'use client';
 /* 04 Free · Pro — 두 칸 장부. 왼쪽 = Free(무료 다운로드 폼), 오른쪽 = Pro(구매 버튼 하나). 2026-10-15 오너: v2.10.0 부터 Free/Pro.
    Free = Library · Curves · Expressions · Support + Toolbox 툴 26개 · Pro = 거기에 Chat · Custom + Toolbox 툴 13개(`lib/proTools.ts`).
-   Pro 한 줄 = *"말로 AE 에게 시킨다(Chat) + 다른 곳에 없는 툴"*.
+   Pro 한 줄 = *"말로 AE 에게 시킨다(Chat) + 다른 데선 보기 힘든 툴"*.
 
    🔴 **결제 버튼은 하나**(2026-09-30 오너 *"buy it once 여기에 구매 버튼 하나 달아"*)이고 그대로다. 그 버튼이 화면에 있는 동안 스티키 레일은 숨는다
       (Shell `BuyRail` 이 `data-price-cta` 를 본다) — 한 화면에 결제 CTA 하나. deployCheck `[price]` 는 이 판의 **바깥 링크(https://…)가 결제 하나뿐**인지 본다.
