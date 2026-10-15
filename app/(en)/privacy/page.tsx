@@ -168,7 +168,8 @@ export default function PrivacyPage() {
               </li>
               <li>
                 To send the free-version download link and keep a list of free-version users. We store your email address, the
-                time you asked and your language with Resend until you ask us to delete them. Downloading the free version does
+                time you asked and your language with Resend for 3 years after the last notice email we send to that address, or until you
+                ask us to delete them if that comes first. Downloading the free version does
                 not by itself get you promotional email.
               </li>
               <li>
@@ -190,7 +191,9 @@ export default function PrivacyPage() {
             <p>
               We use the following third-party services. Most of them process data in the United States; we transfer data to
               them only as needed to sell and support the Product (details, including each recipient&apos;s contact, are in the
-              Korean version, Article 7).
+              Korean version, Article 7). If you ask for the free download, the confirmation email also tells you about the
+              transfer to Resend: the recipient, the country, when and how, the purpose, how long it is kept, and how to refuse
+              and what happens if you do.
             </p>
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>
@@ -330,8 +333,11 @@ export default function PrivacyPage() {
               We keep those records separately and delete them when the period ends.
             </p>
             <p className="mt-2">
-              Free-download information (email address, time and language) is kept until you ask us to delete it, and we delete it
-              without delay. If you withdraw from the newsletter, we also delete the free-download record for the same address.
+              Free-download information (email address, time and language) is deleted 3 years after the last notice email (the
+              download link, or a notice you need to use the Product) we sent to that address. If you ask us to delete it sooner,
+              we delete it without delay, and if you withdraw from the newsletter, we also delete the free-download record for
+              the same address. An address that still receives the newsletter follows the newsletter rule in Section 3 (until you
+              withdraw).
             </p>
           </section>
 
