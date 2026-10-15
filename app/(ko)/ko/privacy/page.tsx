@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
 import { BUSINESS } from '@/lib/product';
 import { share } from '@/lib/meta';
+import { policyDate } from '@/lib/policy';
 
 const DESCRIPTION = 'You Name It AE Plugin 의 개인정보 처리방침입니다.';
 
@@ -112,7 +113,7 @@ export default function PrivacyKoPage() {
       <header className="max-w-3xl">
         <p className="lab">You Name It AE Plugin</p>
         <InkTitle>개인정보 처리방침</InkTitle>
-        <p className="text-sm">시행일: 2026년 10월 22일</p>
+        <p className="text-sm">시행일: {policyDate('ko')}</p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
@@ -121,12 +122,12 @@ export default function PrivacyKoPage() {
             <p>
               {BUSINESS.name.ko}({BUSINESS.name.en}, 이하 &quot;저희&quot;)은 「개인정보 보호법」 제30조에 따라 정보주체의
               개인정보를 보호하고 관련 고충을 신속하고 원활하게 처리하기 위해 이 개인정보 처리방침을 정해 공개합니다. 이
-              방침은 웹사이트(younameit.works)를 방문하시거나 You Name It AE Plugin(이하 &quot;제품&quot;)을 구매·이용하실 때
-              적용됩니다.
+              방침은 웹사이트(younameit.works)를 방문하시거나 You Name It AE Plugin(이하 &quot;제품&quot;)을 구매하거나 무료 버전을
+              내려받아 이용하실 때 적용됩니다.
             </p>
             <p className="mt-2">
               <strong>
-                저희는 이름, 이메일 주소, 주문 정보처럼 판매와 지원에 꼭 필요한 정보만 받습니다. 결제 카드 정보, 프로젝트
+                저희는 이름, 이메일 주소, 주문 정보처럼 판매와 지원, 무료 버전 제공에 꼭 필요한 정보만 받습니다. 결제 카드 정보, 프로젝트
                 파일, 작업 내용은 받지 않습니다.
               </strong>
             </p>
@@ -541,7 +542,7 @@ export default function PrivacyKoPage() {
           <section>
             <h2 className={H2}>제16조(개인정보 처리방침의 변경)</h2>
             <p>
-              이 방침은 2026년 10월 22일부터 적용됩니다. 내용이 바뀌면 시행 7일 전부터 이 페이지에 알리고, 정보주체에게
+              이 방침은 {policyDate('ko')}부터 적용됩니다. 내용이 바뀌면 시행 7일 전부터 이 페이지에 알리고, 정보주체에게
               불리하게 바뀌면 30일 전부터 알리며 이메일로도 알려 드립니다. 이 방침과 저희와 맺은 계약의 내용이 다르면
               정보주체에게 유리한 것을 적용합니다.
             </p>

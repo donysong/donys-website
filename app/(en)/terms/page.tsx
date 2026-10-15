@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
 import { BUSINESS, FTC_BIZ_URL, PORTAL_URL, PRICE } from '@/lib/product';
 import { share } from '@/lib/meta';
+import { policyDate } from '@/lib/policy';
 
 const DESCRIPTION = 'Terms of Service for You Name It AE Plugin.';
 
@@ -38,7 +39,7 @@ export default function TermsPage() {
       <header className="max-w-3xl">
         <p className="lab">You Name It AE Plugin</p>
         <InkTitle>Terms of Service</InkTitle>
-        <p className="text-sm">Effective: September 30, 2026</p>
+        <p className="text-sm">Effective: {policyDate('en')}</p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
@@ -69,6 +70,26 @@ export default function TermsPage() {
               <li>We publish these Terms where they can be reached from the front page of our website (younameit.works), and we will email you a copy on request.</li>
               <li>These Terms take effect when you buy the Product.</li>
               <li>Anything these Terms do not cover is governed by applicable law and ordinary commercial practice.</li>
+            </ol>
+          </section>
+
+          <section>
+            <h2 className={H2}>3-2. Free Version</h2>
+            <ol className={OL}>
+              <li>
+                The Product is also offered as a free version that you can download and use without buying. These Terms apply to
+                you in the same way from the time you download and use the free version. Rights that come with a purchase, such
+                as cancellation and refunds and free updates, apply only to people who bought the Product.
+              </li>
+              <li>
+                Pro features open only with a license key you bought. Getting around the license check to use Pro features
+                without a key is a prohibited use under Section 10.
+              </li>
+              <li>
+                The free version is provided free of charge, <strong>&quot;as is&quot;, and its features may change, shrink or
+                stop.</strong> What you bought stays under Sections 8 and 12, not this clause, and Section 17.4 applies to the
+                free version in the same way.
+              </li>
             </ol>
           </section>
 
@@ -326,7 +347,10 @@ export default function TermsPage() {
 
           <section>
             <h2 className={H2}>Effective Date</h2>
-            <p>These Terms apply from September 30, 2026.</p>
+            <p>
+              These Terms apply from {policyDate('en')}. They add Section 3-2 (Free Version) to the Terms in force since September 30,
+              2026; nothing else changes.
+            </p>
           </section>
 
           <section>

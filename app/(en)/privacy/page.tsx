@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
 import { BUSINESS } from '@/lib/product';
 import { share } from '@/lib/meta';
+import { policyDate } from '@/lib/policy';
 
 const DESCRIPTION = 'Privacy Policy for You Name It AE Plugin.';
 
@@ -26,7 +27,7 @@ export default function PrivacyPage() {
       <header className="max-w-3xl">
         <p className="lab">You Name It AE Plugin</p>
         <InkTitle>Privacy Policy</InkTitle>
-        <p className="text-sm">Last updated: October 22, 2026</p>
+        <p className="text-sm">Last updated: {policyDate('en')}</p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
@@ -36,7 +37,7 @@ export default function PrivacyPage() {
             <p>
               You Name It (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) respects your
               privacy. This Privacy Policy explains how we collect, use, and protect your
-              information when you visit our website (younameit.works) or purchase and use
+              information when you visit our website (younameit.works) or download, buy and use
               You Name It AE Plugin.
             </p>
             <p className="mt-2">

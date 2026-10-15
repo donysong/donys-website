@@ -19,7 +19,10 @@
      [film]     브랜드 영상(14MB)이 공개 repo 의 public/ 에 커밋될 뻔했다(2026-10-05) — 영상은 R2, 히어로 <source> 는 dl.younameit.works
      [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
 
-   실행: node tools/deployCheck.mjs      (빌드 뒤에 돌린다)
+     [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 새 방침이 현재 판인 빌드가 시행일 전에 나가거나(이메일 폼이 시행 전 개인정보를 받는다), 고지 띠가 죽은 채 남는 것
+
+   실행: node tools/deployCheck.mjs              (빌드 뒤에 돌린다)
+         node tools/deployCheck.mjs --release    (`npm run deploy` 가 쓴다 — 시행일 게이트 [policy] 가 경고가 아니라 실패가 된다)
    종료코드 0 = 통과 · 1 = 실패. 실패는 "배포하지 마라" 다. */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -193,6 +196,31 @@ for (const r of ['/download.html', '/ko/download.html']) {
   if (!h.includes('data-free-form') || !h.includes('id="free-email"')) fail.push(`[free] ${r} 에 무료 다운로드 폼이 없다`);
   else if (!/<meta[^>]*name="robots"[^>]*noindex/.test(h)) fail.push(`[free] ${r} 가 색인된다 — 확인 토큰이 주소에 달려 오는 면이다(noindex)`);
   else ok.push(`[free] ${r} 폼 + noindex`);
+}
+
+/* ── 방침·약관 시행일 ── 방침 제16조·약관 제4조 = "시행 7일 전부터 사이트에 알린다". 시행일 = `lib/policy.ts` 한 곳.
+   이 빌드는 새 방침이 **현재 판**이다(고지 단계의 띠·`/…/upcoming` 는 시행일에 지웠다). 그래서:
+   · 시행일 전이면 배포하면 안 된다 — 새 방침이 효력을 갖기 전에 이메일 폼이 개인정보를 받는다. `--release`(npm run deploy)에서 실패, 평소엔 경고.
+   · 띠·예정본이 남아 있으면 죽은 링크다. · 법 면의 날짜가 시행일과 같아야 한다(상수를 올리고 문구를 안 올리는 사고). */
+{
+  const EFFECTIVE = read(path.join(process.cwd(), 'lib/policy.ts')).match(/POLICY_EFFECTIVE\s*=\s*'(\d{4})-(\d{2})-(\d{2})'/);
+  const release = process.argv.includes('--release');
+  if (!EFFECTIVE) fail.push('[policy] lib/policy.ts 에서 POLICY_EFFECTIVE 를 못 읽었다');
+  else {
+    const [, Y, M, D] = EFFECTIVE;
+    const iso = `${Y}-${M}-${D}`;
+    const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
+    const dateKo = `${Y}년 ${Number(M)}월 ${Number(D)}일`;
+    const dateEn = `${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][Number(M) - 1]} ${Number(D)}, ${Y}`;
+    const html = (r) => { const p = pages.find((x) => rel(x) === r); return p ? read(p) : ''; };
+    for (const [u, d] of [['/privacy', dateEn], ['/terms', dateEn], ['/ko/privacy', dateKo], ['/ko/terms', dateKo]]) {
+      const cur = html(u + '.html');
+      if (cur.includes(`href="${u}/upcoming"`) || html(u + '/upcoming.html')) fail.push(`[policy] ${u} 에 고지 띠·시행 예정본이 남았다 — 새 방침이 현재 판이 되면 같이 지운다`);
+      if (!cur.includes(d)) fail.push(`[policy] ${u} 에 시행일 "${d}"(lib/policy.ts)가 없다`);
+    }
+    if (today < iso) (release ? fail : warn).push(`[policy] 오늘(${today} KST)은 시행일(${iso}) 전이다 — 새 방침이 현재 판인 이 빌드는 시행일 전에 배포하지 마라(이메일 폼이 시행 전 개인정보를 받는다). 먼저 고지 판(policy-notice)을 낸다`);
+    if (!fail.some((f) => f.startsWith('[policy]')) && today >= iso) ok.push(`[policy] 시행 ${iso} 이후 — 새 방침이 현재 판`);
+  }
 }
 
 /* ── 404 ── 모르는 주소가 막다른 길이 아닌가 */
