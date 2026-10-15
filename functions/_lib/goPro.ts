@@ -2,7 +2,7 @@
    가격 판(`/ae#price`)으로 302 한다. 라우트 파일 = `functions/go/pro.ts`(영문) · `functions/ko/go/pro.ts`(국문) — 둘 다 여기 `goPro` 를 부른다.
 
    🔴 개인을 식별하는 값은 **하나도 기록하지 않는다**: IP · User-Agent · 쿠키 · 헤더 · 토큰 없음. 점 하나 = `blobs:[기능 id, 언어]` + `indexes:[기능 id]`.
-      `tool` 은 아래 13개 id 만 통과하고 나머지는 전부 `other` 다(임의 문자열이 집계 표를 어지럽히지 못하게 + 사용자가 넣은 값이 기록되지 않게).
+      `tool` 은 `lib/proTools.ts` 의 15개 id(Pro 툴 13 + Pro 패널 `chat`·`custom1`)만 통과하고 나머지는 전부 `other` 다(임의 문자열이 집계 표를 어지럽히지 못하게 + 사용자가 넣은 값이 기록되지 않게).
       개인정보 처리방침(제2조 ②)이 이 사실을 약속한다 — 여기에 필드를 더하면 처리방침을 같이 고쳐라.
    🔴 바인딩이 없으면(로컬 · 아직 설정 전) 세지 않고 **그냥 리디렉트한다** — 제품 버튼이 집계 때문에 죽으면 안 된다(fail open).
 
@@ -14,7 +14,7 @@
      SELECT blob1 AS tool, blob2 AS lang, SUM(_sample_interval) AS clicks FROM pro_clicks
      WHERE timestamp > NOW() - INTERVAL '30' DAY GROUP BY tool, lang ORDER BY clicks DESC
    검증 = `npm run test:fn` (id 검증 · 리디렉트 대상 · 집계 모양 · fail open). */
-import { PRO_TOOL_IDS } from '../../lib/proTools';
+import { PRO_CLICK_IDS } from '../../lib/proTools';
 
 export type Lang = 'ko' | 'en';
 
@@ -26,9 +26,9 @@ export interface GoProEnv {
   PRO_CLICKS?: ProClicks;
 }
 
-/** 알려진 Pro 툴 id 면 그대로, 아니면 `other`. */
+/** 알려진 Pro id(툴 13 + 패널 `chat`·`custom1`)면 그대로, 아니면 `other`. */
 export function proTool(raw: string | null | undefined): string {
-  return raw && PRO_TOOL_IDS.includes(raw) ? raw : 'other';
+  return raw && PRO_CLICK_IDS.includes(raw) ? raw : 'other';
 }
 
 /** 리디렉트 대상(사이트 안 경로) — 국문 면은 `/ko/ae`. */

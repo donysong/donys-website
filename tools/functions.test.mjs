@@ -7,7 +7,7 @@ import { register } from 'node:module';
 
 register('./tsResolve.mjs', import.meta.url);
 
-const { PRO_TOOLS, PRO_TOOL_IDS } = await import('../lib/proTools.ts');
+const { PRO_TOOLS, PRO_TOOL_IDS, PRO_PANEL_IDS, PRO_CLICK_IDS } = await import('../lib/proTools.ts');
 const { DOCS_TOOLS } = await import('../lib/docsData.ts');
 const { DOWNLOAD_URL, VERSION, COUNTS, TIERS } = await import('../lib/product.ts');
 const gp = await import('../functions/_lib/goPro.ts');
@@ -30,15 +30,24 @@ test('Pro 툴 id 는 13개 — 오너 목록과 같고 Docs 카탈로그의 id·
   for (const { id, name } of PRO_TOOLS) assert.equal(docs.get(id), name, `${id}: lib/docsData.ts 와 다르다 — 툴 이름·id 가 바뀌었나?`);
 });
 
+test('Pro 패널 id 둘(chat · custom1)은 툴 목록과 따로 — 툴 13개·가격 판 이름 목록·TIERS 를 안 건드린다', () => {
+  assert.deepEqual([...PRO_PANEL_IDS], ['chat', 'custom1']);
+  assert.deepEqual([...PRO_CLICK_IDS], [...OWNER_LIST, 'chat', 'custom1']);
+  assert.equal(new Set(PRO_CLICK_IDS).size, PRO_CLICK_IDS.length, 'id 가 겹친다');
+  assert.equal(PRO_TOOLS.length, 13, '패널은 PRO_TOOLS 에 들어가면 안 된다 — 가격 판이 "Toolbox 툴 15개" 로 거짓이 된다');
+  assert.equal(TIERS.proTools, 13);
+});
+
 test('Free 26 + Pro 13 = 카탈로그 툴 수(COUNTS.scripts)', () => {
   assert.equal(TIERS.proTools, 13);
   assert.equal(TIERS.freeTools, 26);
   assert.equal(TIERS.freeTools + TIERS.proTools, COUNTS.scripts, '툴 수가 바뀌었다 — 새 툴이 Free 인지 Pro 인지 정하고 TIERS 를 고쳐라');
 });
 
-test('proTool: 13개는 그대로, 나머지는 전부 other', () => {
-  for (const id of OWNER_LIST) assert.equal(gp.proTool(id), id);
-  for (const bad of [null, undefined, '', 'other', 'ClickReact', 'clickReact ', ' clickReact', '__proto__', 'toString', 'constructor', '<script>', 'x'.repeat(500)]) {
+test('proTool: 툴 13개 + 패널 chat·custom1 은 그대로, 나머지는 전부 other', () => {
+  for (const id of [...OWNER_LIST, 'chat', 'custom1']) assert.equal(gp.proTool(id), id);
+  for (const bad of [null, undefined, '', 'other', 'ClickReact', 'clickReact ', ' clickReact', '__proto__', 'toString', 'constructor', '<script>', 'x'.repeat(500),
+    'Chat', 'CHAT', 'custom-1', 'custom', 'custom2', 'custom 1', 'chat ', 'chat,custom1']) {
     assert.equal(gp.proTool(bad), 'other', JSON.stringify(bad));
   }
 });
@@ -62,6 +71,13 @@ test('goPro: 302 + 점 하나(blobs·indexes 만) — 식별 값 없음', () => 
   assert.equal(r.headers.get('cache-control'), 'no-store');
   assert.deepEqual(env.points, [{ blobs: ['writeOn', 'en'], indexes: ['writeOn'] }]);
   assert.ok(!JSON.stringify(env.points).match(/203\.0\.113|UA\/1|a=b/), '요청 헤더 값이 기록에 섞였다');
+});
+
+test('goPro: Chat · Custom 패널 문(tool=chat · tool=custom1)도 센다 — 영문·국문 모두', () => {
+  const env = spy();
+  proEn.onRequestGet({ request: req('/go/pro?tool=chat'), env });
+  proKo.onRequestGet({ request: req('/ko/go/pro?tool=custom1'), env });
+  assert.deepEqual(env.points, [{ blobs: ['chat', 'en'], indexes: ['chat'] }, { blobs: ['custom1', 'ko'], indexes: ['custom1'] }]);
 });
 
 test('goPro: 국문 경로는 /ko/ae#price · 모르는 tool 은 other', () => {
