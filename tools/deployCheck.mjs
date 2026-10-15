@@ -19,7 +19,10 @@
      [film]     브랜드 영상(14MB)이 공개 repo 의 public/ 에 커밋될 뻔했다(2026-10-05) — 영상은 R2, 히어로 <source> 는 dl.younameit.works
      [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
 
-   실행: node tools/deployCheck.mjs      (빌드 뒤에 돌린다)
+     [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 고지 띠·시행 예정본이 어긋나거나, 시행일 전/후의 틀린 판이 나가는 것
+
+   실행: node tools/deployCheck.mjs              (빌드 뒤에 돌린다)
+         node tools/deployCheck.mjs --release    (`npm run deploy` 가 쓴다 — 시행일 게이트 [policy] 가 경고가 아니라 실패가 된다)
    종료코드 0 = 통과 · 1 = 실패. 실패는 "배포하지 마라" 다. */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -68,6 +71,9 @@ const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.htm
 const koMissing = KO.filter((r) => !pages.some((p) => rel(p) === r));
 if (koMissing.length) fail.push(`[i18n] 국문 정적 경로가 없다: ${koMissing.join(' · ')} — 클라이언트 토글만으로는 색인도 공유도 안 된다`);
 else ok.push('[i18n] 국문 정적 경로 3장');
+
+/* 개정 예정 시행 예정본(`/…/upcoming`) — 법 면이라 같은 법·사업자·공유 카드 검사를 태운다. 아래 `[policy]` 가 짝을 본다. */
+READING.push('/privacy/upcoming.html', '/ko/privacy/upcoming.html', '/terms/upcoming.html', '/ko/terms/upcoming.html');
 
 /* ── 페이지별 검사 ──────────────────────────────────────────────── */
 const CHECKOUT = 'buy.polar.sh';
@@ -173,6 +179,42 @@ for (const p of pages) {
   const local = path.join(OUT, 'riso/brand');
   const big = fs.existsSync(local) ? fs.readdirSync(local).filter((f) => /\.(mp4|webm|mov)$/i.test(f)) : [];
   if (big.length) fail.push(`[film] public/riso/brand/ 에 영상 파일이 있다(${big.join(' · ')}) — 영상은 R2 에만 둔다. repo 는 공개라 커밋하면 이력에 영구히 남는다`);
+}
+
+/* ── 개정 방침·약관 고지 ── 방침 제16조·약관 제4조 = "시행 7일 전부터 사이트에 알린다". 방식: 현재 판은 시행일까지 그대로, 맨 위 "개정 예정 안내" 띠가
+   시행 예정본(`/…/upcoming`)으로 잇는다(`components/PolicyNotice.tsx`). 시행일 = `lib/policy.ts` 한 곳.
+   · 고지 판(시행 예정본 4장이 있다): 띠 ↔ 예정본 링크가 서로 맞고 날짜가 같고 예정본은 noindex. `--release` 에서 시행일이 지났으면 실패(낡은 고지 판).
+   · 시행 뒤 판(예정본이 없다): 띠가 남아 있으면 실패(죽은 링크). */
+{
+  const EFFECTIVE = read(path.join(process.cwd(), 'lib/policy.ts')).match(/POLICY_EFFECTIVE\s*=\s*'(\d{4})-(\d{2})-(\d{2})'/);
+  const release = process.argv.includes('--release');
+  const gate = (msg) => (release ? fail : warn).push(msg);
+  if (!EFFECTIVE) fail.push('[policy] lib/policy.ts 에서 POLICY_EFFECTIVE 를 못 읽었다');
+  else {
+    const [, Y, M, D] = EFFECTIVE;
+    const iso = `${Y}-${M}-${D}`;
+    const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
+    const dateKo = `${Y}년 ${Number(M)}월 ${Number(D)}일`;
+    const dateEn = `${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][Number(M) - 1]} ${Number(D)}, ${Y}`;
+    const DOCS = [['/privacy', false], ['/terms', false], ['/ko/privacy', true], ['/ko/terms', true]];
+    const html = (r) => { const p = pages.find((x) => rel(x) === r); return p ? read(p) : ''; };
+    const present = DOCS.filter(([u]) => html(u + '/upcoming.html')).length;
+    if (present && present !== DOCS.length) fail.push(`[policy] 시행 예정본이 ${present}/${DOCS.length}장뿐이다 — 4장(방침·약관 × 영문·국문)이 다 있어야 한다`);
+    else if (present) {
+      for (const [u, ko] of DOCS) {
+        const cur = html(u + '.html'), up = html(u + '/upcoming.html'), d = ko ? dateKo : dateEn;
+        if (!cur.includes(`href="${u}/upcoming"`)) fail.push(`[policy] ${u} 에 개정 예정 안내 띠(→ ${u}/upcoming)가 없다 — 시행 7일 전 고지가 안 나간다`);
+        if (!cur.includes(d)) fail.push(`[policy] ${u} 의 띠에 시행일 "${d}" 가 없다`);
+        if (!up.includes(`href="${u}"`) || !up.includes(d)) fail.push(`[policy] ${u}/upcoming 에 현재 판 링크나 시행일 "${d}" 가 없다`);
+        if (!/<meta[^>]*name="robots"[^>]*noindex/.test(up)) fail.push(`[policy] ${u}/upcoming 이 색인된다 — 시행 예정본은 noindex`);
+      }
+      if (today >= iso) gate(`[policy] 시행일(${iso})이 지났는데 고지 판이다 — 새 방침이 현재 판인 빌드(free-tier-download)를 배포하라`);
+      else ok.push(`[policy] 고지 판 — 시행 ${iso}: 띠 ↔ 시행 예정본 4장`);
+    } else {
+      for (const [u] of DOCS) if (html(u + '.html').includes(`href="${u}/upcoming"`)) fail.push(`[policy] ${u} 에 시행 예정본 링크가 남았는데 예정본이 없다 — 시행일에 띠도 같이 지운다`);
+      if (!fail.some((f) => f.startsWith('[policy]'))) ok.push('[policy] 고지 띠 없음');
+    }
+  }
 }
 
 /* ── 404 ── 모르는 주소가 막다른 길이 아닌가 */

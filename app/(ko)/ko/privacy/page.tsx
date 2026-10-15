@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
 import { BUSINESS } from '@/lib/product';
 import { share } from '@/lib/meta';
+import PolicyNotice from '@/components/PolicyNotice';
 
 const DESCRIPTION = 'You Name It AE Plugin 의 개인정보 처리방침입니다.';
 
@@ -116,6 +117,7 @@ export default function PrivacyKoPage() {
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
+        <PolicyNotice lang="ko" doc="privacy" view="current" />
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
             <p>
