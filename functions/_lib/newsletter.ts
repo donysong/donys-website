@@ -8,13 +8,17 @@
         · 브로드캐스트의 Resend 수신거부 링크로 철회하면 Resend 가 `contact.updated` 웹훅을 쏜다 → /api/newsletter/webhook 가 같은 통지·삭제
    🔴 링크는 GET 으로 상태를 바꾸지 않는다 — 메일 보안 스캐너가 링크를 미리 열어 **본인 모르게 동의·철회**되는 걸 막는다.
    🔴 `RESEND_API_KEY` 가 없으면 **보내지 않고 기록만** 한다(로컬 `wrangler pages dev` 시험용). 운영에서 이 상태면 가입이 조용히 안 된다 —
-      설정 = `tools/newsletterSetup.mjs`. */
+      설정 = `tools/newsletterSetup.mjs`.
+   무료 다운로드(`functions/api/download/*`)가 이 모듈의 토큰 · Resend 호출 · 메일 틀을 같이 쓴다 — 거기서 연락처에 `free_at` 을 달 뿐,
+   광고 수신 동의(`consent_at` · 세그먼트 `newsletter`)는 소식 메일 동의가 따로 있을 때만 단다. */
 
 import { BUSINESS } from '../../lib/product';
 
 export interface Env {
   RESEND_API_KEY?: string;
   RESEND_SEGMENT_ID?: string;
+  /** 무료 다운로드 신청자 세그먼트 — 소식 메일 세그먼트와 **따로**다. 비어 있으면 세그먼트 없이 속성(`free_at`)만 단다. */
+  RESEND_FREE_SEGMENT_ID?: string;
   RESEND_WEBHOOK_SECRET?: string;
   NEWSLETTER_SECRET?: string;
   NEWSLETTER_FROM?: string;
@@ -36,11 +40,13 @@ export const json = (body: unknown, status = 200) =>
 export const isEmail = (s: unknown): s is string =>
   typeof s === 'string' && s.length <= 254 && /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[^\s@<>()",;:]{2,}$/.test(s);
 
-const site = (env: Env) => (env.SITE_URL || 'https://younameit.works').replace(/\/$/, '');
+export const site = (env: Env) => (env.SITE_URL || 'https://younameit.works').replace(/\/$/, '');
 export const pageUrl = (env: Env, lang: Lang, q: string) => `${site(env)}${lang === 'ko' ? '/ko' : ''}/newsletter?${q}`;
 
 /* ── 서명 토큰 — 저장소 없이 "이 주소의 이 동작" 을 증명한다. payload.signature (둘 다 base64url) ── */
-type TokenBody = { e: string; l: Lang; a: 'c' | 'u'; t: number };
+/* a: c = 소식 메일 확인 · u = 철회 · d = 무료 다운로드 확인(n: 1 이면 소식 메일 동의도 같이 — 폼에서 동의 셋을 다 체크한 경우).
+   동작마다 글자가 달라서 한 토큰을 다른 동작에 쓸 수 없다. */
+type TokenBody = { e: string; l: Lang; a: 'c' | 'u' | 'd'; t: number; n?: 1 };
 const b64u = (buf: ArrayBuffer | Uint8Array) =>
   btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 const unb64u = (s: string) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
@@ -58,7 +64,7 @@ export async function signToken(env: Env, body: Omit<TokenBody, 't'>) {
   const payload = b64u(new TextEncoder().encode(JSON.stringify({ ...body, t: Math.floor(Date.now() / 1000) })));
   return `${payload}.${b64u(await hmac(secret(env), payload))}`;
 }
-export async function readToken(env: Env, token: unknown, action: 'c' | 'u'): Promise<TokenBody | null> {
+export async function readToken(env: Env, token: unknown, action: TokenBody['a']): Promise<TokenBody | null> {
   if (typeof token !== 'string' || token.length > 1024) return null;
   const [payload, sig] = token.split('.');
   if (!payload || !sig) return null;
@@ -66,7 +72,7 @@ export async function readToken(env: Env, token: unknown, action: 'c' | 'u'): Pr
     if (!eq(await hmac(secret(env), payload), unb64u(sig))) return null;
     const body = JSON.parse(new TextDecoder().decode(unb64u(payload))) as TokenBody;
     if (body.a !== action || !isEmail(body.e)) return null;
-    if (action === 'c' && Date.now() / 1000 - body.t > CONFIRM_TTL_S) return null;
+    if (action !== 'u' && Date.now() / 1000 - body.t > CONFIRM_TTL_S) return null;
     return body;
   } catch {
     return null;
@@ -102,6 +108,24 @@ export function sendMail(env: Env, to: string, mail: { subject: string; html: st
   });
 }
 
+/* 연락처 만들기 또는 갱신 — 소식 메일 확인(`api/newsletter/confirm`)과 무료 다운로드 확인(`api/download/confirm`)이 같이 쓴다.
+   없으면 만들고(세그먼트까지), 있으면 속성을 덮고 세그먼트에 넣는다. `subscribe` 일 때만 수신 상태(`unsubscribed`)를 건드린다 — 무료 다운로드만 한 사람이
+   예전 철회 상태를 되살리거나 뒤집지 않게. `segmentIds` 의 빈 값(환경 변수 미설정)은 건너뛴다. */
+export async function upsertContact(
+  env: Env,
+  email: string,
+  o: { properties: Record<string, string>; segmentIds: (string | undefined)[]; subscribe: boolean },
+) {
+  const ids = o.segmentIds.filter((id): id is string => !!id);
+  const made = await resend(env, 'POST', '/contacts', { email, unsubscribed: false, properties: o.properties, segments: ids.map((id) => ({ id })) });
+  if (made.ok) return true;
+  /* 이미 있는 연락처 — 속성을 새 값으로 덮고 세그먼트에 다시 넣는다. */
+  const up = await resend(env, 'PATCH', `/contacts/${encodeURIComponent(email)}`, { ...(o.subscribe ? { unsubscribed: false } : {}), properties: o.properties });
+  if (!up.ok) return false;
+  for (const id of ids) await resend(env, 'POST', `/contacts/${encodeURIComponent(email)}/segments/${id}`);
+  return true;
+}
+
 /* ── 메일 본문 — 확인(광고 아님) · 처리 결과 통지(시행령 §62의2: 전송자 명칭 · 동의/철회 사실과 날짜 · 처리 결과) ── */
 /* 전송자 정보는 사이트와 같은 한 곳(`lib/product.ts` BUSINESS)에서 읽는다 — 광고성 정보에는 전송자 명칭·연락처가 있어야 한다(시행령 별표 6). */
 const B = BUSINESS;
@@ -115,14 +139,14 @@ const kstDate = (d = new Date()) => {
   return `${k.getUTCFullYear()}-${String(k.getUTCMonth() + 1).padStart(2, '0')}-${String(k.getUTCDate()).padStart(2, '0')}`;
 };
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
-function frame(lang: Lang, paras: string[], button?: { href: string; label: string }) {
+export function frame(lang: Lang, paras: string[], button?: { href: string; label: string }) {
   const p = paras.map((x) => `<p style="margin:0 0 14px;font-size:15px;line-height:1.6;color:#0d2a38">${x}</p>`).join('');
   const b = button
     ? `<p style="margin:22px 0"><a href="${esc(button.href)}" style="display:inline-block;padding:12px 20px;background:#e50437;color:#fff;border-radius:6px;font-weight:700;text-decoration:none">${esc(button.label)}</a></p>`
     : '';
   return `<div style="max-width:560px;margin:0 auto;padding:24px;font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Apple SD Gothic Neo',sans-serif">${p}${b}<p style="margin:28px 0 0;font-size:12px;line-height:1.6;color:#5b6b73">${esc(FOOT[lang])}</p></div>`;
 }
-const plain = (lang: Lang, paras: string[], link?: string) => [...paras.map((x) => x.replace(/<[^>]+>/g, '')), link || '', '', FOOT[lang]].join('\n\n');
+export const plain = (lang: Lang, paras: string[], link?: string) => [...paras.map((x) => x.replace(/<[^>]+>/g, '')), link || '', '', FOOT[lang]].join('\n\n');
 
 export function confirmMail(lang: Lang, link: string) {
   const T = {
@@ -192,7 +216,10 @@ export function resultMail(lang: Lang, kind: 'sub' | 'unsub', unsubLink?: string
   return { subject: T.subject, html: frame(lang, T.p, button), text: plain(lang, T.p, button?.href) };
 }
 
-/* 철회 공통 — 통지 → 연락처 삭제(목적이 끝났으니 지체 없이 파기, 개인정보 보호법 §21). 연락처가 이미 없으면 아무것도 안 한다(웹훅 재시도 대비). */
+/* 철회 공통 — 통지 → 연락처 삭제(목적이 끝났으니 지체 없이 파기, 개인정보 보호법 §21). 연락처가 이미 없으면 아무것도 안 한다(웹훅 재시도 대비).
+   ⚠️ 한계: 연락처를 **통째로** 지운다 — 같은 주소가 무료 다운로드(`free_at`)도 했다면 그 기록도 같이 사라진다(개인정보 처리방침 제3조가 그렇게 약속한다).
+   무료 다운로드 기록만 남기려면 여기서 `free_at` 이 있을 때 DELETE 대신 소식 메일 세그먼트에서 빼고 `consent_*` 속성을 비우면 된다 —
+   Resend 의 속성 비우기(null) 동작을 라이브로 확인한 뒤에 하고, 철회 통지 문구("주소를 삭제했습니다")도 그때 같이 고친다. */
 export async function withdraw(env: Env, email: string, fallbackLang: Lang) {
   const got = await resend(env, 'GET', `/contacts/${encodeURIComponent(email)}`);
   if (!dry(env) && got.status === 404) return { removed: false };

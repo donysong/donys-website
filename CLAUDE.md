@@ -85,7 +85,11 @@ components/
   site3p/        # 🔴 홈 — Page Chrome Hero Who Why What MadeBy Price Footer3P Plate3 Typed lang
   RisoDefs Plate Navbar Footer MotionLab   # 나머지 페이지용
 functions/       # 🔴 Cloudflare Pages Functions — `wrangler pages deploy out` 이 cwd 의 이 폴더를 같이 올린다.
-                 #    지금은 소식 메일(광고성 정보 수신 동의)뿐: api/newsletter/* · 설정 = tools/newsletterSetup.mjs
+                 #    소식 메일(광고성 정보 수신 동의): api/newsletter/* · 무료 다운로드(이메일 → 확인 메일 → 링크): api/download/* + `/download` 면 ·
+                 #    Pro 버튼 집계 `/go/pro`·`/ko/go/pro`(제품 안 Pro 버튼이 여는 주소 → 합계만 세고 `/ae#price` 로 302)
+                 #    설정 = tools/newsletterSetup.mjs(Resend 세그먼트 `newsletter`·`free-download` · 속성 · 웹훅 · 비밀값 `RESEND_FREE_SEGMENT_ID`)
+                 #    🔴 Pages 바인딩 `PRO_CLICKS` = Analytics Engine(데이터셋 `pro_clicks`) — 코드가 아니라 Pages 설정이라 배포 전에 한 번 넣는다. 없으면 세지 않고 이동만 한다.
+                 #    시험 = `npm run test:fn`(Node ≥ 22.18 · 네트워크 안 탄다)
                  #    법 근거·검토서 = 플러그인 repo donys/docs/LEGAL_KR_REVIEW.md (🔴 이 repo 는 **공개**다 — 검토서를 여기 두지 마라)
 lib/copy.ts      # 🔴 홈 카피 정본 — EN/KO 사전 하나. 카피 수정은 **여기서만**(양 언어 같이)
 lib/product.ts   # 🔴 가격 · 체크아웃 URL · 카탈로그 숫자

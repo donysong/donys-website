@@ -64,7 +64,7 @@ const KO = ['/ko.html', '/ko/ae.html', '/ko/ae/docs.html'];
 /* 셸 푸터를 쓰는 나머지 면 — 2026-09-26 전엔 구 `Navbar`/`Footer` 였고 `Buy` 가 없는 앵커(`/#pricing`)로 갔다.
    같은 법·지원 검사를 태워서 구 크롬이 되살아나면 여기서 잡는다. */
 const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.html', '/refund.html',
-  '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html'];
+  '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html', '/download.html', '/ko/download.html'];
 const koMissing = KO.filter((r) => !pages.some((p) => rel(p) === r));
 if (koMissing.length) fail.push(`[i18n] 국문 정적 경로가 없다: ${koMissing.join(' · ')} — 클라이언트 토글만으로는 색인도 공유도 안 된다`);
 else ok.push('[i18n] 국문 정적 경로 3장');
@@ -101,13 +101,23 @@ for (const p of pages) {
 
   if (isProduct) {
     if (!html.includes(CHECKOUT)) fail.push(`[checkout] ${r} 에 결제 링크(${CHECKOUT})가 없다 — 팔 수 없는 페이지다`);
-    /* 가격 섹션 = 구매 버튼 **하나**, 그리고 그게 결제 링크다. 🔴 구 규칙은 "버튼 0 — 레일이 CTA 독점"(레퍼런스 원리 7)이었는데
+    /* 가격 섹션 = 결제 버튼 **하나**, 그리고 그게 결제 링크다. 🔴 구 규칙은 "버튼 0 — 레일이 CTA 독점"(레퍼런스 원리 7)이었는데
        2026-09-30 오너가 *"buy it once 여기에 구매 버튼 하나 달아"* 로 뒤집었다. 대신 그 버튼이 보이는 동안 레일이 숨는다(Shell `BuyRail`)
-       — 한 화면에 결제 CTA 하나는 그대로다. */
+       — 한 화면에 결제 CTA 하나는 그대로다.
+       2026-10-15 Free · Pro 두 칸이 되면서 "링크 하나" 를 **"바깥 링크(https://…) 하나 = 결제"** 로 좁혔다: Free 칸의 무료 다운로드 폼이 약관·개인정보
+       체크박스 링크(사이트 안)를 가진다. 그 둘 말고 사이트 안 링크가 늘어도 막는다 — 가격 판이 링크 장터가 되지 않게. */
     const price = html.match(/<section[^>]*id="price"[\s\S]*?<\/section>/);
     const links = price ? price[0].match(/<a\s[^>]*>/g) || [] : [];
-    if (price && (links.length !== 1 || !links[0].includes(CHECKOUT)))
-      fail.push(`[price] ${r} 가격 섹션의 링크 ${links.length}개 — 결제 버튼 하나여야 한다`);
+    const outbound = links.filter((a) => /href="https?:/.test(a));
+    if (price && (outbound.length !== 1 || !outbound[0].includes(CHECKOUT)))
+      fail.push(`[price] ${r} 가격 섹션의 바깥 링크 ${outbound.length}개 — 결제 버튼 하나여야 한다`);
+    const innerAllowed = [isKo ? '/ko/terms' : '/terms', isKo ? '/ko/privacy' : '/privacy'];
+    const strayInner = links.filter((a) => !/href="https?:/.test(a)).map((a) => a.match(/href="([^"]*)"/)?.[1]).filter((h) => !innerAllowed.includes(h));
+    if (price && strayInner.length) fail.push(`[price] ${r} 가격 섹션에 허용 밖의 사이트 안 링크 ${strayInner.join(' · ')} — 약관·개인정보만 허용`);
+    /* 무료 다운로드 폼 — 가격 판의 Free 칸에 있어야 한다(없으면 무료 입구가 사라진 채 나간다). 필수 동의 체크박스 · 봇 덫 · 약관/개인정보 링크. */
+    if (price && !(price[0].includes('data-free-form') && price[0].includes('id="free-email"') && price[0].includes('name="website"')))
+      fail.push(`[free] ${r} 가격 판에 무료 다운로드 폼(data-free-form · #free-email · 봇 덫)이 없다`);
+    else if (price) ok.push(`[free] ${r} 가격 판에 무료 다운로드 폼`);
   }
 
   if (isSurface) {
@@ -173,6 +183,16 @@ for (const p of pages) {
   const local = path.join(OUT, 'riso/brand');
   const big = fs.existsSync(local) ? fs.readdirSync(local).filter((f) => /\.(mp4|webm|mov)$/i.test(f)) : [];
   if (big.length) fail.push(`[film] public/riso/brand/ 에 영상 파일이 있다(${big.join(' · ')}) — 영상은 R2 에만 둔다. repo 는 공개라 커밋하면 이력에 영구히 남는다`);
+}
+
+/* ── 무료 다운로드 페이지 ── 확인 메일의 링크가 여는 곳(`?confirm=`). 폼이 구워져 있고 색인되지 않는지 본다(토큰 주소). */
+for (const r of ['/download.html', '/ko/download.html']) {
+  const p = pages.find((x) => rel(x) === r);
+  if (!p) continue;   // [routes] 가 아니라 READING 목록 대조라 없으면 아래 법 링크 검사 이전에 `READING` 이 이미 알려 준다
+  const h = read(p);
+  if (!h.includes('data-free-form') || !h.includes('id="free-email"')) fail.push(`[free] ${r} 에 무료 다운로드 폼이 없다`);
+  else if (!/<meta[^>]*name="robots"[^>]*noindex/.test(h)) fail.push(`[free] ${r} 가 색인된다 — 확인 토큰이 주소에 달려 오는 면이다(noindex)`);
+  else ok.push(`[free] ${r} 폼 + noindex`);
 }
 
 /* ── 404 ── 모르는 주소가 막다른 길이 아닌가 */

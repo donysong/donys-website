@@ -9,6 +9,7 @@ import type { Metadata, Viewport } from 'next';
 import '../globals.css';
 import '../site3p.css';
 import '../site4.css';   // 🔴 §14 분리본(`/` · `/ae` · `/ae/docs`)의 신규 컴포넌트. site3p.css 위에 얹힌다 — 순서를 바꾸지 마라
+import '../plans.css';   // 04 Free · Pro 두 칸(Price.tsx) — site4.css 의 `.pricing` 위에 얹힌다
 import SiteHtml from '@/components/shell/SiteHtml';
 import { SITE } from '@/lib/product';
 import { share } from '@/lib/meta';

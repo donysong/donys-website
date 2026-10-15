@@ -52,13 +52,13 @@ const AE: Dict = {
     /* ── 네비 · 판 이름 ───────────────────────────────────────── */
     'ae.nav.who': 'Who',
     'ae.nav.what': 'Features',
-    'ae.nav.price': 'Price',
+    'ae.nav.price': 'Free · Pro',
     'ae.nav.faq': 'FAQ',
     'ae.plate.who': 'Who it is for',
     'ae.plate.posi': 'What it is',
     'ae.plate.what': 'Features',
     'ae.plate.news': 'What is new',
-    'ae.plate.price': 'Price',
+    'ae.plate.price': 'Free and Pro',
     'ae.plate.faq': 'Common questions',
 
     /* ── 히어로 ──────────────────────────────────────────────── */
@@ -170,16 +170,27 @@ const AE: Dict = {
        그중 둘이 v2.6.0 기능이었다 — 손으로 쓰면 버전이 거짓말을 한다. */
     'ae.news.all': 'All release notes →',
 
-    /* ── 04 가격 (구매 버튼 하나 = `s.buy` — 2026-09-30 오너, Price.tsx 머리 주석) ────────── */
-    'ae.price.h': 'Buy it once. It stays yours.',
-    /* §16-1·15·16 (2026-09-28) — 구 "왜 구독이 아닌가" 카드는 걷었다. 🔴 `lifetime`·평생 금지(약관 §4 — 메이저는 유료일 수 있다).
-       구 머리 태그 `Not a subscription.` 도 뺐다 — 바로 밑 `vow` 의 `No subscription` 과 같은 말이 두 번이었다. */
+    /* ── 04 Free · Pro (구매 버튼 하나 = `s.buy` · 무료 다운로드 폼 = Free 칸 — Price.tsx 머리 주석) ────────── */
+    /* 2026-10-15 오너 — v2.10.0 부터 Free/Pro. Free = Library · Curves · Expressions · Support + Toolbox {freeTools}개. Pro = Chat · Custom + Toolbox {proTools}개.
+       Pro 한 줄 = *"tell AE what to do in words (Chat) + tools nobody else has"*. 🔴 경쟁 제품 이름·비교를 쓰지 마라. */
+    'ae.price.h': 'Start free. Pay once for Pro.',
+    'ae.price.free.l': 'Free',
+    'ae.price.free.amount': '$0',
+    'ae.price.free.keep': 'No card needed. Enter your email and we send you the download link.',
+    'ae.price.free.list': ['Library', 'Curves', 'Expressions', 'Support', '{freeTools} Toolbox tools'],
+    'ae.price.pro.l': 'Pro',
+    /* §16-1·15·16 (2026-09-28) — 구 "왜 구독이 아닌가" 카드는 걷었다. 🔴 `lifetime`·평생 금지(약관 §4 — 메이저는 유료일 수 있다). */
     'ae.price.amount': '{price}',
     /* 가격 옆 한 줄 = 구 카드의 결론 문장(`why.p3` 둘째 문장) 그대로. 새 주장 0. */
     'ae.price.keep': 'Skip every update and the version you bought keeps working.',
-    /* 크게 읽히는 약속 셋 — 오너 판정 *"한 번 결제 · 구독 없음 · 마이너 무료 를 더 크게"*. 낱말은 이 페이지의 기존 것(`meta.once` · FAQ q8 · q10). */
+    'ae.price.pro.lead': 'Everything in Free, plus',
+    'ae.price.pro.list': [
+      '<b>Chat</b> — tell AE what to do in words. It runs on your own Claude or ChatGPT plan.',
+      '<b>Custom</b> panel — your own layout of tools, presets and curves',
+      '<b>{proTools} Toolbox tools</b> nobody else has',
+    ],
+    /* 약속 셋 + 포함 셋은 Pro 칸 밑 캡션 한 줄로 합친다(칸이 둘이 되면서 구 큰 약속 목록 `.pvow` 는 걷었다). */
     'ae.price.vow': ['Pay once', 'No subscription', 'Minor updates free'],
-    /* `Minor updates free` 는 위 `vow` 로 올라갔다 — 같은 줄을 두 번 쓰지 않는다. 판 밑 캡션 한 줄로 조판된다(체크 없음). */
     'ae.price.incl': ['All seven panels', 'Two computers', '14-day refund'],
     /* 구 `ae.after.*`(결제한 뒤 3단계)는 2026-09-29 오너 1-8 로 가격 판에서 뺐다 — Docs `docs.step1~3` 이 같은 순서를 갖는다. */
 
@@ -293,13 +304,13 @@ const AE: Dict = {
     /* ── 네비 · 판 이름 ───────────────────────────────────────── */
     'ae.nav.who': '누구를',
     'ae.nav.what': '기능',
-    'ae.nav.price': '가격',
+    'ae.nav.price': '무료 · Pro',
     'ae.nav.faq': 'FAQ',
     'ae.plate.who': '누구를 위한 것',
     'ae.plate.posi': '무엇인가',
     'ae.plate.what': '기능',
     'ae.plate.news': '새로 들어온 것',
-    'ae.plate.price': '가격',
+    'ae.plate.price': '무료와 Pro',
     'ae.plate.faq': '자주 묻는 것',
 
     /* ── 히어로 ──────────────────────────────────────────────── */
@@ -401,10 +412,21 @@ const AE: Dict = {
     'ae.news.tag': '마이너 업데이트는 무료입니다.',
     'ae.news.all': '업데이트 노트 전부 →',
 
-    /* ── 04 가격 (구매 버튼 하나 = `s.buy` — 2026-09-30 오너, Price.tsx 머리 주석) ────────── */
-    'ae.price.h': '한 번 사면 계속 당신 것',
+    /* ── 04 무료 · Pro (구매 버튼 하나 = `s.buy` · 무료 다운로드 폼 = Free 칸 — Price.tsx 머리 주석) ────────── */
+    'ae.price.h': '무료로 시작, Pro는 한 번 결제',
+    'ae.price.free.l': '무료',
+    'ae.price.free.amount': '$0',
+    'ae.price.free.keep': '카드 없이 이메일만 입력하시면 다운로드 링크를 보내 드립니다.',
+    'ae.price.free.list': ['Library', 'Curves', 'Expressions', 'Support', 'Toolbox 툴 {freeTools}개'],
+    'ae.price.pro.l': 'Pro',
     'ae.price.amount': '{price}',
     'ae.price.keep': '업데이트를 안 받아도 갖고 계신 버전은 계속 돕니다.',
+    'ae.price.pro.lead': '무료에 더해',
+    'ae.price.pro.list': [
+      '<b>Chat</b> — AE 에게 할 일을 말로 시킵니다. 본인의 Claude 또는 ChatGPT 구독으로 돕니다.',
+      '<b>Custom</b> 패널 — 툴·프리셋·커브로 만드는 나만의 배치',
+      '다른 곳에 없는 <b>Toolbox 툴 {proTools}개</b>',
+    ],
     'ae.price.vow': ['일회 구매', '구독 없음', '마이너 업데이트 무료'],
     'ae.price.incl': ['패널 7개 전부', '컴퓨터 2대', '14일 환불'],
 
