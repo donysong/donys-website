@@ -24,7 +24,7 @@ export const metadata = {
     canonical: '/ae/docs',
     languages: { en: '/ae/docs', ko: '/ko/ae/docs', 'x-default': '/ae/docs' },
   },
-  ...share({ path: '/ae/docs', title: 'Docs — You Name It AE Plugin', description: DESCRIPTION, card: 'product', lang: 'en' }),
+  ...share({ path: '/ae/docs', title: 'Docs — You Name It AE Plugin', description: DESCRIPTION, lang: 'en' }),
 };
 
 export default function Docs() {

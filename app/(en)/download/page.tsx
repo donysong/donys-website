@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Free download',
   description: DESCRIPTION,
   robots: { index: false, follow: true },
-  ...share({ path: '/download', title: 'Free download — You Name It', description: DESCRIPTION, card: 'product', lang: 'en' }),
+  ...share({ path: '/download', title: 'Free download — You Name It', description: DESCRIPTION, lang: 'en' }),
 };
 
 export default function DownloadPage() {

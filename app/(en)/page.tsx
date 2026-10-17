@@ -18,7 +18,6 @@ export const metadata = {
     path: '/',
     title: 'You Name It — tools and content for people who create',
     description: 'A studio that makes tools and content for people who create. We use what we sell.',
-    card: 'brand',
     lang: 'en',
   }),
 };

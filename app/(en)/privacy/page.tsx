@@ -12,7 +12,7 @@ export const metadata: Metadata = {
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
   title: 'Privacy Policy',
   description: DESCRIPTION,
-  ...share({ path: '/privacy', title: 'Privacy Policy — You Name It', description: DESCRIPTION, card: 'brand', lang: 'en' }),
+  ...share({ path: '/privacy', title: 'Privacy Policy — You Name It', description: DESCRIPTION, lang: 'en' }),
 };
 
 /* 🔴 **법 문서는 출고본과 대조해서 고친다** (2026-09-26 — 처음 대조했더니 §2.3 이 출고본과 반대 말을 했다:

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
   title: 'Terms of Service',
   description: DESCRIPTION,
-  ...share({ path: '/terms', title: 'Terms of Service — You Name It', description: DESCRIPTION, card: 'brand', lang: 'en' }),
+  ...share({ path: '/terms', title: 'Terms of Service — You Name It', description: DESCRIPTION, lang: 'en' }),
 };
 
 /* 🔴 2026-09-30 오너 *"법조인 롤로 직접 작성"* — 국문판(`app/(ko)/ko/terms/page.tsx`)과 **같은 20개 조**다.

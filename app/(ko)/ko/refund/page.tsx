@@ -11,7 +11,7 @@ export const metadata: Metadata = {
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
   title: '환불 정책',
   description: DESCRIPTION,
-  ...share({ path: '/ko/refund', title: '환불 정책 — You Name It', description: DESCRIPTION, card: 'brand', lang: 'ko' }),
+  ...share({ path: '/ko/refund', title: '환불 정책 — You Name It', description: DESCRIPTION, lang: 'ko' }),
 };
 
 /* 🔴 2026-09-30 오너 *"법조인 롤로 직접 작성"* — 정본 검토서 = 플러그인 repo `donys/docs/LEGAL_KR_REVIEW.md`(비공개 — 이 repo 는 공개다) §2 A6~A11.

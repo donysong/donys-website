@@ -22,7 +22,6 @@ export const metadata = {
     path: '/ko/ae',
     title: 'You Name It AE Plugin',
     description: `반복 셋업은 버튼 하나로 끝납니다. 나머지는 말로 설명하면 당신 레이어 위에 고칠 수 있는 채로 앉습니다. ${PRICE} 일회 구매.`,
-    card: 'product',
     lang: 'ko',
   }),
 };

@@ -18,7 +18,6 @@ export const metadata = {
     path: '/ae',
     title: 'You Name It AE Plugin',
     description: `Repetitive setup takes one button. The rest you describe in plain words, and it lands on your layers, still editable. ${PRICE} once.`,
-    card: 'product',
     lang: 'en',
   }),
 };

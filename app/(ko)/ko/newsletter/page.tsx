@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: '소식 받기',
   description: DESCRIPTION,
   robots: { index: false, follow: true },
-  ...share({ path: '/ko/newsletter', title: '소식 받기 — You Name It', description: DESCRIPTION, card: 'brand', lang: 'ko' }),
+  ...share({ path: '/ko/newsletter', title: '소식 받기 — You Name It', description: DESCRIPTION, lang: 'ko' }),
 };
 
 export default function NewsletterKoPage() {

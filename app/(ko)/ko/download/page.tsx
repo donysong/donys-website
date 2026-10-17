@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: '무료 다운로드',
   description: DESCRIPTION,
   robots: { index: false, follow: true },
-  ...share({ path: '/ko/download', title: '무료 다운로드 — You Name It', description: DESCRIPTION, card: 'product', lang: 'ko' }),
+  ...share({ path: '/ko/download', title: '무료 다운로드 — You Name It', description: DESCRIPTION, lang: 'ko' }),
 };
 
 export default function DownloadKoPage() {

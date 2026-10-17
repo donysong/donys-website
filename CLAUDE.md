@@ -144,7 +144,7 @@ npm run build   # → out/
 ## 관련
 
 - 플러그인 소스: `../Dony-s-AE-Plugin/donys/`
-- 홍보 자산 렌더러: `../Dony-s-AE-Plugin/tools/promo/` (`node shot.mjs pages/og.html og-ae`). 🔴 구 목업(`f-*` · `poster-*` · `anim-*` · `hero`)은 2026-09-28 삭제 — 없는 기능을 그리고 있었다. 패널 그림은 출고 태그에서만.
+- 홍보 자산 렌더러: `../Dony-s-AE-Plugin/tools/promo/` (공유 카드 = `node shot.mjs pages/og-brand.html og-brand 1200 630 1` — 2026-10-17 로고 카드 한 장 · 구 `og.html`/`og-ae` 은퇴). 🔴 구 목업(`f-*` · `poster-*` · `anim-*` · `hero`)은 2026-09-28 삭제 — 없는 기능을 그리고 있었다. 패널 그림은 출고 태그에서만.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

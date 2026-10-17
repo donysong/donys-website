@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Newsletter',
   description: DESCRIPTION,
   robots: { index: false, follow: true },
-  ...share({ path: '/newsletter', title: 'Newsletter — You Name It', description: DESCRIPTION, card: 'brand', lang: 'en' }),
+  ...share({ path: '/newsletter', title: 'Newsletter — You Name It', description: DESCRIPTION, lang: 'en' }),
 };
 
 export default function NewsletterPage() {

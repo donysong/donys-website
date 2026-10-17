@@ -37,7 +37,6 @@ export const metadata: Metadata = {
   ...share({
     title: 'You Name It — 창작하는 사람의 도구와 콘텐츠',
     description: '창작하는 사람의 손을 더는 도구와 콘텐츠를 만듭니다. 우리가 먼저 쓰는 것만 팝니다.',
-    card: 'brand',
     lang: 'ko',
   }),
   /* 파비콘 = 브랜드 락업 원본(`public/logo-lockup.png`)을 정사각 판에 앉힌 것. 새로 그린 마크가 아니다. */
