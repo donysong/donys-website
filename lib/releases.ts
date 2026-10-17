@@ -17,6 +17,35 @@
 export type Release = { version: string; date: string; items: { ko: string[]; en: string[] } };
 
 export const RELEASES: Release[] = [
+  /* 날짜 = 출고일 2026-10-23(개정 방침 시행일 — 웹 배포 · R2 · Polar 같은 날). 근거 = 플러그인 태그 `v2.10.0`(`35db945f`).
+     문구 정본 = 플러그인 `docs/FREE_PRO_SPLIT.md` §7(2026-10-17 사실 확인판 — 개수 26/13 · 검출기 · 감도 · 크레딧 · Codex 기록 위치를 코드·실측으로 대조했다).
+     마크다운 굵게만 걷었다(다른 회차처럼 평문).
+     ⚠️ **뺀 것**: §7 끝 *"남은 오너 판단"* 의 선택 줄 3개 — 수동 이전 팁(robocopy) · "분석이 느려질 수 있음"(SSD CPU ~2.5~2.8× · E2E 체감 미측정) ·
+     좁은 Library 도킹 수리(132px 겹침). 오너가 넣기로 하면 ko/en 같은 인덱스에 더한다. */
+  {
+    version: '2.10.0',
+    date: '2026-10-23',
+    items: {
+      ko: [
+        '무료판이 생겼습니다. 라이선스 키 없이도 Library · Curves · Expressions 전체와 Toolbox 의 26개 툴을 쓸 수 있습니다. Chat · Custom 1 · Toolbox 의 Pro 툴 13개는 Pro 키가 있어야 열리고, 잠긴 툴은 목록에 잠금 아이콘으로 보입니다. Library 의 \'이펙트\' 탭은 \'내 이펙트\'로 이름이 바뀌었습니다.',
+        '무료판도 업데이트 알림을 받습니다.',
+        'Face Track: 장면이 바뀌는 컷에서 박스가 끝나고(컷은 이웃 프레임의 색 차이로 판정하며, 디졸브처럼 서서히 바뀌는 전환은 잡지 못합니다), 얼굴이 화면 밖으로 나가면 박스가 사라집니다. 0.3초 이하로 끊긴 구간은 이어 붙입니다. 얼굴 검출기를 SSD MobileNet v1 으로 바꿔 정확도를 높였습니다(감도 3단, 기본 \'정밀\'). 블러·모자이크는 화면 가장자리를 드나드는 얼굴이 반쪽만 드러나지 않도록 마스크를 앞뒤로 더 길게 켜고, 움직임을 이어 예측하며, 마스크를 더 넓게 잡습니다. 화면 높이의 5% 미만인 작은 얼굴은 여전히 놓칠 수 있습니다.',
+        'AE+PR 번들 키로 After Effects 플러그인을 활성화할 수 있습니다(2.9.0 에서는 번들 키가 거절되었습니다).',
+        'Library 무료 검색: Pexels·Freesound 결과에 작가·출처 표기를 추가했습니다(Freesound 는 CC BY-NC 음원을 기본에서 제외). 출처 표기 줄은 GIPHY 를 포함해 항상 보입니다. 제3자 고지에 gifsicle 과 얼굴 검출 모델(SSD MobileNet)을 추가했습니다.',
+        '(2.8.0 누락분) 윈도에서 로컬 앱 데이터 폴더(LOCALAPPDATA) 위치를 옮겨 둔 경우, 패널 데이터도 그 위치에 저장합니다. 이전 위치의 데이터는 자동으로 옮겨지지 않습니다.',
+        '(2.8.0 누락분) 윈도에서 Codex 대화 기록 위치가 바뀌어, 2.8.0 이전에 시작한 Codex 탭 대화는 이어서 할 수 없습니다(Codex 를 쓰는 모든 윈도 사용자에게 해당).',
+      ],
+      en: [
+        'There is now a free version. Without a license key you can use all of Library, Curves and Expressions, plus 26 Toolbox tools. Chat, Custom 1 and the 13 Pro Toolbox tools need a Pro key; locked tools appear in the list with a lock icon. The Library "Effects" tab is now called "My Effects".',
+        'Free users get update notices too.',
+        'Face Track: boxes now end at scene cuts (detected from the color difference between neighboring frames; gradual transitions such as dissolves are not caught) and disappear when the face leaves the frame. Detection gaps of 0.3 s or less are bridged. The face detector is now SSD MobileNet v1 for better accuracy (three sensitivity levels; the default is unchanged). For blur and mosaic, the mask now starts earlier and ends later around the frame edges, follows the face\'s motion through them, and is slightly wider, so a half-visible face is not exposed. Faces smaller than 5% of the frame height can still be missed.',
+        'AE+PR bundle keys now activate the After Effects plugin (2.9.0 rejected them).',
+        'Library free search: author/source credit is now shown for Pexels and Freesound results (Freesound CC BY-NC sounds are excluded by default), and the credit row is always visible, GIPHY included. The third-party notices now list gifsicle and the face-detection model (SSD MobileNet).',
+        '(Owed from 2.8.0) On Windows, if you moved your local app data folder (LOCALAPPDATA), the panel now stores its data there too. Data at the old location is not moved automatically.',
+        '(Owed from 2.8.0) On Windows, the Codex conversation history moved, so Codex tab conversations started before 2.8.0 can\'t be continued (this applies to every Windows user of Codex).',
+      ],
+    },
+  },
   /* 날짜 = 실제 출고일 2026-10-13(태그 · R2 · Polar · 배포 같은 날).
      근거 = 플러그인 태그 `v2.9.0`(`5b261f8b`) 의 `git log v2.8.0..v2.9.0` 중 유저가 체감하는 feat·fix·perf 만.
      카탈로그 숫자(COUNTS)는 이 태그에서 그대로다 — src/data/* diff 0 · schemas.ts 는 설명 문구만 바뀌었다.
