@@ -36,10 +36,18 @@ test('동의 범위 버전 — 범위가 바뀌면(v 불일치) 저장된 동의
 });
 
 test('META_PIXEL_ON 이면 배너에 Meta 이전 고지가 있어야 한다 · 꺼져 있으면 배너가 Meta 를 말하지 않는다', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'lib/googleTransfer.ts'), 'utf8');
+  const copy = src.slice(src.indexOf('export const ROWS'));
+  if (C.META_PIXEL_ON) assert.ok(copy.includes('Meta Platforms, Inc.'), 'META_PIXEL_ON 인데 국외 이전 표(배너·방침 제7조)에 Meta 행이 없다');
+  else assert.ok(!/Meta/.test(copy), 'Meta 를 안 켰는데 국외 이전 표가 Meta 를 말한다 — 사실과 어긋난다');
+});
+
+test('배너와 방침이 같은 국외 이전 표를 쓴다 — 방침 제7조 표는 lib/googleTransfer.ts 의 ROWS 를 그대로 그린다', () => {
+  const ko = fs.readFileSync(path.join(ROOT, 'components/legal/PrivacyKo.tsx'), 'utf8');
   const banner = fs.readFileSync(path.join(ROOT, 'components/Analytics.tsx'), 'utf8');
-  const copy = banner.slice(banner.indexOf('const ROWS'), banner.indexOf('/** Polar'));
-  if (C.META_PIXEL_ON) assert.ok(copy.includes('Meta Platforms, Inc.'), 'META_PIXEL_ON 인데 배너 국외 이전 표에 Meta 행이 없다');
-  else assert.ok(!/Meta/.test(copy), 'Meta 를 안 켰는데 배너가 Meta 를 말한다 — 사실과 어긋난다');
+  assert.match(ko, /from '@\/lib\/googleTransfer'/, '국문 방침이 공유 표를 안 쓴다 — 배너와 방침 항목이 갈라진다');
+  assert.match(banner, /from '@\/lib\/googleTransfer'/);
+  assert.match(ko, /ROWS\.ko/, '국문 방침이 ROWS.ko 를 그리지 않는다');
 });
 
 test('cookieDomains — 호스트와 상위 도메인 후보(최상위는 제외)', () => {
@@ -141,10 +149,24 @@ test('동의 전 track/trackCommerce 는 던지지도 쌓지도 않는다(window
 
 /* ═══ 켜짐 상태의 일관성 ═══ */
 
-test('GTM_ID 가 있으면 켜는 날(ANALYTICS_EFFECTIVE)도 유효한 날짜여야 한다 — 비면 꺼짐', () => {
-  if (A.GTM_ID === '') { assert.equal(A.ANALYTICS_ON, false); return; }
+test('GTM_ID 가 있으면 켜는 날(ANALYTICS_EFFECTIVE)도 유효한 날짜여야 한다 — GTM_ID 가 비어도 날짜가 있으면 고지 단계', () => {
+  assert.equal(A.ANALYTICS_ON, A.GTM_ID !== '');
+  if (A.ANALYTICS_EFFECTIVE !== '') assert.match(A.ANALYTICS_EFFECTIVE, /^\d{4}-\d{2}-\d{2}$/);
+  if (A.GTM_ID === '') return;
   assert.match(A.GTM_ID, /^GTM-[A-Z0-9]{4,}$/);
-  assert.match(A.ANALYTICS_EFFECTIVE, /^\d{4}-\d{2}-\d{2}$/, 'GTM_ID 를 채웠으면 ANALYTICS_EFFECTIVE(방침 고지 +7일)도 정해라');
+  assert.match(A.ANALYTICS_EFFECTIVE, /^\d{4}-\d{2}-\d{2}$/, 'GTM_ID 를 채웠으면 ANALYTICS_EFFECTIVE(방침 고지 +8일)도 정해라');
+});
+
+test('고지 단계 시행일 — 방침 시행일(POLICY_EFFECTIVE)+8일 이후여야 한다(그 방침이 시행된 뒤에야 고지가 나갈 수 있고, 고지한 날은 뺀다)', async () => {
+  if (A.ANALYTICS_EFFECTIVE === '') return;
+  const P = await import('../lib/policy.ts');
+  const min = new Date(Date.parse(P.POLICY_EFFECTIVE) + 8 * 86400e3).toISOString().slice(0, 10);
+  assert.ok(A.ANALYTICS_EFFECTIVE >= min, `ANALYTICS_EFFECTIVE ${A.ANALYTICS_EFFECTIVE} < ${min}`);
+  assert.equal(P.ANALYTICS_NOTICE, !A.ANALYTICS_ON, '시행일이 있으면 켜기 전까지가 고지 단계');
+  assert.equal(P.revisedText('current'), A.ANALYTICS_ON, '켜기 전 현재 판은 옛 방침, 켠 뒤엔 개정본');
+  assert.equal(P.revisedText('upcoming'), true);
+  assert.equal(P.analyticsDate('ko').includes('년'), true);
+  assert.match(P.analyticsDate('en'), /^[A-Z][a-z]+ \d{1,2}, \d{4}$/);
 });
 
 /* ═══ 사양 ↔ 소스 ═══ */

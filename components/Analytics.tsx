@@ -11,30 +11,7 @@ import { readConsent, writeConsent, type Consent } from '@/lib/consent';
 import {
   ANALYTICS_ON, classifyLink, pageKindOf, placementOf, startGtm, stopAndReload, track, trackCommerce,
 } from '@/lib/analytics';
-
-/* 🔴 이 카피는 **국외 이전 동의 화면을 겸한다**(「개인정보 보호법」 §28의8 ①1호 — 받는 자·연락처 · 국가 · 시기·방법 · 항목 · 목적·보유 · 거부 방법과 효과를 동의받는 그 자리에서 알린다).
-   값 출처 = Google 의 한국 거주자 안내(policies.google.com/privacy/additional, 2026-10-20 확인) · 보유 14개월 = GA4 속성 설정(ANALYTICS_PLAN §17).
-   🔴 Meta Pixel 을 켜는 날(`META_PIXEL_ON`) 이 표에 **Meta Platforms, Inc. 이전 행을 더해야 한다** — 빠지면 `analytics.test` 가 빨개진다. 오너 승인 전 초안(A6). */
-const ROWS = {
-  en: [
-    ['Recipient', 'Google LLC · 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA · support.google.com/policies?p=privpol_privts'],
-    ['Country', 'United States (and the countries where Google’s data centers are)'],
-    ['Data', 'Pages you visit and the page you came from, buttons you press (buy, download, email, form submit), sections you read, that a purchase was completed (amount and checkout number), time of visit, approximate location (country, city), device and browser details, IP address, a cookie identifier (_ga). Your name, email address and anything you type are not sent.'],
-    ['When and how', 'While you browse after you say yes, over an encrypted connection, as the data is collected'],
-    ['Purpose', 'Visit statistics to improve the site'],
-    ['How long', 'Google keeps event data for 14 months; the cookie lasts up to 2 years'],
-    ['If you refuse', 'Press Reject, or change it any time from “Cookie settings” at the bottom of every page. Nothing is transferred and the site works the same.'],
-  ],
-  ko: [
-    ['이전받는 자', 'Google LLC · 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA · googlekrsupport@google.com'],
-    ['이전 국가', '미국(및 Google 데이터 센터가 있는 나라)'],
-    ['이전 항목', '방문한 페이지와 유입 경로, 누른 버튼(구매·다운로드·메일·양식 제출), 읽은 섹션, 구매 완료 사실(금액·결제 번호), 접속 시각, 대략적인 위치(국가·도시), 기기·브라우저 정보, IP 주소, 쿠키 식별자(_ga). 이름·이메일 주소·입력하신 내용은 보내지 않습니다.'],
-    ['이전 시기와 방법', '동의하신 뒤 방문하시는 동안, 수집과 동시에 암호화된 통신으로 전송'],
-    ['이용 목적', '사이트 개선을 위한 방문 통계 분석'],
-    ['보유·이용 기간', 'Google 이벤트 데이터 14개월 · 쿠키 최대 2년'],
-    ['거부 방법과 효과', '‘거부’를 누르시거나 모든 페이지 하단의 ‘쿠키 설정’에서 언제든 바꾸실 수 있습니다. 거부하시면 아무것도 이전되지 않고 서비스 이용에는 영향이 없습니다.'],
-  ],
-} as const;
+import { ROWS } from '@/lib/googleTransfer';   // 국외 이전 5항목 — 방침 제7조 표와 같은 글자(이 배너가 동의 화면을 겸한다)
 
 const T = {
   en: {

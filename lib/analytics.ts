@@ -12,8 +12,11 @@ import { CONSENT_TYPES, clearTrackingCookies, grantedTypes } from './consent';
 
 /** GTM 컨테이너 ID. 비어 있으면 꺼짐. */
 export const GTM_ID: string = '';
-/** 분석을 켜도 되는 첫 날(YYYY-MM-DD, KST) — 방침 개정 고지 +7일(방침 제16조). GTM_ID 를 채우는 커밋과 같이 정한다. */
-export const ANALYTICS_EFFECTIVE: string = '';
+/** 분석을 켜도 되는 첫 날(YYYY-MM-DD, KST) = 동의 기반 방문 통계 조항의 방침 시행일. 방침 제16조(시행 7일 전 고지)라서
+    **고지가 사이트에 뜨는 날 + 8일 이후**여야 한다(고지한 날은 뺀다 — `lib/policy.ts` 와 같은 셈법). 고지 배포가 늦어지면 이 줄을 같이 민다.
+    값이 있고 `GTM_ID` 가 비어 있으면 *고지 단계*: 현재 방침 위에 개정 예정 띠가 뜨고 개정본은 `/…/privacy/upcoming`. `GTM_ID` 를 채우면 개정본이 현재 판이 된다.
+    2026-10-31 = 고지를 `free-tier-download` 와 한 배포로 10-23 에 낼 때(그 방침 시행일이 10-23 이라 그 전엔 못 나간다). */
+export const ANALYTICS_EFFECTIVE: string = '2026-10-31';
 export const ANALYTICS_ON = GTM_ID !== '';
 
 export type EventName = keyof typeof spec.events;
