@@ -225,6 +225,15 @@ test('컨테이너 — 동의 설정: Google 태그는 analytics_storage, Meta �
   for (const t of withMeta.tag.filter((t) => t.type === 'html')) assert.equal(need(t), 'ad_storage', t.name);
 });
 
+test('동의 모드 — 수락이 올리는 항목이 태그가 요구하는 항목을 덮는다 · GA4 만이면 광고 3종은 올리지 않는다', () => {
+  const need = (t) => t.consentSettings.consentType?.list?.[0]?.value;
+  assert.deepEqual([...C.grantedTypes(false)], ['analytics_storage'], '방침이 "광고 개인화는 쓰지 않는다" 고 적었다 — GA4 만이면 분석 하나다');
+  for (const t of gaOnly.tag) assert.ok(C.grantedTypes(false).includes(need(t)), `GA4 만인데 ${t.name} 이 ${need(t)} 를 요구한다 — 올라가지 않아 태그가 안 돈다`);
+  for (const t of withMeta.tag) assert.ok(C.grantedTypes(true).includes(need(t)), `${t.name}: ${need(t)}`);
+  assert.deepEqual([...C.grantedTypes(true)].sort(), [...C.CONSENT_TYPES].sort());
+  assert.deepEqual([...C.grantedTypes()], [...C.grantedTypes(C.META_PIXEL_ON)], '인자 없는 호출은 META_PIXEL_ON 을 따른다');
+});
+
 test('컨테이너 — Purchase 는 주문 ID 로 eventID 를 건다(나중에 CAPI 를 붙일 때 중복 제거 키)', () => {
   const p = withMeta.tag.find((t) => t.name === 'Meta - Purchase').parameter[0].value;
   assert.match(p, /eventID:'\{\{DLV - ecommerce\.transaction_id\}\}'/);

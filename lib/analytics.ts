@@ -8,7 +8,7 @@
    🔴 동의 전 `track()` 은 **버린다**(쌓았다 뒤늦게 보내지 않는다 — 동의 전 행동의 사후 전송도 동의 전 처리다). */
 import { SPEC as spec } from './analyticsSpec';
 import { CHECKOUT_URL } from './product';
-import { clearTrackingCookies } from './consent';
+import { CONSENT_TYPES, clearTrackingCookies, grantedTypes } from './consent';
 
 /** GTM 컨테이너 ID. 비어 있으면 꺼짐. */
 export const GTM_ID: string = '';
@@ -147,7 +147,7 @@ export function trackCommerce(name: EventName, id: ItemId | 'unknown', params: R
 }
 
 /** 동의 granted 일 때만 부른다. 멱등. 순서가 계약이다: dataLayer → consent default(denied) → update(granted) → 문맥 → GTM 주입.
-    GTM 의 Meta 태그가 `ad_storage` 를 보고 도니까 default→update 를 거쳐야 *granted 가 명시*된다. */
+    GTM 태그가 동의 항목을 보고 도니까 default→update 를 거쳐야 *granted 가 명시*된다. 올리는 항목은 `grantedTypes()` — GA4 만이면 분석 하나다. */
 export function startGtm(): void {
   if (started || !ANALYTICS_ON) return;
   started = true;
@@ -158,9 +158,8 @@ export function startGtm(): void {
   const dl = (win.dataLayer ||= []);
   /* GTM 은 `arguments` 객체 꼴만 동의 명령으로 읽는다 — 배열을 push 하면 무시된다. */
   function gtag(..._a: unknown[]) { dl.push(arguments); }   // eslint-disable-line prefer-rest-params
-  const all = ['ad_storage', 'ad_user_data', 'ad_personalization', 'analytics_storage'];
-  gtag('consent', 'default', Object.fromEntries(all.map((k) => [k, 'denied'])));
-  gtag('consent', 'update', Object.fromEntries(all.map((k) => [k, 'granted'])));
+  gtag('consent', 'default', Object.fromEntries(CONSENT_TYPES.map((k) => [k, 'denied'])));
+  gtag('consent', 'update', Object.fromEntries(grantedTypes().map((k) => [k, 'granted'])));
   dl.push({ page_lang: pageLangOf(location.pathname), page_kind: pageKindOf(location.pathname) });
   dl.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
   const s = document.createElement('script');

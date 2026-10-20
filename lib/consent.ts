@@ -13,6 +13,12 @@ export const META_PIXEL_ON = false;
 export const CONSENT_VERSION = META_PIXEL_ON ? 2 : 1;
 export type Consent = 'granted' | 'denied';
 
+/** Google 동의 모드 v2 의 네 항목. 기본값은 전부 denied 로 깔고, 수락하면 **쓰는 범위만** granted 로 올린다. */
+export const CONSENT_TYPES = ['ad_storage', 'ad_user_data', 'ad_personalization', 'analytics_storage'] as const;
+/** 수락 때 올리는 항목. GA4 만이면 `analytics_storage` 하나 — 방침이 "광고 개인화는 쓰지 않는다" 고 적었고 컨테이너의 태그도 그것만 요구한다.
+    광고 세 항목은 Meta 를 켜는 날(`META_PIXEL_ON`) 같이 오른다(그날 `CONSENT_VERSION` 도 올라 재동의를 받는다). */
+export const grantedTypes = (metaOn: boolean = META_PIXEL_ON): readonly string[] => (metaOn ? CONSENT_TYPES : ['analytics_storage']);
+
 /** 저장된 문자열 → 선택. 깨졌거나 모르는 버전이면 `null`(= 다시 묻는다). 순수 함수. */
 export function parseConsent(raw: string | null | undefined, version = CONSENT_VERSION): Consent | null {
   if (!raw) return null;

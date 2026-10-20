@@ -19,7 +19,7 @@ const ROWS = {
   en: [
     ['Recipient', 'Google LLC · 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA · support.google.com/policies?p=privpol_privts'],
     ['Country', 'United States (and the countries where Google’s data centers are)'],
-    ['Data', 'Pages you visit, buttons you press (buy, download, email), sections you read, time of visit, device and browser details, IP address, a cookie identifier (_ga). Your name, email address and anything you type are not sent.'],
+    ['Data', 'Pages you visit and the page you came from, buttons you press (buy, download, email, form submit), sections you read, that a purchase was completed (amount and checkout number), time of visit, approximate location (country, city), device and browser details, IP address, a cookie identifier (_ga). Your name, email address and anything you type are not sent.'],
     ['When and how', 'While you browse after you say yes, over an encrypted connection, as the data is collected'],
     ['Purpose', 'Visit statistics to improve the site'],
     ['How long', 'Google keeps event data for 14 months; the cookie lasts up to 2 years'],
@@ -28,7 +28,7 @@ const ROWS = {
   ko: [
     ['이전받는 자', 'Google LLC · 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA · googlekrsupport@google.com'],
     ['이전 국가', '미국(및 Google 데이터 센터가 있는 나라)'],
-    ['이전 항목', '방문한 페이지, 누른 버튼(구매·다운로드·메일), 읽은 섹션, 접속 시각, 기기·브라우저 정보, IP 주소, 쿠키 식별자(_ga). 이름·이메일 주소·입력하신 내용은 보내지 않습니다.'],
+    ['이전 항목', '방문한 페이지와 유입 경로, 누른 버튼(구매·다운로드·메일·양식 제출), 읽은 섹션, 구매 완료 사실(금액·결제 번호), 접속 시각, 대략적인 위치(국가·도시), 기기·브라우저 정보, IP 주소, 쿠키 식별자(_ga). 이름·이메일 주소·입력하신 내용은 보내지 않습니다.'],
     ['이전 시기와 방법', '동의하신 뒤 방문하시는 동안, 수집과 동시에 암호화된 통신으로 전송'],
     ['이용 목적', '사이트 개선을 위한 방문 통계 분석'],
     ['보유·이용 기간', 'Google 이벤트 데이터 14개월 · 쿠키 최대 2년'],
