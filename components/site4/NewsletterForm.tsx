@@ -6,6 +6,7 @@
    버튼은 외곽선(`.btn-line`)이다 — 채움 빨강은 구매에만 쓴다(REBRAND §9.9 ③). */
 import { useEffect, useState } from 'react';
 import { BUSINESS } from '@/lib/product';
+import { track } from '@/lib/analytics';
 import { NEWS_NONE, NewsConsentFields, newsAll } from './NewsConsent';
 
 type Lang = 'ko' | 'en';
@@ -79,20 +80,21 @@ export default function NewsletterForm({ lang }: { lang: Lang }) {
   async function subscribe(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const website = (e.currentTarget.elements.namedItem('website') as HTMLInputElement | null)?.value || '';
-    if (!all) { setPhase('error'); setMsg(t.errConsent); return; }
+    if (!all) { setPhase('error'); setMsg(t.errConsent); track('form_error', { form: 'newsletter', reason: 'consent' }); return; }
     setPhase('busy');
     const r = await post('/api/newsletter/subscribe', {
       email, lang, website, agreeCollect: agree.collect, agreeAds: agree.ads, agreeTransfer: agree.transfer,
     }).catch(() => ({ ok: false, error: 'net' }));
-    if (r.ok) { setPhase('done'); setMsg(t.sent); } else { setPhase('error'); setMsg(r.error === 'email' ? t.errEmail : r.error === 'consent' ? t.errConsent : t.err); }
+    if (r.ok) { setPhase('done'); setMsg(t.sent); track('newsletter_request'); }
+    else { track('form_error', { form: 'newsletter', reason: r.error || 'unknown' }); setPhase('error'); setMsg(r.error === 'email' ? t.errEmail : r.error === 'consent' ? t.errConsent : t.err); }
   }
 
   async function act() {
     setPhase('busy');
     const r = await post(`/api/newsletter/${mode === 'confirm' ? 'confirm' : 'unsubscribe'}`, { token }).catch(() => ({ ok: false, error: 'net' }));
-    if (r.ok) { setPhase('done'); setMsg(mode === 'confirm' ? t.confirmed : t.unsubbed); }
-    else if (r.error === 'token') toForm(t.badToken);
-    else { setPhase('error'); setMsg(t.err); }
+    if (r.ok) { setPhase('done'); setMsg(mode === 'confirm' ? t.confirmed : t.unsubbed); if (mode === 'confirm') track('newsletter_confirm'); }
+    else if (r.error === 'token') { track('form_error', { form: 'newsletter', reason: 'token' }); toForm(t.badToken); }
+    else { track('form_error', { form: 'newsletter', reason: r.error || 'unknown' }); setPhase('error'); setMsg(t.err); }
   }
 
   const status = msg ? (

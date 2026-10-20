@@ -27,7 +27,7 @@ export default function Faq() {
           <div className="faq-group" key={g.lab}>
             <span className="lab">{t(g.lab)}</span>
             {g.qs.map((n) => (
-              <details className="qa" key={n}>
+              <details className="qa" key={n} data-faq={`q${n}`}>
                 <summary data-cur>
                   <span className="q">{t(`ae.q${n}.q`)}</span>
                   <span className="verdict">{t(`ae.q${n}.v`)}</span>

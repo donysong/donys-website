@@ -14,6 +14,8 @@ import { useLang, useT } from '@/components/site3p/lang';
 import { Defs, Surface, useChrome } from '@/components/site3p/Chrome';
 import { penPath } from '@/components/site3p/pen';
 import { BUSINESS, CHECKOUT_URL, FTC_BIZ_URL } from '@/lib/product';
+import { ANALYTICS_ON } from '@/lib/analytics';
+import { openConsent } from '@/lib/consent';
 
 export type NavLink = { href: string; k: string };
 export type Page4Kind = 'home' | 'ae' | 'docs';
@@ -206,6 +208,8 @@ function Footer4({ page }: { page: Page4Kind }) {
             {/* 🔴 굵게 — 개인정보 보호위원회 처리방침 작성지침: "개인정보 처리방침" 명칭을 쓰고 글자 크기·색 등으로 다른 고지와 구분한다. */}
             <li><a href={href('/privacy')} className="ft-privacy" data-cur>{t('s.ft.privacy')}</a></li>
             <li><a href={href('/refund')} data-cur>{t('s.ft.refund')}</a></li>
+            {/* 동의를 다시 여는 자리 — 분석이 꺼져 있으면(`GTM_ID` 빔) 링크도 없다. 방침 제10조가 이 링크를 거부 방법으로 적는다. */}
+            {ANALYTICS_ON ? <li><a href="#cookies" role="button" onClick={(e) => { e.preventDefault(); openConsent(); }} data-cur>{t('s.ft.cookies')}</a></li> : null}
             {page !== 'home' ? <li><a href={href('/')} data-cur>{t('s.toBrand')}</a></li> : null}
           </ul>
           {/* 돌은 열의 **끝**이다 — 라벨과 링크 사이에 있으면 라벨이 그림에 붙고 링크가 떨어진다. */}

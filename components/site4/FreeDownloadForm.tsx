@@ -16,6 +16,7 @@
    버튼은 외곽선(`.btn-line`)이다 — 채움 빨강은 구매에만 쓴다. */
 import { useEffect, useState } from 'react';
 import { BUSINESS } from '@/lib/product';
+import { track } from '@/lib/analytics';
 import { CHECKBOX, Disclosure, NEWS_NONE, NewsConsentFields, newsAll, newsAny } from './NewsConsent';
 
 type Lang = 'ko' | 'en';
@@ -115,21 +116,21 @@ export default function FreeDownloadForm({ lang, standalone = false }: { lang: L
   async function request(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const website = (e.currentTarget.elements.namedItem('website') as HTMLInputElement | null)?.value || '';
-    if (!terms) { setPhase('error'); setMsg(t.errTerms); return; }
-    if (!privacy) { setPhase('error'); setMsg(t.errPrivacy); return; }
-    if (newsAny(news) && !newsAll(news)) { setPhase('error'); setMsg(t.errNews); return; }
+    if (!terms) { setPhase('error'); setMsg(t.errTerms); track('form_error', { form: 'free_download', reason: 'terms' }); return; }
+    if (!privacy) { setPhase('error'); setMsg(t.errPrivacy); track('form_error', { form: 'free_download', reason: 'privacy' }); return; }
+    if (newsAny(news) && !newsAll(news)) { setPhase('error'); setMsg(t.errNews); track('form_error', { form: 'free_download', reason: 'news_partial' }); return; }
     setPhase('busy');
     const r = await post('/api/download/request', { email, lang, website, agreeTerms: terms, agreePrivacy: privacy, news }).catch(() => ({ ok: false, error: 'net' }));
-    if (r.ok) { setPhase('done'); setMsg(t.sent); }
-    else { setPhase('error'); setMsg(r.error === 'email' ? t.errEmail : r.error === 'consent_terms' ? t.errTerms : r.error === 'consent_privacy' ? t.errPrivacy : r.error === 'news_consent' ? t.errNews : t.err); }
+    if (r.ok) { setPhase('done'); setMsg(t.sent); track('free_download_request', { placement: standalone ? 'download_page' : 'price' }); }
+    else { track('form_error', { form: 'free_download', reason: r.error || 'unknown' }); setPhase('error'); setMsg(r.error === 'email' ? t.errEmail : r.error === 'consent_terms' ? t.errTerms : r.error === 'consent_privacy' ? t.errPrivacy : r.error === 'news_consent' ? t.errNews : t.err); }
   }
 
   async function confirm() {
     setPhase('busy');
     const r = await post('/api/download/confirm', { token }).catch(() => ({ ok: false, error: 'net' } as { ok: boolean; error?: string; url?: string; version?: string; news?: boolean }));
-    if (r.ok && r.url && r.version) { setReady({ url: r.url, version: r.version, news: !!r.news }); setPhase('done'); setMsg(''); }
-    else if (r.error === 'token') toForm(t.badToken);
-    else { setPhase('error'); setMsg(t.err); }
+    if (r.ok && r.url && r.version) { setReady({ url: r.url, version: r.version, news: !!r.news }); setPhase('done'); setMsg(''); track('generate_lead', { lead_type: 'free_download' }); }   // 확인까지 끝난 사람만 리드다 — 신청만 한 사람은 free_download_request
+    else if (r.error === 'token') { track('form_error', { form: 'free_download', reason: 'token' }); toForm(t.badToken); }
+    else { track('form_error', { form: 'free_download', reason: r.error || 'unknown' }); setPhase('error'); setMsg(t.err); }
   }
 
   const status = msg ? (
@@ -143,7 +144,7 @@ export default function FreeDownloadForm({ lang, standalone = false }: { lang: L
         <div data-free-ready>
           <p role="status" className="mb-4 text-[15px] font-semibold text-[var(--text-primary)]">{t.ready(ready.version)}</p>
           <p className="flex flex-wrap items-center gap-4">
-            <a className="btn-line font-bold" href={ready.url} data-cur>{t.download} ↓</a>
+            <a className="btn-line font-bold" href={ready.url} data-dl="free" data-cur>{t.download} ↓</a>
             <a className="text-[15px] font-semibold underline underline-offset-4" href={lang === 'ko' ? '/ko/ae/docs#install' : '/ae/docs#install'} data-cur>{t.guide}</a>
           </p>
           {ready.news ? <p className="mt-4 text-[14px] text-[var(--text-secondary)]">{t.readyNews}</p> : null}

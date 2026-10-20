@@ -52,9 +52,11 @@ test('proTool: 툴 13개 + 패널 chat·custom1 은 그대로, 나머지는 전�
   }
 });
 
-test('proTarget: 영문 /ae#price · 국문 /ko/ae#price', () => {
+test('proTarget: 영문 /ae#price · 국문 /ko/ae#price · tool 이 있으면 utm 이 붙는다(출처 표시 — 서버는 기록하지 않는다)', () => {
   assert.equal(gp.proTarget('en'), '/ae#price');
   assert.equal(gp.proTarget('ko'), '/ko/ae#price');
+  assert.equal(gp.proTarget('en', 'writeOn'), '/ae?utm_source=plugin&utm_medium=pro_door&utm_content=writeOn#price');
+  assert.equal(gp.proTarget('ko', 'chat'), '/ko/ae?utm_source=plugin&utm_medium=pro_door&utm_content=chat#price');
 });
 
 function spy() {
@@ -67,7 +69,7 @@ test('goPro: 302 + 점 하나(blobs·indexes 만) — 식별 값 없음', () => 
   const env = spy();
   const r = proEn.onRequestGet({ request: req('/go/pro?tool=writeOn', { 'cf-connecting-ip': '203.0.113.9', 'user-agent': 'UA/1', cookie: 'a=b' }), env });
   assert.equal(r.status, 302);
-  assert.equal(r.headers.get('location'), 'https://younameit.works/ae#price');
+  assert.equal(r.headers.get('location'), 'https://younameit.works/ae?utm_source=plugin&utm_medium=pro_door&utm_content=writeOn#price');
   assert.equal(r.headers.get('cache-control'), 'no-store');
   assert.deepEqual(env.points, [{ blobs: ['writeOn', 'en'], indexes: ['writeOn'] }]);
   assert.ok(!JSON.stringify(env.points).match(/203\.0\.113|UA\/1|a=b/), '요청 헤더 값이 기록에 섞였다');
@@ -83,7 +85,7 @@ test('goPro: Chat · Custom 패널 문(tool=chat · tool=custom1)도 센다 — 
 test('goPro: 국문 경로는 /ko/ae#price · 모르는 tool 은 other', () => {
   const env = spy();
   const r = proKo.onRequestGet({ request: req('/ko/go/pro?tool=' + encodeURIComponent('<b>evil</b>')), env });
-  assert.equal(r.headers.get('location'), 'https://younameit.works/ko/ae#price');
+  assert.equal(r.headers.get('location'), 'https://younameit.works/ko/ae?utm_source=plugin&utm_medium=pro_door&utm_content=other#price');
   assert.deepEqual(env.points, [{ blobs: ['other', 'ko'], indexes: ['other'] }]);
   proEn.onRequestGet({ request: req('/go/pro'), env });
   assert.deepEqual(env.points[1], { blobs: ['other', 'en'], indexes: ['other'] });
@@ -93,7 +95,7 @@ test('goPro: 프리뷰 호스트를 따른다 · HEAD 는 세지 않는다', () 
   const env = spy();
   const r = proEn.onRequestHead({ request: new Request('https://abc.younameit.pages.dev/go/pro?tool=vertexGrid'), env });
   assert.equal(r.status, 302);
-  assert.equal(r.headers.get('location'), 'https://abc.younameit.pages.dev/ae#price');
+  assert.equal(r.headers.get('location'), 'https://abc.younameit.pages.dev/ae?utm_source=plugin&utm_medium=pro_door&utm_content=vertexGrid#price');
   assert.equal(env.points.length, 0);
 });
 

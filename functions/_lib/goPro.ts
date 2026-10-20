@@ -1,5 +1,5 @@
 /* GET /go/pro?tool=<id> · GET /ko/go/pro?tool=<id> — 제품 안의 Pro 버튼이 여는 주소. 어느 Pro 기능의 버튼이 눌렸는지 **합계로만** 세고,
-   가격 판(`/ae#price`)으로 302 한다. 라우트 파일 = `functions/go/pro.ts`(영문) · `functions/ko/go/pro.ts`(국문) — 둘 다 여기 `goPro` 를 부른다.
+   가격 판(`/ae?utm_…#price`)으로 302 한다. 라우트 파일 = `functions/go/pro.ts`(영문) · `functions/ko/go/pro.ts`(국문) — 둘 다 여기 `goPro` 를 부른다.
 
    🔴 개인을 식별하는 값은 **하나도 기록하지 않는다**: IP · User-Agent · 쿠키 · 헤더 · 토큰 없음. 점 하나 = `blobs:[기능 id, 언어]` + `indexes:[기능 id]`.
       `tool` 은 `lib/proTools.ts` 의 15개 id(Pro 툴 13 + Pro 패널 `chat`·`custom1`)만 통과하고 나머지는 전부 `other` 다(임의 문자열이 집계 표를 어지럽히지 못하게 + 사용자가 넣은 값이 기록되지 않게).
@@ -32,7 +32,10 @@ export function proTool(raw: string | null | undefined): string {
 }
 
 /** 리디렉트 대상(사이트 안 경로) — 국문 면은 `/ko/ae`. */
-export const proTarget = (lang: Lang) => `${lang === 'ko' ? '/ko' : ''}/ae#price`;
+/** 🔴 `utm_*` 는 **GA4 가 읽는 출처 표시**일 뿐이다 — 서버는 이걸 기록하지 않는다(위 점 하나 = 기능 id·언어뿐). 그래서 방침의 *식별값 0* 약속은 그대로다.
+    `tool` 은 이미 화이트리스트(`proTool`)를 통과한 값이라 임의 문자열이 URL 에 실리지 않는다. 분석이 꺼져 있어도 무해하다(그냥 쿼리). */
+export const proTarget = (lang: Lang, tool?: string) =>
+  `${lang === 'ko' ? '/ko' : ''}/ae${tool ? `?utm_source=plugin&utm_medium=pro_door&utm_content=${tool}` : ''}#price`;
 
 /** 라우트 본체 — GET 만 센다(HEAD 는 `count=false`). */
 export function goPro({ request, env }: { request: Request; env: GoProEnv }, lang: Lang, count = true): Response {
@@ -47,6 +50,6 @@ export function goPro({ request, env }: { request: Request; env: GoProEnv }, lan
   return new Response(null, {
     status: 302,
     /* 절대 주소 — 요청이 온 호스트(프리뷰 배포 포함)를 따른다. 캐시하면 다음 클릭이 엣지에서 끝나 세지 못한다. */
-    headers: { location: new URL(proTarget(lang), request.url).href, 'cache-control': 'no-store' },
+    headers: { location: new URL(proTarget(lang, tool), request.url).href, 'cache-control': 'no-store' },
   });
 }

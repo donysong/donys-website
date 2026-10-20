@@ -28,6 +28,8 @@ const SHARED: Dict = {
     's.ft.terms': 'Terms',
     's.ft.privacy': 'Privacy Policy',
     's.ft.refund': 'Refunds',
+    's.ft.cookies': 'Cookie settings',
+    's.thanks': 'Thank you',
     /* 사업자 줄(푸터 맨 밑) — 값은 `lib/product.ts` BUSINESS 가 채운다. 라벨만 여기. 전자상거래법 §10·§13 표시 의무. */
     's.biz.name': 'Company',
     's.biz.ceo': 'CEO',
@@ -66,6 +68,8 @@ const SHARED: Dict = {
     's.ft.terms': '이용약관',
     's.ft.privacy': '개인정보처리방침',
     's.ft.refund': '환불',
+    's.ft.cookies': '쿠키 설정',
+    's.thanks': '감사합니다',
     's.biz.name': '상호',
     's.biz.ceo': '대표',
     's.biz.regNo': '사업자등록번호',

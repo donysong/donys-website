@@ -19,6 +19,7 @@
      [film]     브랜드 영상(14MB)이 공개 repo 의 public/ 에 커밋될 뻔했다(2026-10-05) — 영상은 R2, 히어로 <source> 는 dl.younameit.works
      [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
 
+     [analytics] 분석(GTM·GA4·Meta)을 방침 고지 7일 전에 켜거나, 방침이 "쿠키 없음"이라 말하는데 켜거나, 동의 전에 Google 로 요청이 나가는 것 · 결제 뒤 면(/thanks)이 색인에 들어가는 것
      [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 새 방침이 현재 판인 빌드가 시행일 전에 나가거나(이메일 폼이 시행 전 개인정보를 받는다), 고지 띠가 죽은 채 남는 것
 
    실행: node tools/deployCheck.mjs              (빌드 뒤에 돌린다)
@@ -67,7 +68,8 @@ const KO = ['/ko.html', '/ko/ae.html', '/ko/ae/docs.html'];
 /* 셸 푸터를 쓰는 나머지 면 — 2026-09-26 전엔 구 `Navbar`/`Footer` 였고 `Buy` 가 없는 앵커(`/#pricing`)로 갔다.
    같은 법·지원 검사를 태워서 구 크롬이 되살아나면 여기서 잡는다. */
 const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.html', '/refund.html',
-  '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html', '/download.html', '/ko/download.html'];
+  '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html', '/download.html', '/ko/download.html',
+  '/thanks.html', '/ko/thanks.html'];
 const koMissing = KO.filter((r) => !pages.some((p) => rel(p) === r));
 if (koMissing.length) fail.push(`[i18n] 국문 정적 경로가 없다: ${koMissing.join(' · ')} — 클라이언트 토글만으로는 색인도 공유도 안 된다`);
 else ok.push('[i18n] 국문 정적 경로 3장');
@@ -237,6 +239,52 @@ for (const [r, a, b] of [['/ko/privacy.html', '마지막 안내 메일', '3년']
     }
     if (today < iso) (release ? fail : warn).push(`[policy] 오늘(${today} KST)은 시행일(${iso}) 전이다 — 새 방침이 현재 판인 이 빌드는 시행일 전에 배포하지 마라(이메일 폼이 시행 전 개인정보를 받는다). 먼저 고지 판(policy-notice)을 낸다`);
     if (!fail.some((f) => f.startsWith('[policy]')) && today >= iso) ok.push(`[policy] 시행 ${iso} 이후 — 새 방침이 현재 판`);
+  }
+}
+
+/* ── 분석·광고 측정 ── 설계 = 플러그인 repo donys/docs/ANALYTICS_PLAN.md §11. 켜는 버튼 = `lib/analytics.ts` 의 `GTM_ID`.
+   · 항상: 결제 뒤 면(/thanks)은 noindex 이고 sitemap 에 없다(Polar Success URL 전용 · 색인에 들어가면 주문 ID 쿼리가 검색에 샌다).
+   · 꺼져 있을 때(GTM_ID 빔): 푸터에 *쿠키 설정* 링크(#cookies)가 없어야 한다(죽은 링크).
+   · 켜져 있을 때: ① 켜는 날(ANALYTICS_EFFECTIVE = 방침 개정 고지 +7일)이 지났다 ② 모든 면 푸터에 *쿠키 설정* 링크 ③ 정적 HTML 에 googletagmanager.com 이 없다
+     (GTM 은 동의 뒤에 JS 로 주입한다 — HTML 에 있으면 동의 전 요청이 나간다) ④ 방침 EN·KO 가 Google Tag Manager·Meta 를 고지하고 국문에 옛 *쿠키를 설치하지 않으며* 가 없다. */
+{
+  const src = read(path.join(process.cwd(), 'lib/analytics.ts'));
+  const gtm = src.match(/GTM_ID(?::\s*string)?\s*=\s*'([^']*)'/)?.[1];
+  const eff = src.match(/ANALYTICS_EFFECTIVE(?::\s*string)?\s*=\s*'([^']*)'/)?.[1];
+  const release = process.argv.includes('--release');
+  const html = (r) => { const p = pages.find((x) => rel(x) === r); return p ? read(p) : ''; };
+  /* 방침이 이름으로 고지해야 하는 제3자 — Meta 는 `META_PIXEL_ON`(lib/consent.ts)일 때만. 2026-10-20 오너: 1차는 GA4 만. */
+  const metaOn = /META_PIXEL_ON\s*=\s*true/.test(read(path.join(process.cwd(), 'lib/consent.ts')));
+  const needDisclose = ['Google Tag Manager', 'Google Analytics', ...(metaOn ? ['Meta Pixel'] : [])];
+  if (gtm === undefined || eff === undefined) fail.push('[analytics] lib/analytics.ts 에서 GTM_ID / ANALYTICS_EFFECTIVE 를 못 읽었다');
+  else {
+    for (const r of ['/thanks.html', '/ko/thanks.html']) {
+      if (!/<meta[^>]*name="robots"[^>]*content="[^"]*noindex/.test(html(r))) fail.push(`[analytics] ${r} 가 noindex 가 아니다 — 주문 ID(?checkout_id=)가 검색에 샌다`);
+    }
+    const sitemap = fs.existsSync(path.join(OUT, 'sitemap.xml')) ? read(path.join(OUT, 'sitemap.xml')) : '';
+    if (/\/thanks/.test(sitemap)) fail.push('[analytics] sitemap.xml 에 /thanks 가 있다 — 결제 뒤 면은 색인 대상이 아니다');
+    const surfaces = [...REQUIRED, ...KO, ...READING];
+    if (gtm === '') {
+      const dead = surfaces.filter((r) => html(r).includes('href="#cookies"'));
+      if (dead.length) fail.push(`[analytics] GTM_ID 가 비었는데 *쿠키 설정* 링크가 있다(죽은 링크): ${dead.join(' · ')}`);
+      else ok.push('[analytics] 꺼져 있음(GTM_ID 빔) — 로더·배너·푸터 링크 없음');
+    } else {
+      const f0 = fail.length;
+      if (!/^GTM-[A-Z0-9]{4,}$/.test(gtm)) fail.push(`[analytics] GTM_ID "${gtm}" 가 GTM-XXXX 꼴이 아니다`);
+      const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(eff)) fail.push('[analytics] GTM_ID 를 채웠는데 ANALYTICS_EFFECTIVE(방침 개정 고지 +7일)가 비었다 — 켜는 날을 정해라');
+      else if (today < eff) (release ? fail : warn).push(`[analytics] 오늘(${today} KST)은 분석을 켜도 되는 날(${eff}) 전이다 — 방침 제16조(시행 7일 전 고지)`);
+      for (const r of surfaces) {
+        const h = html(r);
+        if (!h) continue;
+        if (!h.includes('href="#cookies"')) fail.push(`[analytics] ${r} 에 *쿠키 설정* 링크(#cookies)가 없다 — 동의를 다시 열 길이 없다`);
+        if (h.includes('googletagmanager.com')) fail.push(`[analytics] ${r} 의 정적 HTML 에 googletagmanager.com 이 있다 — 동의 전에 Google 로 요청이 나간다(GTM 은 동의 뒤 JS 주입)`);
+      }
+      for (const [r, need] of [['/privacy.html', needDisclose], ['/ko/privacy.html', needDisclose]])
+        for (const w of need) if (!html(r).includes(w)) fail.push(`[analytics] ${r} 가 ${w} 를 고지하지 않는다 — 방침 개정(ANALYTICS_PLAN §12)이 먼저다`);
+      if (html('/ko/privacy.html').includes('쿠키를 설치하지 않으며')) fail.push('[analytics] /ko/privacy 가 아직 "쿠키를 설치하지 않으며" 라고 말한다 — 제10조를 개정해라');
+      if (fail.length === f0) ok.push(`[analytics] 켜짐 ${gtm} · 켜는 날 ${eff} · 푸터 링크 · 정적 HTML 에 Google 요청 0 · 방침 고지`);
+    }
   }
 }
 
