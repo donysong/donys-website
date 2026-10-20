@@ -10,6 +10,7 @@
 - 이 폴더에서 세션을 열어야 impeccable(이 repo local 플러그인)이 뜬다. Refero MCP 는 `/mcp` 에서 connected 인지 확인.
 - 🔴 **공개 repo** — 오너 PSD 원본 · 레퍼런스 사이트 원본 코드(mindmarket JS · `.riv`)를 커밋하지 마라. 우리 `.riv` 와 구운 출력만.
 - `main` = 프로덕션 거울. v5 작업은 `renewal-v5` 에서만.
+- **언제든 v5 를 보려면**: 브랜치 `renewal-v5-latest` = `renewal-v5` + `origin/main`(2026-10-15 legal) 머지본(2026-10-20). `npm ci && npm run build && npm run preview` → `http://localhost:4173/`. 🔴 `out/` 을 더블클릭(`file://`)하면 `/_next/...` 절대경로 때문에 전부 깨진다 — 반드시 서버로.
 
 ## 🔴 브랜드 정본은 이 repo 밖이다
 
