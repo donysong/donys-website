@@ -62,7 +62,7 @@ export const COUNTS = {
    🔴 v2.5.0 을 컷한 뒤에도 이 페이지가 두 자리에서 v2.4.0 을 보여주던 전례가 있다.
    릴리스 노트 이력(RELEASES)은 항목마다 자기 version 을 갖지만, **"최신"의 정의는 여기 하나**다.
    둘이 갈라지면 app/update/page.tsx 최상단 단정이 빌드를 깬다. */
-export const VERSION = '2.8.0';
+export const VERSION = '2.9.0';
 
 /* 배포 채널 = Cloudflare R2 (2026-09-09 분리). 바이너리(zxp)와 업데이트 매니페스트는
    더 이상 이 repo 의 public/ 에 없다 — 5MB 가 git 히스토리에 쌓이지 않고,
@@ -108,5 +108,7 @@ export const BUSINESS = {
   hosting: 'Cloudflare, Inc.',
 };
 
-/* 공정위 사업자정보 공개페이지(§10 — 표시한 정보의 진위를 확인하는 연결). 통신판매업 신고가 공정위에 연계된 뒤에야 내용이 뜬다. */
-export const FTC_BIZ_URL = `https://www.ftc.go.kr/bizCommPop.do?wrkr_no=${BUSINESS.regNo.replace(/-/g, '')}`;
+/* 공정위 사업자정보 공개페이지(§10 — 표시한 정보의 진위를 확인하는 연결). 통신판매업 **신고 정보**를 띄우는 페이지라, 신고 면제 중
+   (`mailOrderNo` 빈 값)엔 조회해도 빈 결과다(2026-10-14 실측 — 보안문자 뒤 무결과) → 그동안은 링크를 안 그린다(빈 문자열).
+   신고하고 `mailOrderNo` 를 채우면 푸터·약관 링크와 deployCheck `[biz]` 링크 검사가 같이 켜진다. */
+export const FTC_BIZ_URL = BUSINESS.mailOrderNo ? `https://www.ftc.go.kr/bizCommPop.do?wrkr_no=${BUSINESS.regNo.replace(/-/g, '')}` : '';

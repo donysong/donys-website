@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
 import { BUSINESS, FTC_BIZ_URL, PORTAL_URL, PRICE } from '@/lib/product';
 import { share } from '@/lib/meta';
+import PolicyNotice from '@/components/PolicyNotice';
 
 const DESCRIPTION = 'Terms of Service for You Name It AE Plugin.';
 
@@ -42,6 +43,7 @@ export default function TermsPage() {
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
+        <PolicyNotice lang="en" doc="terms" view="current" />
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
             <h2 className={H2}>1. Purpose</h2>
@@ -343,11 +345,13 @@ export default function TermsPage() {
               </li>
               <li>Hosting: {BUSINESS.hosting}</li>
             </ul>
-            <p className="mt-2">
-              <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
-                Verify business information (Korea Fair Trade Commission)
-              </a>
-            </p>
+            {FTC_BIZ_URL ? (
+              <p className="mt-2">
+                <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer" className={LINK}>
+                  Verify business information (Korea Fair Trade Commission)
+                </a>
+              </p>
+            ) : null}
           </section>
         </div>
       </div>
