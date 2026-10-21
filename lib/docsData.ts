@@ -56,7 +56,7 @@ export const DOCS_TOOLS: readonly DocsTool[] = [
   { id: "fitCompToLayers", name: "Fit Comp to Layers", cat: "comp", preview: "sheet", ko: "컴프 길이를 마지막 레이어에 맞춤", en: "Fit comp duration to last layer" },
   { id: "trimLayersToComp", name: "Trim Layers to Comp", cat: "comp", preview: "sheet", ko: "레이어 In/Out 을 컴프 길이로 자름", en: "Trim layer in/out to comp duration" },
   { id: "unprecomp", name: "Unprecomp", cat: "comp", preview: "sheet", ko: "프리컴프 해제", en: "Unpack a precomp" },
-  { id: "organizeProject", name: "Organize Project", cat: "comp", preview: "sheet", ko: "프로젝트 패널을 스키마 폴더로 자동 정리 — 렌더/컴프/소스/솔리드/레퍼런스 (적용 전 계획 미리보기)", en: "Sort the Project panel into schema folders, with a plan preview first" },
+  { id: "organizeProject", name: "Organize Project", cat: "comp", preview: "sheet", ko: "프로젝트 패널을 내 폴더 템플릿으로 자동 정리 — 기본은 렌더/컴프/소스/솔리드/레퍼런스 (적용 전 계획 미리보기 · 템플릿 편집)", en: "Sort the Project panel with your own folder template (default: render/comp/source/solids/reference), with a plan preview first" },
   { id: "writeOn", name: "Write On", cat: "shape", preview: "sheet", ko: "써지는 애니메이션 키프레임 — 셰이프는 획 순서대로, 텍스트는 윤곽선으로 바꿔 좌상→우하 필기 순서로 (Trim Paths)", en: "Write-on keyframes — shapes in stroke order; text converts to outlines and writes top-left to bottom-right (Trim Paths)" },
   { id: "pointsToNulls", name: "Points to Nulls", cat: "shape", preview: "sheet", ko: "패스 포인트마다 널 컨트롤러 생성", en: "Null controller on each path point" },
   { id: "shapesFromVector", name: "Shapes from Vector", cat: "shape", preview: "sheet", ko: "벡터 레이어 → 셰이프 레이어 변환", en: "Vector layer → shape layer" },
