@@ -8,6 +8,7 @@
    다만 네비의 `AE Plugin →` 은 **제품 진입**이지 구매 버튼이 아니다. 레퍼런스 원리 2 가
    *"5% 지점에 벌써 제품이 있다"* 이고 프로토도 이 항목을 갖고 있었다 — 빼지 마라.
    🔴 브랜드 서사는 네비 항목을 안 가진다(레퍼런스도 `/about` 이 없다). 히어로의 스탠스 줄이 `#brand` 로 간다. */
+import { useEffect } from 'react';
 import Page4, { type NavLink } from '@/components/site4/Shell';
 import Hero from './Hero';
 import Lineup from './Lineup';
@@ -20,6 +21,10 @@ const LINKS: NavLink[] = [
 ];
 
 export default function Home() {
+  /* 칸 보기 — `/?grid` 면 16칸 띠를 깔다(site4.css `.show-grid`). 배치를 칸에 맞출 때만 쓴다. */
+  useEffect(() => {
+    if (new URLSearchParams(location.search).has('grid')) document.querySelector('.p3.p4')?.classList.add('show-grid');
+  }, []);
   return (
     <Page4 page="home" plateTotal={3} links={LINKS} cta={{ href: '/ae', k: 's.toProduct' }}>
       <Hero />

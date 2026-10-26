@@ -1063,3 +1063,37 @@
 @media (max-width:999px){
   .p3.p4 .lu-intro {grid-template-columns:minmax(0,1fr)}
 }
+
+/* ── 전폭 16칸 그리드 — 루트 `/` 만 (§17.7 *"`/` = 전폭, `/ae` = 레일 거터 유지"* · 2026-10-26) ─────────────────
+   레퍼런스 원문(MINDMARKET_INVENTORY §1.1): 좌우 여백 20 · 16칸(1000 미만 6칸) · 칸 사이 20 · 내용 = 2–15칸(`col-start-2 col-span-14`),
+   1000 미만은 6칸 전폭. → 판면 왼쪽 끝 = 여백 + 한 칸 + 칸 사이(1440 에서 ≈108px, 레퍼런스 실측 109).
+   🔴 1364px 캡(`--field`)은 루트에서 푼다 — 루트엔 구매 레일이 없어서 128 거터가 필요 없다(`/ae` 는 그대로).
+   🔴 `--g-col` 의 `100%` 는 **쓰는 자리 기준**이다(위 `--pad` 주석과 같은 함정) — `.p3` 직계의 패딩·`.row` 폭에서만 써라.
+   안쪽 격자(`.lu-intro` · `.row`)는 판면 14칸(1000 미만 6칸)을 같은 칸 사이로 나눈다 → 바깥 16칸과 선이 맞는다. */
+.p3.p4[data-page="home"] {
+  --g-cols:16; --g-in:14; --g-gap:20px; --g-margin:20px;
+  --g-col:calc((100% - var(--g-margin) * 2 - var(--g-gap) * (var(--g-cols) - 1)) / var(--g-cols));
+  --gut:calc(var(--g-margin) + var(--g-col) + var(--g-gap));
+  --field:100000px;   /* 캡 없음 — `min(100% − 거터×2, 캡)` 이 거터 쪽으로 떨어진다 */
+}
+@media (max-width:999px){ .p3.p4[data-page="home"] { --g-cols:6; --g-in:6; --gut:var(--g-margin) } }
+
+@media (min-width:1000px){
+  .p3.p4[data-page="home"] .lu-intro {grid-template-columns:repeat(var(--g-in),minmax(0,1fr));column-gap:var(--g-gap)}
+  .p3.p4[data-page="home"] .lu-intro .lu-tag {grid-column:1 / span 6}
+  .p3.p4[data-page="home"] .lu-intro .stone-card {grid-column:8 / -1}
+  .p3.p4[data-page="home"] .row {grid-template-columns:repeat(var(--g-in),minmax(0,1fr));column-gap:var(--g-gap);padding-inline:0}
+  .p3.p4[data-page="home"] .row .row-fig {grid-column:1 / span 4}
+  .p3.p4[data-page="home"] .row .row-body {grid-column:6 / -1}
+}
+@media (min-width:700px) and (max-width:999px){
+  .p3.p4[data-page="home"] .row {grid-template-columns:repeat(6,minmax(0,1fr));column-gap:var(--g-gap);padding-inline:0}
+  .p3.p4[data-page="home"] .row .row-fig {grid-column:1 / span 2}
+  .p3.p4[data-page="home"] .row .row-body {grid-column:3 / -1}
+}
+@media (max-width:699px){ .p3.p4[data-page="home"] .row {grid-template-columns:minmax(0,1fr);padding-inline:0} }
+
+/* 칸 보기 — 주소에 `?grid` (Home.tsx). 분홍 띠 = 16칸(폰 6칸), 띠 사이 = 칸 사이 20. 화면 위 고정 · 클릭은 통과. */
+.p3.p4[data-page="home"].show-grid::after {content:'';position:fixed;inset:0 var(--g-margin);z-index:9999;pointer-events:none;
+  --oc:calc((100% - var(--g-gap) * (var(--g-cols) - 1)) / var(--g-cols));
+  background:repeating-linear-gradient(90deg, rgb(255 0 90 / .14) 0 var(--oc), transparent var(--oc) calc(var(--oc) + var(--g-gap)))}
