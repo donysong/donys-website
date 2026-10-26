@@ -118,7 +118,7 @@ public/
 ```
 
 🔴 **홈에서 이미 닫힌 판정 3건** (다시 열지 마라 — 근거·실측은 플러그인 repo `donys/docs/WEBSITE_RENEWAL_PLAN.md` §13):
-- **국문 = Pretendard 가변.** *"영문과 같은 폰트"* 는 불가다 — Google Sans Flex 에 **한글 글리프가 0 자**다
+- **국문 = ONE 모바일고딕(본문) + GS 혜자로운(국문 잉크 판 제목만)** — 2026-10-26 오너 판정(v5). 두 글꼴 다 수정·재배포 금지라 repo 에 안 올리고 `tools/syncFonts.mjs` 가 빌드 때 공식 배포본을 받는다(`assets/fonts/one-mobile/` = gitignore). 아래 Pretendard 문단은 그 전 판정 기록이다. 구: **국문 = Pretendard 가변.** *"영문과 같은 폰트"* 는 불가다 — Google Sans Flex 에 **한글 글리프가 0 자**다
   (2026-10-26 cmap 실측: google/fonts 원본 · 오너 PC 설치본. 구 문구 *"한글 글리프가 있는데 파일이 400"* 은 틀렸다 — 400 은 글리프가 없어서다).
   2026-10-26 오너 폰트 통일 판정 → 사이트 폰트 = **라틴 Flex + 한글 Pretendard 둘뿐**(타자기 2종 · 느림보고딕 뺌, `components/shell/fonts.ts`).
 - **브랜드 월 크롭 2점은 안 싣는다.** 큐브릭 = 제3자 촬영 사진 + 초상 · 시지프스 = 신문 원문이 읽힌다.

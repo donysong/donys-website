@@ -11,11 +11,11 @@
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 import RisoDefs from '@/components/RisoDefs';
 import Analytics from '@/components/Analytics';
-import { googleSansFlex } from './fonts';
+import { googleSansFlex, hyejaroun, oneMobile, oneMobileTitle } from './fonts';
 
 export default function SiteHtml({ lang, children }: { lang: 'en' | 'ko'; children: React.ReactNode }) {
   return (
-    <html lang={lang} className={googleSansFlex.variable}>
+    <html lang={lang} className={`${googleSansFlex.variable} ${oneMobile.variable} ${oneMobileTitle.variable} ${hyejaroun.variable}`}>
       <body>
         {/* 종이 · 트림 마크 · 눌림 필터 — 페이지 전체가 이 위에 인쇄된다 */}
         <RisoDefs />

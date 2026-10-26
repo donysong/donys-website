@@ -69,8 +69,9 @@
      라틴·숫자·문장부호는 영문판과 같은 Flex 로 찍힌다. 디스플레이 축(`--disp-fvs`)도 영문 값을 그대로 탄다 —
      Pretendard 는 wght 축만 있어 ROND·wdth 를 무시하므로 한글 쪽은 그대로다.
      🔴 2026-10-26 오너 *"국문 영문 모두 Google Sans Flex 로 통일"* → 사이트 폰트는 Flex + Pretendard 둘뿐이다(`components/shell/fonts.ts`). */
-  --font: var(--font-gsf), 'Pretendard Variable', system-ui, sans-serif;
-  --disp: var(--font-gsf), 'Pretendard Variable', system-ui, sans-serif;
+  /* 🔴 2026-10-26 오후 — 한글 = 원스토어 ONE 모바일고딕(본문 `--font-om` · 제목체 `--font-omt`, fonts.ts). Pretendard 는 뒷받침만. */
+  --font: var(--font-gsf), var(--font-om), 'Pretendard Variable', system-ui, sans-serif;
+  --disp: var(--font-gsf), var(--font-omt), 'Pretendard Variable', system-ui, sans-serif;
 }
 .p3 * {box-sizing:border-box}
 .p3 {scroll-behavior:smooth}

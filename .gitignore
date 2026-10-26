@@ -22,3 +22,7 @@ next-env.d.ts
 # Cloudflare Pages Functions 로컬 실행(wrangler pages dev) — 상태·비밀값이 남는다
 .wrangler/
 .dev.vars
+
+# 원스토어 ONE 모바일고딕 — 재배포 금지 라이선스, 공개 repo 에 올리지 않는다(tools/syncFonts.mjs 가 빌드 전에 복사)
+assets/fonts/one-mobile/
+

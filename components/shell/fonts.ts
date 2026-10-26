@@ -15,10 +15,47 @@
    ⚠️ 빌드 경고 *"Failed to find font override values for font `Google Sans Flex`"* 는 무해하다 — next/font 에 이 패밀리의
    대체 글꼴 보정표가 없어 보정 폴백만 안 만든다(구 CDN 판도 보정 없이 썼다). 파일 크기는 CDN 판과 바이트 단위로 같다. */
 import { Google_Sans_Flex } from 'next/font/google';
+import localFont from 'next/font/local';
 
 export const googleSansFlex = Google_Sans_Flex({
   subsets: ['latin', 'latin-ext'],
   axes: ['ROND', 'wdth'],
   display: 'swap',
   variable: '--font-gsf',
+});
+
+/* 국문 = 원스토어 ONE 모바일고딕 — 2026-10-26 오너 *"폰트 역시 너무 뾰족해. one모바일고딕으로 롤백"*(구 proto3 가 쓰던 얼굴).
+   본문 = 본문체 Regular 400 · Bold 700 · 디스플레이(굵기 800 자리) = 제목체(한 굵기). 나눔스퀘어라운드(같은 날 시도)는 걷었다.
+   🔴 라이선스 = 상업·웹 탑재 가능, **파일 수정·재배포 금지** — 파일은 git 밖(assets/fonts/one-mobile/, tools/syncFonts.mjs 가 공식 zip 에서 꺼낸다).
+      변환하지 않은 공식 OTF 그대로다(한 파일 0.9–1.9MB) → 미리 받지 않는다(preload:false): 한글이 그려지는 국문 면에서만 받는다.
+   Pretendard 는 이 글꼴에 없는 글자의 뒷받침으로만 남는다. */
+export const oneMobile = localFont({
+  src: [
+    { path: '../../assets/fonts/one-mobile/ONE Mobile OTF Regular.otf', weight: '400', style: 'normal' },
+    { path: '../../assets/fonts/one-mobile/ONE Mobile OTF Bold.otf', weight: '700', style: 'normal' },
+  ],
+  display: 'swap',
+  preload: false,
+  variable: '--font-om',
+  fallback: ['Pretendard Variable', 'system-ui', 'sans-serif'],
+});
+export const oneMobileTitle = localFont({
+  src: '../../assets/fonts/one-mobile/ONE Mobile Title OTF.otf',
+  weight: '400 900',
+  display: 'swap',
+  preload: false,
+  variable: '--font-omt',
+  fallback: ['Pretendard Variable', 'system-ui', 'sans-serif'],
+});
+
+/* 국문 빨간 잉크 판 제목(Plate3 `.pl`)만 = GS 혜자로운 Bold — 2026-10-26 오너 *"붉은색 헤드라인만"*. 검정 소제목·본문은 ONE 모바일 그대로.
+   라이선스(GS리테일): 웹폰트 탑재 가능 · 출처 표기 불필요 · 수정·재배포 금지 · 🔴 BI/CI(회사명·브랜드명·로고·슬로건·캐치프레이즈) 금지 —
+   브랜드명("You Name It")·"AE PLUGIN" 은 라틴이라 Flex 로 찍혀 해당 없다. 한글 2,780자뿐 — 없는 글자는 ONE 제목체로 넘어간다. */
+export const hyejaroun = localFont({
+  src: '../../assets/fonts/one-mobile/GSHYEJAROUN-Bold.otf',
+  weight: '100 900',
+  display: 'swap',
+  preload: false,
+  variable: '--font-hyeja',
+  fallback: ['Pretendard Variable', 'system-ui', 'sans-serif'],
 });
