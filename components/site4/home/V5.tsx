@@ -49,8 +49,10 @@ export function Intro() {
       <ul className="lineup sweep">
         <li className="row open">
           <a className="hit" href={href('/ae')} aria-label={t('home.row1.aria')} data-cur />
-          <figure className="spot-fig row-fig">
-            <i className="spot" role="img" aria-label={t('home.row1.spot')} style={{ backgroundImage: 'url(/riso/spots/bentoGrid.webp)' }} />
+          {/* 브랜드 필름 스틸(33s · 로고 콜라주) — 구 Bento Grid 호버 시트는 오너 2026-10-26 *"개 구림"* 으로 뺐다.
+              원본 = 영상 R2 의 `younameit-brand-film-2026-10.mp4` 프레임(1920×1080) → 1280×720 webp. 호버 = 레퍼런스(이미지 1.05). */}
+          <figure className="row-fig v5-still">
+            <img src="/riso/brand/film-still-row.webp" alt={t('home.v5.row.still')} width={1280} height={720} loading="lazy" decoding="async" />
           </figure>
           <div className="row-body">
             <div className="row-name">
