@@ -399,11 +399,11 @@
 @media (prefers-reduced-motion:no-preference){
   .p3 .stone-card .sc-paper, .p3 .stone-card .sc-flap::before {transition:clip-path var(--t-register) var(--ease-press)}   /* 가상 요소는 :is() 에 못 넣는다 */
 }
-/* 타자기 두 줄 — 둘째 줄은 들여 친다(레퍼런스). 펜 획 = `.typed.done` 규칙(site3p `.pen`)을 그대로 탄다 */
+/* 카드 두 줄 — 둘째 줄은 들여 친다(레퍼런스). 펜 획 = `.typed.done` 규칙(site3p `.pen`)을 그대로 탄다.
+   얼굴 = 사이트 본문 폰트(2026-10-26 오너 폰트 통일 — 타자기 폰트 2종은 뺐다, `components/shell/fonts.ts`) */
 .p3 .stone-card figcaption.typed {position:absolute;left:11%;right:5%;top:7.5%;display:grid;gap:.5em;
-  font-family:var(--font-type),'Courier New',monospace;font-weight:400;font-size:max(11px,3.7cqw);line-height:1.2;
+  font-family:var(--font);font-weight:500;font-size:max(11px,3.7cqw);line-height:1.2;
   letter-spacing:0;color:#1e1e1c}
-.p3[data-lang="ko"] .stone-card figcaption.typed {font-family:var(--font-type),var(--font-type-ko),monospace;font-size:max(11px,3.9cqw)}
 .p3 .stone-card .sc-l2 {padding-left:20cqw}
 .p3 .stone-card .sc-rock {position:absolute;left:19%;top:26%;width:57%;height:auto;filter:drop-shadow(0 0 .7cqw rgba(0,0,0,.5))}
 /* 스탠스 줄 — 브랜드의 핵심 문장인데 15px 파랑이라 종이에 묻혔다. 링크임을 보이게 */
@@ -809,16 +809,9 @@
 .p3 .buy-stack .quip {font-size:13px;font-weight:600;color:var(--text);text-align:center}
 @media (max-width:680px){ .p3 .buy-stack {justify-items:start} .p3 .buy-stack .quip {text-align:left} }
 
-/* ════ §16 B1: /ae — 히어로 몽타주 · 브랜드 라벨 느림보고딕 (2026-09-28) ════
-   (같은 날의 검정 판 · 가격 판은 2026-09-29 L4 노트 판 · 가격 판으로 바뀌었다 — 파일 끝.) */
-
-/* ── 느림보고딕 — `/ae` 히어로의 작은 브랜드 라벨("You Name It")에만 (§16-2) ──
-   🔴 **포맷 변환만** 했다: OTF → woff2(fontTools `woff2.compress`). 글리프 11,463 · cmap · CFF · hmtx 바이트 동일, 서브셋 없음 —
-   라이선스가 "수정" 을 금한다. 웹 사용 = 제작자 서면 허락(WEBSITE_RENEWAL §2 폰트 문단). Regular 400 한 굵기뿐이라
-   `font-synthesis:none` — 합성 볼드는 판을 뭉갠다(§2). 🔴 큰 제목(`AE PLUGIN`)은 Google Sans Flex 그대로다(2026-09-10 판정).
-   브라우저는 이 글꼴을 **쓰는 면에서만** 받는다 — 다른 페이지는 이 선언만 보고 파일을 안 받는다. */
-@font-face {font-family:'Neurimbo Gothic';src:url(/fonts/neurimboGothic.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
-.p3 .phero h1 .brandpart {font-family:'Neurimbo Gothic',var(--disp);font-weight:400;font-variation-settings:normal;font-synthesis:none;letter-spacing:.01em}
+/* ════ §16 B1: /ae — 히어로 몽타주 (2026-09-28) ════
+   (같은 날의 검정 판 · 가격 판은 2026-09-29 L4 노트 판 · 가격 판으로 바뀌었다 — 파일 끝.)
+   브랜드 라벨("You Name It")의 느림보고딕은 2026-10-26 오너 폰트 통일로 뺐다 — 라벨도 `.brandpart` 기본(디스플레이 폰트)을 탄다. */
 
 /* ── 히어로 큰 제목 — 밀린 판 + 잉크 결 (§16-13·14·26) ──
    🔴 이제 히어로 전용 규칙이 아니다 — 2026-09-28 오너가 **빨간 판 전부**로 넓혔다(*"밑에 붉은 색 들어간 애들한테도 공통적으로"*).

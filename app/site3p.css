@@ -3,7 +3,7 @@
 
 /* ═══════════════════════════════════════════════════════════════
    proto v3.2 — 2026-09-11
-   · 폰트 = 브랜드 3종만: EN 디스플레이/본문 Google Sans Flex · KO 디스플레이 느림보고딕 · KO 본문 ONE 모바일. 모노 폐기.
+   · 폰트 = (2026-10-26 오너 통일) 라틴 Google Sans Flex · 한글 Pretendard 둘뿐 — 아래 `.p3[data-lang="ko"]` 주석. 모노 폐기.
    · EN/KO 토글 = 사전(T) 기반 전체 교체 (data-i / data-p)
    · 브랜드 월(콜라주)의 요소를 배경이 아니라 컴포넌트로: sheet(크림 종이) · gridp(모눈) · tape · sticky(컬) ·
      stamp(고무 스탬프) · typed+circle(타자기+동그라미) · clip(신문 클리핑) · duotone(도판) · lines(줄무늬 필드)
@@ -62,13 +62,13 @@
 }
 @media (max-width:999px){ .p3 { --r-panel:35px; --r-input:15px } }
 .p3[data-lang="ko"] {
-  /* 국문 = **한글만** Pretendard 가변(OFL) — 영문 Flex 와 같은 얼굴은 원리상 불가(파일이 400, layout.tsx 주석 참조).
+  /* 국문 = **한글만** Pretendard 가변(OFL) — 영문 Flex 와 같은 얼굴은 불가: Flex 에 한글 글리프가 0 자다(2026-10-26 cmap 실측).
      Pretendard 는 제품 패널이 쓰는 폰트라 사이트와 패널이 같은 목소리로 읽힌다.
      🔴 Flex 가 **앞**이다 (2026-09-30 오너 *"국문에 들어간 영어들은 영문과 동일한 폰트를 써야지 — 같은 you name it 인데
      전환에 따라 폰트가 달라짐"*). Flex 는 latin·latin-ext 뿐이라 한글 글리프가 없어 한글은 자동으로 Pretendard 로 넘어가고,
      라틴·숫자·문장부호는 영문판과 같은 Flex 로 찍힌다. 디스플레이 축(`--disp-fvs`)도 영문 값을 그대로 탄다 —
      Pretendard 는 wght 축만 있어 ROND·wdth 를 무시하므로 한글 쪽은 그대로다.
-     느림보고딕·ONE 모바일은 닫힌 결정(재배포 불가)이라 애초에 후보가 아니다. */
+     🔴 2026-10-26 오너 *"국문 영문 모두 Google Sans Flex 로 통일"* → 사이트 폰트는 Flex + Pretendard 둘뿐이다(`components/shell/fonts.ts`). */
   --font: var(--font-gsf), 'Pretendard Variable', system-ui, sans-serif;
   --disp: var(--font-gsf), 'Pretendard Variable', system-ui, sans-serif;
 }
