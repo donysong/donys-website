@@ -193,6 +193,7 @@
 .p3 .qa .q {justify-self:start}   /* 펼치면 빨간 펜 밑줄 — 칸 전폭이 아니라 글자 폭에 긋는다 */
 .p3 .qa .a {padding:0 0 20px;margin:0;font-size:15px;line-height:1.62;max-width:72ch;color:var(--text)}
 .p3 .qa .a b {font-weight:700}
+.p3 .qa .a-wrap {overflow:hidden}   /* 펼침 높이 모션(motion.ts `useDisclosure`)이 이 상자를 민다 — 끝나면 높이를 비워 답을 안 자른다 */
 
 /* ═══ specs — 8필드 3열. 마지막에 온다 ═══════════════════════════ */
 .p3 .specs {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1.5px solid var(--black)}

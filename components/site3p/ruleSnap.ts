@@ -116,15 +116,23 @@ function snap(note: HTMLElement) {
   walk(note, note);
 }
 
+const seen = new WeakMap<HTMLElement, string>();
+const size = (n: HTMLElement) => `${n.offsetWidth}x${n.offsetHeight}`;
+const run = (n: HTMLElement) => { snap(n); seen.set(n, size(n)); };
+
+/* 펼침 모션(site4 `motion.ts` `useDisclosure`)용 — 높이를 애니메이션하는 동안 매 프레임 다시 맞추면 아래 행이 28px 씩 계단으로 튄다.
+   모션이 잡고(hold) 있는 동안 ResizeObserver 를 건너뛰고, 모션이 최종 상태를 직접 맞춘다(`snapNow`). */
+export function snapNow(note: HTMLElement) { run(note); }
+export function holdSnap(note: HTMLElement, on: boolean) {
+  if (on) note.dataset.snapHold = '1'; else delete note.dataset.snapHold;
+}
+
 export function snapRules() {
   const notes = [...document.querySelectorAll<HTMLElement>('.p3 .onnote')];
-  const seen = new WeakMap<HTMLElement, string>();
-  const size = (n: HTMLElement) => `${n.offsetWidth}x${n.offsetHeight}`;
-  const run = (n: HTMLElement) => { snap(n); seen.set(n, size(n)); };
   let raf = 0;
   const pending = new Set<HTMLElement>();
   const ro = new ResizeObserver((es) => {
-    es.forEach((e) => { const n = e.target as HTMLElement; if (seen.get(n) !== size(n)) pending.add(n); });
+    es.forEach((e) => { const n = e.target as HTMLElement; if (!n.dataset.snapHold && seen.get(n) !== size(n)) pending.add(n); });
     if (pending.size && !raf) raf = requestAnimationFrame(() => { raf = 0; pending.forEach(run); pending.clear(); });
   });
   notes.forEach((n) => { run(n); ro.observe(n); });

@@ -6,6 +6,8 @@
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 import { PORTAL_URL } from '@/lib/product';
+import { useRef } from 'react';
+import { useDisclosure } from '@/components/site4/motion';
 
 const GROUPS = [
   { lab: 'ae.faq.g1', qs: [1, 2, 3] },
@@ -15,8 +17,10 @@ const GROUPS = [
 
 export default function Faq() {
   const { t } = useT();
+  const ref = useRef<HTMLElement>(null);
+  useDisclosure(ref);   // 펼침 높이 · 페이드 · ↑↓ Home End (motion.ts)
   return (
-    <section id="faq" data-plate="06" data-name="ae.plate.faq">
+    <section ref={ref} id="faq" data-plate="06" data-name="ae.plate.faq">
       <div className="sec tight">
         <div className="sec-head">
           <div className="no"><img src="/riso/stones/stone-1.webp" alt="" /> <span className="lab">06</span></div>
@@ -32,7 +36,7 @@ export default function Faq() {
                   <span className="q">{t(`ae.q${n}.q`)}</span>
                   <span className="verdict">{t(`ae.q${n}.v`)}</span>
                 </summary>
-                <p className="a" dangerouslySetInnerHTML={{ __html: t(`ae.q${n}.a`).split('{portal}').join(PORTAL_URL) }} />
+                <div className="a-wrap"><p className="a" dangerouslySetInnerHTML={{ __html: t(`ae.q${n}.a`).split('{portal}').join(PORTAL_URL) }} /></div>
               </details>
             ))}
           </div>
