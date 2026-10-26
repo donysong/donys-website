@@ -11,23 +11,15 @@
    (구 도그푸드 블록은 2026-09-28 에 페이지에서 뺐다 — §16 2라운드 오너.) */
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
-import { RELEASES } from '@/lib/releases';
 import { useHref } from '@/components/site4/Shell';
-
-const VERSIONS = 2;
-const ITEMS = 3;
-
-/* 노트 항목은 문단이다 — 첫 문장까지만 싣는다(`. ` 에서 자른다). 문장을 여기서 새로 쓰지 마라. */
-function firstSentence(s: string) {
-  const i = s.indexOf('. ');
-  return i < 0 ? s : s.slice(0, i + 1);
-}
+import { ReleaseCards, useReveal } from '@/components/site4/home/V5';
 
 export default function News() {
-  const { t, lang } = useT();
+  const { t } = useT();
   const href = useHref();
+  const ref = useReveal<HTMLElement>();
   return (
-    <section id="news" data-plate="05" data-name="ae.plate.news">
+    <section id="news" ref={ref} data-plate="05" data-name="ae.plate.news">
       <div className="sec tight">
         <div className="sec-head">
           <div className="no"><img src="/riso/stones/stone-6.webp" alt="" /> <span className="lab">05</span></div>
@@ -35,15 +27,8 @@ export default function News() {
           <Html k="ae.news.tag" as="p" className="tag" />
         </div>
 
-        {RELEASES.slice(0, VERSIONS).map((r) => (
-          <div className="rel" key={r.version}>
-            <div className="rel-head">
-              <span className="v">v{r.version}</span>
-              <span className="d">{r.date}</span>
-            </div>
-            <ul>{r.items[lang].slice(0, ITEMS).map((it, j) => <li key={j}>{firstSentence(it)}</li>)}</ul>
-          </div>
-        ))}
+        {/* v5 (2026-10-26) — 홈과 같은 릴리스 카드 4장(해요체 요약 `card`). 구 목록(두 버전 × 첫 문장 셋)은 Docs 업데이트 로그가 갖는다. */}
+        <ReleaseCards />
         <p className="rel-all">
           <a href={href('/update')} data-cur>{t('ae.news.all')}</a>
         </p>

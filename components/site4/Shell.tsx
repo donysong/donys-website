@@ -14,7 +14,7 @@ import { useLang, useT } from '@/components/site3p/lang';
 import { Defs, Surface, useChrome } from '@/components/site3p/Chrome';
 import { penPath } from '@/components/site3p/pen';
 import { useSmoothScroll } from './motion';
-import { BUSINESS, CHECKOUT_URL, FTC_BIZ_URL } from '@/lib/product';
+import { BUSINESS, CHECKOUT_URL, FTC_BIZ_URL, SOCIAL } from '@/lib/product';
 import { ANALYTICS_ON } from '@/lib/analytics';
 import { openConsent } from '@/lib/consent';
 
@@ -181,6 +181,13 @@ function Footer4({ page }: { page: Page4Kind }) {
               ? <a className="btn-line" href={href('/ae')} data-cur>{t('s.toProduct')}</a>
               : <a className="buy" href={CHECKOUT_URL} data-cur>{t('s.buy.price')}</a>}
           </div>
+          {/* SNS 아이콘 줄(오너 2026-10-26 *"메인이랑 AE 둘 다"*) — 셸 푸터라 모든 면에 선다. 주소 = lib/product.ts SOCIAL. */}
+          <p className="ft-follow-l">{t('s.ft.follow')}</p>
+          <ul className="ft-social">
+            {SOCIAL.map((n) => (
+              <li key={n.id}><a href={n.url} target="_blank" rel="noopener noreferrer" aria-label={n.label} title={n.label} data-cur><SocialIcon id={n.id} /></a></li>
+            ))}
+          </ul>
         </div>
         <div>
           <h2>{t('s.ft.made')}</h2>
@@ -221,6 +228,17 @@ function Footer4({ page }: { page: Page4Kind }) {
       <BizLine />
     </footer>
   );
+}
+
+/* SNS 아이콘 — 단색 글리프(currentColor) 24px 박스. 브랜드 원색은 안 쓴다(판 위 잉크 한 색). */
+function SocialIcon({ id }: { id: string }) {
+  const p = {
+    instagram: 'M12 7.2a4.8 4.8 0 1 0 0 9.6 4.8 4.8 0 0 0 0-9.6Zm0 7.8a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm5-8.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2ZM12 2.5c-2.6 0-2.9 0-3.9.1-3.5.2-5.4 2.1-5.6 5.6-.1 1-.1 1.3-.1 3.8s0 2.9.1 3.9c.2 3.5 2.1 5.4 5.6 5.6 1 .1 1.3.1 3.9.1s2.9 0 3.9-.1c3.5-.2 5.4-2.1 5.6-5.6.1-1 .1-1.3.1-3.9s0-2.8-.1-3.8c-.2-3.5-2.1-5.4-5.6-5.6-1-.1-1.3-.1-3.9-.1Zm0 1.7c2.5 0 2.8 0 3.8.1 2.5.1 3.6 1.3 3.7 3.7.1 1 .1 1.3.1 3.8s0 2.9-.1 3.8c-.1 2.4-1.2 3.6-3.7 3.7-1 .1-1.3.1-3.8.1s-2.9 0-3.8-.1c-2.5-.1-3.6-1.3-3.7-3.7-.1-1-.1-1.3-.1-3.8s0-2.8.1-3.8c.1-2.4 1.2-3.6 3.7-3.7 1-.1 1.3-.1 3.8-.1Z',
+    youtube: 'M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8ZM10 15V9l5.2 3L10 15Z',
+    x: 'M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L1.9 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z',
+    tiktok: 'M16.6 3c.3 2.3 1.6 3.8 3.9 4v2.6c-1.4.1-2.6-.3-3.9-1.1v5.3c0 6.6-7.2 8.7-10.1 4-1.9-3-.7-8.3 5.4-8.5v2.8c-.5.1-1 .2-1.4.3-1.4.5-2.2 1.4-2 3 .4 3.1 6.1 4 5.6-2V3h2.5Z',
+  }[id];
+  return <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d={p} /></svg>;
 }
 
 /* 사업자 줄 — 전자상거래법 §10(사이버몰 **초기화면** 표시 + 공정위 공개페이지 연결) · §13(통신판매업 신고번호).

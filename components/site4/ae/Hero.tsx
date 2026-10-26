@@ -26,7 +26,8 @@ export default function Hero() {
         <span className="brandpart">{t('s.brand')}</span>
         <Plate3 k="ae.hero.plugin" />
       </h1>
-      <p className="promise">{t('ae.hero.promise')}</p>
+      {/* 약속문 두 줄 = 두 문장(2026-10-26 오너 *"아이디어에 집중하고 반복 작업은 플러그인에 맡겨라"*). 줄은 마침표에서만 끊는다 */}
+      <p className="promise">{t('ae.hero.promise').split('|').map((s, i) => <span className="promise-l" key={i}>{s}</span>)}</p>
       <p className="lab lc" style={{ color: 'var(--muted)' }}>{t('ae.hero.sub')}</p>
 
       <div className="pstage">
@@ -49,12 +50,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="metas">
-        {['ae.meta.once', 'ae.meta.two', 'ae.meta.refund'].map((k) => (
-          <span className="stamp black" key={k}><span className="dot" />{t(k)}</span>
-        ))}
-        <span className="stamp red"><span className="dot" />{t('ae.meta.chat')}</span>
-      </div>
+      {/* 도장 4개(일회 구매 · 컴퓨터 2대 · 14일 환불 · Chat 구독) — 오너 2026-10-26 *"이건 지우자"*. 같은 말은 가격 판과 FAQ 가 한다. */}
     </header>
   );
 }

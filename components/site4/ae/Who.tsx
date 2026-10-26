@@ -10,6 +10,7 @@
    🔴 마크업은 하우스 계약이다: article.role.gridp > div.in + div.say. */
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
+import { useReveal } from '@/components/site4/home/V5';
 
 const ROLES = [
   { n: '01', k: 'r1' },
@@ -20,8 +21,9 @@ const ROLES = [
 
 export default function Who() {
   const { t } = useT();
+  const ref = useReveal<HTMLElement>();
   return (
-    <section id="who" data-plate="01" data-name="ae.plate.who">
+    <section id="who" ref={ref} data-plate="01" data-name="ae.plate.who">
       <div className="sec tight">
         <div className="sec-head">
           <div className="no"><img src="/riso/stones/stone-2.webp" alt="" /> <span className="lab">01</span></div>
@@ -29,8 +31,8 @@ export default function Who() {
           <Html k="ae.who.tag" as="p" className="tag" />
         </div>
         <div className="roles sweep">
-          {ROLES.map((r) => (
-            <article className="role gridp" tabIndex={0} data-cur key={r.k}>
+          {ROLES.map((r, i) => (
+            <article className="role gridp" tabIndex={0} data-cur key={r.k} data-reveal style={{ ['--d' as string]: `${(i * 0.167).toFixed(3)}s` }}>
               <div className="in">
                 <div className="top"><span className="lab lc">{t('ae.role.l')}</span><i>{r.n}</i></div>
                 <h3>{t(`ae.${r.k}.h`)}</h3>

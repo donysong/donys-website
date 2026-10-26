@@ -46,6 +46,21 @@ export function useProgress(ref: RefObject<HTMLElement | null>) {
   }, [ref]);
 }
 
+/* 스크롤 진행도 → `--p`, 시작·끝을 고른다. `/ae` 03 기능의 빨간 펜 선(레퍼런스 타임라인 선 = DrawSVG 스크럽, §17.3)이 쓴다:
+   판 윗변이 화면 60% 에 닿을 때 0, 판 바닥이 화면 60% 를 지날 때 1. 줄인 모션이면 안 민다 → CSS 가 다 그어진 상태(`--p` 기본 1)를 그린다. */
+export function useScrub(ref: RefObject<HTMLElement | null>, start = 'top 60%', end = 'bottom 60%') {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || still()) return;
+    const st = ScrollTrigger.create({
+      trigger: el, start, end,
+      onUpdate: (s) => el.style.setProperty('--p', s.progress.toFixed(4)),
+    });
+    el.style.setProperty('--p', st.progress.toFixed(4));
+    return () => st.kill();
+  }, [ref, start, end]);
+}
+
 /* 이 판(표지)이 네비 밑에 있는 동안 셸 루트에 `.nav-clear` 를 단다 — 네비 바탕을 걷을지는 CSS 가 정한다(site4.css 표지 P1).
    끝 = 다음 판의 윗변(이 판 바닥 − 판 반지름, 판이 반지름만큼 겹친다)이 네비 밑변에 닿을 때. */
 export function useClearNav(ref: RefObject<HTMLElement | null>) {

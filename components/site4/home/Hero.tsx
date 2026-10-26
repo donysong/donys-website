@@ -50,7 +50,8 @@ export default function Hero() {
    꼭짓점 계산은 site4.css `.stone-card` 주석. 펜은 표지 타자기가 다 칠 즈음 그어진다(한 순간으로 묶는다).
    v5 — 자리는 01 만든 것(`Lineup.tsx`)이다. 그래서 펜 시계가 **마운트**가 아니라 **진입**에서 돈다(구 1.9s 는 표지 타자기에 맞춘 값이었다 —
    화면 밖에서 이미 그어져 버렸다). 카드 40% 가 보이면 .5s 뒤 긋는다. 언어를 바꾸면 다시 긋는다. */
-export function StoneCard() {
+/* `caption={false}` = 손글씨 두 줄 없이 돌만(홈 v5 01 — 오너 2026-10-26 *"돌 하나가 이야기가 된다 이거 뺄까"*). */
+export function StoneCard({ caption = true }: { caption?: boolean } = {}) {
   const { t, lang } = useT();
   const cap = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -70,10 +71,12 @@ export function StoneCard() {
     <figure className="stone-card">
       <span className="sc-under" aria-hidden="true" />
       <span className="sc-paper" aria-hidden="true" />
-      <figcaption ref={cap} className="typed">
-        <span className="sc-l1" dangerouslySetInnerHTML={{ __html: typedHTML(t('home.hero.fig1')) }} />
-        <span className="sc-l2" dangerouslySetInnerHTML={{ __html: typedHTML(t('home.hero.fig2')) }} />
-      </figcaption>
+      {caption ? (
+        <figcaption ref={cap} className="typed">
+          <span className="sc-l1" dangerouslySetInnerHTML={{ __html: typedHTML(t('home.hero.fig1')) }} />
+          <span className="sc-l2" dangerouslySetInnerHTML={{ __html: typedHTML(t('home.hero.fig2')) }} />
+        </figcaption>
+      ) : null}
       <img className="sc-rock" src="/riso/stones/stone-7.webp" alt="" width={720} height={704} />
       <span className="sc-flap" aria-hidden="true" />
     </figure>

@@ -11,7 +11,7 @@
 import { useEffect } from 'react';
 import Page4, { type NavLink } from '@/components/site4/Shell';
 import Hero from './Hero';
-import { Intro, Tiles, FreeCallout, Recent, Outro } from './V5';
+import { Intro, Tiles, FreeCallout, Recent, Films, Outro } from './V5';
 
 /* v5 (2026-10-26) — 구 02 What we are(`Brand.tsx`) · 03 Who makes it(`Who.tsx`) · `Lineup.tsx` 는 판정이 굳을 때까지 파일만 둔다.
    철학은 타일 1(`home.v5.t1`) + 끝 한 줄(`Outro`)로 접혔다(오너 판정 a). */
@@ -26,8 +26,9 @@ export default function Home() {
     if (new URLSearchParams(location.search).has('grid')) document.querySelector('.p3.p4')?.classList.add('show-grid');
   }, []);
   return (
-    <Page4 page="home" plateTotal={3} links={LINKS} cta={{ href: '/ae', k: 's.toProduct' }}>
+    <Page4 page="home" plateTotal={4} links={LINKS} cta={{ href: '/ae', k: 's.toProduct' }}>
       <Hero />
+      <Films />
       <Intro />
       <Tiles />
       <FreeCallout />

@@ -11,9 +11,10 @@ import { useHref } from '@/components/site4/Shell';
 import { RELEASES } from '@/lib/releases';
 import { DOCS_TOOLS } from '@/lib/docsData';
 import { rePress, StoneCard } from './Hero';
+import { IG_REELS, SOCIAL } from '@/lib/product';
 
 /* 화면에 들어오면 `.in` — 한 번만. CSS 가 팝·지연을 쥔다(site4.css `.v5-*`). */
-function useReveal<T extends HTMLElement>() {
+export function useReveal<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   useEffect(() => {
     const root = ref.current; if (!root) return;
@@ -33,17 +34,18 @@ export function Intro() {
   const { t } = useT();
   const href = useHref();
   return (
-    <section id="lineup" data-plate="01" data-name="home.nav.lineup">
+    <section id="lineup" data-plate="02" data-name="home.nav.lineup">
       <div className="sec v5-intro-sec">
         <div className="lu-intro v5-intro">
           <div className="v5-intro-copy">
-            <p className="v5-lead">{t('home.v5.intro')}</p>
+            {/* 두 문장 = 두 줄(오너 2026-10-26 문구 그대로 · 줄은 마침표에서만) */}
+            <p className="v5-lead">{t('home.v5.intro').split('|').map((l, i) => <span className="v5-lead-l" key={i}>{l}</span>)}</p>
             <div className="ctas">
               <a className="btn-fill" href={href('/download')} data-cur>{t('home.v5.cta.free')} <span aria-hidden="true">↓</span></a>
               <a className="btn-line" href={href('/ae')} data-cur>{t('home.v5.cta.plugin')} <span aria-hidden="true">→</span></a>
             </div>
           </div>
-          <StoneCard />
+          <StoneCard caption={false} />
         </div>
       </div>
       <ul className="lineup sweep">
@@ -87,7 +89,7 @@ export function Tiles() {
   const { t } = useT();
   const ref = useReveal<HTMLElement>();
   return (
-    <section id="how" className="onnote" data-plate="02" data-name="home.nav.how" ref={ref}>
+    <section id="how" className="onnote" data-plate="03" data-name="home.nav.how" ref={ref}>
       <div className="sec">
         <ol className="v5-tiles">
           {TILES.map((x) => (
@@ -121,10 +123,29 @@ export function FreeCallout() {
   );
 }
 
-/* 릴리스 노트 첫 항목의 머리 — 첫 ` — ` 또는 첫 마침표까지(Who.tsx 와 같은 규칙). 문장은 `lib/releases.ts` 가 정본. */
+/* 릴리스 노트 첫 항목의 머리 — 첫 ` — ` 또는 첫 마침표까지(Who.tsx 와 같은 규칙). 문장은 `lib/releases.ts` 가 정본.
+   카드 문장은 `card`(해요체 요약)가 있으면 그걸 쓴다(오너 2026-10-26 *"카드만 따로 짧게"*). */
 function head(s: string) {
   const cut = s.split(/\s—\s|\.\s/)[0].trim();
   return cut.endsWith('.') ? cut : cut + '.';
+}
+
+/* 릴리스 카드 4장 — 홈 03 · /ae 05 가 같이 쓴다(레퍼런스 아티클 벤토). 카드마다 6fps 위브 등장(한 프레임씩 늦게). */
+export function ReleaseCards({ n = 4 }: { n?: number }) {
+  const { lang } = useT();
+  const href = useHref();
+  return (
+    <ol className="v5-rel">
+      {RELEASES.slice(0, n).map((r, i) => (
+        <li key={r.version} className={`v5-rel-card c${i}`} data-reveal style={{ ['--d' as string]: `${(i * 0.167).toFixed(3)}s` }}>
+          <a href={href('/update')} data-cur>
+            <span className="v5-rel-top"><span className="v5-rel-v">v{r.version}</span><span className="v5-rel-d">{r.date}</span></span>
+            <span className="v5-rel-t">{r.card?.[lang] ?? head(r.items[lang][0])}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  );
 }
 
 /* 03 — 최근에 만든 것: 릴리스 카드 4장(레퍼런스 아티클 벤토 자리) + 툴 이름 레일(로고 레일 자리) */
@@ -136,23 +157,14 @@ export function Recent() {
   const half = Math.ceil(names.length / 2);
   const rails = [names.slice(0, half), names.slice(half)];
   return (
-    <section id="recent" className="onnote" data-plate="03" data-name="home.nav.recent" ref={ref}>
+    <section id="recent" className="onnote" data-plate="04" data-name="home.nav.recent" ref={ref}>
       <div className="sec">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-3.webp" alt="" /> <span className="lab">03</span></div>
+          <div className="no"><img src="/riso/stones/stone-3.webp" alt="" /> <span className="lab">04</span></div>
           <h2 className="disp"><Plate3 k="home.nav.recent" boil={false} /></h2>
           <a className="tag" href={href('/update')} data-cur>{t('home.v5.rel.all')} →</a>
         </div>
-        <ol className="v5-rel">
-          {RELEASES.slice(0, 4).map((r, i) => (
-            <li key={r.version} className={`v5-rel-card c${i}`} data-reveal>
-              <a href={href('/update')} data-cur>
-                <span className="v5-rel-top"><span className="v5-rel-v">v{r.version}</span><span className="v5-rel-d">{r.date}</span></span>
-                <span className="v5-rel-t">{head(r.items[lang][0])}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
+        <ReleaseCards />
       </div>
       <div className="v5-rail" aria-label={t('home.v5.tools.h')}>
         <p className="v5-rail-h">{t('home.v5.tools.h')}</p>
@@ -176,6 +188,39 @@ export function Outro() {
           <Plate3 k="home.v5.out.a" block />
           <Plate3 k="home.v5.out.b" block />
         </p>
+      </div>
+    </section>
+  );
+}
+
+/* 01 영상 — 인스타 릴 세 장(오너 2026-10-26 *"셋 다 넣는 건 좋음. 근데 플러그인 이야기하는 자리에 들어가면 안 되지. 따로 빼 줘"*).
+   표지 문구(*"창작자를 위한 콘텐츠와 툴을 만듭니다"*)의 **콘텐츠** 쪽 증거 — 툴(01)과 따로 선다. 자리 = 표지 바로 뒤, 플러그인(02) 위(오너 2026-10-26 *"위치 플러그인 위로 올릴까"*) — 표지 문구 순서(콘텐츠 → 툴) 그대로. 판 = 모눈(표지 파랑 다음).
+   표지만 우리 서버에(우리 게시물 썸네일) · 영상은 인스타가 튼다 — 영화 장면이 섞인 편을 우리 상업 서버에서 직접 틀지 않는다. */
+export function Films() {
+  const { t, lang } = useT();
+  const ig = SOCIAL.find((n) => n.id === 'instagram')!;
+  /* 위계 = 02 플러그인 소개와 같다(오너 2026-10-26 *"얘와 같은 위계로 — 번호 빼고"*): 판 제목·번호 없이 한 문단 + 행동 하나 + 오른쪽 큰 그림(릴 세 장 부채꼴). */
+  return (
+    <section id="films" className="onnote" data-plate="01" data-name="home.nav.films">
+      <div className="sec v5-intro-sec">
+        <div className="lu-intro v5-intro v5-films">
+          <div className="v5-intro-copy">
+            <p className="v5-lead">{t('home.v5.films.lead')}</p>
+            <div className="ctas">
+              <a className="btn-line" href={ig.url} target="_blank" rel="noopener noreferrer" data-cur>{t('home.v5.reels.more')} <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <ul className="v5-reels">
+            {IG_REELS.map((r) => (
+              <li key={r.id}>
+                <a href={r.url} target="_blank" rel="noopener noreferrer" data-cur>
+                  <img src={`/riso/ig/${r.id}.webp`} alt={r.alt[lang]} width={540} height={960} loading="lazy" decoding="async" />
+                  <span className="v5-reel-play" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M8 5v14l11-7z" /></svg></span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

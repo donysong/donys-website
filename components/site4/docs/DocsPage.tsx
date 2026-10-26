@@ -23,6 +23,7 @@ import Tools from './Tools';
 import Catalog from './Catalog';
 import ReleaseLog from './ReleaseLog';
 import Install from './Install';
+import Connect from './Connect';
 import { HashRedirect } from './Usage';
 
 const LINKS: NavLink[] = [
@@ -31,6 +32,7 @@ const LINKS: NavLink[] = [
   { href: '#catalog', k: 'docs.nav.catalog' },
   { href: '#release-notes', k: 'docs.nav.notes' },
   { href: '#install', k: 'docs.nav.install' },
+  { href: '#connect', k: 'docs.nav.connect' },
 ];
 
 export default function DocsPage() {
@@ -56,6 +58,7 @@ export default function DocsPage() {
       <Catalog />
       <ReleaseLog />
       <Install />
+      <Connect />
     </Page4>
   );
 }

@@ -119,3 +119,21 @@ export const BUSINESS = {
    (`mailOrderNo` 빈 값)엔 조회해도 빈 결과다(2026-10-14 실측 — 보안문자 뒤 무결과) → 그동안은 링크를 안 그린다(빈 문자열).
    신고하고 `mailOrderNo` 를 채우면 푸터·약관 링크와 deployCheck `[biz]` 링크 검사가 같이 켜진다. */
 export const FTC_BIZ_URL = BUSINESS.mailOrderNo ? `https://www.ftc.go.kr/bizCommPop.do?wrkr_no=${BUSINESS.regNo.replace(/-/g, '')}` : '';
+
+/* SNS — 전부 같은 "younameit" 계정(오너 2026-10-26). 푸터(홈 · /ae · Docs · 읽는 면 공통)의 아이콘 줄이 읽는다.
+   🔴 주소를 바꾸면 여기 한 곳만 고친다. 순서 = 화면 순서. */
+export const SOCIAL = [
+  { id: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/willyounameit/' },
+  { id: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@YouNameIt-10' },
+  { id: 'x', label: 'X', url: 'https://x.com/YouNameI_Works' },
+  { id: 'tiktok', label: 'TikTok', url: 'https://www.tiktok.com/@you.name.it548' },
+] as const;
+
+/* 인스타 릴스 — 홈 01 소개 오른쪽 큰 그림 자리(구 돌 카드)에 세 장 부채꼴로 선다(오너 2026-10-26 *"인스타 영상 몇 개 넣을까? 브랜드 소개니까"*).
+   표지 = 인스타 그리드 표지(우리 게시물) 540×960 webp · 누르면 인스타 릴로 간다(영상은 인스타가 튼다 — 영화 클립이 섞인 편은 우리 서버에 안 올린다).
+   순서 = 화면 왼→오. 가운데(앞) = 제품(Pattern Lab). */
+export const IG_REELS = [
+  { id: 'De1IZ37uy4X', url: 'https://www.instagram.com/willyounameit/reel/De1IZ37uy4X/', alt: { ko: '인스타 릴: 메멘토로 보는 구조 짜기', en: 'Instagram reel: building structure, with Memento' } },
+  { id: 'De6dKj8uy8U', url: 'https://www.instagram.com/willyounameit/reel/De6dKj8uy8U/', alt: { ko: '인스타 릴: Pattern Lab 소개', en: 'Instagram reel: Pattern Lab' } },
+  { id: 'DewOVCCOikZ', url: 'https://www.instagram.com/willyounameit/reel/DewOVCCOikZ/', alt: { ko: '인스타 릴: 긴장감 만드는 법', en: 'Instagram reel: how to build suspense' } },
+] as const;
