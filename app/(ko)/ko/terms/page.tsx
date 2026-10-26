@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
 import { BUSINESS, FTC_BIZ_URL, PORTAL_URL, PRICE } from '@/lib/product';
 import { share } from '@/lib/meta';
-import PolicyNotice from '@/components/PolicyNotice';
+import { policyDate } from '@/lib/policy';
 
 const DESCRIPTION = 'You Name It AE Plugin 의 이용약관입니다.';
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
   title: '이용약관',
   description: DESCRIPTION,
-  ...share({ path: '/ko/terms', title: '이용약관 — You Name It', description: DESCRIPTION, card: 'brand', lang: 'ko' }),
+  ...share({ path: '/ko/terms', title: '이용약관 — You Name It', description: DESCRIPTION, lang: 'ko' }),
 };
 
 /* 🔴 2026-09-30 오너 *"법조인 롤로 직접 작성"* — 조항마다 근거가 있다. 정본 검토서 = 플러그인 repo `donys/docs/LEGAL_KR_REVIEW.md`(비공개 — 이 repo 는 공개다)
@@ -41,11 +41,10 @@ export default function TermsKoPage() {
       <header className="max-w-3xl">
         <p className="lab">You Name It AE Plugin</p>
         <InkTitle>이용약관</InkTitle>
-        <p className="text-sm">시행일: 2026년 9월 30일</p>
+        <p className="text-sm">시행일: {policyDate('ko')}</p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
-        <PolicyNotice lang="ko" doc="terms" view="current" />
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
             <h2 className={H2}>제1조(목적)</h2>
@@ -72,6 +71,26 @@ export default function TermsKoPage() {
               <li>저희는 이 약관을 웹사이트(younameit.works) 첫 화면에서 연결되는 곳에 게시하고, 고객이 요청하시면 사본을 이메일로 보내 드립니다.</li>
               <li>이 약관은 고객이 제품을 구매하는 때부터 효력이 생깁니다.</li>
               <li>이 약관에 없는 사항은 「전자상거래 등에서의 소비자보호에 관한 법률」, 「약관의 규제에 관한 법률」 등 관계 법령과 일반적인 상관례에 따릅니다.</li>
+            </ol>
+          </section>
+
+          <section>
+            <h2 className={H2}>제3조의2(무료 버전)</h2>
+            <ol className={OL}>
+              <li>
+                제품은 구매 없이 내려받아 쓰실 수 있는 무료 버전으로도 제공합니다. 무료 버전을 내려받아 이용하시는 때부터 이
+                약관이 똑같이 적용됩니다. 다만 청약철회·환불, 무료 업데이트처럼 제품을 구매하신 분께 드리는 권리는 구매하신
+                분께만 적용됩니다.
+              </li>
+              <li>
+                Pro 기능은 구매하셔서 받은 라이선스 키를 넣어야 쓰실 수 있습니다. 라이선스 키 없이 Pro 기능을 쓰려고 확인
+                절차를 우회하는 행위는 제10조가 금지하는 행위입니다.
+              </li>
+              <li>
+                무료 버전은 대가 없이 제공하는 것이라 <strong>있는 그대로 제공하며, 기능이 바뀌거나 줄어들거나 중단될 수
+                있습니다.</strong> 구매하신 기능은 이 항이 아니라 제8조와 제12조를 따르고, 제17조 제4항(고의·중대한 과실 등에는
+                책임 제한을 적용하지 않는다)은 무료 버전에도 똑같이 적용됩니다.
+              </li>
             </ol>
           </section>
 
@@ -335,7 +354,10 @@ export default function TermsKoPage() {
 
           <section>
             <h2 className={H2}>부칙</h2>
-            <p>이 약관은 2026년 9월 30일부터 시행합니다.</p>
+            <p>
+              이 약관은 {policyDate('ko')}부터 시행합니다. 2026년 9월 30일부터 시행한 약관에 제3조의2(무료 버전)를 더한 것이고, 그 밖의
+              조항은 그대로입니다.
+            </p>
           </section>
 
           <section>

@@ -15,6 +15,7 @@
    🔴 webm 을 안 붙인 이유도 거기 있다 — 이 필름은 결이 촘촘해서 같은 바이트에서 VP9 가 x264 보다 나쁘다(VMAF 실측). */
 import { useEffect, useRef, useState } from 'react';
 import { useT } from '@/components/site3p/lang';
+import { track } from '@/lib/analytics';
 import './Film.css';
 
 /** 🔴 영상 주소 — **호스팅을 바꿀 땐 이 한 줄만** 고친다. 지금 = R2 `dl.younameit.works`(오너 2026-10-05 — 14MB 를 사이트 repo·
@@ -43,6 +44,7 @@ export default function Film() {
     v.muted = !on;
     if (on && v.paused) v.play().catch(() => {});
     setSound(on);
+    if (on) track('film_sound_on', { film_id: 'brand-2026-10' });   // 재생이 아니라 소리를 켠 것만 센다 — 필름은 무음 자동재생 루프라 재생은 방문하면 전부 일어난다
   };
 
   const subs = t('ae.film.subs');

@@ -1,6 +1,9 @@
 #!/usr/bin/env node
-/* 소식 메일 설정 — Resend 세그먼트 · 연락처 속성 · 웹훅을 만들고, Pages 에 넣을 비밀값 명령을 출력한다.
-   (2026-09-30 오너 *"수신 동의 장치 만들어두자"* · 서버 = `functions/api/newsletter/*`)
+/* 소식 메일 · 무료 다운로드 설정 — Resend 세그먼트 · 연락처 속성 · 웹훅을 만들고, Pages 에 넣을 비밀값 명령을 출력한다.
+   (2026-09-30 오너 *"수신 동의 장치 만들어두자"* · 서버 = `functions/api/newsletter/*` · 2026-10-15 무료 다운로드 = `functions/api/download/*` 가 같은 Resend 를 쓴다)
+   🔴 세그먼트가 **둘**이다: `newsletter`(광고 수신 동의자 — 브로드캐스트는 여기로만) · `free-download`(무료 버전을 받은 사람 — 광고 대상이 아니다).
+      Resend 대시보드에서 "모든 연락처" 로 브로드캐스트를 보내지 마라 — 다운로드만 한 사람에게 광고가 나간다.
+   이미 돌려 둔 환경이면 다시 돌려라(이미 있는 건 건너뛴다) — 새로 생기는 건 세그먼트 `free-download` · 속성 `free_at` `free_ver` · 비밀값 `RESEND_FREE_SEGMENT_ID`.
 
    준비: Resend 대시보드 → API Keys → **Full access** 키 하나(연락처·세그먼트는 발송 전용 키로 못 만든다 —
    support@ 답장용 발송 키와 따로 두는 게 좋다).
@@ -8,7 +11,7 @@
    실행: set -a; . ~/.config/younameit/secrets.env; set +a
          node tools/newsletterSetup.mjs                  ← 무엇을 할지 출력만(아무것도 안 만든다)
          node tools/newsletterSetup.mjs --apply          ← Resend 쪽을 만든다(이미 있으면 건너뛴다)
-         node tools/newsletterSetup.mjs --apply --push   ← + Pages 비밀값 셋(RESEND_API_KEY · RESEND_SEGMENT_ID · RESEND_WEBHOOK_SECRET)을
+         node tools/newsletterSetup.mjs --apply --push   ← + Pages 비밀값 넷(RESEND_API_KEY · RESEND_SEGMENT_ID · RESEND_FREE_SEGMENT_ID · RESEND_WEBHOOK_SECRET)을
                                                            wrangler 로 **값을 화면에 안 찍고** 넣는다. NEWSLETTER_SECRET 은 따로 넣는다(2026-09-30 넣음).
    🔴 비밀값을 채팅·커밋·로그에 찍지 마라 — 이 스크립트는 이름만 출력한다. 넣은 뒤 한 번 배포(npm run deploy)해야 함수가 새 값을 읽는다. */
 import { spawnSync } from 'node:child_process';
@@ -19,7 +22,8 @@ const PUSH = process.argv.includes('--push');
 const SITE = process.env.SITE_URL || 'https://younameit.works';
 const PROJECT = 'younameit';
 const SEGMENT = 'newsletter';
-const PROPS = ['consent_at', 'consent_ver', 'lang', 'recheck_at'];
+const FREE_SEGMENT = 'free-download';
+const PROPS = ['consent_at', 'consent_ver', 'lang', 'recheck_at', 'free_at', 'free_ver'];
 const HOOK = `${SITE}/api/newsletter/webhook`;
 
 if (!KEY) { console.error('RESEND_API_KEY 가 필요하다(Full access).'); process.exit(1); }
@@ -36,6 +40,10 @@ let seg = segs.find((s) => s.name === SEGMENT);
 console.log(seg ? `✓ 세그먼트 '${SEGMENT}' 있음 (${seg.id})` : `+ 세그먼트 '${SEGMENT}' 만들기`);
 if (!seg && APPLY) seg = await api('POST', '/segments', { name: SEGMENT });
 
+let freeSeg = segs.find((s) => s.name === FREE_SEGMENT);
+console.log(freeSeg ? `✓ 세그먼트 '${FREE_SEGMENT}' 있음 (${freeSeg.id})` : `+ 세그먼트 '${FREE_SEGMENT}' 만들기`);
+if (!freeSeg && APPLY) freeSeg = await api('POST', '/segments', { name: FREE_SEGMENT });
+
 const props = list(await api('GET', '/contact-properties'));
 for (const k of PROPS) {
   const has = props.some((p) => p.key === k);
@@ -50,7 +58,7 @@ if (!hook && APPLY) hook = await api('POST', '/webhooks', { endpoint: HOOK, even
 if (hook && !hook.signing_secret) hook = await api('GET', `/webhooks/${hook.id}`);
 
 if (!APPLY) { console.log('\n(미리보기 — 만들려면 --apply)'); process.exit(0); }
-const secrets = { RESEND_API_KEY: KEY, RESEND_SEGMENT_ID: seg?.id, RESEND_WEBHOOK_SECRET: hook?.signing_secret };
+const secrets = { RESEND_API_KEY: KEY, RESEND_SEGMENT_ID: seg?.id, RESEND_FREE_SEGMENT_ID: freeSeg?.id, RESEND_WEBHOOK_SECRET: hook?.signing_secret };
 const missing = Object.entries(secrets).filter(([, v]) => !v).map(([k]) => k);
 if (missing.length) { console.error(`값을 못 얻었다: ${missing.join(' · ')} — 대시보드에서 확인해라`); process.exit(1); }
 if (!PUSH) { console.log(`\nPages 비밀값으로 넣으려면 --push 를 더해 다시 돌려라(프로젝트 ${PROJECT}).`); process.exit(0); }

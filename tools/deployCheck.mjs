@@ -19,7 +19,8 @@
      [film]     브랜드 영상(14MB)이 공개 repo 의 public/ 에 커밋될 뻔했다(2026-10-05) — 영상은 R2, 히어로 <source> 는 dl.younameit.works
      [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
 
-     [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 고지 띠·시행 예정본이 어긋나거나, 시행일 전/후의 틀린 판이 나가는 것
+     [analytics] 분석(GTM·GA4·Meta)을 방침 고지 7일 전에 켜거나, 방침이 "쿠키 없음"이라 말하는데 켜거나, 동의 전에 Google 로 요청이 나가는 것 · 결제 뒤 면(/thanks)이 색인에 들어가는 것
+     [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 새 방침이 현재 판인 빌드가 시행일 전에 나가거나(이메일 폼이 시행 전 개인정보를 받는다), 고지 띠가 죽은 채 남는 것
 
    실행: node tools/deployCheck.mjs              (빌드 뒤에 돌린다)
          node tools/deployCheck.mjs --release    (`npm run deploy` 가 쓴다 — 시행일 게이트 [policy] 가 경고가 아니라 실패가 된다)
@@ -67,13 +68,11 @@ const KO = ['/ko.html', '/ko/ae.html', '/ko/ae/docs.html'];
 /* 셸 푸터를 쓰는 나머지 면 — 2026-09-26 전엔 구 `Navbar`/`Footer` 였고 `Buy` 가 없는 앵커(`/#pricing`)로 갔다.
    같은 법·지원 검사를 태워서 구 크롬이 되살아나면 여기서 잡는다. */
 const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.html', '/refund.html',
-  '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html'];
+  '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html', '/download.html', '/ko/download.html',
+  '/thanks.html', '/ko/thanks.html'];
 const koMissing = KO.filter((r) => !pages.some((p) => rel(p) === r));
 if (koMissing.length) fail.push(`[i18n] 국문 정적 경로가 없다: ${koMissing.join(' · ')} — 클라이언트 토글만으로는 색인도 공유도 안 된다`);
 else ok.push('[i18n] 국문 정적 경로 3장');
-
-/* 개정 예정 시행 예정본(`/…/upcoming`) — 법 면이라 같은 법·사업자·공유 카드 검사를 태운다. 아래 `[policy]` 가 짝을 본다. */
-READING.push('/privacy/upcoming.html', '/ko/privacy/upcoming.html', '/terms/upcoming.html', '/ko/terms/upcoming.html');
 
 /* ── 페이지별 검사 ──────────────────────────────────────────────── */
 const CHECKOUT = 'buy.polar.sh';
@@ -107,13 +106,26 @@ for (const p of pages) {
 
   if (isProduct) {
     if (!html.includes(CHECKOUT)) fail.push(`[checkout] ${r} 에 결제 링크(${CHECKOUT})가 없다 — 팔 수 없는 페이지다`);
-    /* 가격 섹션 = 구매 버튼 **하나**, 그리고 그게 결제 링크다. 🔴 구 규칙은 "버튼 0 — 레일이 CTA 독점"(레퍼런스 원리 7)이었는데
+    /* 가격 섹션 = 결제 버튼 **하나**, 그리고 그게 결제 링크다. 🔴 구 규칙은 "버튼 0 — 레일이 CTA 독점"(레퍼런스 원리 7)이었는데
        2026-09-30 오너가 *"buy it once 여기에 구매 버튼 하나 달아"* 로 뒤집었다. 대신 그 버튼이 보이는 동안 레일이 숨는다(Shell `BuyRail`)
-       — 한 화면에 결제 CTA 하나는 그대로다. */
+       — 한 화면에 결제 CTA 하나는 그대로다.
+       2026-10-15 Free · Pro 두 칸이 되면서 "링크 하나" 를 **"바깥 링크(https://…) 하나 = 결제"** 로 좁혔다: Free 칸의 무료 다운로드 폼이 약관·개인정보
+       체크박스 링크(사이트 안)를 가진다. 그 둘 말고 사이트 안 링크가 늘어도 막는다 — 가격 판이 링크 장터가 되지 않게. */
     const price = html.match(/<section[^>]*id="price"[\s\S]*?<\/section>/);
     const links = price ? price[0].match(/<a\s[^>]*>/g) || [] : [];
-    if (price && (links.length !== 1 || !links[0].includes(CHECKOUT)))
-      fail.push(`[price] ${r} 가격 섹션의 링크 ${links.length}개 — 결제 버튼 하나여야 한다`);
+    const outbound = links.filter((a) => /href="https?:/.test(a));
+    if (price && (outbound.length !== 1 || !outbound[0].includes(CHECKOUT)))
+      fail.push(`[price] ${r} 가격 섹션의 바깥 링크 ${outbound.length}개 — 결제 버튼 하나여야 한다`);
+    const innerAllowed = [isKo ? '/ko/terms' : '/terms', isKo ? '/ko/privacy' : '/privacy'];
+    const strayInner = links.filter((a) => !/href="https?:/.test(a)).map((a) => a.match(/href="([^"]*)"/)?.[1]).filter((h) => !innerAllowed.includes(h));
+    if (price && strayInner.length) fail.push(`[price] ${r} 가격 섹션에 허용 밖의 사이트 안 링크 ${strayInner.join(' · ')} — 약관·개인정보만 허용`);
+    /* 무료 다운로드 폼 — 가격 판의 Free 칸에 있어야 한다(없으면 무료 입구가 사라진 채 나간다). 필수 동의 체크박스 · 봇 덫 · 약관/개인정보 링크. */
+    if (price && !(price[0].includes('data-free-form') && price[0].includes('id="free-email"') && price[0].includes('name="website"')))
+      fail.push(`[free] ${r} 가격 판에 무료 다운로드 폼(data-free-form · #free-email · 봇 덫)이 없다`);
+    else if (price) ok.push(`[free] ${r} 가격 판에 무료 다운로드 폼`);
+    /* 필수 동의는 **둘**이다(이용약관 · 개인정보 수집·이용 — 2026-10-15). 하나로 합친 옛 폼이 되돌아오는 걸 막는다. */
+    if (price && !(price[0].includes('data-consent="terms"') && price[0].includes('data-consent="privacy"')))
+      fail.push(`[free] ${r} 가격 판의 무료 다운로드 폼에 필수 동의 둘(data-consent="terms" · "privacy")이 없다`);
   }
 
   if (isSurface) {
@@ -181,14 +193,37 @@ for (const p of pages) {
   if (big.length) fail.push(`[film] public/riso/brand/ 에 영상 파일이 있다(${big.join(' · ')}) — 영상은 R2 에만 둔다. repo 는 공개라 커밋하면 이력에 영구히 남는다`);
 }
 
-/* ── 개정 방침·약관 고지 ── 방침 제16조·약관 제4조 = "시행 7일 전부터 사이트에 알린다". 방식: 현재 판은 시행일까지 그대로, 맨 위 "개정 예정 안내" 띠가
-   시행 예정본(`/…/upcoming`)으로 잇는다(`components/PolicyNotice.tsx`). 시행일 = `lib/policy.ts` 한 곳.
-   · 고지 판(시행 예정본 4장이 있다): 띠 ↔ 예정본 링크가 서로 맞고 날짜가 같고 예정본은 noindex. `--release` 에서 시행일이 지났으면 실패(낡은 고지 판).
-   · 시행 뒤 판(예정본이 없다): 띠가 남아 있으면 실패(죽은 링크). */
+/* ── 무료 다운로드 페이지 ── 확인 메일의 링크가 여는 곳(`?confirm=`). 폼이 구워져 있고 색인되지 않는지 본다(토큰 주소). */
+for (const r of ['/download.html', '/ko/download.html']) {
+  const p = pages.find((x) => rel(x) === r);
+  if (!p) continue;   // [routes] 가 아니라 READING 목록 대조라 없으면 아래 법 링크 검사 이전에 `READING` 이 이미 알려 준다
+  const h = read(p);
+  if (!h.includes('data-free-form') || !h.includes('id="free-email"')) fail.push(`[free] ${r} 에 무료 다운로드 폼이 없다`);
+  else if (!/<meta[^>]*name="robots"[^>]*noindex/.test(h)) fail.push(`[free] ${r} 가 색인된다 — 확인 토큰이 주소에 달려 오는 면이다(noindex)`);
+  else ok.push(`[free] ${r} 폼 + noindex`);
+  if (!h.includes('data-consent="terms"') || !h.includes('data-consent="privacy"')) fail.push(`[free] ${r} 의 폼에 필수 동의 둘(data-consent="terms" · "privacy")이 없다`);
+}
+
+/* ── 무료 다운로드 정보 보유 기간 ── "그 주소로 마지막 안내 메일을 보낸 날부터 3년"(2026-10-15 오너 판정)이 방침·폼에 **같은 말로** 적혀 있어야 한다.
+   방침 제3조 · 폼 고지 · 확인 메일(`functions/_lib/download.ts` transferNotice — 시험 `test:fn`) 중 하나만 고치면 동의 화면과 방침이 서로 다른 기간을 말한다.
+   표현을 일부러 고정했다(ko "마지막 안내 메일" + "3년" · en "last notice email" + "3 years") — 문구를 바꿀 땐 이 줄도 같이. */
+for (const [r, a, b] of [['/ko/privacy.html', '마지막 안내 메일', '3년'], ['/ko/download.html', '마지막 안내 메일', '3년'], ['/ko/ae.html', '마지막 안내 메일', '3년'],
+  ['/privacy.html', 'last notice email', '3 years'], ['/download.html', 'last notice email', '3 years'], ['/ae.html', 'last notice email', '3 years']]) {
+  const p = pages.find((x) => rel(x) === r);
+  if (!p) continue;
+  const h = read(p);
+  if (!h.includes(a) || !h.includes(b)) fail.push(`[retention] ${r} 에 보유 기간 문구("${a}" · "${b}")가 없다 — 방침 제3조·폼 고지·확인 메일이 같은 기간을 말해야 한다`);
+  else if (/삭제를 요청하실 때까지|Resend until you ask us to delete|is kept until you ask us to delete/.test(h)) fail.push(`[retention] ${r} 에 옛 보유 기간("삭제를 요청하실 때까지")이 남았다`);
+  else ok.push(`[retention] ${r} ${b} (마지막 안내 메일 기준)`);
+}
+
+/* ── 방침·약관 시행일 ── 방침 제16조·약관 제4조 = "시행 7일 전부터 사이트에 알린다". 시행일 = `lib/policy.ts` 한 곳.
+   이 빌드는 새 방침이 **현재 판**이다(고지 단계의 띠·`/…/upcoming` 는 시행일에 지웠다). 그래서:
+   · 시행일 전이면 배포하면 안 된다 — 새 방침이 효력을 갖기 전에 이메일 폼이 개인정보를 받는다. `--release`(npm run deploy)에서 실패, 평소엔 경고.
+   · 띠·예정본이 남아 있으면 죽은 링크다. · 법 면의 날짜가 시행일과 같아야 한다(상수를 올리고 문구를 안 올리는 사고). */
 {
   const EFFECTIVE = read(path.join(process.cwd(), 'lib/policy.ts')).match(/POLICY_EFFECTIVE\s*=\s*'(\d{4})-(\d{2})-(\d{2})'/);
   const release = process.argv.includes('--release');
-  const gate = (msg) => (release ? fail : warn).push(msg);
   if (!EFFECTIVE) fail.push('[policy] lib/policy.ts 에서 POLICY_EFFECTIVE 를 못 읽었다');
   else {
     const [, Y, M, D] = EFFECTIVE;
@@ -196,23 +231,91 @@ for (const p of pages) {
     const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
     const dateKo = `${Y}년 ${Number(M)}월 ${Number(D)}일`;
     const dateEn = `${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][Number(M) - 1]} ${Number(D)}, ${Y}`;
-    const DOCS = [['/privacy', false], ['/terms', false], ['/ko/privacy', true], ['/ko/terms', true]];
     const html = (r) => { const p = pages.find((x) => rel(x) === r); return p ? read(p) : ''; };
-    const present = DOCS.filter(([u]) => html(u + '/upcoming.html')).length;
-    if (present && present !== DOCS.length) fail.push(`[policy] 시행 예정본이 ${present}/${DOCS.length}장뿐이다 — 4장(방침·약관 × 영문·국문)이 다 있어야 한다`);
-    else if (present) {
-      for (const [u, ko] of DOCS) {
-        const cur = html(u + '.html'), up = html(u + '/upcoming.html'), d = ko ? dateKo : dateEn;
-        if (!cur.includes(`href="${u}/upcoming"`)) fail.push(`[policy] ${u} 에 개정 예정 안내 띠(→ ${u}/upcoming)가 없다 — 시행 7일 전 고지가 안 나간다`);
-        if (!cur.includes(d)) fail.push(`[policy] ${u} 의 띠에 시행일 "${d}" 가 없다`);
-        if (!up.includes(`href="${u}"`) || !up.includes(d)) fail.push(`[policy] ${u}/upcoming 에 현재 판 링크나 시행일 "${d}" 가 없다`);
-        if (!/<meta[^>]*name="robots"[^>]*noindex/.test(up)) fail.push(`[policy] ${u}/upcoming 이 색인된다 — 시행 예정본은 noindex`);
+    /* 두 번째 개정(동의 기반 방문 통계 — `lib/analytics.ts`): ANALYTICS_EFFECTIVE 가 있고 GTM_ID 가 비면 *고지 단계* —
+       방침 현재 판 위에 개정 예정 띠가 있고 `/…/privacy/upcoming` 이 있어야 한다. 그 외(개정본이 현재 판이거나 개정이 없음)에는 둘 다 남아 있으면 죽은 링크다. 약관은 개정이 없다. */
+    const asrc = read(path.join(process.cwd(), 'lib/analytics.ts'));
+    const effA = asrc.match(/ANALYTICS_EFFECTIVE(?::\s*string)?\s*=\s*'([^']*)'/)?.[1] ?? '';
+    const gtmA = asrc.match(/GTM_ID(?::\s*string)?\s*=\s*'([^']*)'/)?.[1] ?? '';
+    const notice = effA !== '' && gtmA === '';
+    const humanA = (lang) => { const m = effA.match(/^(\d{4})-(\d{2})-(\d{2})$/); if (!m) return null; return lang === 'ko' ? `${m[1]}년 ${Number(m[2])}월 ${Number(m[3])}일` : `${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][Number(m[2]) - 1]} ${Number(m[3])}, ${m[1]}`; };
+    for (const [u, d] of [['/privacy', dateEn], ['/terms', dateEn], ['/ko/privacy', dateKo], ['/ko/terms', dateKo]]) {
+      const cur = html(u + '.html');
+      const hasBand = cur.includes(`href="${u}/upcoming"`), hasUp = !!html(u + '/upcoming.html');
+      if (notice && u.endsWith('/privacy')) {
+        if (!hasBand) fail.push(`[policy] ${u} 에 개정 예정 띠(→ ${u}/upcoming)가 없다 — 고지 단계(ANALYTICS_EFFECTIVE 있음, GTM_ID 빔)인데 방문자에게 개정을 알리지 않는다`);
+        if (!hasUp) fail.push(`[policy] ${u}/upcoming 이 없다 — 띠가 잇는 개정 예정본`);
+        const da = humanA(u.startsWith('/ko') ? 'ko' : 'en');
+        if (da && !cur.includes(da)) fail.push(`[policy] ${u} 의 개정 예정 띠에 시행일 "${da}"(ANALYTICS_EFFECTIVE)가 없다`);
+      } else if (hasBand || hasUp) fail.push(`[policy] ${u} 에 고지 띠·시행 예정본이 남았다 — 새 방침이 현재 판이 되면 같이 지운다`);
+      if (!cur.includes(d)) fail.push(`[policy] ${u} 에 시행일 "${d}"(lib/policy.ts)가 없다`);
+    }
+    if (today < iso) (release ? fail : warn).push(`[policy] 오늘(${today} KST)은 시행일(${iso}) 전이다 — 새 방침이 현재 판인 이 빌드는 시행일 전에 배포하지 마라(이메일 폼이 시행 전 개인정보를 받는다). 먼저 고지 판(policy-notice)을 낸다`);
+    if (!fail.some((f) => f.startsWith('[policy]')) && today >= iso) ok.push(`[policy] 시행 ${iso} 이후 — 새 방침이 현재 판`);
+  }
+}
+
+/* ── 분석·광고 측정 ── 설계 = 플러그인 repo donys/docs/ANALYTICS_PLAN.md §11. 켜는 버튼 = `lib/analytics.ts` 의 `GTM_ID`.
+   · 항상: 결제 뒤 면(/thanks)은 noindex 이고 sitemap 에 없다(Polar Success URL 전용 · 색인에 들어가면 주문 ID 쿼리가 검색에 샌다).
+   · 꺼져 있을 때(GTM_ID 빔): 푸터에 *쿠키 설정* 링크(#cookies)가 없어야 한다(죽은 링크).
+     ANALYTICS_EFFECTIVE 가 있으면 *고지 단계* — 시행일 ≥ 방침 시행일+8일, 개정 예정본(`/…/privacy/upcoming`)이 있고 noindex 이며 핵심 값(14개월·Google 연락처)을 말한다(띠는 [policy] 가 본다).
+   · 켜져 있을 때: ① 켜는 날(ANALYTICS_EFFECTIVE = 방침 개정 고지 +7일)이 지났다 ② 모든 면 푸터에 *쿠키 설정* 링크 ③ 정적 HTML 에 googletagmanager.com 이 없다
+     (GTM 은 동의 뒤에 JS 로 주입한다 — HTML 에 있으면 동의 전 요청이 나간다) ④ 방침 EN·KO 가 Google Tag Manager·Meta 를 고지하고 국문에 옛 *쿠키를 설치하지 않으며* 가 없다. */
+{
+  const src = read(path.join(process.cwd(), 'lib/analytics.ts'));
+  const gtm = src.match(/GTM_ID(?::\s*string)?\s*=\s*'([^']*)'/)?.[1];
+  const eff = src.match(/ANALYTICS_EFFECTIVE(?::\s*string)?\s*=\s*'([^']*)'/)?.[1];
+  const release = process.argv.includes('--release');
+  const html = (r) => { const p = pages.find((x) => rel(x) === r); return p ? read(p) : ''; };
+  /* 방침이 이름으로 고지해야 하는 제3자 — Meta 는 `META_PIXEL_ON`(lib/consent.ts)일 때만. 2026-10-20 오너: 1차는 GA4 만. */
+  const metaOn = /META_PIXEL_ON\s*=\s*true/.test(read(path.join(process.cwd(), 'lib/consent.ts')));
+  const needDisclose = ['Google Tag Manager', 'Google Analytics', ...(metaOn ? ['Meta Pixel'] : [])];
+  if (gtm === undefined || eff === undefined) fail.push('[analytics] lib/analytics.ts 에서 GTM_ID / ANALYTICS_EFFECTIVE 를 못 읽었다');
+  else {
+    for (const r of ['/thanks.html', '/ko/thanks.html']) {
+      if (!/<meta[^>]*name="robots"[^>]*content="[^"]*noindex/.test(html(r))) fail.push(`[analytics] ${r} 가 noindex 가 아니다 — 주문 ID(?checkout_id=)가 검색에 샌다`);
+    }
+    const sitemap = fs.existsSync(path.join(OUT, 'sitemap.xml')) ? read(path.join(OUT, 'sitemap.xml')) : '';
+    if (/\/thanks/.test(sitemap)) fail.push('[analytics] sitemap.xml 에 /thanks 가 있다 — 결제 뒤 면은 색인 대상이 아니다');
+    const surfaces = [...REQUIRED, ...KO, ...READING];
+    /* 개정본이 *반드시* 말해야 하는 것 — 이름만이 아니라 배너와 같은 표(`lib/googleTransfer.ts`)의 핵심 값. 켠 뒤엔 현재 판, 고지 단계엔 개정 예정본이 읽힌다. */
+    const revisedNeeds = { '/privacy': [...needDisclose, '14 months'], '/ko/privacy': [...needDisclose, '14개월', 'googlekrsupport@google.com'] };
+    const policyToday = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
+    if (gtm === '') {
+      const dead = surfaces.filter((r) => html(r).includes('href="#cookies"'));
+      if (dead.length) fail.push(`[analytics] GTM_ID 가 비었는데 *쿠키 설정* 링크가 있다(죽은 링크): ${dead.join(' · ')}`);
+      else if (eff === '') ok.push('[analytics] 꺼져 있음(GTM_ID 빔) — 로더·배너·푸터 링크 없음');
+      else {
+        /* 고지 단계 — 시행일은 정해졌고 켜진 건 없다. 시행일이 방침 시행일(POLICY_EFFECTIVE)+8일 이전이면 고지 기간이 모자란다(고지는 그 방침이 시행된 뒤에야 나갈 수 있다). */
+        const f0 = fail.length;
+        const pe = read(path.join(process.cwd(), 'lib/policy.ts')).match(/POLICY_EFFECTIVE\s*=\s*'(\d{4}-\d{2}-\d{2})'/)?.[1];
+        const minEff = pe ? new Date(Date.parse(pe) + 8 * 86400e3).toISOString().slice(0, 10) : null;
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(eff)) fail.push(`[analytics] ANALYTICS_EFFECTIVE "${eff}" 가 YYYY-MM-DD 가 아니다`);
+        else if (minEff && eff < minEff) fail.push(`[analytics] ANALYTICS_EFFECTIVE(${eff})가 방침 시행일(${pe})+8일(${minEff})보다 이르다 — 고지 7일이 모자란다`);
+        for (const [r, need] of Object.entries(revisedNeeds)) {
+          const up = html(r + '/upcoming.html');
+          for (const w of need) if (!up.includes(w)) fail.push(`[analytics] ${r}/upcoming 이 "${w}" 를 말하지 않는다 — 개정 예정본이 불완전하다(ANALYTICS_PLAN §12)`);
+          if (!/<meta[^>]*name="robots"[^>]*content="[^"]*noindex/.test(up)) fail.push(`[analytics] ${r}/upcoming 이 noindex 가 아니다`);
+        }
+        if (/\/privacy\/upcoming/.test(sitemap)) fail.push('[analytics] sitemap.xml 에 /privacy/upcoming 이 있다');
+        if (fail.length === f0) ok.push(`[analytics] 고지 단계 — 시행일 ${eff} · 개정 예정본 /…/privacy/upcoming · 꺼져 있음(GTM_ID 빔)${policyToday >= eff ? ' · ⚠️ 시행일이 지났다: GTM_ID 를 채우고 예정본을 걷어낼 차례' : ''}`);
       }
-      if (today >= iso) gate(`[policy] 시행일(${iso})이 지났는데 고지 판이다 — 새 방침이 현재 판인 빌드(free-tier-download)를 배포하라`);
-      else ok.push(`[policy] 고지 판 — 시행 ${iso}: 띠 ↔ 시행 예정본 4장`);
     } else {
-      for (const [u] of DOCS) if (html(u + '.html').includes(`href="${u}/upcoming"`)) fail.push(`[policy] ${u} 에 시행 예정본 링크가 남았는데 예정본이 없다 — 시행일에 띠도 같이 지운다`);
-      if (!fail.some((f) => f.startsWith('[policy]'))) ok.push('[policy] 고지 띠 없음');
+      const f0 = fail.length;
+      if (!/^GTM-[A-Z0-9]{4,}$/.test(gtm)) fail.push(`[analytics] GTM_ID "${gtm}" 가 GTM-XXXX 꼴이 아니다`);
+      const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(eff)) fail.push('[analytics] GTM_ID 를 채웠는데 ANALYTICS_EFFECTIVE(방침 개정 고지 +7일)가 비었다 — 켜는 날을 정해라');
+      else if (today < eff) (release ? fail : warn).push(`[analytics] 오늘(${today} KST)은 분석을 켜도 되는 날(${eff}) 전이다 — 방침 제16조(시행 7일 전 고지)`);
+      for (const r of surfaces) {
+        const h = html(r);
+        if (!h) continue;
+        if (!h.includes('href="#cookies"')) fail.push(`[analytics] ${r} 에 *쿠키 설정* 링크(#cookies)가 없다 — 동의를 다시 열 길이 없다`);
+        if (h.includes('googletagmanager.com')) fail.push(`[analytics] ${r} 의 정적 HTML 에 googletagmanager.com 이 있다 — 동의 전에 Google 로 요청이 나간다(GTM 은 동의 뒤 JS 주입)`);
+      }
+      for (const [r, need] of Object.entries(revisedNeeds))
+        for (const w of need) if (!html(r + '.html').includes(w)) fail.push(`[analytics] ${r} 가 ${w} 를 고지하지 않는다 — 방침 개정(ANALYTICS_PLAN §12)이 먼저다`);
+      if (html('/ko/privacy.html').includes('쿠키를 설치하지 않으며')) fail.push('[analytics] /ko/privacy 가 아직 "쿠키를 설치하지 않으며" 라고 말한다 — 제10조를 개정해라');
+      if (fail.length === f0) ok.push(`[analytics] 켜짐 ${gtm} · 켜는 날 ${eff} · 푸터 링크 · 정적 HTML 에 Google 요청 0 · 방침 고지`);
     }
   }
 }
@@ -284,7 +387,11 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33']) {
   const fileOf = (u) => (u === '/' ? '/index.html' : u.replace(/\/$/, '') + '.html');
   let n = 0;
   for (const p of pages) {
-    for (const m of read(p).matchAll(/href="(\/[^"#?]*)?#([^"]+)"/g)) {
+    const src = read(p);
+    for (const m of src.matchAll(/href="(\/[^"#?]*)?#([^"]+)"/g)) {
+      /* JS 가 처리하는 버튼(`role="button"` — 푸터 *쿠키 설정* `#cookies` 는 동의 배너를 다시 연다)은 앵커가 아니다. 켜는 날 이 검사가 배포를 막았다(2026-10-20 켠 상태 시험). 링크가 있는지는 [analytics] 가 본다. */
+      const tag = src.slice(src.lastIndexOf('<', m.index), src.indexOf('>', m.index) + 1);
+      if (/\srole="button"/.test(tag)) continue;
       const target = m[1] ? fileOf(m[1]) : rel(p);
       const ids = idsOf.get(target);
       if (!ids) continue;   // 정적 페이지가 아닌 경로(외부 · 파일)는 이 검사의 몫이 아니다

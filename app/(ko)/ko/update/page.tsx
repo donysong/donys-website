@@ -21,7 +21,7 @@ export const metadata: Metadata = {
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
   title: 'AE Plugin 업데이트 노트',
   description: DESCRIPTION,
-  ...share({ path: '/ko/update', title: 'You Name It AE Plugin — 업데이트 노트', description: DESCRIPTION, card: 'product', lang: 'ko' }),
+  ...share({ path: '/ko/update', title: 'You Name It AE Plugin — 업데이트 노트', description: DESCRIPTION, lang: 'ko' }),
 };
 
 export default function UpdateKoPage() {

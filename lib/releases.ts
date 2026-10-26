@@ -17,6 +17,68 @@
 export type Release = { version: string; date: string; items: { ko: string[]; en: string[] } };
 
 export const RELEASES: Release[] = [
+  /* 날짜 = 출고일 2026-10-23(개정 방침 시행일 — 웹 배포 · R2 · Polar 같은 날). 근거 = 플러그인 태그 `v2.10.0`(2026-10-23 재봉인 `8f5bf416` · 서명 zxp sha256 `9894e160…` — 10-21 봉인 `0cac8d04` 뒤 챗 buildLayoutFromRef 확인 수리만 더했다(노트 줄 변화 없음) · 10-17 봉인 `35db945f` 뒤 챗 업그레이드·10-18/10-20 배치 동승 · 추가 15줄 = 챗 5 + 배치 4 + 10-20 레인 4 + 캐러셀 경로 칸 1 + 캐러셀 경량화 1(오너 10-21), 정본 FREE_PRO_SPLIT §7 · ko 영상 줄의 탭 이름은 UI 그대로 '영상').
+     문구 정본 = 플러그인 `docs/FREE_PRO_SPLIT.md` §7(2026-10-17 사실 확인판 — 개수 26/13 · 검출기 · 감도 · 크레딧 · Codex 기록 위치를 코드·실측으로 대조했다).
+     마크다운 굵게만 걷었다(다른 회차처럼 평문).
+     §7 끝 *"남은 오너 판단"* 3개 = 오너 판정 2026-10-17: 좁은 도킹 수리 줄은 **넣었다**(플러그인 `0972ce93` Library 132px flex-wrap · 자 libraryNarrow.test ·
+     `3445064e` Effector 링크 피커 가로 밀림 — 둘 다 v2.9.0..v2.10.0). ⚠️ **뺀 것**: 수동 이전 팁(robocopy — 해당자 극소 · 실데이터 미시험, 문의 오면 1:1) ·
+     "분석이 느려질 수 있음"(실측 반증 2026-10-17 — 윈도 GPU WebGL 1080p 프레임당 tiny 12 ms · SSD 7 ms · 읽기 13 ms 공통. 근거 = 플러그인 FREE_PRO_SPLIT §7). */
+  {
+    version: '2.10.0',
+    date: '2026-10-23',
+    items: {
+      ko: [
+        '무료판이 생겼습니다. 라이선스 키 없이도 Library · Curves · Expressions 전체와 Toolbox 의 26개 툴을 쓸 수 있습니다. Chat · Custom 1 · Toolbox 의 Pro 툴 13개는 Pro 키가 있어야 열리고, 잠긴 툴은 목록에 잠금 아이콘으로 보입니다. Library 의 \'이펙트\' 탭은 \'내 이펙트\'로 이름이 바뀌었습니다.',
+        '무료판도 업데이트 알림을 받습니다.',
+        'Face Track: 장면이 바뀌는 컷에서 박스가 끝나고(컷은 이웃 프레임의 색 차이로 판정하며, 디졸브처럼 서서히 바뀌는 전환은 잡지 못합니다), 얼굴이 화면 밖으로 나가면 박스가 사라집니다. 0.3초 이하로 끊긴 구간은 이어 붙입니다. 얼굴 검출기를 SSD MobileNet v1 으로 바꿔 정확도를 높였습니다(감도 3단, 기본 \'정밀\'). 블러·모자이크는 화면 가장자리를 드나드는 얼굴이 반쪽만 드러나지 않도록 마스크를 앞뒤로 더 길게 켜고, 움직임을 이어 예측하며, 마스크를 더 넓게 잡습니다. 화면 높이의 5% 미만인 작은 얼굴은 여전히 놓칠 수 있습니다.',
+        'AE+PR 번들 키로 After Effects 플러그인을 활성화할 수 있습니다(2.9.0 에서는 번들 키가 거절되었습니다).',
+        'Library 무료 검색: Pexels·Freesound 결과에 작가·출처 표기를 추가했습니다(Freesound 는 CC BY-NC 음원을 기본에서 제외). 출처 표기 줄은 GIPHY 를 포함해 항상 보입니다. 제3자 고지에 gifsicle 과 얼굴 검출 모델(SSD MobileNet)을 추가했습니다.',
+        'Library 를 좁게 도킹했을 때 맨 위 탭 줄과 서브탭 줄, 무료 검색 키 연결 안내가 넘치거나 겹치던 것을 고쳤습니다. Effector 의 대상 속성 목록이 가로로 밀리던 것도 고쳤습니다.',
+        '(2.8.0 누락분) 윈도에서 로컬 앱 데이터 폴더(LOCALAPPDATA) 위치를 옮겨 둔 경우, 패널 데이터도 그 위치에 저장합니다. 이전 위치의 데이터는 자동으로 옮겨지지 않습니다.',
+        '(2.8.0 누락분) 윈도에서 Codex 대화 기록 위치가 바뀌어, 2.8.0 이전에 시작한 Codex 탭 대화는 이어서 할 수 없습니다(Codex 를 쓰는 모든 윈도 사용자에게 해당).',
+        'Chat — 웹에서 이미지를 찾아 바로 넣습니다. 모델이 웹을 검색해 기사·페이지의 이미지를 미리보기로 보여 주고, 고른 이미지를 받아 프로젝트에 넣습니다(webp·avif 는 PNG 로 변환). Pexels·Wikimedia Commons·GIPHY 스톡 검색도 됩니다(Pexels·GIPHY 는 Library 에 저장한 키 사용). 받은 파일마다 출처를 옆에 기록하고 프로젝트 폴더의 CREDITS.md 에 한 줄씩 남깁니다 — 사용 가능 여부와 출처 표기는 직접 확인하세요.',
+        'Chat — 영상 다운로드(선택 기능). 설정 → 영상에서 켜면 yt-dlp 를 내려받아, 영상 페이지에서 원하는 구간을 After Effects 용 mp4 로 받습니다. 기본은 꺼져 있고, 사이트 약관과 저작권 판단은 사용자 책임입니다. 로컬 영상 구간 자르기도 됩니다.',
+        'Chat — 렌더 중에도 After Effects 를 쓸 수 있습니다. Chat 이 렌더를 별도 프로세스에서 돌리고 진행률 확인·취소를 할 수 있습니다. 저장된 프로젝트를 렌더하므로, 저장하지 않은 변경이 있으면 먼저 저장할지 묻습니다.',
+        'Chat — 덜 막힙니다. 이펙트 이름을 잘못 짐작해도 맞는 이펙트를 찾아 넣고, 없는 속성을 고치려 하면 실제 이름 목록을 보여 줍니다. 표현식 값이 파라미터 범위에 잘리거나 레이어 이름을 바꿔 다른 표현식이 깨지면 바로 알려 줍니다. 같은 파일을 다시 가져오면 프로젝트에 중복 항목을 만들지 않습니다.',
+        'Chat — 다시 시작하던 지연이 없어졌습니다. 이미지를 첨부하거나 큰 작업을 요청할 때 Chat 이 한 번 다시 시작하던 지연이 없습니다.',
+        'Chat — 글쓰기 스킬 2개. 한국어 자막·문구의 맞춤법·띄어쓰기·문법을 이유와 함께 고쳐 주고, AI 가 쓴 티가 나는 한국어 글을 자연스럽게 다듬습니다. "맞춤법 봐줘", "자연스럽게 다듬어줘"처럼 말하면 됩니다.',
+        'Chat — Toolbox 툴을 직접 실행합니다. Write On · Parent to Null · Unprecomp · RGB Split 처럼 다이얼로그가 없는 Toolbox 툴 16개를 Chat 이 버튼과 같은 방식으로 실행합니다. 실행 전에는 다른 After Effects 변경처럼 승인 창이 뜹니다.',
+        'Chat — 웹 페이지 렌더(선택 기능). 설정 → 웹 렌더에서 켜면, 자바스크립트로 그려져 그냥 읽으면 비어 보이는 페이지를 설치된 Chrome·Edge·Brave 로 한 장 열어 글과 이미지 후보를 읽습니다. 기본은 꺼져 있고, 켤 때 오픈소스 도구 agent-browser(약 18MB, Apache-2.0)를 내려받습니다. 쿠키·로그인은 쓰지 않습니다.',
+        'Organize Project — 폴더 구성을 직접 정할 수 있습니다. 폴더 이름과 위치를 바꾸고, 종류마다 분류 낱말과 확장자를 고칠 수 있습니다(판정 순서는 그대로이고, 같은 낱말을 두 종류에 넣으면 저장 전에 알려 줍니다). 템플릿 하나를 저장해 두고 파일로 내보내거나 가져올 수 있습니다. 다시 정리할 때 이미 템플릿 폴더 안에 있는 항목은 그대로 두고, \'다시 분류\'를 켜면 바뀐 템플릿 자리로 옮깁니다. 저장하지 않은 편집을 덮어쓰기 전에 한 번 묻습니다. 무료판에서도 쓸 수 있습니다.',
+        'Carousel — 경로 따라가기를 찾기 쉽게 했습니다. 창 본문의 \'경로 따라가기\' 칸에 경로 프리셋(스마일 아크 · 직선 패스 · 궤도 패스) 바로가기와 버튼이 있습니다. 펜·사각형·타원으로 그린 셰이프 레이어 하나를 고르고 누르면, 새 캐러셀도 바로 그 경로를 따라가게 만듭니다(창을 연 채로 골라도 됩니다).',
+        'Carousel — 가벼워졌습니다. 카드 20장 캐러셀 기준으로 미리보기·모션 블러 렌더가 약 20~35% 짧아졌고, 만들기는 2배 넘게 빨라졌습니다(측정한 PC 기준). Hero Slider 말고는 그림자 사본 레이어를 만들지 않습니다 — Effect Controls 드롭다운으로 Hero Slider 로 바꾼 경우에는 창에서 다시 적용하면 그림자가 생깁니다.',
+        '텍스트 퇴장 모션이 레이어 끝에서 잘리지 않습니다. 스프링 퇴장처럼 끝맺음이 긴 모션은 레이어가 끝나기 전에 마저 끝나도록 일찍 시작합니다. 끝맺음이 짧은 프리셋의 타이밍은 그대로입니다.',
+        'Round Corners · Points to Nulls · Auto Marker 가 프로젝트 패널에 빈 \'Solids\' 폴더나 쓰지 않는 널을 남기지 않습니다.',
+        'Parent to Null 이 잠긴 레이어를 만나면 부모 없는 널을 남기지 않고 먼저 알려 줍니다. Unprecomp 가 프리컴프 안의 잠긴 레이어에서 멈추며 복사본을 반쯤 남기던 것을 고쳤습니다.',
+        'After Effects 를 두 개 띄워도 한쪽의 Chat 이 다른 쪽 Chat 의 연결을 끊지 않습니다.',
+      ],
+      en: [
+        'There is now a free version. Without a license key you can use all of Library, Curves and Expressions, plus 26 Toolbox tools. Chat, Custom 1 and the 13 Pro Toolbox tools need a Pro key; locked tools appear in the list with a lock icon. The Library "Effects" tab is now called "My Effects".',
+        'Free users get update notices too.',
+        'Face Track: boxes now end at scene cuts (detected from the color difference between neighboring frames; gradual transitions such as dissolves are not caught) and disappear when the face leaves the frame. Detection gaps of 0.3 s or less are bridged. The face detector is now SSD MobileNet v1 for better accuracy (three sensitivity levels; the default is unchanged). For blur and mosaic, the mask now starts earlier and ends later around the frame edges, follows the face\'s motion through them, and is slightly wider, so a half-visible face is not exposed. Faces smaller than 5% of the frame height can still be missed.',
+        'AE+PR bundle keys now activate the After Effects plugin (2.9.0 rejected them).',
+        'Library free search: author/source credit is now shown for Pexels and Freesound results (Freesound CC BY-NC sounds are excluded by default), and the credit row is always visible, GIPHY included. The third-party notices now list gifsicle and the face-detection model (SSD MobileNet).',
+        'Fixed the top tab row, sub-tab row and the free-search key notice overflowing or overlapping when Library is docked narrow. The Effector Target property list no longer shifts sideways.',
+        '(Owed from 2.8.0) On Windows, if you moved your local app data folder (LOCALAPPDATA), the panel now stores its data there too. Data at the old location is not moved automatically.',
+        '(Owed from 2.8.0) On Windows, the Codex conversation history moved, so Codex tab conversations started before 2.8.0 can\'t be continued (this applies to every Windows user of Codex).',
+        'Chat — finds web images and brings them in. The model searches the web, shows previews of the images on an article or page, then downloads the one you pick into the project (webp/avif are converted to PNG). Stock search covers Pexels, Wikimedia Commons and GIPHY (Pexels and GIPHY use the keys saved in Library). Each downloaded file gets its source recorded beside it and a line in CREDITS.md in the project folder — check usage rights and attribution yourself.',
+        'Chat — video download (optional). Turn it on in Settings → Video to install yt-dlp, then download just the section you need from a video page as an After Effects–ready mp4. It is off by default; site terms and copyright are your responsibility. Chat can also cut a section out of a local video.',
+        'Chat — After Effects stays usable while rendering. Chat renders in a separate process, with progress and cancel. It renders the saved project, so if there are unsaved changes it asks before saving.',
+        'Chat — fewer dead ends. A mistyped effect name still finds the right effect, and setting a property that does not exist shows the real names. Chat warns right away when an expression\'s value is clipped by the parameter\'s range, or when renaming a layer breaks another expression. Importing the same file again no longer adds a duplicate item.',
+        'Chat — no more restart delay. Attaching an image or asking for a large job no longer makes Chat restart once first.',
+        'Chat — two writing skills. Chat checks Korean captions and copy for spelling, spacing and grammar and explains each fix, and rewrites Korean text that reads as AI-written so it sounds natural. Ask with phrases like "check the spelling" or "make this read naturally".',
+        'Chat — runs Toolbox tools directly. Chat can run the 16 Toolbox tools that have no dialog, such as Write On, Parent to Null, Unprecomp and RGB Split, the same way the buttons do. Like any other After Effects change, it asks for approval first.',
+        'Chat — web page rendering (optional). Turn it on in Settings → Web Render to let Chat open one page that draws its content with JavaScript (and looks empty to a plain read) in your installed Chrome, Edge or Brave and read its text and image candidates. It is off by default; turning it on downloads the open-source tool agent-browser (about 18 MB, Apache-2.0). No cookies or logins are used.',
+        'Organize Project — set up your own folders. Rename and move folders, and edit the classification words and file extensions for each kind (the order of the checks stays the same, and a word put in two kinds is flagged before saving). Save one template and export or import it as a file. When you organize again, items already inside the template folders are left where they are; turn on "Reclassify" to move them to the changed template\'s places. You are asked once before unsaved edits are overwritten. Available in the free version.',
+        'Carousel — Follow a path is easier to find. The new "Follow a path" section in the dialog has shortcuts to the path presets (Path Smile · Path Line · Orbit Path) and the button. Select one shape layer drawn with the pen, rectangle or ellipse tool and press it — a new carousel now follows that path straight away (you can pick the layer while the window is open).',
+        'Carousel — lighter. On a 20-card carousel, preview and motion-blur renders take about 20–35% less time, and building one is more than twice as fast (measured on our test PC). Presets other than Hero Slider no longer create shadow-copy layers — if you switch a carousel to Hero Slider from the Effect Controls dropdown, reapply it from the dialog to add that shadow.',
+        'Text exit animations are no longer cut off at the end of the layer. Exits with a long settle, such as the spring exit, start early enough to finish before the layer ends. Presets with a short settle keep their timing.',
+        'Round Corners, Points to Nulls and Auto Marker no longer leave an empty "Solids" folder or unused nulls in the Project panel.',
+        'Parent to Null now stops with a message when it meets locked layers, instead of leaving a null with no children. Unprecomp no longer stops halfway on a locked layer inside a precomp and leaves half the copies behind.',
+        'With two After Effects windows open, Chat in one no longer cuts off Chat in the other.',
+      ],
+    },
+  },
   /* 날짜 = 실제 출고일 2026-10-13(태그 · R2 · Polar · 배포 같은 날).
      근거 = 플러그인 태그 `v2.9.0`(`5b261f8b`) 의 `git log v2.8.0..v2.9.0` 중 유저가 체감하는 feat·fix·perf 만.
      카탈로그 숫자(COUNTS)는 이 태그에서 그대로다 — src/data/* diff 0 · schemas.ts 는 설명 문구만 바뀌었다.

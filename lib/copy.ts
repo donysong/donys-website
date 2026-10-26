@@ -13,7 +13,7 @@
    🔴 숫자는 사전에 박지 마라 — `{scripts}` 같은 자리표시자를 쓰면 `lib/product.ts` 가 채운다
    (사이트가 없는 프리셋 112개를 두 달간 광고한 전례가 있다).
    타자기 표기: [[말]] = 동그라미가 그려진다 · __말__ = 밑줄. */
-import { COUNTS, PRICE, VERSION } from './product';
+import { COUNTS, PRICE, TIERS, VERSION } from './product';
 import type { Dict, Entry, Lang } from './copy/types';
 import SHARED from './copy/shared';
 import HOME from './copy/home';
@@ -41,6 +41,8 @@ const NUMS: Record<string, string> = {
   '{tools}': String(COUNTS.tools),
   '{skills}': String(COUNTS.skills),
   '{effects}': String(COUNTS.effects),
+  '{freeTools}': String(TIERS.freeTools),
+  '{proTools}': String(TIERS.proTools),
   '{price}': PRICE,
   '{version}': VERSION,
 };

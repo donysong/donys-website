@@ -1,0 +1,30 @@
+/* ════ 2026-10-15 — 04 Free · Pro 두 칸 장부 (Price.tsx) ════
+   구 `.pamt`(가격 | 약속) 2단이 **두 요금제 칸**으로 바뀌었다. 바깥 틀은 `.pricing`(site4.css — 위아래 굵은 괘선 + 1080px 이하 1단)을 그대로 쓴다.
+   · 칸 = `.plan`. 가운데 세로 괘선 = `.plans::before`(구 `.pvow` 의 `border-left` 자리 — 아래 주석).
+   · 가격 `.big` · 구매 버튼 `.pbuy` 는 구 `.pamt` 규칙과 같은 값이다(`.pamt` 밑에 있던 선택자라 칸 이름으로 다시 적었다).
+   · 🔴 목록 항목에 가로 괘선을 두지 마라 — 노트 판의 괘선은 `ruleSnap.ts` 가 모눈 선에 얹느라 행을 최대 27px 씩 벌린다(행이 짧은 목록은 들쭉날쭉해진다).
+     구 `.pvow` 는 행 높이를 모눈 3칸에 맞춰 놓았기 때문에 괜찮았다. 항목은 간격만으로 가른다.
+   새 이름(`.plans` `.plan` `.plan-*`)은 CSS 세 파일·컴포넌트에 같은 이름 0 을 grep 으로 확인하고 들였다. site4.css 뒤에 읽힌다(layout 의 import 순서). */
+.p3 .plans {position:relative;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+/* 가운데 세로 괘선은 칸의 테가 아니라 `.plans` 의 가상 요소다 — `ruleSnap.ts` 가 `.plans` 아래 괘선을 모눈에 얹느라 `padding-bottom` 을 늘리는데,
+   칸의 `border-left` 는 그 늘어난 여백까지 못 내려가서 세로선이 아래 괘선에 닿지 못했다(1440 실측 8px). 가상 요소는 스냅이 안 보고 여백까지 덮는다. */
+.p3 .plans::before {content:'';position:absolute;top:0;bottom:0;left:50%;width:1.5px;margin-left:-.75px;background:var(--black);pointer-events:none}
+.p3 .plan {display:grid;align-content:start;justify-items:start;gap:16px;min-width:0;padding:30px 44px 34px 0}
+.p3 .plan + .plan {padding:30px 0 34px 44px}
+.p3 .plan-l {margin:0;color:var(--typeink)}
+.p3 .plan .big {display:block;width:max-content;font-size:clamp(3.4rem,8vw,6.4rem);line-height:.9;letter-spacing:-.04em}
+.p3 .plan .pbuy {justify-self:start;padding:18px 34px;font-size:19px;gap:12px}
+.p3 .plan-list {margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:17px;line-height:1.4;font-weight:600;color:var(--text)}
+.p3 .plan-list b {font-weight:800;color:var(--black)}
+.p3 .plan-lead {margin:8px 0 -4px;font-size:14px;line-height:1.4;font-weight:700;color:var(--muted)}
+.p3[data-lang="ko"] .plan-lead {font-size:14.5px}
+/* Pro 툴 이름 목록 — 패널 버튼 문자열이라 로케일 무관(영문). 본문보다 작고 흐린 한 단. */
+.p3 .plan-tools {display:block;margin-top:6px;font-size:13.5px;line-height:1.55;font-weight:500;color:var(--muted)}
+/* Free 칸의 폼 — 칸 폭을 다 쓴다(NewsletterForm 의 `max-w-md` 입력은 그대로). 폼 안 글자는 Tailwind 유틸리티가 갖는다. */
+.p3 .plan-form {justify-self:stretch;margin-top:6px;padding-top:18px;border-top:1px solid var(--line)}
+@media (max-width:1080px){
+  .p3 .plans {grid-template-columns:1fr}
+  .p3 .plans::before {display:none}
+  .p3 .plan {padding:26px 0}
+  .p3 .plan + .plan {padding:26px 0;border-top:1.5px solid var(--black)}   /* `.plan + .plan` 이 위 `.plan` 보다 구체적이라 여백을 다시 적는다 */
+}

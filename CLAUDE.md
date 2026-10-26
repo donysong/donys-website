@@ -98,7 +98,11 @@ components/
   site3p/        # 🔴 홈 — Page Chrome Hero Who Why What MadeBy Price Footer3P Plate3 Typed lang
   RisoDefs Plate Navbar Footer MotionLab   # 나머지 페이지용
 functions/       # 🔴 Cloudflare Pages Functions — `wrangler pages deploy out` 이 cwd 의 이 폴더를 같이 올린다.
-                 #    지금은 소식 메일(광고성 정보 수신 동의)뿐: api/newsletter/* · 설정 = tools/newsletterSetup.mjs
+                 #    소식 메일(광고성 정보 수신 동의): api/newsletter/* · 무료 다운로드(이메일 → 확인 메일 → 링크): api/download/* + `/download` 면 ·
+                 #    Pro 버튼 집계 `/go/pro`·`/ko/go/pro`(제품 안 Pro 버튼이 여는 주소 → 합계만 세고 `/ae#price` 로 302)
+                 #    설정 = tools/newsletterSetup.mjs(Resend 세그먼트 `newsletter`·`free-download` · 속성 · 웹훅 · 비밀값 `RESEND_FREE_SEGMENT_ID`)
+                 #    🔴 Pages 바인딩 `PRO_CLICKS` = Analytics Engine(데이터셋 `pro_clicks`) — 코드가 아니라 Pages 설정이라 배포 전에 한 번 넣는다. 없으면 세지 않고 이동만 한다.
+                 #    시험 = `npm run test:fn`(Node ≥ 22.18 · 네트워크 안 탄다)
                  #    법 근거·검토서 = 플러그인 repo donys/docs/LEGAL_KR_REVIEW.md (🔴 이 repo 는 **공개**다 — 검토서를 여기 두지 마라)
 lib/copy.ts      # 🔴 홈 카피 정본 — EN/KO 사전 하나. 카피 수정은 **여기서만**(양 언어 같이)
 lib/product.ts   # 🔴 가격 · 체크아웃 URL · 카탈로그 숫자
@@ -130,9 +134,13 @@ public/
   박혀 있었고 가격이 오른 뒤에도 사이트가 옛 값을 계속 보여줬다.
 - **최신 버전** = `app/update/page.tsx` 의 `RELEASES[0]`. v2.5.0 을 컷한 뒤에도
   두 자리가 v2.4.0 을 표시하고 있었다.
-- **방침·약관 시행일** = `lib/policy.ts` 하나. 방침 제16조·약관 제4조가 *"시행 7일 전부터 알린다"* 고 약속해서, 개정은 **현재 판 그대로 + 맨 위 "개정 예정 안내" 띠(`components/PolicyNotice.tsx`) + 시행 예정본
-  `/…/upcoming`(noindex)** 으로 먼저 고지하고, 시행일에 새 판이 현재 판 자리로 들어간다(띠·예정본은 같이 지운다). 고지가 늦으면 이 상수만 늦춘다. deployCheck `[policy]` 가 짝·날짜·noindex 를 보고,
-  `npm run deploy`(= `deployCheck --release`)는 시행일이 어긋난 빌드를 막는다. 🔴 새 방침이 현재 판이 되기 전(= 시행일 전)에는 이메일을 받는 폼을 배포하지 마라.
+- **방침·약관 시행일** = `lib/policy.ts` 하나(헤더·부칙·방침 제16조가 읽는다). 방침 제16조·약관 제4조가 *"시행 7일 전부터 알린다"* 고 약속한다 — 개정은 **현재 판 그대로 + 맨 위 "개정 예정 안내" 띠 +
+  시행 예정본 `/…/upcoming`(noindex)** 으로 먼저 고지하고, 시행일에 새 판이 현재 판 자리로 들어간다(띠·예정본은 같이 지운다). 그 구현은 지웠다 — 다음 개정 때 `git show 0226935`(feat(legal): 개정 예정 안내)를 되살려라.
+  무료 버전 개정(방침·약관)이 그렇게 나갔다. deployCheck `[policy]` 는 남은 띠·예정본과 시행일 어긋남을 보고, `npm run deploy`(= `deployCheck --release`)는 **시행일 전 배포를 막는다**.
+  🔴 새 방침이 현재 판인 이 빌드를 시행일 전에 배포하지 마라 — 이메일을 받는 폼(무료 다운로드)이 시행 전 개인정보를 받게 된다.
+- **무료 다운로드 정보의 보유 기간** = 그 주소로 **마지막 안내 메일을 보낸 날부터 3년**(방침 제3조 · 폼 고지 · 확인 메일의 국외 이전 고지가 한 문구 — `deployCheck [retention]` · `npm run test:fn`).
+  🔴 **자동 삭제가 아직 없다** — 운영자가 연 1회 손으로 지운다(`free-download` 세그먼트에서 `free_at` 이 3년 넘은 연락처, 소식 메일 세그먼트 주소는 제외). 자세한 기준·한계·업그레이드 경로(예약 실행)는 `functions/_lib/download.ts` 머리 주석.
+  무료 다운로드 동의는 **필수 둘**(이용약관 · 개인정보 수집·이용)로 나뉜다 — 합치지 마라. 방침은 동의 대상이 아니라 공개 대상이라 링크로만 건다.
 - **홍보 자산** = 플러그인 repo `tools/promo/` 에서 굽는다. 이 repo 에서 잘라 저장하지
   마라 — 다음 재생성 때 갈라진다. 카드 안 프레이밍은 CSS(`zoom`/`pos`)가 한다.
 
@@ -149,7 +157,7 @@ npm run build   # → out/
 ## 관련
 
 - 플러그인 소스: `../Dony-s-AE-Plugin/donys/`
-- 홍보 자산 렌더러: `../Dony-s-AE-Plugin/tools/promo/` (`node shot.mjs pages/og.html og-ae`). 🔴 구 목업(`f-*` · `poster-*` · `anim-*` · `hero`)은 2026-09-28 삭제 — 없는 기능을 그리고 있었다. 패널 그림은 출고 태그에서만.
+- 홍보 자산 렌더러: `../Dony-s-AE-Plugin/tools/promo/` (공유 카드 = `node shot.mjs pages/og-brand.html og-brand 1200 630 1` — 2026-10-17 로고 카드 한 장 · 구 `og.html`/`og-ae` 은퇴). 🔴 구 목업(`f-*` · `poster-*` · `anim-*` · `hero`)은 2026-09-28 삭제 — 없는 기능을 그리고 있었다. 패널 그림은 출고 태그에서만.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

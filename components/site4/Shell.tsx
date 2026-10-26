@@ -15,6 +15,8 @@ import { Defs, Surface, useChrome } from '@/components/site3p/Chrome';
 import { penPath } from '@/components/site3p/pen';
 import { useSmoothScroll } from './motion';
 import { BUSINESS, CHECKOUT_URL, FTC_BIZ_URL } from '@/lib/product';
+import { ANALYTICS_ON } from '@/lib/analytics';
+import { openConsent } from '@/lib/consent';
 
 export type NavLink = { href: string; k: string };
 export type Page4Kind = 'home' | 'ae' | 'docs';
@@ -87,7 +89,7 @@ export const KO_PREFIX = '/ko';
    법 3장(`/terms` `/privacy` `/refund`)도 이제 국문판이 있다 — 2026-09-30 오너가 사업자 등록(09-22) 뒤 구 "영문 전용"(09-19)을
    다시 열었다(개인정보 처리방침은 국문 독자가 읽을 수 있어야 한다). 푸터 링크가 이 함수를 타고, deployCheck `[legal]` 이
    국문 면에선 `/ko/…` 를 요구한다. 앵커(`#…`)·외부 주소·`mailto:` 는 그대로 둔다 — 앵커를 여기 통과시키면 `/ko#who` 가 된다. */
-const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter'];
+const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter', '/download'];
 export function useHref() {
   const { lang, locked } = useLang();
   return (p: string) => {
@@ -185,6 +187,7 @@ function Footer4({ page }: { page: Page4Kind }) {
           <ul>
             <li><a href={href('/ae')} data-cur>{t('s.product')}</a></li>
             <li><a href={href('/update')} data-cur>{t('s.ft.notes')}</a></li>
+            <li><a href={href('/download')} data-cur>{t('s.ft.download')}</a></li>
             {/* 광고성 정보 수신 동의 창구(2026-09-30) — 동의한 분께만 보낸다(정보통신망법 §50). */}
             <li><a href={href('/newsletter')} data-cur>{t('s.ft.news')}</a></li>
           </ul>
@@ -206,6 +209,8 @@ function Footer4({ page }: { page: Page4Kind }) {
             {/* 🔴 굵게 — 개인정보 보호위원회 처리방침 작성지침: "개인정보 처리방침" 명칭을 쓰고 글자 크기·색 등으로 다른 고지와 구분한다. */}
             <li><a href={href('/privacy')} className="ft-privacy" data-cur>{t('s.ft.privacy')}</a></li>
             <li><a href={href('/refund')} data-cur>{t('s.ft.refund')}</a></li>
+            {/* 동의를 다시 여는 자리 — 분석이 꺼져 있으면(`GTM_ID` 빔) 링크도 없다. 방침 제10조가 이 링크를 거부 방법으로 적는다. */}
+            {ANALYTICS_ON ? <li><a href="#cookies" role="button" onClick={(e) => { e.preventDefault(); openConsent(); }} data-cur>{t('s.ft.cookies')}</a></li> : null}
             {page !== 'home' ? <li><a href={href('/')} data-cur>{t('s.toBrand')}</a></li> : null}
           </ul>
           {/* 돌은 열의 **끝**이다 — 라벨과 링크 사이에 있으면 라벨이 그림에 붙고 링크가 떨어진다. */}

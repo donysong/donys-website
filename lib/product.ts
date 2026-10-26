@@ -1,6 +1,8 @@
 /* 제품 사실 한 곳. 🔴 가격을 컴포넌트에 다시 박지 마라 —
    $30 이 Navbar·Hero·Pricing·layout 메타·terms 다섯 곳에 흩어져 있었고,
    가격이 오른 뒤에도 사이트는 옛 값을 계속 보여줬다. */
+import { PRO_TOOL_IDS } from './proTools';
+
 export const PRICE = '$49.99';
 export const PRICE_USD = '49.99';
 
@@ -58,11 +60,16 @@ export const COUNTS = {
   effects: 3,
 } as const;
 
+/* Free / Pro 가르기 — 2026-10-15 오너 결정(v2.10.0 부터, 같은 빌드를 키로 연다).
+   Free = Library · Curves · Expressions · Support 패널 + Toolbox 툴 26개. Pro = Chat · Custom 패널 + Toolbox 툴 13개(`lib/proTools.ts` 가 id 목록).
+   🔴 `freeTools + proTools` 는 `COUNTS.scripts` 와 같아야 한다 — `npm run test:fn` 이 본다(툴이 늘면 어느 쪽에 넣을지 먼저 정한다). */
+export const TIERS = { proTools: PRO_TOOL_IDS.length, freeTools: 26 } as const;
+
 /* 최신 릴리스 버전 한 곳. app/update/page.tsx 의 다운로드 링크·표시 문구가 여기서 읽는다.
    🔴 v2.5.0 을 컷한 뒤에도 이 페이지가 두 자리에서 v2.4.0 을 보여주던 전례가 있다.
    릴리스 노트 이력(RELEASES)은 항목마다 자기 version 을 갖지만, **"최신"의 정의는 여기 하나**다.
    둘이 갈라지면 app/update/page.tsx 최상단 단정이 빌드를 깬다. */
-export const VERSION = '2.9.0';
+export const VERSION = '2.10.0';
 
 /* 배포 채널 = Cloudflare R2 (2026-09-09 분리). 바이너리(zxp)와 업데이트 매니페스트는
    더 이상 이 repo 의 public/ 에 없다 — 5MB 가 git 히스토리에 쌓이지 않고,

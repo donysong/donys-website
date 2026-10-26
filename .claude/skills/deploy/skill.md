@@ -14,39 +14,20 @@ description: "Dony's 사이트를 빌드 검증 후 wrangler direct upload 로 C
 1. `./node_modules/.bin/next build` 실행 (정적 export, 산출 디렉토리 `out/`)
 2. 빌드 실패 시 **배포 중단** — 에러 메시지를 사용자에게 보고
 
-3. **산출물 검사 — 소스가 아니라 나가는 물건을 본다.** 빌드 직후 `out/` 에서:
+3. **산출물 검사 — 소스가 아니라 나가는 물건을 본다.** 빌드 직후 `node tools/deployCheck.mjs --release`(= `npm run deploy` 가 부른다)가 `out/` 을 기계로 검사한다.
+   분석(GTM·GA4)은 이 게이트의 `[analytics]` 가 본다 — **구 `NEXT_PUBLIC_GA_ID` + `gtag/js?id=G-` grep 검사는 폐기했다**(2026-10-20).
+   GTM 은 동의 *뒤에* JS 로 주입하므로 정적 HTML 에 `googletagmanager.com` 이 없다. 그래서 판별자가 바뀌었다:
 
-```bash
-# GA 태그가 붙었는데 개인정보 방침이 Google 을 고지하지 않으면 배포 중단.
-# NEXT_PUBLIC_* 는 빌드 타임에 인라인되므로 out/ 하나에서 둘의 상태를 같이 볼 수 있다.
-# 🔴 판별자에 `?id=G-` 를 반드시 붙여라. `googletagmanager.com/gtag/js` 만 찾으면
-#    @next/third-parties 라이브러리 청크 안의 **템플릿 문자열**(`gtag/js?id=${t}`)에 걸려
-#    측정 ID 가 비어 있어도 매 배포 발화한다(2026-09-09 실증: HTML 0건인데 GA=1).
-#    항상 빨간 게이트는 곧 꺼진다 — 위양성이 위음성만큼 나쁘다.
-GA=$(grep -rlE 'googletagmanager\.com/gtag/js\?id=G-[A-Z0-9]+' out/ 2>/dev/null | wc -l | tr -d ' ')
-# 🔴 `|| echo 0` 을 쓰지 마라 — `grep -c` 는 0건일 때 "0" 을 찍고 **exit 1** 이라
-#    폴백이 같이 발화해 POL="0\n0" 이 되고, `[ -eq ]` 가 그 자리에서 죽어 검사가
-#    조용히 통과한다(2026-09-09 뮤턴트 실증: 차단해야 할 칸이 통과했다).
-POL=$(grep -c "Google Analytics" out/privacy.html 2>/dev/null) || POL=0
-: "${POL:=0}"
-if [ "$GA" -gt 0 ] && [ "$POL" -eq 0 ]; then
-  echo "🔴 GA 태그가 붙었는데 privacy 가 Google 을 고지하지 않는다 — 배포 중단"
-  exit 1
-fi
-```
-
-| GA 태그 | 방침에 Google | 판정 |
+| 상태 | `lib/analytics.ts` 의 `GTM_ID` | 판정 |
 |---|---|---|
-| 없음 | 미고지 | 🟢 통과 (현재 상태 — `NEXT_PUBLIC_GA_ID` 가 비어 태그가 안 붙는다) |
-| 없음 | 고지됨 | 🟢 통과 (방침 선배포) |
-| 있음 | 고지됨 | 🟢 통과 |
-| **있음** | **미고지** | 🔴 **차단** ← 유일하게 막는 칸 |
+| 꺼짐(지금) | `''` | 🟢 통과 — 배너·로더·푸터 *쿠키 설정* 링크가 HTML 에 **없어야** 한다 |
+| 켜짐 | `GTM-XXXX` | 🔴 아래가 **전부** 맞아야 통과: ① `ANALYTICS_EFFECTIVE`(방침 개정 고지 + 7일, 오너가 30일로 정하면 30일)가 오늘(KST) 이전 ② 모든 면 푸터에 `#cookies` 링크 ③ 정적 HTML 에 `googletagmanager.com` 0 ④ 방침 EN·KO 가 `Google Tag Manager` · `Google Analytics`(`META_PIXEL_ON` 이면 `Meta Pixel` 도)를 고지 ⑤ 국문 방침에 옛 *쿠키를 설치하지 않으며* 가 없다 |
 
 > **왜 문서가 아니라 검사인가** — 이 레포는 *"릴리스 때 같이 고친다"* 를 문서에만 둬서 두 번 샜다
 > (`112 motion presets` 두 달 · `/update` 가 v2.4.0 고정). 사람이 기억해야 하는 규칙은 잊힌다.
 >
 > ⚠️ `privacy` 는 **법적 문서다.** 방침 문안은 오너 승인 없이 고치지 마라. 이 검사는 코드가
-> 방침보다 앞서 나가는 것만 막는다 — 문안을 대신 써주지 않는다.
+> 방침보다 앞서 나가는 것만 막는다 — 문안을 대신 써주지 않는다. 설계 = 플러그인 repo `donys/docs/ANALYTICS_PLAN.md`.
 
 ### Step 2: 변경 확인
 1. `git status`로 변경 파일 확인

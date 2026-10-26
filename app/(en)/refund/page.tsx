@@ -11,7 +11,7 @@ export const metadata: Metadata = {
      붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
   title: 'Refund Policy',
   description: DESCRIPTION,
-  ...share({ path: '/refund', title: 'Refund Policy — You Name It', description: DESCRIPTION, card: 'brand', lang: 'en' }),
+  ...share({ path: '/refund', title: 'Refund Policy — You Name It', description: DESCRIPTION, lang: 'en' }),
 };
 
 /* 🔴 2026-09-30 오너 *"법조인 롤로 직접 작성"* — 국문판(`app/(ko)/ko/refund/page.tsx`)과 **같은 약속**이다. 근거·쟁점 =

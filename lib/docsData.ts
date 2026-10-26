@@ -1,6 +1,6 @@
 /* 🔴 **생성물이다. 손으로 고치지 마라.**
    고칠 곳은 `tools/build-docs-data.mjs` 이고, 고친 뒤에는  npm run build:docs  를 돌려라.
-   내용의 정본은 플러그인 repo 의 **출고 태그 v2.9.0** 다 — 툴은 `src/data/builtinScripts.ts`,
+   내용의 정본은 플러그인 repo 의 **출고 태그 v2.10.0** 다 — 툴은 `src/data/builtinScripts.ts`,
    설명은 `src/i18n/{ko,en}.ts`, 패널은 `CSXS/manifest.xml`, 이펙트는 `seed-presets/effects/`.
    (워킹트리가 아니다 — 사이트가 파는 건 구매자가 받는 zxp 다.)
    여기 숫자를 손으로 올리면 그 순간 사이트가 없는 걸 광고하기 시작한다(전례 둘 — 생성기 머리말).
@@ -8,7 +8,7 @@
    🔴 릴리스 노트는 여기 없다 — `lib/releases.ts` 가 정본이고 페이지가 직접 읽는다. */
 
 /** 이 파일을 찍은 플러그인 태그. `lib/product.ts` VERSION 과 같아야 한다. */
-export const DOCS_TAG = "v2.9.0";
+export const DOCS_TAG = "v2.10.0";
 
 export type DocsCat = "motion" | "layer" | "comp" | "shape" | "stylize" | "export";
 export type DocsPreview = 'sheet' | 'none';
@@ -56,7 +56,7 @@ export const DOCS_TOOLS: readonly DocsTool[] = [
   { id: "fitCompToLayers", name: "Fit Comp to Layers", cat: "comp", preview: "sheet", ko: "컴프 길이를 마지막 레이어에 맞춤", en: "Fit comp duration to last layer" },
   { id: "trimLayersToComp", name: "Trim Layers to Comp", cat: "comp", preview: "sheet", ko: "레이어 In/Out 을 컴프 길이로 자름", en: "Trim layer in/out to comp duration" },
   { id: "unprecomp", name: "Unprecomp", cat: "comp", preview: "sheet", ko: "프리컴프 해제", en: "Unpack a precomp" },
-  { id: "organizeProject", name: "Organize Project", cat: "comp", preview: "sheet", ko: "프로젝트 패널을 스키마 폴더로 자동 정리 — 렌더/컴프/소스/솔리드/레퍼런스 (적용 전 계획 미리보기)", en: "Sort the Project panel into schema folders, with a plan preview first" },
+  { id: "organizeProject", name: "Organize Project", cat: "comp", preview: "sheet", ko: "프로젝트 패널을 내 폴더 템플릿으로 자동 정리 — 기본은 렌더/컴프/소스/솔리드/레퍼런스 (적용 전 계획 미리보기 · 템플릿 편집)", en: "Sort the Project panel with your own folder template (default: render/comp/source/solids/reference), with a plan preview first" },
   { id: "writeOn", name: "Write On", cat: "shape", preview: "sheet", ko: "써지는 애니메이션 키프레임 — 셰이프는 획 순서대로, 텍스트는 윤곽선으로 바꿔 좌상→우하 필기 순서로 (Trim Paths)", en: "Write-on keyframes — shapes in stroke order; text converts to outlines and writes top-left to bottom-right (Trim Paths)" },
   { id: "pointsToNulls", name: "Points to Nulls", cat: "shape", preview: "sheet", ko: "패스 포인트마다 널 컨트롤러 생성", en: "Null controller on each path point" },
   { id: "shapesFromVector", name: "Shapes from Vector", cat: "shape", preview: "sheet", ko: "벡터 레이어 → 셰이프 레이어 변환", en: "Vector layer → shape layer" },
