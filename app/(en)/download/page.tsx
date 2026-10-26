@@ -23,7 +23,7 @@ export default function DownloadPage() {
         <p className="lab">You Name It AE Plugin</p>
         <InkTitle>Free download</InkTitle>
         <p className="text-[17px] leading-relaxed">
-          Library, Curves, Expressions, Support and {TIERS.freeTools} Toolbox tools. No card. Enter your email and we send you the download link.
+          Library, Curves, Expressions, Support and {TIERS.freeTools} Toolbox tools. No card needed. Enter your email and we’ll send you the download link.
         </p>
         <p className="mt-2 text-[15px] leading-relaxed">
           Want to see what Free and Pro each include? <a href="/ae#price" className="font-semibold underline underline-offset-4">Compare them</a>.

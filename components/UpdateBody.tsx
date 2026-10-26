@@ -36,7 +36,7 @@ const T = {
   en: {
     brand: 'You Name It AE Plugin',
     h1: 'Release notes',
-    lead: 'What changed in each version, and how to install by hand when the in-panel update does not go through.',
+    lead: 'What changed in each version, and how to install by hand when the in-panel update doesn’t go through.',
     date: (iso: string) => {
       const [y, m, d] = iso.split('-');
       const mm = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][Number(m) - 1];
@@ -46,7 +46,7 @@ const T = {
     otherHref: '/ko/update',
     current: 'Current version',
     how: 'When a new version is out, the Support panel shows a notice and installs it right there. Restart After Effects to apply it, since a running extension can’t replace itself.',
-    manualH: 'If the in-panel install does not go through',
+    manualH: 'If the in-panel install doesn’t go through',
     steps: [
       'Download the file with the button below.',
       'Quit After Effects.',
@@ -60,7 +60,7 @@ const T = {
   ko: {
     brand: 'You Name It AE Plugin',
     h1: '업데이트 노트',
-    lead: '버전마다 무엇이 바뀌었는지, 그리고 패널 안 업데이트가 안 될 때 손으로 설치하는 방법입니다.',
+    lead: '버전마다 뭐가 바뀌었는지, 패널 안 업데이트가 안 될 때 손으로 설치하는 법까지 모아 뒀어요.',
     date: (iso: string) => {
       const [y, m, d] = iso.split('-');
       return `${y}년 ${Number(m)}월 ${Number(d)}일`;
@@ -68,17 +68,17 @@ const T = {
     otherLang: 'Read in English →',
     otherHref: '/update',
     current: '현재 버전',
-    how: '새 버전이 나오면 Support 패널에 알림이 뜨고, 그 자리에서 받아 설치합니다. 설치 뒤 After Effects 를 다시 켜면 적용됩니다. 실행 중인 확장은 자기 자신을 바꿀 수 없기 때문입니다.',
+    how: '새 버전이 나오면 Support 패널에 알림이 뜨고, 그 자리에서 받아 설치해요. 설치한 뒤 After Effects를 다시 켜면 적용돼요. 켜져 있는 확장은 자기 자신을 바꿀 수 없거든요.',
     manualH: '패널 안 설치가 안 될 때',
     steps: [
-      '아래 버튼으로 파일을 내려받습니다.',
-      'After Effects 를 닫습니다.',
-      <>무료 <a href={ZXP} target="_blank" rel="noreferrer">ZXP Installer</a> 에 파일을 끌어다 놓습니다. "자체 서명 인증서" 경고가 뜰 수 있습니다. 우리가 직접 서명한 파일이라 뜨는 경고이니, 계속 진행하면 설치됩니다.</>,
-      'After Effects 를 다시 엽니다.',
+      '아래 버튼으로 파일을 내려받아요.',
+      'After Effects를 닫아요.',
+      <>무료 <a href={ZXP} target="_blank" rel="noreferrer">ZXP Installer</a> 에 파일을 끌어다 놓아요. "자체 서명 인증서" 경고가 뜰 수 있는데, 우리가 직접 서명한 파일이라 뜨는 거예요. 그대로 진행하면 설치돼요.</>,
+      'After Effects를 다시 열어요.',
     ],
     dl: `v${VERSION} .zxp 내려받기`,
     more: <>설치 앱 없이 설치하는 법, 지우는 법, 패널이 빈 창으로 열릴 때: <a href="/ko/ae/docs#install">Docs — 설치</a>.</>,
-    v210: '아직 v2.1.0 이면 인앱 설치가 실패해도 성공으로 표시될 수 있습니다. 이번 한 번은 맨 위 순서대로 손으로 설치합니다. v2.2.0 부터는 패널이 직접 설치합니다.',
+    v210: '아직 v2.1.0이라면 패널 안 설치가 실패해도 성공으로 뜰 수 있어요. 이번 한 번만 맨 위 순서대로 손으로 설치해 주세요. v2.2.0부터는 패널이 알아서 설치해요.',
   },
 } as const;
 

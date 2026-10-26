@@ -3,7 +3,7 @@ import ReadingShell, { InkTitle } from '@/components/ReadingShell';
 import NewsletterForm from '@/components/site4/NewsletterForm';
 import { share } from '@/lib/meta';
 
-const DESCRIPTION = 'You Name It 의 새 도구·업데이트·할인 소식을 이메일로 받습니다.';
+const DESCRIPTION = 'You Name It의 새 도구, 업데이트, 할인 소식을 이메일로 받아 보세요.';
 
 /* 소식 메일 구독 국문판 — 영문판(`app/(en)/newsletter/page.tsx`) 주석 참조. 색인하지 않는다(토큰 주소). */
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function NewsletterKoPage() {
       <header className="max-w-3xl">
         <p className="lab">You Name It</p>
         <InkTitle>소식 받기</InkTitle>
-        <p className="text-[17px] leading-relaxed">새 도구, 업데이트, 가끔 할인 소식. 할 말이 있을 때만 보냅니다.</p>
+        <p className="text-[17px] leading-relaxed">새 도구, 업데이트, 가끔 할인 소식. 할 말이 있을 때만 보내요.</p>
       </header>
       <div className="sheet mt-10 max-w-3xl [--m:1]">
         <NewsletterForm lang="ko" />

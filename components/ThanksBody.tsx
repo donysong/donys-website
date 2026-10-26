@@ -21,13 +21,13 @@ const T = {
   },
   ko: {
     brand: 'You Name It AE Plugin',
-    h1: '감사합니다',
-    lead: '결제가 완료되었습니다.',
-    portal: '라이선스 키와 설치 파일은 고객 포털에 있습니다. 결제하신 이메일로 로그인하세요.',
+    h1: '고마워요',
+    lead: '결제가 끝났어요.',
+    portal: '라이선스 키와 설치 파일은 고객 포털에 있어요. 결제한 이메일로 로그인하세요.',
     portalB: '고객 포털 열기',
     guide: '설치하는 법',
     guideHref: '/ko/ae/docs#install',
-    help: '문제가 있으면 아래로 알려 주세요:',
+    help: '막히는 게 있으면 여기로 알려 주세요:',
   },
 } as const;
 

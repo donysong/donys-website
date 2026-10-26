@@ -21,7 +21,7 @@ export default function NewsletterPage() {
       <header className="max-w-3xl">
         <p className="lab">You Name It</p>
         <InkTitle>Newsletter</InkTitle>
-        <p className="text-[17px] leading-relaxed">New tools, updates and the occasional deal. Only when there is something to say.</p>
+        <p className="text-[17px] leading-relaxed">New tools, updates and the occasional deal. Only when there’s something to say.</p>
       </header>
       <div className="sheet mt-10 max-w-3xl [--m:1]">
         <NewsletterForm lang="en" />
