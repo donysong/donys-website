@@ -22,7 +22,7 @@ export default function Hero() {
   const href = useHref();
   return (
     <header className="phero">
-      <h1 className="disp">
+      <h1 className="disp" lang="en">
         <span className="brandpart">{t('s.brand')}</span>
         <Plate3 k="ae.hero.plugin" />
       </h1>

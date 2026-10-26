@@ -10,8 +10,8 @@
    돌 카드는 01 의 큰 그림 자리로 옮겼다(`StoneCard` export — 뒤에 Rive 메인 일러스트가 그 자리를 받는다). */
 import { Plate3 } from '@/components/site3p/Plate3';
 import { useEffect, useRef } from 'react';
-import Typed, { typedHTML } from '@/components/site3p/Typed';
-import { Html, useT } from '@/components/site3p/lang';
+import { typedHTML } from '@/components/site3p/Typed';
+import { useT } from '@/components/site3p/lang';
 import { useClearNav, useProgress } from '@/components/site4/motion';
 
 /* 고무 스탬프 — 누르면 다시 찍힌다(proto4.js 와 같은 동작). 처음엔 안 찍는다. */
@@ -30,18 +30,15 @@ export default function Hero() {
   return (
     <header className="hero p1" ref={ref}>
       <div className="p1-pin"><div className="p1-stage"><div className="p1-copy">
-        <span className="stamp black" onClick={rePress}><span className="dot" />{t('home.hero.stamp')}</span>
         {/* 🔴 `{' '}` 를 지우지 마라 — JSX 는 두 엘리먼트 사이의 **줄바꿈 공백을 없앤다**.
             `.pl` 은 inline-block 이라 공백이 사라지면 "뭐든말만 해." 로 붙는다(프로토 HTML 은 공백이 있다).
             같은 함정이 `components/site3p/Hero.tsx` 에 이미 걸려 있다 — 거기선 줄이 어차피 넘쳐서 안 보일 뿐이다. */}
-        <h1 className="disp">
+        <h1 className="disp" lang="en">{/* "You Name It." — 두 언어 같은 라틴 표제라 국문 보정에서 빠진다(Plate3 주석) */}
           <Plate3 k="home.hero.h1a" />{' '}
           <Plate3 k="home.hero.h1b" />
         </h1>
-        <Html k="home.hero.sub" as="p" className="sub" />
-        <a className="typed-link" href="#brand" data-cur>
-          <Typed k="home.hero.typed" />
-        </a>
+        {/* v5 (2026-10-26) — 레퍼런스 표지 = 3단어 제목 + 3단어 부제, 그게 전부다. 스탬프·타자기 줄(`#brand` 로 가던 문장)은 민다 — #brand 판이 없어졌다. */}
+        <p className="sub">{t('home.v5.tagline')}</p>
       </div></div></div>
     </header>
   );

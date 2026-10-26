@@ -9,12 +9,16 @@ import { useT } from './lang';
 export function Plate3({ k, className = '', press = true, boil = true, block = false }: {
   k: string; className?: string; press?: boolean; boil?: boolean; block?: boolean;
 }) {
-  const { t } = useT();
+  const { t, lang } = useT();
   const s = t(k);
   const cls = ['pl', press ? 'press' : '', boil ? 'boil' : '', block ? 'block' : '', className]
     .filter(Boolean).join(' ');
+  /* 국문 면에서 한글이 한 자도 없는 판("You Name It." · "AE Plugin" …)은 `lang="en"` — 국문 보정(자간 · 0.55px 외곽선, site3p.css
+     `[data-lang="ko"] …:not(:lang(en))`)이 라틴 판에 안 걸리게. 오너 2026-10-26 *"언어 변경하면 대문 텍스트가 바뀌어서 이상함"*.
+     스크린리더도 영어로 읽는다. */
+  const latin = lang === 'ko' && !/[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7AF]/.test(s.replace(/<[^>]+>/g, ''));
   return (
-    <span className={cls}>
+    <span className={cls} lang={latin ? 'en' : undefined}>
       <span className="rim" aria-hidden="true" dangerouslySetInnerHTML={{ __html: s }} />
       <span className="ko" aria-hidden="true" dangerouslySetInnerHTML={{ __html: s }} />
       <span className="ink" dangerouslySetInnerHTML={{ __html: s }} />

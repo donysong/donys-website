@@ -91,8 +91,8 @@
 .p3[data-lang="ko"] .lab {font-weight:700;letter-spacing:.02em;text-transform:none;font-size:12.5px}
 .p3 .lab.lc {text-transform:none;letter-spacing:.02em;font-weight:500}
 .p3 .disp {font-family:var(--disp);font-variation-settings:var(--disp-fvs);font-weight:var(--disp-w)}
-.p3[data-lang="ko"] .disp {letter-spacing:-.01em}
-.p3[data-lang="ko"] .pl>span {-webkit-text-stroke:.55px currentColor}
+.p3[data-lang="ko"] .disp:not(:lang(en)) {letter-spacing:-.01em}
+.p3[data-lang="ko"] .pl:not(:lang(en))>span {-webkit-text-stroke:.55px currentColor}
 
 /* ── 종이 · 그레인 ─────────────────────────────────────────── */
 /* 파란 종이 = `.p3` 단색 배경(`--paper`) + 아래 고정 그레인 두 장. 그게 전부다.
@@ -267,7 +267,7 @@
    머리 줄의 `align-items:end` 는 오른쪽 태그 몫으로 남긴다. */
 .p3 .sec-head .no img {width:34px;height:34px;object-fit:contain}
 .p3 .sec-head h2 {margin:0;font-size:clamp(2.4rem,4.6vw,4.2rem);line-height:.96;letter-spacing:-.03em}
-.p3[data-lang="ko"] .sec-head h2 {font-size:clamp(2rem,3.8vw,3.4rem);line-height:1.12;letter-spacing:-.01em}
+.p3[data-lang="ko"] .sec-head h2:not(:lang(en)) {font-size:clamp(2rem,3.8vw,3.4rem);line-height:1.12;letter-spacing:-.01em}
 .p3 .sec-head .tag {color:var(--muted);font-size:14px;text-align:right;max-width:30ch;line-height:1.45}
 .p3 .lead {font-size:21px;line-height:1.5;max-width:56ch;margin:0 0 48px}
 .p3 .lead b {font-weight:700}
@@ -294,7 +294,7 @@
 /* 🔴 상한 7.4rem → 5.4rem (2026-09-14 이식). 프로토 카피("You name it.")는 13자였고 현행 카피는
    "that don't have"(15자)라 7fr 칼럼(1440 에서 737px)을 넘겨 네 줄로 깨졌다 — 실측으로 잡은 값이다.
    카피를 더 늘리면 여기를 다시 재라(칼럼 폭 ÷ 대략 0.52em). */
-.p3[data-lang="ko"] h1 {font-size:clamp(2.8rem,5.4vw,5.6rem);line-height:1.08;letter-spacing:-.01em}
+.p3[data-lang="ko"] h1:not(:lang(en)) {font-size:clamp(2.8rem,5.4vw,5.6rem);line-height:1.08;letter-spacing:-.01em}
 .p3 h1 .pl {margin-bottom:.03em}
 .p3 .sub {font-size:19px;line-height:1.5;max-width:44ch;margin:0 0 22px}
 .p3 .sub b {font-weight:700}

@@ -11,13 +11,13 @@
 import { useEffect } from 'react';
 import Page4, { type NavLink } from '@/components/site4/Shell';
 import Hero from './Hero';
-import Lineup from './Lineup';
-import Brand from './Brand';
-import Who from './Who';
+import { Intro, Tiles, FreeCallout, Recent, Outro } from './V5';
 
+/* v5 (2026-10-26) — 구 02 What we are(`Brand.tsx`) · 03 Who makes it(`Who.tsx`) · `Lineup.tsx` 는 판정이 굳을 때까지 파일만 둔다.
+   철학은 타일 1(`home.v5.t1`) + 끝 한 줄(`Outro`)로 접혔다(오너 판정 a). */
 const LINKS: NavLink[] = [
   { href: '#lineup', k: 'home.nav.lineup' },
-  { href: '#brand', k: 'home.nav.brand' },
+  { href: '#how', k: 'home.nav.how' },
 ];
 
 export default function Home() {
@@ -28,9 +28,11 @@ export default function Home() {
   return (
     <Page4 page="home" plateTotal={3} links={LINKS} cta={{ href: '/ae', k: 's.toProduct' }}>
       <Hero />
-      <Lineup />
-      <Brand />
-      <Who />
+      <Intro />
+      <Tiles />
+      <FreeCallout />
+      <Recent />
+      <Outro />
     </Page4>
   );
 }
