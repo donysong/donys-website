@@ -350,3 +350,50 @@ test('소식 메일 확인(공용 upsertContact 로 옮겼다): 동작이 그대
     assert.ok(calls.some((c) => c.path === '/contacts/me%40example.com/segments/seg_news'));
   } finally { restore(); }
 });
+
+/* ═══ 입구 언어 — 한국어 브라우저가 바깥에서 / · /ae 로 오면 국문 면으로 ═══ */
+
+const ke = await import('../functions/_lib/koEntry.ts');
+const entryAe = await import('../functions/ae.ts');
+const entryHome = await import('../functions/index.ts');
+const KO_KR = 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7';
+const PASS = new Response('static');
+const entry = (route, url, headers = {}, method = 'GET') =>
+  route.onRequest({ request: new Request(url, { method, headers }), next: async () => PASS });
+
+test('prefersKo: q 가 가장 높은 언어만 본다 — 같은 q 면 먼저 적힌 쪽', () => {
+  assert.equal(ke.prefersKo(KO_KR), true);
+  assert.equal(ke.prefersKo('ko'), true);
+  assert.equal(ke.prefersKo('en-US,en;q=0.9,ko;q=0.8'), false);
+  assert.equal(ke.prefersKo('en;q=0.5,ko-KR;q=0.9'), true);
+  assert.equal(ke.prefersKo('en-US,ko'), false, '같은 q(1) — 먼저 적힌 en');
+  assert.equal(ke.prefersKo('ko;q=0'), false);
+  assert.equal(ke.prefersKo('kok'), false);
+  assert.equal(ke.prefersKo(''), false);
+  assert.equal(ke.prefersKo(null), false);
+  assert.equal(ke.prefersKo('*'), false);
+});
+
+test('koTarget: 경로·쿼리를 지켜 /ko 를 붙인다 · 같은 사이트에서 왔으면 null', () => {
+  const u = (p) => new URL(`https://younameit.works${p}`);
+  assert.equal(ke.koTarget(u('/ae?utm_source=plugin'), KO_KR, 'https://l.instagram.com/'), '/ko/ae?utm_source=plugin');
+  assert.equal(ke.koTarget(u('/'), KO_KR, null), '/ko');
+  assert.equal(ke.koTarget(u('/ae'), KO_KR, 'https://younameit.works/ko/ae'), null, '국문 면의 EN 전환을 되돌리면 영문 면에 못 간다');
+  assert.equal(ke.koTarget(u('/ae'), KO_KR, 'not a url'), '/ko/ae');
+  assert.equal(ke.koTarget(u('/ae'), 'en-US,en;q=0.9', null), null);
+  assert.equal(ke.koTarget(u('/ae'), null, null), null, '로봇은 Accept-Language 가 없거나 en — 영문 면이 색인된다');
+});
+
+test('입구 라우트: /ae · / 는 한국어 브라우저면 302(no-store · Vary) · 아니면 정적 페이지 그대로', async () => {
+  const r = await entry(entryAe, 'https://younameit.works/ae?utm_source=instagram', { 'accept-language': KO_KR, referer: 'https://l.instagram.com/' });
+  assert.equal(r.status, 302);
+  assert.equal(r.headers.get('location'), 'https://younameit.works/ko/ae?utm_source=instagram');
+  assert.equal(r.headers.get('cache-control'), 'no-store');
+  assert.match(r.headers.get('vary'), /Accept-Language/);
+  const h = await entry(entryHome, 'https://preview.younameit.pages.dev/', { 'accept-language': 'ko' });
+  assert.equal(h.headers.get('location'), 'https://preview.younameit.pages.dev/ko', '프리뷰 호스트를 따른다');
+  assert.equal(await entry(entryAe, 'https://younameit.works/ae', { 'accept-language': 'en-US' }), PASS);
+  assert.equal(await entry(entryAe, 'https://younameit.works/ae', { 'accept-language': KO_KR, referer: 'https://younameit.works/ko/ae' }), PASS);
+  assert.equal(await entry(entryAe, 'https://younameit.works/ae', { 'accept-language': KO_KR }, 'POST'), PASS);
+  assert.equal((await entry(entryAe, 'https://younameit.works/ae', { 'accept-language': KO_KR }, 'HEAD')).status, 302);
+});
