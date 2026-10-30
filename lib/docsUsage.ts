@@ -9,7 +9,7 @@
    `requires` 는 일반 텍스트다. 표의 컨트롤 칸은 생성 때 제품 라벨(`{{ns.key}}`)로 이미 풀려 있다. */
 
 /** 이 파일을 찍은 곳 — 태그(`v2.8.0`) 또는 개발 우회(`dev:<ref>`). */
-export const DOCS_USAGE_SRC = "v2.10.0";
+export const DOCS_USAGE_SRC = "v2.10.1";
 
 export type DocsUsageKind = 'tool' | 'panel' | 'catalog';
 
