@@ -113,7 +113,7 @@ test('checkoutIdOf — UUID 꼴만 주문 ID 로 읽고 나머지는 null(= purc
   });
   const tsx = fs.readFileSync(path.join(ROOT, 'components/Analytics.tsx'), 'utf8');
   assert.match(tsx, /checkoutIdOf\(location\.search\)/, 'Analytics.tsx 가 검증 함수를 거치지 않고 checkout_id 를 읽는다');
-  assert.ok(!/get\('checkout_id'\)/.test(tsx), 'Analytics.tsx 가 checkout_id 를 날것으로 읽는다');
+  assert.ok(!/get\(\s*['"`]checkout_id/.test(tsx), 'Analytics.tsx 가 checkout_id 를 날것으로 읽는다');
 });
 
 /* ═══ 링크 분류 ═══ */
