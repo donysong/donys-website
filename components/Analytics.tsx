@@ -4,7 +4,8 @@
 
    🔴 이벤트 후크는 **href·`data-plate`·`details` 클래스로 잡는 위임 방식**이다 — 리뉴얼 v5 가 DOM 을 계속 바꾸므로
       GTM 의 CSS 선택자 클릭 트리거에 기대지 않고, 컴포넌트마다 onClick 을 심지도 않는다. 명시 호출은 폼 둘과 필름뿐(상태를 아는 곳).
-   🔴 `fixed!` — `.sheet`(site CSS, 레이어 밖)가 `position: relative` 를 줘서 Tailwind 의 `fixed` 를 이긴다. 중요 표시(`!`) 없이는 배너가 문서 맨 끝에 박혀 안 보인다(2026-10-20 실측 — DOM 만 보면 놓친다).
+   🔴 `fixed!` · `p-…!` — `.sheet`(site CSS, 레이어 밖)가 `position: relative` 와 판 여백을 줘서 Tailwind 의 `fixed` 를 이긴다. 중요 표시(`!`) 없이는 배너가 문서 맨 끝에 박혀 안 보인다(2026-10-20 실측 — DOM 만 보면 놓친다).
+   🔴 자리 = 낮은 바닥 띠(넓은 화면) · 낮은 바닥 시트(폰) — 표지가 만지는 면이라 덮으면 안 된다(오너 2026-11-02). 구석은 제목 폭 1000px 을 196px 가려서 띠로 갔다(1440 실측). 문구·버튼은 그대로.
    🔴 배너의 수락/거부는 **같은 크기·같은 무게**다 — 거부를 숨기면 EU 에서 동의가 무효다. 카피는 오너 확인 대상(ANALYTICS_PLAN A6). */
 import { useEffect, useState } from 'react';
 import { readConsent, writeConsent, type Consent } from '@/lib/consent';
@@ -135,13 +136,14 @@ export default function Analytics({ lang }: { lang: 'en' | 'ko' }) {
   };
   const btn = 'btn-line font-bold';   // 두 버튼 같은 클래스 — 크기·무게 동일(거부를 숨기지 않는다)
   return (
-    <div role="dialog" aria-label="Cookies" aria-live="polite" className="sheet fixed! inset-x-4! bottom-4! z-[60]! mx-auto max-h-[85vh] max-w-2xl overflow-y-auto p-5 [--m:1]">
-      <p className="text-[14px] leading-relaxed">
+    <div role="dialog" aria-label="Cookies" aria-live="polite" className="sheet fixed! inset-x-2! bottom-2! z-[60]! mx-auto max-h-[38svh] max-w-[1200px] overflow-y-auto p-3.5! [--m:1] has-[details[open]]:max-h-[85svh] min-[1000px]:inset-x-4! min-[1000px]:bottom-3! min-[1000px]:flex min-[1000px]:items-center min-[1000px]:gap-6 min-[1000px]:px-5! min-[1000px]:py-3!">
+      <div className="min-w-0 min-[1000px]:flex-1">
+      <p className="text-[13px] leading-snug">
         {t.text}{' '}
         <a className="font-semibold underline underline-offset-4" href={t.href} data-cur>{t.policy}</a>
       </p>
-      <details className="mt-3">
-        <summary className="cursor-pointer text-[14px] font-semibold" data-cur>{t.more}</summary>
+      <details className="mt-1.5">
+        <summary className="cursor-pointer text-[13px] font-semibold" data-cur>{t.more}</summary>
         <dl className="mt-2 grid grid-cols-1 gap-x-3 gap-y-1 text-[13px] leading-snug text-[var(--text-secondary)] sm:grid-cols-[minmax(0,7.5rem)_1fr]">
           {ROWS[lang].map(([k, v]) => (
             <div key={k} className="contents">
@@ -151,7 +153,8 @@ export default function Analytics({ lang }: { lang: 'en' | 'ko' }) {
           ))}
         </dl>
       </details>
-      <p className="mt-4 flex flex-wrap gap-3">
+      </div>
+      <p className="mt-2.5 flex flex-wrap gap-3 min-[1000px]:mt-0 min-[1000px]:shrink-0 min-[1000px]:flex-nowrap">
         <button type="button" className={btn} onClick={() => decide('granted')} data-cur>{t.accept}</button>
         <button type="button" className={btn} onClick={() => decide('denied')} data-cur>{t.reject}</button>
       </p>
