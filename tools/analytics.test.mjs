@@ -96,6 +96,18 @@ test('stripSecretParams — 확인·해지 토큰만 지우고 나머지 쿼리�
   assert.equal(f('/p?q=confirm'), '/p?q=confirm', '값에 confirm 이 있는 건 키가 아니다');
 });
 
+test('checkoutIdOf — UUID 꼴만 주문 ID 로 읽고 나머지는 null(= purchase 안 보냄 · localStorage 키 안 만듦)', () => {
+  const id = '3f2b8c1e-9a4d-4e6f-8b7a-1c2d3e4f5a6b';
+  assert.equal(A.checkoutIdOf(`?checkout_id=${id}`), id);
+  assert.equal(A.checkoutIdOf(`?x=1&checkout_id=${id.toUpperCase()}`), id.toUpperCase(), '대소문자 무관');
+  for (const bad of ['', '?', '?checkout_id=', '?checkout_id=co_1', '?checkout_id=<script>', `?checkout_id=${id}x`, `?checkout_id=x${id}`,
+    `?checkout_id=${id}%0A`, `?checkout_id=${id.replaceAll('-', '')}`, '?checkout_id=3f2b8c1e-9a4d-4e6f-8b7a-1c2d3e4f5a6g', '?other=' + id])
+    assert.equal(A.checkoutIdOf(bad), null, `통과하면 안 된다: ${bad}`);
+  const tsx = fs.readFileSync(path.join(ROOT, 'components/Analytics.tsx'), 'utf8');
+  assert.match(tsx, /checkoutIdOf\(location\.search\)/, 'Analytics.tsx 가 검증 함수를 거치지 않고 checkout_id 를 읽는다');
+  assert.ok(!/get\('checkout_id'\)/.test(tsx), 'Analytics.tsx 가 checkout_id 를 날것으로 읽는다');
+});
+
 /* ═══ 링크 분류 ═══ */
 
 test('classifyLink — 결제 링크는 상품으로, 모르는 Polar 링크는 unknown 으로(조용히 틀리지 않는다)', () => {

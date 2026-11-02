@@ -9,7 +9,7 @@
 import { useEffect, useState } from 'react';
 import { readConsent, writeConsent, type Consent } from '@/lib/consent';
 import {
-  ANALYTICS_ON, classifyLink, pageKindOf, placementOf, startGtm, stopAndReload, track, trackCommerce,
+  ANALYTICS_ON, checkoutIdOf, classifyLink, pageKindOf, placementOf, startGtm, stopAndReload, track, trackCommerce,
 } from '@/lib/analytics';
 import { ROWS } from '@/lib/googleTransfer';   // 국외 이전 5항목 — 방침 제7조 표와 같은 글자(이 배너가 동의 화면을 겸한다)
 
@@ -32,8 +32,8 @@ const T = {
   },
 } as const;
 
-/** Polar `{CHECKOUT_ID}` 치환값. 없으면 구매로 세지 않는다. */
-const checkoutId = () => new URLSearchParams(location.search).get('checkout_id');
+/** Polar `{CHECKOUT_ID}` 치환값. 없거나 UUID 꼴이 아니면 구매로 세지 않는다(`checkoutIdOf`). */
+const checkoutId = () => checkoutIdOf(location.search);
 
 /** 위임 리스너를 걸고 해제 함수를 돌려준다. 동의 granted 이후에만 부른다. */
 function attachEvents(): () => void {

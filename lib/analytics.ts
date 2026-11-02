@@ -68,6 +68,14 @@ export function stripSecretParams(pathSearchHash: string): string {
   return head.slice(0, q) + (rest ? `?${rest}` : '') + hash;
 }
 
+/** `/thanks?checkout_id=…` 의 주문 ID. Polar 체크아웃 ID 는 UUID 다 — 아니면 null(= `purchase` 를 보내지 않는다).
+    🔴 이 값이 `transaction_id`(GA4)와 `yni-purchase-<id>` 중복 방지 키(localStorage)로 그대로 들어가므로, 주소창에 아무 문자열이나 넣어 두 곳을 오염시키지 못하게 한다. 순수 함수. */
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+export function checkoutIdOf(search: string): string | null {
+  const id = new URLSearchParams(search).get('checkout_id');
+  return id !== null && UUID.test(id) ? id : null;
+}
+
 /* ── 링크 분류 (순수) ─────────────────────────────────────────────── */
 
 /** 결제 링크 → 상품. 모르는 `buy.polar.sh` 링크는 `unknown` — 조용히 틀리지 않고 보고서에 보이게 한다.
