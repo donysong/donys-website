@@ -103,6 +103,14 @@ test('checkoutIdOf — UUID 꼴만 주문 ID 로 읽고 나머지는 null(= purc
   for (const bad of ['', '?', '?checkout_id=', '?checkout_id=co_1', '?checkout_id=<script>', `?checkout_id=${id}x`, `?checkout_id=x${id}`,
     `?checkout_id=${id}%0A`, `?checkout_id=${id.replaceAll('-', '')}`, '?checkout_id=3f2b8c1e-9a4d-4e6f-8b7a-1c2d3e4f5a6g', '?other=' + id])
     assert.equal(A.checkoutIdOf(bad), null, `통과하면 안 된다: ${bad}`);
+  /* 묶음 길이 — 다섯 묶음(8-4-4-4-12) 각각을 한 글자 늘이고(9 · 5 · 5 · 5 · 13) 줄여도(7 · 3 · 3 · 3 · 11) 거부한다.
+     정규식의 `{n}` 을 `+` · `{n,}` · `{1,n}` 으로 느슨하게 바꾼 변이(길이 제한 약화)를 잡는다. */
+  const groups = id.split('-');
+  groups.forEach((g, i) => {
+    const swap = (s) => '?checkout_id=' + groups.map((x, j) => (j === i ? s : x)).join('-');
+    assert.equal(A.checkoutIdOf(swap(g + '0')), null, `${i + 1}번째 묶음 ${g.length + 1}자리가 통과한다`);
+    assert.equal(A.checkoutIdOf(swap(g.slice(0, -1))), null, `${i + 1}번째 묶음 ${g.length - 1}자리가 통과한다`);
+  });
   const tsx = fs.readFileSync(path.join(ROOT, 'components/Analytics.tsx'), 'utf8');
   assert.match(tsx, /checkoutIdOf\(location\.search\)/, 'Analytics.tsx 가 검증 함수를 거치지 않고 checkout_id 를 읽는다');
   assert.ok(!/get\('checkout_id'\)/.test(tsx), 'Analytics.tsx 가 checkout_id 를 날것으로 읽는다');
