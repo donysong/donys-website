@@ -1,4 +1,4 @@
-/* 분석·광고 측정 — 이벤트 층. 설계서 = 플러그인 repo donys/docs/ANALYTICS_PLAN.md · 사양 정본 = `lib/analyticsSpec.json`.
+/* 분석·광고 측정 — 이벤트 층. 설계서 = 플러그인 repo donys/docs/ANALYTICS_PLAN.md · 사양 정본 = `lib/analyticsSpec.ts`.
 
    🔴 **GTM_ID 가 비어 있으면 이 모듈 전체가 꺼진다**(배너·로더·푸터 링크 전부 렌더 안 됨) — 지금 상태. 켜는 버튼은 아래 상수 한 줄이다.
       그리고 켜는 커밋은 방침 개정 고지 후 시행일(ANALYTICS_EFFECTIVE)이 지나야 배포된다(`deployCheck [analytics]` 가 막는다).
