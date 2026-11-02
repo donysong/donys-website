@@ -32,7 +32,7 @@ export function inkPath(p: number[]): string {
    `dot` 이면 움직임 없는 누름도 점으로 남긴다(빈칸에 쓰는 글씨의 i·j 점). 끝나면 path(없으면 null)를 돌려준다. */
 export function startStroke(
   svg: SVGSVGElement, down: PointerEvent, at: (e: PointerEvent) => [number, number],
-  { dot = false, onEnd }: { dot?: boolean; onEnd?: (path: SVGPathElement | null) => void } = {},
+  { dot = false, onEnd }: { dot?: boolean; onEnd?: (path: SVGPathElement | null, pts: number[]) => void } = {},
 ) {
   const id = down.pointerId;
   const [x0, y0] = at(down);
@@ -55,7 +55,7 @@ export function startStroke(
     removeEventListener('blur', end);
     document.removeEventListener('selectstart', block); document.removeEventListener('dragstart', block);
     if (!path && dot) { path = document.createElementNS(SVG_NS, 'path'); path.setAttribute('d', inkPath(pts)); svg.appendChild(path); }
-    onEnd?.(path);
+    onEnd?.(path, pts);
   };
   addEventListener('pointermove', move); addEventListener('pointerup', end); addEventListener('pointercancel', end);
   addEventListener('blur', end);
@@ -88,7 +88,7 @@ function onGlyph(x: number, y: number): boolean {
 }
 
 /* 눌러서 쓰는 것들 — 여기서 시작한 끌기는 원래 동작을 한다. `.youit-slot` 은 자기 획을 따로 받는다. */
-const HANDS_OFF = 'a, button, input, textarea, select, label, summary, code, pre, kbd, video, iframe, [contenteditable], [role="button"], .youit-slot';
+const HANDS_OFF = 'a, button, input, textarea, select, label, summary, code, pre, kbd, video, iframe, [contenteditable], [role="button"], .youit-slot, .toy-pad';
 
 /* 페이지 오버레이 — 데스크톱(정밀 포인터 + 호버)만. 해제 함수를 돌려준다. */
 export function scrawl(): () => void {

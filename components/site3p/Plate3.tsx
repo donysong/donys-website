@@ -25,3 +25,15 @@ export function Plate3({ k, className = '', press = true, boil = true, block = f
     </span>
   );
 }
+
+/* 방문자가 쓴 글자를 찍는 판 — 사전 키 대신 문자열을 받고, 입력값이라 innerHTML 을 안 쓴다(표지 프로토 B). */
+export function PlateText({ text, className = '' }: { text: string; className?: string }) {
+  const hangul = /[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7AF]/.test(text);
+  return (
+    <span className={['pl press boil', className].filter(Boolean).join(' ')} lang={hangul ? 'ko' : 'en'}>
+      <span className="rim" aria-hidden="true">{text}</span>
+      <span className="ko" aria-hidden="true">{text}</span>
+      <span className="ink">{text}</span>
+    </span>
+  );
+}
