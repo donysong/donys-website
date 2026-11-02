@@ -132,7 +132,7 @@ const HOME: Dict = {
     'home.toy.bouncy': 'Bouncy',
     'home.toy.enter': 'Press Enter to print it.',
     'home.toy.enterTouch': 'Tap Done to print it.',
-    'home.toy.done': 'Good name. Next time someone asks what you made this week, you’ve got an answer.',
+    'home.toy.done': 'Making something is this easy.',
     'home.toy.aria': 'Type a name in place of IT',
   },
 
@@ -236,7 +236,7 @@ const HOME: Dict = {
     'home.toy.bouncy': '통통',
     'home.toy.enter': 'Enter를 누르면 찍혀요.',
     'home.toy.enterTouch': '완료를 누르면 찍혀요.',
-    'home.toy.done': '좋은 이름이에요. 이번 주에 뭐 만들었냐고 물으면, 이제 할 말이 있어요.',
+    'home.toy.done': '창작은 이렇게 쉽고 간단한 거예요.',
     'home.toy.aria': 'IT 자리에 넣을 이름',
   },
 };
