@@ -99,7 +99,8 @@ test('stripSecretParams — 확인·해지 토큰만 지우고 나머지 쿼리�
 test('checkoutIdOf — UUID 꼴만 주문 ID 로 읽고 나머지는 null(= purchase 안 보냄 · localStorage 키 안 만듦)', () => {
   const id = '3f2b8c1e-9a4d-4e6f-8b7a-1c2d3e4f5a6b';
   assert.equal(A.checkoutIdOf(`?checkout_id=${id}`), id);
-  assert.equal(A.checkoutIdOf(`?x=1&checkout_id=${id.toUpperCase()}`), id.toUpperCase(), '대소문자 무관');
+  assert.equal(A.checkoutIdOf(`?x=1&checkout_id=${id.toUpperCase()}`), id, '대문자 UUID 도 통과하되 소문자로 돌려준다(같은 주문 = 같은 키)');
+  assert.equal(A.checkoutIdOf('?checkout_id=3F2b8C1e-9A4d-4E6f-8b7A-1c2D3e4F5a6B'), id, '섞인 대소문자도 같은 id');
   for (const bad of ['', '?', '?checkout_id=', '?checkout_id=co_1', '?checkout_id=<script>', `?checkout_id=${id}x`, `?checkout_id=x${id}`,
     `?checkout_id=${id}%0A`, `?checkout_id=${id.replaceAll('-', '')}`, '?checkout_id=3f2b8c1e-9a4d-4e6f-8b7a-1c2d3e4f5a6g', '?other=' + id])
     assert.equal(A.checkoutIdOf(bad), null, `통과하면 안 된다: ${bad}`);
