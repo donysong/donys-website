@@ -1,14 +1,11 @@
 'use client';
-/* 00 표지 — 태그라인 2줄, 그게 전부다 (레퍼런스는 14단어).
-   🔴 `id="top"` 을 여기 달지 마라 — `Shell.tsx` 의 루트 div 가 이미 그 앵커를 들고 있다.
-   스탠스 줄(타자기)이 브랜드 서사(#brand)로 가는 유일한 링크다 — 네비 항목이 아니라 문장이다.
+/* 표지 무대(`P1Cover`) · 돌 카드 · 고무 스탬프. 표지 내용 = `HeroStone.tsx`(오너 2026-11-02, §18).
 
    v5 P1 (2026-10-09 · 플러그인 repo WEBSITE_RENEWAL_PLAN §17.8) — 레퍼런스(mindmarket) 표지 그대로의 구조:
    표지는 한 화면이고, 그 안의 무대(`.p1-stage`)가 **두 화면 높이의 핀**(`.p1-pin`) 안에서 붙어 있다. 그동안 01 판이
    둥근 윗모서리로 올라와 덮고, 스크롤 진행도(`--p`, motion.ts)가 글자를 1→.8 로 줄이고 검정 잉크 막을 0→.4 로 깐다.
    값·조건은 CSS(site4.css `.p1`)가 쥔다 — 1000px 미만·줄인 모션에선 붙지도 줄지도 않는다.
-   돌 카드는 01 의 큰 그림 자리로 옮겼다(`StoneCard` export — 뒤에 Rive 메인 일러스트가 그 자리를 받는다). */
-import { Plate3 } from '@/components/site3p/Plate3';
+   🔴 `id="top"` 을 표지에 달지 마라 — `Shell.tsx` 의 루트 div 가 이미 그 앵커를 들고 있다. */
 import { useEffect, useRef } from 'react';
 import { typedHTML } from '@/components/site3p/Typed';
 import { useT } from '@/components/site3p/lang';
@@ -22,24 +19,14 @@ export function rePress(e: React.MouseEvent<HTMLSpanElement>) {
   s.classList.add('press');
 }
 
-export default function Hero() {
-  const { t } = useT();
+/* 표지 무대 — 핀 · 붙는 무대 · 스크롤 진행도. */
+export function P1Cover({ className = '', children }: { className?: string; children: React.ReactNode }) {
   const ref = useRef<HTMLElement>(null);
   useProgress(ref);
   useClearNav(ref);
   return (
-    <header className="hero p1" ref={ref}>
-      <div className="p1-pin"><div className="p1-stage"><div className="p1-copy">
-        {/* 🔴 `{' '}` 를 지우지 마라 — JSX 는 두 엘리먼트 사이의 **줄바꿈 공백을 없앤다**.
-            `.pl` 은 inline-block 이라 공백이 사라지면 "뭐든말만 해." 로 붙는다(프로토 HTML 은 공백이 있다).
-            같은 함정이 `components/site3p/Hero.tsx` 에 이미 걸려 있다 — 거기선 줄이 어차피 넘쳐서 안 보일 뿐이다. */}
-        <h1 className="disp" lang="en">{/* "You Name It." — 두 언어 같은 라틴 표제라 국문 보정에서 빠진다(Plate3 주석) */}
-          <Plate3 k="home.hero.h1a" />{' '}
-          <Plate3 k="home.hero.h1b" />
-        </h1>
-        {/* v5 (2026-10-26) — 레퍼런스 표지 = 3단어 제목 + 3단어 부제, 그게 전부다. 스탬프·타자기 줄(`#brand` 로 가던 문장)은 민다 — #brand 판이 없어졌다. */}
-        <p className="sub">{t('home.v5.tagline')}</p>
-      </div></div></div>
+    <header className={['hero p1', className].filter(Boolean).join(' ')} ref={ref}>
+      <div className="p1-pin"><div className="p1-stage"><div className="p1-copy">{children}</div></div></div>
     </header>
   );
 }

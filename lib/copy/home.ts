@@ -19,12 +19,11 @@ const HOME: Dict = {
     'home.nav.who': 'Who makes it',
 
     /* 00 표지 — 태그라인 2줄, 그게 전부다.
-       🔴 **h1a·h1b 는 양 로캘이 같은 문자열이다 — 번역하지 마라** (오너 2026-09-19).
+       🔴 **h1a 는 양 로캘이 같은 문자열이다 — 번역하지 마라** (오너 2026-09-19).
        브랜드명 자체가 표제다. 구 판본은 EN `Anything. / Just say it.` · KO `뭐든 / 말만 해.` 로
        양쪽이 이 관용구를 **각자 의역**하고 있었고, 그래서 같은 면의 워드마크와 어긋났다. */
     'home.hero.stamp': 'Studio · 2026',
     'home.hero.h1a': 'YOU',
-    'home.hero.h1b': 'NAME IT.',
     /* 🔴 한 문장이다 — 오너 2026-09-19 (*"이것만 남겨"*). 구 판본은 뒤에 "Video, tools, writing —
        the medium is open." 이 붙어 있었다. 되살리지 마라. */
     'home.hero.sub': 'We make tools and content for people who create.',
@@ -105,14 +104,14 @@ const HOME: Dict = {
     'home.v5.row.one': 'All-in-one After Effects plugin',
     'home.v5.row.price': 'Free · Pro {price}',
     'home.v5.row.still': 'A still from the You Name It brand film',
-    'home.v5.t1.h': 'You name it.',
-    'home.v5.t1.p': 'We’ll happily take the tedious parts. You decide what to make, and we’ll help.',
-    'home.v5.t2.h': 'Our archenemy: busywork.',
-    'home.v5.t2.p': 'Every tool started as a repetitive task. We use it on real work for a while and sell it once it feels right.',
-    'home.v5.t3.h': 'You can edit all of it.',
-    'home.v5.t3.p': 'What stays in your comp is plain layers and keyframes. Don’t like a move? Open the keyframe and change it. Uninstall us and the work is still there.',
-    'home.v5.t4.h': 'What’s next?',
-    'home.v5.t4.p': 'A tool, a film, maybe something written. It doesn’t have a name yet. Whatever it is, we’ll use it ourselves before you see it.',
+    'home.v5.t1.h': 'You don’t need a license to make things.',
+    'home.v5.t1.p': 'Anyone should be able to turn the idea in their head into something real.',
+    'home.v5.t2.h': 'You name it.',
+    'home.v5.t2.p': 'Hand us the boring stuff. You just pick what to make.',
+    'home.v5.t3.h': 'Our archenemy: busywork.',
+    'home.v5.t3.p': 'We set up the same thing for the tenth time and couldn’t take it anymore. So we built our own.',
+    'home.v5.t4.h': 'Take it apart and it’s often simpler than it looks.',
+    'home.v5.t4.p': 'How to build suspense, how to structure a story. Whatever we figure out, we post.',
     'home.v5.free.h': 'Free to start. No card.',
     'home.v5.free.p': 'Leave an email and the download link comes to you. Library, Curves, Expressions and 26 Toolbox tools are free to keep using. Want Chat and the rest? Pro is one payment.',
     'home.v5.free.proof': ['No subscription', 'Pay once for Pro', '14-day refund'],
@@ -120,6 +119,21 @@ const HOME: Dict = {
     'home.v5.tools.h': 'What’s in the toolbox',
     'home.v5.out.a': 'Whatever you want,',
     'home.v5.out.b': 'YOU NAME IT.',
+
+    /* 표지 (§18) — 제목 조각은 h1a 처럼 양 로캘 같은 문자열이다. */
+    'home.toy.name': 'NAME',
+    'home.toy.it': 'IT',
+    'home.toy.dot': '.',
+    'home.toy.again': 'Start over',
+    'home.toy.draw': 'Draw anything on the stone. Two eyes will do.',
+    'home.toy.alive': 'It’s alive! Now drag the handle.',
+    'home.toy.tuned': 'Same stone, new personality. That’s timing and easing. Now type its name where IT is.',
+    'home.toy.heavy': 'Heavy',
+    'home.toy.bouncy': 'Bouncy',
+    'home.toy.enter': 'Press Enter to print it.',
+    'home.toy.enterTouch': 'Tap Done to print it.',
+    'home.toy.done': 'Good name. Next time someone asks what you made this week, you’ve got an answer.',
+    'home.toy.aria': 'Type a name in place of IT',
   },
 
   ko: {
@@ -130,7 +144,6 @@ const HOME: Dict = {
     /* 🔴 EN 과 **같은 문자열이다** — 번역 금지(오너 2026-09-19). 위 EN 블록 주석 참조. */
     'home.hero.stamp': '스튜디오 · 2026',
     'home.hero.h1a': 'YOU',
-    'home.hero.h1b': 'NAME IT.',
     /* 🔴 오너가 문장을 직접 줬다 — 토씨 그대로 둬라 (2026-09-19). */
     'home.hero.sub': '만드는 사람들이 쓸 도구와 콘텐츠를 만들어요.',
     'home.hero.typed': '정답은 안 줘요. 이름은 [[창작자]]가 붙여요.',
@@ -195,14 +208,14 @@ const HOME: Dict = {
     'home.v5.row.one': '올인원 After Effects 플러그인',
     'home.v5.row.price': '무료 · Pro {price}',
     'home.v5.row.still': 'You Name It 브랜드 필름의 한 장면',
-    'home.v5.t1.h': '이름은 당신이 붙여요.',
-    'home.v5.t1.p': '귀찮은 일은 기꺼이 가져갈게요. 무엇을 만들지만 직접 정하세요. 우리가 거들게요.',
-    'home.v5.t2.h': '우리의 주적은 반복과 비효율.',
-    'home.v5.t2.p': '도구는 전부 반복 작업에서 출발했어요. 실제 작업에 한동안 써 보고, 괜찮다 싶을 때 팔아요.',
-    'home.v5.t3.h': '전부 수정 가능해요.',
-    'home.v5.t3.p': '컴프에 남는 건 평범한 레이어와 키프레임이에요. 움직임이 마음에 안 들면 키프레임을 열어서 고치면 돼요. 플러그인을 지워도 작업은 그대로 남아요.',
-    'home.v5.t4.h': '다음은 뭘까요?',
-    'home.v5.t4.p': '도구일지, 영상일지, 글일지 아직 몰라요. 이름도 없어요. 대신 이번처럼 우리가 먼저 써 보고 내놓을게요.',
+    'home.v5.t1.h': '창작에 자격증은 필요 없어요.',
+    'home.v5.t1.p': '누구나 머릿속 아이디어를 현실로 만들 수 있어야 해요.',
+    'home.v5.t2.h': '이름은 직접 붙이세요.',
+    'home.v5.t2.p': '귀찮은 건 우리한테 넘기세요. 뭘 만들지만 정하면 돼요.',
+    'home.v5.t3.h': '우리의 주적은 반복과 비효율.',
+    'home.v5.t3.p': '같은 셋업을 열 번째 하다가 못 참겠더라고요. 그래서 직접 만들었어요.',
+    'home.v5.t4.h': '뜯어보면 별거 아닐 때도 많아요.',
+    'home.v5.t4.p': '긴장감은 어떻게 만드는지, 구조는 어떻게 짜는지. 우리가 뜯어본 건 영상으로 올려요.',
     'home.v5.free.h': '카드 없이, 지금 바로.',
     'home.v5.free.p': '이메일만 넣으면 다운로드 링크가 와요. Library, Curves, Expressions와 Toolbox 툴 26개는 무료로 계속 써요. Chat까지 쓰고 싶어지면 그때 Pro를 한 번 결제하세요.',
     'home.v5.free.proof': ['구독 없음', 'Pro는 한 번 결제', '14일 환불'],
@@ -210,6 +223,21 @@ const HOME: Dict = {
     'home.v5.tools.h': '공구함 속',
     'home.v5.out.a': '원하는 게 무엇이든,',
     'home.v5.out.b': 'YOU NAME IT.',
+
+    /* 표지 (§18) — 제목 조각은 h1a 처럼 양 로캘 같은 문자열이다. */
+    'home.toy.name': 'NAME',
+    'home.toy.it': 'IT',
+    'home.toy.dot': '.',
+    'home.toy.again': '처음부터',
+    'home.toy.draw': '돌에 아무거나 그려 보세요. 눈만 그려도 돼요.',
+    'home.toy.alive': '살아났어요! 이제 손잡이를 끌어 보세요.',
+    'home.toy.tuned': '같은 돌인데 성격이 달라졌죠? 타이밍과 이징이 하는 일이에요. 이제 IT 자리에 이름을 써 주세요.',
+    'home.toy.heavy': '묵직',
+    'home.toy.bouncy': '통통',
+    'home.toy.enter': 'Enter를 누르면 찍혀요.',
+    'home.toy.enterTouch': '완료를 누르면 찍혀요.',
+    'home.toy.done': '좋은 이름이에요. 이번 주에 뭐 만들었냐고 물으면, 이제 할 말이 있어요.',
+    'home.toy.aria': 'IT 자리에 넣을 이름',
   },
 };
 
