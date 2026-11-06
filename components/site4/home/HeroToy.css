@@ -38,6 +38,17 @@
 .p3.p4 .toy-it {position:relative;display:inline-block}
 .p3.p4 .toy-it .pen-circle {top:-.2em;height:1.24em;left:-22%;width:144%;--pen-w:3}
 .p3.p4 .toy-it.on .pen path {stroke-dashoffset:0}
+/* 이름 칸이 깨어 있으면(`.on`) 포인터가 올라오거나 초점이 들어올 때 `IT` 안내를 걷는다 — 펜 동그라미 안에 빈칸과 커서만 남는다(오너 2026-11-06).
+   opacity 라 폭이 그대로다: 빠지면 제목이 흔들리고, 포인터 밑에서 폭이 변해 hover 가 깜빡인다. visibility 는 못 쓴다 — site4.css 가 표지 판의 `.rim` 에 `visibility:visible` 을 직접 박아 부모를 따라가지 않는다.
+   그리고 DOM 에는 남겨 스크린리더가 제목을 "YOU NAME IT." 로 계속 읽는다. 값이 생기면 `IT` 는 아예 안 그려진다(HeroStone `has`).
+   한글 조합은 초점이 먼저라 이 규칙이 이미 가리고 있다 — 조합 이벤트를 따로 듣지 않는다.
+   hover 는 마우스에만: 터치의 :hover 는 탭 뒤에 붙어 남아서, 비운 채 blur 해도 `IT` 가 안 돌아온다. 터치는 첫 탭 = 초점 = 걷힘. */
+.p3.p4 .toy-l2:focus-within .toy-it > .pl {opacity:0}
+.p3.p4 .toy-l2:not(.has):focus-within .toy-caret {left:calc(50% - .035em)}   /* 빈 동그라미 가운데 — 왼쪽 가장자리에 두면 펜 선에 겹친다 */
+@media (hover:hover) and (pointer:fine){
+  .p3.p4 .toy-l2:hover .toy-it.on > .pl {opacity:0}
+  .p3.p4 .toy-l2:not(.has):hover .toy-caret {left:calc(50% - .035em)}
+}
 .p3.p4 .toy-word {display:inline-block;text-transform:uppercase}
 /* 판 글자는 잉크 판 여백만큼(.3em) 레이아웃 기준선보다 위에 찍힌다 — 커서도 같이 올린다. */
 .p3.p4 .toy-caret {display:inline-block;width:.07em;height:.74em;margin:0 .03em;background:var(--red);vertical-align:baseline;position:relative;top:-.3em}
