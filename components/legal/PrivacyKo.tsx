@@ -2,11 +2,16 @@ import ReadingShell, { InkTitle } from '@/components/ReadingShell';
 import PolicyNotice from '@/components/PolicyNotice';
 import { BUSINESS } from '@/lib/product';
 import { GA_ITEMS, ROWS } from '@/lib/googleTransfer';
-import { ANALYTICS_NOTICE, analyticsDate, policyDate, revisedText } from '@/lib/policy';
+import { analyticsDate, policyDate, prDate, prPostedDate, prText, revisedText } from '@/lib/policy';
 
 /* 방침 본문 — `/ko/privacy`(현재 판)와 `/ko/privacy/upcoming`(개정 예정본)이 **같은 본문**을 그린다(복사본은 갈라진다).
    `rev`(= 동의 기반 방문 통계 조항을 싣는가)가 거짓이면 10-23 판 그대로다 — 고지 단계의 현재 판. 참이면 개정본이다(설계서 ANALYTICS_PLAN §12 ②).
-   🔴 `rev` 로 가르는 자리는 `{rev ? … : …}` 로 눈에 띄게 둔다. 분석을 켜는 날 `upcoming` 페이지·고지 띠와 함께 거짓 갈래(옛 문장)를 지운다. */
+   `pr`(= You Name It PR Plugin 조항을 싣는가)도 같다 — 초안 = PR 플러그인 repo `gtm/legal/privacy-additions.md`(⚖️ 전문가 검토 전), 시행일 = `lib/policy.ts` 의 `PR_EFFECTIVE`.
+   예정본은 걸린 개정 전부(rev · pr)를 싣는다.
+   🔴 `rev`·`pr` 로 가르는 자리는 `{rev ? … : …}` 로 눈에 띄게 둔다. 그 개정이 시행되는 날 `upcoming` 페이지·고지 띠와 함께 거짓 갈래(옛 문장)를 지운다.
+   🔴 제2조 ③-2 는 **PR 플러그인 출고본의 네트워크 호출 전수**다(2026-11-07 PR repo `main` 844da7e 대조: `src/media/pins.json` · `src/features/denoise/model.ts` ·
+   `src/license/machineId.ts` `activationLabel` · `src/features/assets/keys.ts` · `src/features/captions/stt/keyStore.ts` · `src/chat/cli/install.ts` ·
+   `src/features/facetrack/detect/modelAssets.ts`(얼굴 모델은 동봉) · `uxp/` 에 바깥 호출 없음). 호스트가 늘면 ③-2 · 제7조를 같이 고치고 시행일을 올려라. */
 
 /* 🔴 2026-09-30 오너 *"법조인 롤로 직접 작성"* — 정본 검토서 = 플러그인 repo `donys/docs/LEGAL_KR_REVIEW.md`(비공개 — 이 repo 는 공개다) §2 C·D.
    조항 순서 = 「개인정보 보호법」 §30① 각 호 + 시행령 §31①(항목 · 국외 이전 근거와 §28의8② 사항 · 안전성 확보조치)
@@ -102,28 +107,38 @@ const REFUSE_BUY = '결제 화면에서 결제하지 않으시면 이전되지 �
 
 export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
   const rev = revisedText(view);
+  const pr = prText(view);
   return (
     <ReadingShell lang="ko" plate="s.ft.privacy">
       <header className="max-w-3xl">
-        <p className="lab">You Name It AE Plugin</p>
+        <p className="lab">{pr ? 'You Name It' : 'You Name It AE Plugin'}</p>
         <InkTitle>개인정보 처리방침</InkTitle>
         <p className="text-sm">
-          시행일: {policyDate('ko')}
+          시행일: {pr ? prDate('ko') : policyDate('ko')}
           {rev ? <> · 동의 기반 방문 통계 조항: {analyticsDate('ko')}</> : null}
         </p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
-        {/* 고지 단계: 현재 판 위에는 개정 예정 띠, 예정본 위에는 현재 판으로 가는 띠. 켠 뒤(개정본이 현재 판)에는 띠가 없다. */}
-        {ANALYTICS_NOTICE ? <PolicyNotice lang="ko" view={view} /> : null}
+        {/* 고지 단계: 현재 판 위에는 개정마다 예정 띠, 예정본 위에는 현재 판으로 가는 띠. 시행 뒤(개정본이 현재 판)에는 띠가 없다. */}
+        <PolicyNotice lang="ko" doc="privacy" view={view} />
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
-            <p>
-              {BUSINESS.name.ko}({BUSINESS.name.en}, 이하 &quot;저희&quot;)은 「개인정보 보호법」 제30조에 따라 정보주체의
-              개인정보를 보호하고 관련 고충을 신속하고 원활하게 처리하기 위해 이 개인정보 처리방침을 정해 공개합니다. 이
-              방침은 웹사이트(younameit.works)를 방문하시거나 You Name It AE Plugin(이하 &quot;제품&quot;)을 구매하거나 무료 버전을
-              내려받아 이용하실 때 적용됩니다.
-            </p>
+            {pr ? (
+              <p>
+                {BUSINESS.name.ko}({BUSINESS.name.en}, 이하 &quot;저희&quot;)은 「개인정보 보호법」 제30조에 따라 정보주체의
+                개인정보를 보호하고 관련 고충을 신속하고 원활하게 처리하기 위해 이 개인정보 처리방침을 정해 공개합니다. 이
+                방침은 웹사이트(younameit.works)를 방문하시거나 You Name It AE Plugin 과 You Name It PR Plugin(각각 또는 함께 이하
+                &quot;제품&quot;)을 구매하거나 무료 버전을 내려받아 이용하실 때 적용됩니다.
+              </p>
+            ) : (
+              <p>
+                {BUSINESS.name.ko}({BUSINESS.name.en}, 이하 &quot;저희&quot;)은 「개인정보 보호법」 제30조에 따라 정보주체의
+                개인정보를 보호하고 관련 고충을 신속하고 원활하게 처리하기 위해 이 개인정보 처리방침을 정해 공개합니다. 이
+                방침은 웹사이트(younameit.works)를 방문하시거나 You Name It AE Plugin(이하 &quot;제품&quot;)을 구매하거나 무료 버전을
+                내려받아 이용하실 때 적용됩니다.
+              </p>
+            )}
             <p className="mt-2">
               <strong>
                 저희는 이름, 이메일 주소, 주문 정보처럼 판매와 지원, 무료 버전 제공에 꼭 필요한 정보만 받습니다. 결제 카드 정보, 프로젝트
@@ -139,14 +154,18 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
               하겠습니다.
             </p>
             <ol className={OL}>
-              <li>제품 판매 계약의 이행 — 라이선스 키와 설치 파일 제공, 라이선스 활성화와 주기적 확인, 업데이트 제공</li>
+              {pr
+                ? <li>제품 판매 계약의 이행 — 라이선스 키와 설치 파일 제공(무료판 설치 파일 포함), 라이선스 활성화와 주기적 확인, 업데이트 제공, 사전예약 고객께 Pro 기능을 여는 날짜 안내, AE Plugin 구매자께서 요청하신 PR Plugin Pro 할인 코드 발급</li>
+                : <li>제품 판매 계약의 이행 — 라이선스 키와 설치 파일 제공, 라이선스 활성화와 주기적 확인, 업데이트 제공</li>}
               <li>고객 지원 — 문의 응답, 청약철회·환불 처리, 분쟁 처리</li>
               <li>법령상 의무 이행 — 전자상거래 거래기록 보존, 세무</li>
               {rev
                 ? <li>웹사이트 운영 — 페이지 제공, 보안, 방문 통계(기본은 쿠키를 쓰지 않는 통계이고, 동의하신 경우에 한해 Google Analytics 를 더합니다)</li>
                 : <li>웹사이트 운영 — 페이지 제공, 보안, 쿠키를 쓰지 않는 방문 통계</li>}
               <li>무료 버전 제공 — 다운로드 링크 발송, 무료 이용자 관리, 제품 이용에 필요한 안내(보안·업데이트 등, 광고 아님)</li>
-              <li>광고성 정보 전송 — <a href="/ko/newsletter" className={LINK}>소식 받기</a>나 무료 다운로드 신청 화면의 선택 항목에서 따로 동의하신 분께만</li>
+              {pr
+                ? <li>광고성 정보 전송 — <a href="/ko/newsletter" className={LINK}>소식 받기</a>나 무료 다운로드 신청 화면의 선택 항목, 또는 PR Plugin 결제 화면의 선택 동의 항목에서 따로 동의하신 분께만. AE Plugin 구매자께 드리는 PR Plugin Pro 할인 코드 메일도 이 동의를 하신 분께만 보냅니다</li>
+                : <li>광고성 정보 전송 — <a href="/ko/newsletter" className={LINK}>소식 받기</a>나 무료 다운로드 신청 화면의 선택 항목에서 따로 동의하신 분께만</li>}
             </ol>
           </section>
 
@@ -204,9 +223,43 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
                       '동의(제15조 제1항 제1호)',
                     ]]
                   : []),
+                ...(pr
+                  ? [
+                      [
+                        '무료판 내려받기(PR Plugin)',
+                        '이메일 주소, 이름(적으신 경우), 주문 정보(주문 번호·일시)',
+                        'Polar 무료 상품 화면에서 입력하시면 Polar 가 저희에게 전달',
+                        '계약 이행(제15조 제1항 제4호) · 거래기록 보존 의무(같은 항 제2호)',
+                      ],
+                      [
+                        '라이선스(PR Plugin Pro)',
+                        '라이선스 키, 컴퓨터 식별자(해시값), 활성화 라벨(운영체제 이름·활성화 날짜·컴퓨터 식별자 해시값의 끝 4자리·제품 이름), 활성화 일시',
+                        '제품이 활성화·확인할 때 자동 전송',
+                        '계약 이행(제15조 제1항 제4호)',
+                      ],
+                      [
+                        '소식 메일 — PR Plugin 결제 화면 동의(선택)',
+                        '이메일 주소, 동의 일시, 동의한 문구의 버전',
+                        'PR Plugin 결제 화면의 선택 동의 항목 세 가지에 모두 동의하신 경우',
+                        '동의(제15조 제1항 제1호)',
+                      ],
+                      [
+                        '지원 묶음(PR Plugin, 보내 주신 경우)',
+                        '제품 로그(오류 코드, 처리 기록), 환경 정보(운영체제, Premiere Pro·제품 버전, 기능 상태, CPU 종류·메모리 크기), 제품 설정(키·토큰을 뺀 값), 제품 데이터 폴더의 파일 이름과 크기',
+                        '고객이 제품에서 직접 만들어 문의 메일에 붙여 보내신 경우',
+                        '계약 이행(제15조 제1항 제4호)',
+                      ],
+                    ]
+                  : []),
               ]}
             />
             <p className="mt-2">결제 카드 정보는 Polar 가 직접 받으며 저희는 <strong>받지도 보관하지도 않습니다.</strong></p>
+            {pr ? (
+              <p className="mt-2">
+                지원 묶음에는 미디어, 프로젝트 내용, 라이선스 키, API 키가 들어가지 않으며, 파일 경로 속 사용자 이름은 지운 뒤
+                담습니다. 묶음은 고객의 컴퓨터에 파일로만 만들어지고 자동으로 보내지지 않습니다.
+              </p>
+            ) : null}
 
             <h3 className={H3}>② 웹사이트 방문 통계</h3>
             <p>
@@ -230,10 +283,10 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
               Cloudflare 가 서비스 제공에 필요한 범위에서 처리합니다(제7조).
             </p>
 
-            <h3 className={H3}>③ 제품(플러그인)이 네트워크와 통신하는 경우 — 전부</h3>
+            <h3 className={H3}>{pr ? '③ AE Plugin 이 네트워크와 통신하는 경우 — 전부' : '③ 제품(플러그인)이 네트워크와 통신하는 경우 — 전부'}</h3>
             <p>
-              제품은 레이어·이펙트·키프레임을 만드는 실제 작업을 전부 고객 컴퓨터에서 하며, <strong>프로젝트 파일을 업로드하지
-              않습니다.</strong> 제품이 네트워크와 통신하는 경우는 다음 일곱 가지이며, 이것이 전부입니다.
+              {pr ? 'AE Plugin 은' : '제품은'} 레이어·이펙트·키프레임을 만드는 실제 작업을 전부 고객 컴퓨터에서 하며, <strong>프로젝트 파일을 업로드하지
+              않습니다.</strong> {pr ? 'AE Plugin 이' : '제품이'} 네트워크와 통신하는 경우는 다음 일곱 가지이며, 이것이 전부입니다.
             </p>
             <ol className="mt-2 list-decimal space-y-2 pl-6">
               <li>
@@ -279,8 +332,86 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
               </li>
             </ol>
             <p className="mt-2">
-              제품은 <strong>분석 데이터, 이용 통계, 오류(크래시) 보고를 보내지 않습니다.</strong>
+              {pr ? 'AE Plugin 은' : '제품은'} <strong>분석 데이터, 이용 통계, 오류(크래시) 보고를 보내지 않습니다.</strong>
             </p>
+
+            {pr ? (
+              <>
+                <h3 className={H3}>③-2 PR Plugin 이 네트워크와 통신하는 경우 — 전부</h3>
+                <p>
+                  PR Plugin 은 무음 찾기, 잡음 제거, 얼굴 위치 계산, 자막 줄 나누기 같은 실제 작업을 전부 고객 컴퓨터에서 하며,{' '}
+                  <strong>미디어와 프로젝트 파일을 업로드하지 않습니다.</strong> PR Plugin 이 네트워크와 통신하는 경우는 다음 여덟
+                  가지이며, 이것이 전부입니다.
+                </p>
+                <ol className="mt-2 list-decimal space-y-2 pl-6">
+                  <li>
+                    <strong>라이선스 활성화와 주기적 확인(Pro 만).</strong> 라이선스 키를 입력하시면 제품이 그 키를 컴퓨터 식별자와
+                    활성화 라벨과 함께 Polar 로 보냅니다. 컴퓨터 식별자는 AE Plugin 과 같은 방식의 단방향 해시값입니다. 활성화 라벨은
+                    Polar 고객 포털의 컴퓨터 목록에 보이는 이름(운영체제 이름, 활성화 날짜, 컴퓨터 식별자 해시값의 끝 4자리, 제품
+                    이름)이며 컴퓨터 이름은 담지 않습니다. 확인은 활성화할 때와 그 뒤 7일마다 한 번 합니다. 무료판만 쓰시면 이 통신은
+                    일어나지 않습니다.
+                  </li>
+                  <li>
+                    <strong>컴퓨터 안의 암호화된 라이선스 캐시.</strong> 확인 결과는 고객 컴퓨터에 AES-256 으로 암호화해 저장하며
+                    어디로도 보내지 않습니다.
+                  </li>
+                  <li>
+                    <strong>업데이트와 기능 상태 확인.</strong> 제품은 주기적으로 저희 다운로드 호스트(dl.younameit.works)에서 버전
+                    정보와 기능별 켜짐·꺼짐 목록이 담긴 작은 파일을 받아 옵니다. 이때 IP 주소와 요청 시각이 그 호스트에 전달됩니다.
+                    라이선스 키·계정·이용 데이터는 담기지 않습니다. 업데이트 설치를 고르시면 새 버전도 같은 호스트에서 내려받습니다.
+                  </li>
+                  <li>
+                    <strong>보조 프로그램의 1회 다운로드.</strong> 무음 찾기와 잡음 제거 같은 기능에 쓰는 ffmpeg 와 ffprobe 는 처음
+                    필요할 때 공식 배포처에서 받아 고객 컴퓨터에 둡니다(Windows 는 GitHub 에 올라온 gyan.dev 빌드, macOS 는 evermeet.cx
+                    또는 ffmpeg.martin-riedl.de). 잡음 제거 모델(RNNoise)도 같은 방식으로 GitHub 에서 받습니다. 이때 IP 주소와 요청
+                    시각이 그 호스트에 전달되며, 라이선스 키·계정·프로젝트 데이터는 담기지 않습니다. 받은 파일은 정해 둔 체크섬과 맞을
+                    때만 씁니다.
+                  </li>
+                  <li>
+                    <strong>자막 음성 인식 — 직접 설정하신 경우에만.</strong> ElevenLabs API 키를 직접 입력하시고 음성 인식을
+                    실행하시면, 고르신 구간의 오디오가 고객 컴퓨터에서 <strong>본인 계정으로 ElevenLabs 에 바로</strong> 전송됩니다.
+                    자막 글을 고친 뒤 타이밍을 다시 맞추실 때는 그 글과 해당 오디오가 함께 전송됩니다. 키를 비워 두시면 요청은 전혀
+                    일어나지 않습니다.
+                  </li>
+                  <li>
+                    <strong>Chat 패널.</strong> Chat 을 쓰시면 제품은 고르신 AI 툴 — Anthropic 의 Claude Code 또는 OpenAI 의 Codex — 을{' '}
+                    <strong>고객 본인의 계정으로</strong> 실행하고, 답하는 데 필요한 것을 보냅니다. 입력하신 메시지, 작업 중인 시퀀스의
+                    구조(시퀀스·트랙·클립 이름, 타임코드, 이펙트와 속성 값, 마커 같은 메타데이터), 요청하신 경우 자막 글, 그리고 작업
+                    결과를 확인하려고 시퀀스에서 가져온 정지 프레임입니다. <strong>저희는 이 가운데 어떤 것도 받거나 저장하지 않습니다.</strong>{' '}
+                    Chat 패널에서 Claude Code 나 Codex 설치를 고르시면, 실행할 공식 설치 명령을 먼저 화면에 보여 드리고 확인하신 뒤에만
+                    실행하며, 그 명령은 해당 회사의 공식 배포처(claude.ai, chatgpt.com)에서 프로그램을 내려받습니다.
+                  </li>
+                  <li>
+                    <strong>에셋 검색 — 직접 설정하신 경우에만.</strong> GIPHY, Pexels, Freesound 의 API 키를 직접 입력하시면 실행하신
+                    검색과 고르신 파일의 내려받기가 본인 계정으로 해당 서비스와 오갑니다. 키를 비워 두시면 요청은 전혀 일어나지
+                    않습니다.
+                  </li>
+                  <li>
+                    <strong>설치.</strong> 설치 스크립트는 고객 컴퓨터에 있는 Adobe 의 설치 도구로 제품을 설치합니다. 그 도구가 Adobe 와
+                    주고받는 통신은 Adobe 의 방침을 따릅니다.
+                  </li>
+                </ol>
+                <p className="mt-2">다음은 <strong>고객 컴퓨터 밖으로 나가지 않습니다.</strong></p>
+                <ul className={UL}>
+                  <li>패널, 숨은 백그라운드 확장, 동반 플러그인, Chat 용 MCP 서버 사이의 통신 — 고객 컴퓨터 안(127.0.0.1)에서만 토큰과 함께 오갑니다.</li>
+                  <li>
+                    얼굴 위치 계산(Face Track) — 제품에 들어 있는 얼굴 찾기 모델로 고객 컴퓨터에서 얼굴이 있는 위치만 계산하며,{' '}
+                    <strong>누구의 얼굴인지 알아보지 않고</strong>, 결과는 키프레임 값으로만 남습니다.
+                  </li>
+                  <li>키 자동화가 읽는 Premiere Pro 단축키 설정 파일.</li>
+                  <li>
+                    입력하신 API 키(ElevenLabs, GIPHY, Pexels, Freesound) — 고객 컴퓨터에만 저장합니다. Windows 에서는 그 사용자
+                    계정에서만 풀 수 있게 운영체제의 암호화(DPAPI)로 저장하고, macOS 에서는 그 사용자 계정만 읽을 수 있는 파일로
+                    저장합니다.
+                  </li>
+                  <li>Watch folder 가 지켜보는 폴더와 그 안의 파일.</li>
+                </ul>
+                <p className="mt-2">
+                  PR Plugin 은 <strong>분석 데이터, 이용 통계, 오류(크래시) 보고를 보내지 않습니다.</strong> 지원 묶음은 고객이 직접
+                  만들어 직접 보내실 때만 저희에게 옵니다.
+                </p>
+              </>
+            ) : null}
           </section>
 
           <section>
@@ -315,6 +446,13 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
                 주소로 소식 메일 수신 동의를 철회하시면 무료 다운로드 신청 정보도 함께 삭제합니다. 소식 메일을 받고 계신 주소는
                 바로 앞 항목(동의를 철회하실 때까지)을 따릅니다.
               </li>
+              {pr ? (
+                <li>
+                  PR Plugin 결제 화면에서 받은 소식 메일 동의 정보는 동의를 철회하실 때까지 보유하고, 철회하시면 처리 결과를 알려 드린 뒤
+                  지체 없이 삭제합니다. 다만 동의 사실을 증명하기 위한 주문의 동의 기록은 그 주문의 거래기록과 함께 제3조 ②의 기간 동안
+                  보존합니다.
+                </li>
+              ) : null}
             </ol>
           </section>
 
@@ -343,7 +481,7 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
             <Table
               head={['수탁자', '위탁 업무']}
               rows={[
-                ['Polar Software Inc.', '결제 처리와 판매 대행(merchant of record), 라이선스 키 발급·확인, 고객 포털 운영'],
+                ['Polar Software Inc.', `결제 처리와 판매 대행(merchant of record), 라이선스 키 발급·확인, 고객 포털 운영${pr ? ', PR Plugin 무료판 내려받기 처리' : ''}`],
                 ['Cloudflare, Inc.', '웹사이트·다운로드 호스팅, 방문 통계, 무료 다운로드 신청 처리, ' + BUSINESS.email + ' 로 오는 메일의 수신·전달'],
                 ['Google LLC', `${BUSINESS.email} 로 받은 문의 메일의 보관(Gmail)${rev ? ' · 동의하신 경우에 한해 웹사이트 방문 통계 분석(Google Tag Manager·Google Analytics 4)' : ''}`],
                 ['Plus Five Five, Inc. (Resend)', '문의에 대한 답장 메일 발송, 무료 버전 다운로드 링크 발송과 신청자 명단 보관, 소식 메일 구독자 명단 보관과 발송'],
@@ -372,8 +510,8 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
               rows={[
                 ['이전받는 자', <>Polar Software Inc. · 3500 South DuPont Highway, Dover, DE 19901, USA · privacy@polar.sh</>],
                 ['이전 국가', '미국(및 Polar 가 이용하는 미국·캐나다 등의 시설)'],
-                ['이전 항목', '이름, 이메일 주소, 주문 정보, 라이선스 키, 컴퓨터 식별자(해시값)'],
-                ['이전 시기와 방법', '결제할 때, 라이선스를 활성화하거나 확인할 때 네트워크로 전송'],
+                ['이전 항목', `이름, 이메일 주소, 주문 정보, 라이선스 키, 컴퓨터 식별자(해시값)${pr ? ', 활성화 라벨' : ''}`],
+                ['이전 시기와 방법', pr ? '결제할 때, 무료판을 내려받을 때, 라이선스를 활성화하거나 확인할 때 네트워크로 전송' : '결제할 때, 라이선스를 활성화하거나 확인할 때 네트워크로 전송'],
                 ['이용 목적', '결제 처리, 판매 대행, 라이선스 키 발급·확인, 고객 포털'],
                 [
                   '보유·이용 기간',
@@ -429,10 +567,16 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
               rows={[
                 ['이전받는 자', <>Plus Five Five, Inc. (Resend) · support@resend.com</>],
                 ['이전 국가', '미국(발송 처리 지역: 일본 도쿄)'],
-                ['이전 항목', '문의: 받는 분의 이메일 주소, 이름(적으신 경우), 답장 내용 · 무료 다운로드: 이메일 주소, 신청 일시, 언어 · 소식 메일: 이메일 주소, 동의 일시, 언어'],
-                ['이전 시기와 방법', '저희가 문의에 답장할 때, 무료 다운로드를 신청하실 때(확인 메일 발송)와 확인하실 때(명단 보관), 소식 메일 구독을 확인하실 때 네트워크로 전송'],
+                ['이전 항목', pr
+                  ? '문의: 받는 분의 이메일 주소, 이름(적으신 경우), 답장 내용 · 무료 다운로드: 이메일 주소, 신청 일시, 언어 · 소식 메일: 이메일 주소, 동의 일시, 언어(PR Plugin 결제 화면의 선택 동의(국외 이전 동의 포함)로 구독하신 경우에는 이메일 주소, 동의 일시)'
+                  : '문의: 받는 분의 이메일 주소, 이름(적으신 경우), 답장 내용 · 무료 다운로드: 이메일 주소, 신청 일시, 언어 · 소식 메일: 이메일 주소, 동의 일시, 언어'],
+                ['이전 시기와 방법', pr
+                  ? '저희가 문의에 답장할 때, 무료 다운로드를 신청하실 때(확인 메일 발송)와 확인하실 때(명단 보관), 소식 메일 구독을 확인하실 때, PR Plugin 결제 화면에서 동의하신 뒤 구독자 명단에 넣을 때 네트워크로 전송'
+                  : '저희가 문의에 답장할 때, 무료 다운로드를 신청하실 때(확인 메일 발송)와 확인하실 때(명단 보관), 소식 메일 구독을 확인하실 때 네트워크로 전송'],
                 ['이용 목적', '답장 메일 발송 · 무료 버전 다운로드 링크 발송과 신청자 명단 보관 · 소식 메일 구독자 명단 보관과 발송'],
-                ['이전 근거', '문의·무료 다운로드: 제28조의8 제1항 제3호 가목(이용 계약의 이행을 위한 처리위탁·보관) · 소식 메일: 같은 항 제1호(구독하실 때 따로 받는 국외 이전 동의)'],
+                ['이전 근거', pr
+                  ? '문의·무료 다운로드: 제28조의8 제1항 제3호 가목(이용 계약의 이행을 위한 처리위탁·보관) · 소식 메일: 같은 항 제1호(구독하실 때 따로 받는 국외 이전 동의 — PR Plugin 결제 화면의 선택 동의(국외 이전 동의 포함)로 구독하신 경우도 같습니다)'
+                  : '문의·무료 다운로드: 제28조의8 제1항 제3호 가목(이용 계약의 이행을 위한 처리위탁·보관) · 소식 메일: 같은 항 제1호(구독하실 때 따로 받는 국외 이전 동의)'],
                 ['보유·이용 기간', <>문의: 위탁 계약이 끝날 때까지 · 무료 다운로드: 마지막 안내 메일을 보낸 날부터 3년(삭제를 요청하시면 그 전에 삭제) · 소식 메일: 동의를 철회하실 때까지 · 세부는 <Out href="https://resend.com/legal/privacy-policy">Resend 방침</Out></>],
                 ['거부 방법과 효과', '이메일로 문의하지 않으시거나 무료 다운로드를 신청하지 않으시거나 국외 이전에 동의하지 않으시면 이전되지 않습니다. 이 경우 이메일 답장, 무료 다운로드 링크, 소식 메일을 받으실 수 없습니다.'],
               ]}
@@ -456,8 +600,10 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
               요청하게 하지 않습니다.
             </p>
             <p className="mt-2">
-              ③ 제2조 ③의 4·5·6·7번(Anthropic, OpenAI, GitHub·evermeet.cx·gyan.dev, Pexels·Giphy·Freesound, ElevenLabs)은
-              고객의 컴퓨터가 <strong>고객 본인의 계정이나 공개 주소로 직접</strong> 연결하는 것이며 저희를 거치지 않습니다.
+              {pr
+                ? '③ 제2조 ③의 4·5·6·7번(Anthropic, OpenAI, GitHub·evermeet.cx·gyan.dev, Pexels·Giphy·Freesound, ElevenLabs)과 제2조 ③-2 의 4·5·6·7번(GitHub·evermeet.cx·ffmpeg.martin-riedl.de, ElevenLabs, Anthropic·OpenAI, GIPHY·Pexels·Freesound)은'
+                : '③ 제2조 ③의 4·5·6·7번(Anthropic, OpenAI, GitHub·evermeet.cx·gyan.dev, Pexels·Giphy·Freesound, ElevenLabs)은'}
+              {' '}고객의 컴퓨터가 <strong>고객 본인의 계정이나 공개 주소로 직접</strong> 연결하는 것이며 저희를 거치지 않습니다.
               저희가 이전하는 개인정보가 아니므로 각 서비스와 고객 사이의 약관·방침을 따릅니다.{' '}
               <Out href="https://www.anthropic.com/legal/privacy">Anthropic</Out> ·{' '}
               <Out href="https://openai.com/policies/privacy-policy/">OpenAI</Out> ·{' '}
@@ -472,17 +618,28 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
                 업데이트·보안·라이선스·환불처럼 제품의 이용과 거래에 필요한 안내는 광고가 아니며, 구매하셨거나 무료 다운로드를
                 신청하신 이메일로 보내 드릴 수 있습니다.
               </li>
-              <li>
-                새 도구나 할인 같은 <strong>광고성 정보는 <a href="/ko/newsletter" className={LINK}>소식 받기</a>나 무료 다운로드
-                신청 화면의 선택 항목에서 미리 명시적으로 동의하신 분께만</strong> 보냅니다(「정보통신망 이용촉진 및 정보보호 등에 관한
-                법률」 제50조). 동의는 확인 메일의 버튼을 누르셔야 끝납니다.
-              </li>
+              {pr ? (
+                <li>
+                  새 도구나 할인 같은 <strong>광고성 정보는 <a href="/ko/newsletter" className={LINK}>소식 받기</a>나 무료 다운로드
+                  신청 화면의 선택 항목에서, 또는 PR Plugin 결제 화면의 선택 동의 항목 세 가지(개인정보 수집·이용, 광고성 정보 수신,
+                  국외 이전)에 모두 미리 명시적으로 동의하신 분께만</strong> 보냅니다(「정보통신망 이용촉진 및 정보보호 등에 관한
+                  법률」 제50조). 소식 받기와 무료 다운로드 신청 화면의 동의는 확인 메일의 버튼을 누르셔야 끝납니다. 결제 화면의 동의
+                  항목은 선택이며, 동의하지 않으셔도 구매와 이용에 아무 영향이 없습니다. AE Plugin 구매자께 드리는 PR Plugin Pro 할인
+                  코드 안내도 같으며, 동의하지 않으신 구매자께는 요청하신 경우에만 답장으로 드립니다.
+                </li>
+              ) : (
+                <li>
+                  새 도구나 할인 같은 <strong>광고성 정보는 <a href="/ko/newsletter" className={LINK}>소식 받기</a>나 무료 다운로드
+                  신청 화면의 선택 항목에서 미리 명시적으로 동의하신 분께만</strong> 보냅니다(「정보통신망 이용촉진 및 정보보호 등에 관한
+                  법률」 제50조). 동의는 확인 메일의 버튼을 누르셔야 끝납니다.
+                </li>
+              )}
               <li>
                 무료 버전을 내려받으셨다는 사실만으로는 광고성 정보를 보내지 않습니다. 필수 항목에만 동의하신 분께는 다운로드 링크와
                 제품 이용에 필요한 안내만 보냅니다.
               </li>
               <li>
-                동의하시거나 철회하시면 그 처리 결과(전송자, 동의·철회 사실과 날짜, 처리 결과)를 바로 메일로 알려 드리고, 동의하신
+                동의하시거나 철회하시면 그 처리 결과(전송자, 동의·철회 사실과 날짜, 처리 결과)를 바로{pr ? '(PR Plugin 결제 화면에서 동의하신 경우에는 14일 안에)' : ''} 메일로 알려 드리고, 동의하신
                 날부터 2년마다 수신 동의 여부를 확인해 드립니다.
               </li>
               <li>
@@ -606,7 +763,9 @@ export default function PrivacyKo({ view }: { view: 'current' | 'upcoming' }) {
           <section>
             <h2 className={H2}>제16조(개인정보 처리방침의 변경)</h2>
             <p>
-              이 방침은 {policyDate('ko')}부터 적용됩니다.{rev ? <> 다만 동의 기반 방문 통계에 관한 내용(제1조 ④, 제2조, 제3조, 제6조, 제7조, 제9조, 제10조의 Google Analytics 부분)은 {analyticsDate('ko')}부터 적용됩니다.</> : null} 내용이 바뀌면 시행 7일 전부터 이 페이지에 알리고, 정보주체에게
+              {pr
+                ? <>이 방침은 {prDate('ko')}부터 적용됩니다({prPostedDate('ko')} 게시 · 이전 방침: {policyDate('ko')} 적용).</>
+                : <>이 방침은 {policyDate('ko')}부터 적용됩니다.</>}{rev ? <> 다만 동의 기반 방문 통계에 관한 내용(제1조 ④, 제2조, 제3조, 제6조, 제7조, 제9조, 제10조의 Google Analytics 부분)은 {analyticsDate('ko')}부터 적용됩니다.</> : null} 내용이 바뀌면 시행 7일 전부터 이 페이지에 알리고, 정보주체에게
               불리하게 바뀌면 30일 전부터 알리며 이메일로도 알려 드립니다. 이 방침과 저희와 맺은 계약의 내용이 다르면
               정보주체에게 유리한 것을 적용합니다.
             </p>

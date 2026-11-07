@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import PrivacyKo from '@/components/legal/PrivacyKo';
 import { share } from '@/lib/meta';
+import { PR_IN_FORCE } from '@/lib/policy';
 
-const DESCRIPTION = 'You Name It AE Plugin 의 개인정보 처리방침입니다.';
+const DESCRIPTION = PR_IN_FORCE ? 'You Name It 플러그인의 개인정보 처리방침입니다.' : 'You Name It AE Plugin 의 개인정보 처리방침입니다.';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/ko/privacy', languages: { en: '/privacy', ko: '/ko/privacy', 'x-default': '/privacy' } },

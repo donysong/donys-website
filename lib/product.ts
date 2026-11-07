@@ -137,3 +137,16 @@ export const IG_REELS = [
   { id: 'De6dKj8uy8U', url: 'https://www.instagram.com/willyounameit/reel/De6dKj8uy8U/', alt: { ko: '인스타 릴: Pattern Lab 소개', en: 'Instagram reel: Pattern Lab' } },
   { id: 'DewOVCCOikZ', url: 'https://www.instagram.com/willyounameit/reel/DewOVCCOikZ/', alt: { ko: '인스타 릴: 긴장감 만드는 법', en: 'Instagram reel: how to build suspense' } },
 ] as const;
+
+/* You Name It PR Plugin — 법 면(약관·방침·환불)이 읽는 값만. 정본 = PR 플러그인 repo `gtm/facts.md`(맨 끝 "Proposed PR block").
+   🔴 `feat/pr-page` 의 `PR` 블록의 **부분집합**이다(같은 키 · 같은 값). 그 브랜치를 합칠 때는 그쪽 블록 전체를 남기고 이 블록을 지운다 —
+   값이 같아서 법 면은 그대로 읽는다. 날짜 = KST 달력 날짜, 그날 23:59:59 KST 까지. */
+export const PR = {
+  price: '$49.99',
+  earlyPrice: '$34.99',
+  openEarlyDays: 14,              // 사전예약 → Pro 가 열린 날부터(그날 포함) 얼리버드가 이어지는 날 수
+  bundlePrice: '$79.99',          // AE + PR Pro 번들 — 키 하나로 둘 다(활성화 4)
+  preorderDeadline: '2026-12-15', // 그때까지 안 열리면 사전예약 전부 자동 전액 환불
+  aeCouponEnd: '2026-12-31',      // AE 구매자 PR Pro 할인 코드의 마지막 날
+  minPremiere: '25.6.4',          // 25.6.2 · 25.6.3 은 스크립트가 멈춰 막혀 있다
+} as const;

@@ -2,10 +2,11 @@ import ReadingShell, { InkTitle } from '@/components/ReadingShell';
 import PolicyNotice from '@/components/PolicyNotice';
 import { BUSINESS } from '@/lib/product';
 import { GA_ITEMS } from '@/lib/googleTransfer';
-import { ANALYTICS_NOTICE, analyticsDate, policyDate, revisedText } from '@/lib/policy';
+import { analyticsDate, policyDate, prDate, prPostedDate, prText, revisedText } from '@/lib/policy';
 
 /* 방침 본문 — `/privacy`(현재 판)와 `/privacy/upcoming`(개정 예정본)이 **같은 본문**을 그린다. `rev`(동의 기반 방문 통계 조항을 싣는가)가 거짓이면 10-23 판 그대로다.
-   국문판(`components/legal/PrivacyKo.tsx`)과 **사실이 같아야 한다**. 설계서 ANALYTICS_PLAN §12 ③. */
+   `pr`(You Name It PR Plugin 조항을 싣는가)도 같다 — 초안 = PR 플러그인 repo `gtm/legal/privacy-additions.md`(⚖️ 전문가 검토 전). 예정본은 걸린 개정 전부를 싣는다.
+   국문판(`components/legal/PrivacyKo.tsx`)과 **사실이 같아야 한다**(§2.4 = 국문 제2조 ③-2, 대조 근거는 국문판 머리 주석). 설계서 ANALYTICS_PLAN §12 ③. */
 /* 🔴 **법 문서는 출고본과 대조해서 고친다** (2026-09-26 — 처음 대조했더니 §2.3 이 출고본과 반대 말을 했다:
    *"렌더된 프레임은 업로드되지 않는다"* 인데 Chat 의 코어 툴 `previewFrame` 이 컴프를 PNG 로 렌더해 모델에 보낸다).
    §2.3 의 목록은 **플러그인 출고 태그의 네트워크 호출 전수**다 — 대조 명령:
@@ -14,20 +15,21 @@ import { ANALYTICS_NOTICE, analyticsDate, policyDate, revisedText } from '@/lib/
    조항 구조·책임 문구는 오너 사안이다 — 사실만 고친다. */
 export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
   const rev = revisedText(view);
+  const pr = prText(view);
   return (
     <ReadingShell lang="en" plate="s.ft.privacy">
       <header className="max-w-3xl">
-        <p className="lab">You Name It AE Plugin</p>
+        <p className="lab">{pr ? 'You Name It' : 'You Name It AE Plugin'}</p>
         <InkTitle>Privacy Policy</InkTitle>
         <p className="text-sm">
-          Last updated: {policyDate('en')}
+          Last updated: {pr ? prDate('en') : policyDate('en')}
           {rev ? <> · consent-based visit statistics take effect {analyticsDate('en')}</> : null}
         </p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
-        {/* 고지 단계: 현재 판 위에는 개정 예정 띠, 예정본 위에는 현재 판으로 가는 띠. 켠 뒤(개정본이 현재 판)에는 띠가 없다. */}
-        {ANALYTICS_NOTICE ? <PolicyNotice lang="en" view={view} /> : null}
+        {/* 고지 단계: 현재 판 위에는 개정마다 예정 띠, 예정본 위에는 현재 판으로 가는 띠. 시행 뒤(개정본이 현재 판)에는 띠가 없다. */}
+        <PolicyNotice lang="en" doc="privacy" view={view} />
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">1. Introduction</h2>
@@ -35,7 +37,7 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
               You Name It (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) respects your
               privacy. This Privacy Policy explains how we collect, use, and protect your
               information when you visit our website (younameit.works) or download, buy and use
-              You Name It AE Plugin.
+              {pr ? ' You Name It AE Plugin or You Name It PR Plugin.' : ' You Name It AE Plugin.'}
             </p>
             <p className="mt-2">
               We are a sole proprietorship registered in the Republic of Korea ({BUSINESS.name.en} · CEO {BUSINESS.ceo.en} ·
@@ -63,6 +65,35 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
               them to send the link, to keep a list of free-version users, and to send notices you need to use the Product
               (security and updates, not advertising).
             </p>
+            {pr ? (
+              <ul className="mt-2 list-disc space-y-1 pl-6">
+                <li>
+                  <strong>PR Plugin Free Version download.</strong> Your email address, your name if you enter one, and order details
+                  (order number and time), entered on Polar&apos;s checkout for the free product and passed to us by Polar.
+                </li>
+                <li>
+                  <strong>PR Plugin Pro license.</strong> Your license key, a one-way hash identifying your computer, the activation label
+                  (operating system, activation date, the last 4 characters of that hash and the product name; never the computer&apos;s
+                  name), and the activation time, sent by the Product when it activates or checks the license.
+                </li>
+                <li>
+                  <strong>Newsletter consent at the PR Plugin checkout (optional).</strong> Your email address, the time of consent and the
+                  version of the wording you agreed to, if you tick all three optional consent boxes on the PR Plugin checkout.
+                </li>
+                <li>
+                  <strong>AE Plugin owner code.</strong> The email address and order of your AE Plugin purchase (or the aescripts order
+                  email you send us), used to check your request and issue a PR Plugin Pro discount code. The code is emailed without a
+                  request only if you agreed to our newsletter.
+                </li>
+                <li>
+                  <strong>PR Plugin support bundle (only if you send one).</strong> Product logs (error codes, processing records),
+                  environment info (OS, Premiere Pro and Product versions, feature states, CPU model and memory size), Product settings
+                  (without keys or tokens) and the names and sizes of files in the Product&apos;s data folder, when you create the bundle in
+                  the Product and attach it to an email. It contains no media, project content, license keys or API keys, and the user
+                  name in file paths is removed. The bundle is only written as a file on your computer and is never sent automatically.
+                </li>
+              </ul>
+            ) : null}
 
             <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
               2.2 Automatically Collected Information
@@ -100,10 +131,10 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
             </p>
 
             <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
-              2.3 Plugin Data
+              {pr ? '2.3 AE Plugin Data' : '2.3 Plugin Data'}
             </h3>
             <p>
-              The plugin does its actual work — creating layers, effects, and keyframes —
+              {pr ? 'The AE Plugin' : 'The plugin'} does its actual work — creating layers, effects, and keyframes —
               entirely on your machine, and it never uploads your project file. There are seven
               cases where it does talk to the network, and this is all of them:
             </p>
@@ -161,14 +192,94 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
               </li>
             </ol>
             <p className="mt-2">
-              The plugin sends <strong>no analytics, no usage statistics, and no crash reports.</strong>
+              {pr ? 'The AE Plugin' : 'The plugin'} sends <strong>no analytics, no usage statistics, and no crash reports.</strong>
             </p>
+
+            {pr ? (
+              <>
+                <h3 className="mb-2 mt-4 text-[15px] font-semibold text-[var(--text-primary)]">
+                  2.4 PR Plugin Data — when the PR Plugin talks to the network (all of it)
+                </h3>
+                <p>
+                  The PR Plugin does its real work (finding silences, noise removal, face positions, splitting captions into lines) on
+                  your computer and <strong>does not upload your media or project files.</strong> It talks to the network in exactly
+                  these eight cases:
+                </p>
+                <ol className="mt-2 list-decimal space-y-2 pl-6">
+                  <li>
+                    <strong>License activation and periodic checks (Pro only).</strong> When you enter a license key, the Product sends it
+                    to Polar with a one-way hash identifying your computer and the activation label. The activation label is the name shown
+                    in the Polar customer portal&apos;s device list (operating system, activation date, the last 4 characters of that hash
+                    and the product name); it never contains the computer&apos;s name. Checks happen at activation and then once every 7
+                    days. If you only use the Free Version, none of this happens.
+                  </li>
+                  <li>
+                    <strong>Encrypted license cache on your computer.</strong> The result is stored on your computer, encrypted with
+                    AES-256, and is not sent anywhere.
+                  </li>
+                  <li>
+                    <strong>Update and feature-state checks.</strong> The Product periodically fetches a small file with version
+                    information and the on/off list of features from our download host (dl.younameit.works). As with any web request,
+                    your IP address and the time reach that host. No license key, account or usage data is included. If you choose to
+                    install an update, it comes from the same host.
+                  </li>
+                  <li>
+                    <strong>One-time download of helper programs.</strong> ffmpeg and ffprobe, used by features such as finding silences
+                    and noise removal, are downloaded the first time they are needed from their official source (on Windows, the gyan.dev
+                    build published on GitHub; on macOS, evermeet.cx or ffmpeg.martin-riedl.de), and so is the noise-removal model
+                    (RNNoise, from GitHub). Your IP address and the time reach that host; no license key, account or project data is
+                    included. A downloaded file is used only if it matches its pinned checksum.
+                  </li>
+                  <li>
+                    <strong>Caption speech recognition — only if you set it up.</strong> If you enter your own ElevenLabs API key and run
+                    speech recognition, the audio of the range you picked goes{' '}
+                    <strong>straight from your computer to ElevenLabs, through your account</strong>. When you edit caption text and
+                    re-time it, that text goes with the audio. With no key entered, no request is made.
+                  </li>
+                  <li>
+                    <strong>The Chat panel.</strong> If you use Chat, the Product runs the AI tool you chose (Anthropic&apos;s Claude Code or
+                    OpenAI&apos;s Codex) <strong>under your own account</strong> and sends what it needs to answer: your messages, the
+                    structure of the sequence you are working on (sequence, track and clip names, timecodes, effect and property values,
+                    markers and similar metadata), caption text if you ask for it, and still frames taken from the sequence to check
+                    results. <strong>We receive and store none of it.</strong> If you choose to install Claude Code or Codex from the Chat
+                    panel, the panel first shows you the official install command and runs it only after you confirm; that command
+                    downloads the program from the vendor&apos;s official source (claude.ai, chatgpt.com).
+                  </li>
+                  <li>
+                    <strong>Asset search — only if you set it up.</strong> If you enter your own GIPHY, Pexels or Freesound API key, your
+                    searches and the downloads you pick go to that service under your account. With no key entered, no request is made.
+                  </li>
+                  <li>
+                    <strong>Installation.</strong> The installer script uses Adobe&apos;s installer, already on your computer. Its
+                    communication with Adobe follows Adobe&apos;s policies.
+                  </li>
+                </ol>
+                <p className="mt-2">
+                  These <strong>never leave your computer</strong>: traffic between the panels, the hidden background extension, the
+                  companion plugin and the Chat MCP server (only on 127.0.0.1, with a token); Face Track&apos;s face positions (it uses a
+                  face-finding model that ships with the Product, finds <strong>where</strong> a face is, never <strong>who</strong> it is,
+                  and keeps only keyframe values); the Premiere Pro shortcut file that key automation reads; the API keys you enter
+                  (ElevenLabs, GIPHY, Pexels, Freesound — on Windows encrypted with the operating system&apos;s per-user encryption, DPAPI;
+                  on macOS in a file only your user account can read); and the folder Watch folder watches.
+                </p>
+                <p className="mt-2">
+                  The PR Plugin <strong>sends no analytics, usage statistics or crash reports.</strong> A support bundle reaches us only if
+                  you create it and send it yourself.
+                </p>
+              </>
+            ) : null}
           </section>
 
           <section>
             <h2 className="mb-3 text-lg font-semibold text-[var(--text-primary)]">3. How We Use Your Information</h2>
             <ul className="list-disc space-y-1 pl-6">
               <li>To deliver your license key and product updates</li>
+              {pr ? (
+                <li>
+                  To tell Pre-order customers the date the PR Plugin Pro features open, and to issue the PR Plugin Pro discount code an
+                  AE Plugin buyer asks for
+                </li>
+              ) : null}
               <li>To provide customer support, including cancellations and refunds</li>
               <li>To keep the transaction records the law requires (see Section 5)</li>
               <li>
@@ -181,13 +292,25 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
                 ask us to delete them if that comes first. Downloading the free version does
                 not by itself get you promotional email.
               </li>
-              <li>
-                To send our newsletter, <strong>only to people who opted in</strong> on the{' '}
-                <a href="/newsletter">Newsletter</a> page, or in the optional box on the free-download form, and confirmed by email. We store your email address, the time you
-                agreed and your language with Resend until you withdraw; when you do, we email you the result and delete them.
-                We confirm your consent every two years, mark every newsletter as promotional, and include a free unsubscribe
-                link.
-              </li>
+              {pr ? (
+                <li>
+                  To send our newsletter, <strong>only to people who opted in</strong> on the{' '}
+                  <a href="/newsletter">Newsletter</a> page or in the optional box on the free-download form and confirmed by email, or who
+                  ticked all three optional consent boxes on the PR Plugin checkout. We store your email address, the time you agreed and
+                  your language (not asked at the PR Plugin checkout) with Resend until you withdraw; when you do, we email you the result
+                  and delete them. We confirm your consent every two years, mark every newsletter as promotional, and include a free
+                  unsubscribe link. That includes the PR Plugin Pro discount code for AE Plugin buyers: without that consent, you get the
+                  code only if you ask for it.
+                </li>
+              ) : (
+                <li>
+                  To send our newsletter, <strong>only to people who opted in</strong> on the{' '}
+                  <a href="/newsletter">Newsletter</a> page, or in the optional box on the free-download form, and confirmed by email. We store your email address, the time you
+                  agreed and your language with Resend until you withdraw; when you do, we email you the result and delete them.
+                  We confirm your consent every two years, mark every newsletter as promotional, and include a free unsubscribe
+                  link.
+                </li>
+              )}
               {rev ? (
                 <li>
                   To count visits to the website — with Cloudflare’s cookieless analytics, and with Google Analytics only if you accept
@@ -213,7 +336,7 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
             <ul className="mt-2 list-disc space-y-1 pl-6">
               <li>
                 <strong>Polar</strong> — payment processing, merchant of record, and license
-                management. Their privacy policy is available at{' '}
+                management{pr ? ', and the PR Plugin Free Version download' : ''}. Their privacy policy is available at{' '}
                 <a
                   href="https://polar.sh/legal/privacy"
                   target="_blank"
@@ -226,7 +349,7 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
               </li>
               <li>
                 <strong>Anthropic</strong> — powers the Chat panel when you choose Claude Code,
-                under your own Claude account, and receives the data described in 2.3. Their privacy policy is
+                under your own Claude account, and receives the data described in {pr ? '2.3 and 2.4' : '2.3'}. Their privacy policy is
                 available at{' '}
                 <a
                   href="https://www.anthropic.com/legal/privacy"
@@ -240,7 +363,7 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
               </li>
               <li>
                 <strong>OpenAI</strong> — powers the Chat panel when you choose Codex, under your
-                own ChatGPT account, and receives the data described in 2.3. Their privacy policy is
+                own ChatGPT account, and receives the data described in {pr ? '2.3 and 2.4' : '2.3'}. Their privacy policy is
                 available at{' '}
                 <a
                   href="https://openai.com/policies/privacy-policy/"
@@ -296,7 +419,7 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
               <li>
                 <strong>Resend (Plus Five Five, Inc.)</strong> — sends our email replies to you, sends the free-version download
                 link and keeps the list of free-version users, and keeps the newsletter subscriber list and sends the newsletter
-                if you subscribed. Their privacy
+                if you subscribed{pr ? ' (including people who consented on the PR Plugin checkout)' : ''}. Their privacy
                 policy is available at{' '}
                 <a
                   href="https://resend.com/legal/privacy-policy"
@@ -310,11 +433,11 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
               </li>
               <li>
                 <strong>Pexels, Giphy, Freesound</strong> — asset search, and only if you supply
-                your own API keys for them.
+                your own API keys for them.{pr ? ' Your computer contacts them directly, under your own account; we receive none of that data.' : ''}
               </li>
               <li>
-                <strong>ElevenLabs</strong> — text-to-speech and speech-to-text in Chat, and only if
-                you supply your own API key. Their privacy policy is available at{' '}
+                <strong>ElevenLabs</strong> — text-to-speech and speech-to-text in Chat{pr ? ' (AE Plugin) and caption speech recognition (PR Plugin)' : ''}, and only if
+                you supply your own API key.{pr ? ' Your computer contacts it directly, under your own account; we receive none of that data.' : ''} Their privacy policy is available at{' '}
                 <a
                   href="https://elevenlabs.io/privacy-policy"
                   target="_blank"
@@ -326,8 +449,18 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
                 .
               </li>
               <li>
-                <strong>GitHub, evermeet.cx, gyan.dev</strong> — host the free helper programs
-                (FFmpeg, Gifsicle) that some features download once, as described in 2.3.
+                {pr ? (
+                  <>
+                    <strong>GitHub, evermeet.cx, gyan.dev, ffmpeg.martin-riedl.de</strong> — host the free helper programs (FFmpeg,
+                    Gifsicle, and the PR Plugin&apos;s ffmpeg, ffprobe and noise-removal model) that some features download once, as
+                    described in 2.3 and 2.4.
+                  </>
+                ) : (
+                  <>
+                    <strong>GitHub, evermeet.cx, gyan.dev</strong> — host the free helper programs
+                    (FFmpeg, Gifsicle) that some features download once, as described in 2.3.
+                  </>
+                )}
               </li>
               <li>
                 <strong>Vercel</strong> — serves update checks to installs of version 2.5.0 and
@@ -376,6 +509,12 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
                 sending, but data already sent stays at Google for that period.
               </p>
             ) : null}
+            {pr ? (
+              <p className="mt-2">
+                Newsletter consent given at the PR Plugin checkout is kept until you withdraw it; the consent record attached to the order
+                is kept with that order&apos;s transaction records for as long as the law requires.
+              </p>
+            ) : null}
           </section>
 
           <section>
@@ -418,7 +557,8 @@ export default function PrivacyEn({ view }: { view: 'current' | 'upcoming' }) {
             <p>
               We may update this Privacy Policy from time to time. We post changes on this page at least 7 days before they
               take effect, or at least 30 days before if they are less favorable to you, in which case we also email you.
-              {rev ? <> The parts about consent-based visit statistics (Google Analytics) take effect on {analyticsDate('en')}; the rest of this policy takes effect on {policyDate('en')}.</> : null}
+              {pr ? <> This policy applies from {prDate('en')} (posted {prPostedDate('en')}; previous version applied from {policyDate('en')}).</> : null}
+              {rev ? <> The parts about consent-based visit statistics (Google Analytics) take effect on {analyticsDate('en')}; the rest of this policy takes effect on {pr ? prDate('en') : policyDate('en')}.</> : null}
             </p>
           </section>
 
