@@ -1,65 +1,64 @@
 'use client';
-/* 02 무엇인가 — 신화 한 줄 → 명사로 갚는 줄(`/ae` 02 와 같은 `.posi`) → 다른 점 셋 → 원본 안전.
-   `{names}` 자리 셋은 **켜진 기능 이름만** 채운다(원문 지시 "At freeze, rewrite it from the free features that are on"):
-     pr.diff2.free  무료 툴(Offset · 앵커 · 빈 · Watch folder · 에셋) — 하나도 없으면 줄이 빠진다
-     pr.safe.li1    시퀀스를 크게 바꾸는 작업의 예(무음 컷 · 자막 · 잡음 제거 · Chat)
-     pr.safe.li2    고른 클립에 바로 적용하는 툴의 예(Offset · 앵커 · FX Console)
-   셋째 다른 점(Chat)은 판 A 에선 Chat 이 켜졌을 때만, 판 B 에선 "Pro · 준비 중" 판 문장으로 선다. */
+/* 02 What it is — myth line, then the plain line that pays it back (v5 `/ae` 02 `.posi`), then three cells (`.howto`, the
+   Docs vocabulary): not a subscription · silence cuts free · originals stay.
+   Every `{names}` slot is filled from claimable features only (`lib/pr.ts`) — the source says "rewrite it from the features that are on".
+     pr.posi.plain   chores it takes (silence cuts · bin cleanup)           — `pr.f.<id>.ex`
+     pr.diff2.free   the other free tools                                   — `pr.f.<id>.name`, line drops when none
+     pr.safe.li1     work done on a copy / new tracks (silence cuts)        — `pr.f.<id>.ex`
+     pr.safe.li2     tools on the selected clips with plugin undo (Offset · Anchor point)
+   FX Console is not in li2: it has no plugin undo (PR repo PRD §0, principle-1 exception, W6.4). */
 import { Html, useT } from '@/components/site3p/lang';
-import { PR_MODE, PR_OFF, type PrFeature } from '@/lib/product';
+import type { PrFeature } from '@/lib/product';
 import { prClaimable } from '@/lib/pr';
 import Head from './Head';
-import { joinNames, type Plate } from './state';
+import { joinNames } from './state';
 
+const CHORES: PrFeature[] = ['autocut.basic', 'bins'];
 const FREE_TOOLS: PrFeature[] = ['offset', 'anchor', 'bins', 'watchfolder', 'assets'];
-const RESHAPE: PrFeature[] = ['autocut.basic', 'captions.longform', 'denoise', 'chat'];
-const DIRECT: PrFeature[] = ['offset', 'anchor', 'fxconsole'];
+const ON_COPY: PrFeature[] = ['autocut.basic'];
+const DIRECT: PrFeature[] = ['offset', 'anchor'];
 
-export default function Posi({ no, note }: Plate) {
+export default function Posi() {
   const { t, lang } = useT();
-  const pre = PR_MODE === 'preorder';
-  const fill = (k: string, names: string[]) => t(k).split('{names}').join(names.join(', '));
-  const freeNames = FREE_TOOLS.filter(prClaimable).map((id) => t(`pr.f.${id}.name`));
-  const reshape = RESHAPE.filter(prClaimable).map((id) => t(`pr.safe.ex.${id}`));
-  const direct = DIRECT.filter(prClaimable).map((id) => t(`pr.f.${id}.name`));
-  /* 판 B 의 Chat 은 사전예약 약속 묶음이라 "준비 중" 문장으로 남는다 — 출고에서 아예 빠졌으면(`PR_OFF`) 그것도 뺀다. */
-  const diff3 = pre ? !PR_OFF.includes('chat') : prClaimable('chat');
-  const diffs = ['pr.diff1', 'pr.diff2', ...(diff3 ? ['pr.diff3'] : [])];
+  const names = (ids: PrFeature[], part: 'ex' | 'name') => joinNames(lang, ids.filter(prClaimable).map((id) => t(`pr.f.${id}.${part}`)));
+  const fill = (k: string, s: string) => t(k).split('{names}').join(s);
+  const chores = names(CHORES, 'ex');
+  const tools = names(FREE_TOOLS, 'name');
+  const onCopy = names(ON_COPY, 'ex');
+  const direct = names(DIRECT, 'name');
   return (
-    <section id="posi" className={note ? 'onnote' : undefined} data-plate={no} data-name="pr.plate.posi">
+    <section id="posi" className="onnote" data-plate="02" data-name="pr.plate.posi">
       <div className="sec tight">
-        <Head no={no} stone={5} k="pr.plate.posi" />
+        <Head no="02" stone={5} k="pr.plate.posi" />
         <div className="posi">
           <Html k="pr.posi.myth" as="p" className="myth" />
           <div>
-            <Html k="pr.posi.plain" as="p" className="plain" />
+            <p className="plain" dangerouslySetInnerHTML={{ __html: fill('pr.posi.plain', chores) }} />
             <Html k="pr.posi.plain2" as="p" className="plain" style={{ marginTop: 16, opacity: 0.82 }} />
           </div>
         </div>
 
-        <h3 className="lab pr-subh">{t('pr.diff.h')}</h3>
         <div className="howto pr-diff">
-          {diffs.map((k) => (
-            <div key={k}>
-              <h3>{t(`${k}.h`)}</h3>
-              <Html k={`${k}.p`} as="p" />
-              {k === 'pr.diff2' && freeNames.length
-                ? <p className="pr-more">{t('pr.diff2.free').split('{names}').join(joinNames(lang, freeNames))}</p>
-                : null}
+          <div>
+            <h3>{t('pr.diff1.h')}</h3>
+            <Html k="pr.diff1.p" as="p" />
+          </div>
+          {prClaimable('autocut.basic') ? (
+            <div>
+              <h3>{t('pr.diff2.h')}</h3>
+              <Html k="pr.diff2.p" as="p" />
+              {tools ? <p className="pr-more">{fill('pr.diff2.free', tools)}</p> : null}
             </div>
-          ))}
-        </div>
-
-        <div className="feat pr-text">
+          ) : null}
           <div>
             <h3>{t('pr.safe.h')}</h3>
             <Html k="pr.safe.p" as="p" />
+            <ul>
+              {onCopy ? <li dangerouslySetInnerHTML={{ __html: fill('pr.safe.li1', onCopy) }} /> : null}
+              {direct ? <li dangerouslySetInnerHTML={{ __html: fill('pr.safe.li2', direct) }} /> : null}
+              <li>{t('pr.safe.li3')}</li>
+            </ul>
           </div>
-          <ul>
-            {reshape.length ? <li dangerouslySetInnerHTML={{ __html: fill('pr.safe.li1', reshape) }} /> : null}
-            {direct.length ? <li dangerouslySetInnerHTML={{ __html: fill('pr.safe.li2', direct) }} /> : null}
-            <li>{t('pr.safe.li3')}</li>
-          </ul>
         </div>
       </div>
     </section>

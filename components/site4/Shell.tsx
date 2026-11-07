@@ -18,12 +18,15 @@ import { BUSINESS, CHECKOUT_URL, FTC_BIZ_URL, SOCIAL } from '@/lib/product';
 import { ANALYTICS_ON } from '@/lib/analytics';
 import { openConsent } from '@/lib/consent';
 
-export type NavLink = { href: string; k: string };
+/** `pending` = why an empty `href` is empty (`data-pending`): 'checkout' (no link yet, the default) or 'opens' (`/pr`: before its day). */
+export type NavLink = { href: string; k: string; pending?: string };
 export type Page4Kind = 'home' | 'ae' | 'docs' | 'pr';
 /** 제품 면의 구매 버튼 한 벌 — 레일 · 푸터가 같은 목적지·라벨을 쓴다. 안 넘기면 AE 결제(`CHECKOUT_URL` · `s.buy.price`).
  *  `/pr` 이 넘긴다(PR Pro 결제). `href` 가 빈 값이면 결제 링크가 아직 없다는 뜻이다 — href 없는 버튼을 그리고
- *  deployCheck `[pr]` 가 배포를 세운다(`lib/product.ts` `PR.checkoutPro`). */
-export type BuyCta = { href: string; label: string; big: string; small: string };
+ *  deployCheck `[pr]` 가 배포를 세운다(`lib/product.ts` `PR.checkoutPro`).
+ *  `line` = the slot holds something that is not a purchase (`/pr` before the Pro checkout opens: the free version) →
+ *  the footer draws an outline (fill is for purchase only, REBRAND §9.9 ③). */
+export type BuyCta = { href: string; label: string; big: string; small: string; line?: boolean; pending?: string };
 
 /* ── 네비 ─────────────────────────────────────────────────────────────
    🔴 브랜드 루트는 `/about` 을 안 가진다(레퍼런스도 앵커다).
@@ -78,7 +81,7 @@ function Nav4({ page, plateTotal, links, cta, logo, product }: {
             {t(l.k)}
           </a>
         ))}
-        {cta ? <a className="btn-line" href={cta.href ? href(cta.href) : undefined} data-pending={cta.href ? undefined : 'checkout'} data-cur>{t(cta.k)}</a> : null}
+        {cta ? <a className="btn-line" href={cta.href ? href(cta.href) : undefined} data-pending={cta.href ? undefined : cta.pending ?? 'checkout'} data-cur>{t(cta.k)}</a> : null}
         <LangSwitch />
       </div>
     </nav>
@@ -185,7 +188,7 @@ function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
             {page === 'home'
               ? <a className="btn-line" href={href('/ae')} data-cur>{t('s.toProduct')}</a>
               : buy
-                ? <a className="buy" href={buy.href || undefined} data-pending={buy.href ? undefined : 'checkout'} data-cur>{buy.label}</a>
+                ? <a className={buy.line ? 'btn-line' : 'buy'} href={buy.href || undefined} data-pending={buy.href ? undefined : buy.pending ?? 'checkout'} data-cur>{buy.label}</a>
                 : <a className="buy" href={CHECKOUT_URL} data-cur>{t('s.buy.price')}</a>}
           </div>
           {/* SNS 아이콘 줄(오너 2026-10-26 *"메인이랑 AE 둘 다"*) — 셸 푸터라 모든 면에 선다. 주소 = lib/product.ts SOCIAL. */}
@@ -201,7 +204,8 @@ function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
           <ul>
             <li><a href={href('/ae')} data-cur>{t('s.product')}</a></li>
             <li><a href={href('/update')} data-cur>{t('s.ft.notes')}</a></li>
-            <li><a href={href('/download')} data-cur>{t('s.ft.download')}</a></li>
+            {/* On `/pr` the free download is the PR free version (its plan in `#price`), not the AE download page. */}
+            <li><a href={page === 'pr' ? '#free' : href('/download')} data-cur>{t('s.ft.download')}</a></li>
             {/* 광고성 정보 수신 동의 창구(2026-09-30) — 동의한 분께만 보낸다(정보통신망법 §50). */}
             <li><a href={href('/newsletter')} data-cur>{t('s.ft.news')}</a></li>
           </ul>

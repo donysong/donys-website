@@ -20,7 +20,6 @@ export const metadata = {
     path: '/ko/pr',
     title: 'You Name It PR Plugin',
     description: t('ko', 'pr.meta.desc'),
-    card: 'brand',
     lang: 'ko',
   }),
 };
@@ -30,7 +29,7 @@ const BUILT_AT = Date.now();
 export default function Pr() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(prJsonLd(SITE, '/pr', t('ko', 'pr.meta.desc'))) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(prJsonLd(SITE, '/ko/pr', t('ko', 'pr.meta.desc'))) }} />
       <LangProvider initial="ko">
         <PrProvider builtAt={BUILT_AT}>
           <PrPage />

@@ -1,6 +1,6 @@
 'use client';
-/* `/pr` 판 머리 — `/ae` 섹션들과 **같은 마크업**이다(`.sec-head` > 돌 + 판 번호 · 잉크 제목 · 오른쪽 태그, 제목은 끓이지 않는다).
-   판 번호는 PrPage 가 판 순서로 매긴다(판 B 에선 사전예약 판이 하나 끼어 번호가 밀린다). */
+/* `/pr` plate head — the **same markup** as the v5 `/ae` sections (`.sec-head` > stone + plate number · ink title · tag on the right,
+   title not boiled). */
 import { Html } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 

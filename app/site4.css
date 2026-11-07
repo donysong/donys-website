@@ -1379,59 +1379,46 @@
 /* 01 소개 ↔ 제품 행 사이 — 판 간격 규칙이 소개 `.sec` 밑에 판 박자(+50)를 줘서 같은 판 안에서 450px 가 비었다. 같은 판 안 사이는 절반 박자. */
 .p3.p4 > #lineup > .sec {padding-bottom:clamp(64px,6vw,112px)}
 
-/* ════ 2026-10-10 — `/pr` (You Name It PR Plugin · `components/site4/pr/*`) ══════════════════════════════
-   `/ae` 어휘를 그대로 빌린다(`.phero` · `.roles` · `.posi` · `.feat` · `.howto` · `.ptable` · `.pricing` · `.qa` · `.specs` · `.byhand`).
-   새 이름은 전부 `pr-` 접두사 — CSS 세 파일·컴포넌트에 같은 이름 0 을 grep 으로 확인하고 들였다. 글자색은 `--text` · `--muted` · 검정만
-   (🔴 빨강은 디스플레이 크기 + 흰 판 위에만 — 사이트 CLAUDE.md). 판 쌓기는 위 v5 블록의 `[data-page="pr"]` 가 건다. */
+/* ════ `/pr` (You Name It PR Plugin · `components/site4/pr/*`) — v5 port 2026-11-07 ══════════════════════════════
+   Borrows the v5 `/ae` and Docs vocabulary as is (`.phero` · `.roles` · `.posi` · `.howto` · `.feat` on the `PenTimeline` stem ·
+   `.pricing.plans` · `.qa` · `.specs` · `.byhand`). Plate stacking = the v5 rule above (`[data-page="pr"]`), spacing = `--sheet-pad`.
+   New names all start with `pr-` (grepped: no clash in the three CSS files). Text colours = `--text` · `--muted` · black only
+   (🔴 red only at display size on a white plate — site CLAUDE.md). */
 
-/* 표지 — 가운데 판(데모 영상)이 아직 없어 원 두 개만 가운데로 모은다. 영상이 나오면 `pr-nodemo` 를 뗀다(pr/Hero.tsx). */
-.p3 .phero .pstage.pr-nodemo {grid-template-columns:repeat(2,minmax(172px,280px));justify-content:center}
-/* 역할 카드 빨간 판 — `/ae` 는 "당신이 말할 문장"(따옴표)인데 여기는 "당신이 하는 것"(누르는 순서)이라 따옴표를 끈다. 넷째 카드는 문장이 따옴표를 들고 있다. */
+/* Cover — no film in the middle (no demo at launch), so the two circles stand together. ≥1081 = two columns centred;
+   ≤1080 = the v5 narrow cover (circles side by side, shrinking) without its film row. */
+@media (min-width:1081px){ .p3.p4 .phero .pstage.pr-nodemo {grid-template-columns:repeat(2,minmax(172px,280px));justify-content:center} }
+@media (max-width:1080px){ .p3.p4 .phero .pstage.pr-nodemo {grid-template-areas:"buy have"} }
+
+/* 01 — the red plate says "what you do" (press order), not `/ae`'s "what you'd say", so no quotes.
+   Two cards must not sit in a four-column grid (`data-n` = card count); phones keep the one-column rule. */
 .p3 .role .say q.pr-act {quotes:none}
+@media (min-width:681px){ .p3 .roles[data-n="2"] {grid-template-columns:repeat(2,minmax(0,1fr));max-width:960px} }
 
-/* 02 — 다른 점 셋(`.howto` 3열) 머리 · 무료 툴 이름 줄 */
-.p3 .pr-subh {display:block;margin:64px 0 0;color:var(--text)}
-.p3 .howto.pr-diff {margin-top:16px}
+/* 02 — the free tool names under "silence cuts are free" */
 .p3 .howto .pr-more {margin-top:10px;font-weight:600}
 
-/* 글만 있는 기능 블록 — 증거 판(출고본 화면)이 아직 없어서 좌 40(헤드라인 · 풀이) | 우 60(켜진 기능 한 줄씩).
-   화면이 생기면 `/ae` 의 `.feat`(판 60 | 글 40)로 돌아간다. `pr-wide` = 툴킷 표처럼 넓은 것은 한 단. */
-.p3 .feat.pr-text {grid-template-columns:minmax(0,40fr) minmax(0,60fr);align-items:start}
-.p3 .feat.pr-text.pr-wide {grid-template-columns:minmax(0,1fr);gap:24px}
-.p3 .feat.pr-text > div > p {max-width:46ch}
-.p3 .feat .pr-claims b {font-weight:800}
+/* 03 — text-only cards on the stem: no figure above, so the card body needs no top gap. Tool lines = name on its own line,
+   claim, then the honesty note small. */
+@media (min-width:1000px){ .p3.p4 .v5-line-wrap > .feat > div:first-child {margin-top:0} }
+.p3 .feat .pr-claims {gap:14px}
+.p3 .feat .pr-claims b {display:block;font-weight:800}
 .p3 .feat .pr-claims li i {display:block;margin-top:3px;font-size:13px}
 .p3 .pr-note {font-size:14px;line-height:1.55;color:var(--muted)}
 
-/* 04 무료와 Pro — 두 단 장부(가격 판과 같은 굵은 위아래 괘선 + 가운데 세로 괘선) */
-.p3 .pr-tiers {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1.5px solid var(--black);border-bottom:1.5px solid var(--black)}
-.p3 .pr-tiers > div {padding:22px 32px 22px 0}
-.p3 .pr-tiers > div + div {padding:22px 0 22px 32px;border-left:1.5px solid var(--black)}
-.p3 .pr-tiers h3 {margin:0 0 10px;color:var(--text)}
-.p3 .pr-tiers ul {margin:0;padding:0;list-style:none}
-.p3 .pr-tiers li {display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);
-  font-size:15px;font-weight:600;line-height:1.4}
-.p3 .pr-tiers li:last-child {border-bottom:0}
-.p3 .pr-tiers li small {flex-shrink:0;color:var(--muted)}
-.p3 .pr-tiers + .pr-note {margin:14px 0 0}
-@media (max-width:760px){
-  .p3 .pr-tiers {grid-template-columns:1fr}
-  .p3 .pr-tiers > div, .p3 .pr-tiers > div + div {padding:20px 0;border-left:0}
-  .p3 .pr-tiers > div + div {border-top:1.5px solid var(--black)}
-}
-
-/* 05 가격 판 — 얼리버드 줄 · 한마디. 판 아랫단(`#bundle`) = 번들 · AE 쿠폰 · 할인/세금/AI 비용 · 법 링크(`#price` 밖 — 가격 판 링크는 하나). */
-.p3 .pamt .pr-early {margin:0;font-size:17px;font-weight:800;color:var(--black)}
-.p3 #price .pr-wit {margin:10px 0 0;font-size:14px;font-weight:600;color:var(--muted)}
+/* 04 — the sheet's lower band (`#bundle`): bundle · discounts · tax · AI costs · legal links (outside `#price`, see Price.tsx) */
 .p3 .howto.pr-after {margin-top:0}
 .p3 .pr-bundle {margin-top:14px}
-/* 번들 버튼은 `.howto` 안이라 문장 링크 규칙(밑줄 · 빨간 펜)을 같이 탄다 — 버튼에선 끈다. */
+/* the bundle button sits in `.howto`, which underlines links and draws the red pen — not on a button */
 .p3 .howto a.btn-line {text-decoration:none}
 .p3 .howto a.btn-line > .pen {display:none}
 .p3 .pr-legal {margin-top:12px;font-size:13px}
 .p3 .pr-legal b {font-weight:800;margin-right:4px}
 
-/* 07 설치 — 번호 목록(Windows · macOS · Pro 활성화 · 수동). `.howto li` 의 대시 머리를 번호로 바꾼다. */
+/* 05 — the checkout-open date (only before that day) */
+.p3 .posi .plain.pr-when {margin-top:16px;font-weight:700}
+
+/* 07 — numbered steps inside `.howto` (Windows · Pro activation · manual): the dash bullet becomes a number */
 .p3 .howto ol {margin:0 0 10px;padding:0 0 0 1.4em;display:grid;gap:8px;list-style:decimal}
 .p3 .howto ol > li {padding-left:2px}
 .p3 .howto ol > li::before {content:none}
@@ -1439,15 +1426,11 @@
 .p3 .howto.pr-one {grid-template-columns:minmax(0,1fr);margin-top:28px}
 .p3 .byhand .howto.pr-one {margin:0 0 22px}
 
-/* 상표 줄(사양 밑) */
+/* trademark line under the specs */
 .p3 .pr-tm {margin:22px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted);max-width:var(--measure)}
 
-/* 결제 링크가 아직 없는 버튼(`data-pending="checkout"` — `lib/product.ts` PR.checkout* 빈 값). 누를 수 없다는 게 보이게.
-   배포는 deployCheck `[pr]` 가 막는다 — 이 상태로 나가는 일은 없다. */
-.p3 a[data-pending="checkout"] {cursor:not-allowed}
-/* 접힘 — 위 두 규칙(`.pstage.pr-nodemo` · `.feat.pr-text`)이 `/ae` 의 1080 접힘 규칙보다 명시도가 높아서 여기서 같은 폭에 다시 접는다.
-   폰(390)에서 원 두 개가 나란히 서면 344px + 간격이 화면을 넘는다. */
-@media (max-width:1080px){
-  .p3 .phero .pstage.pr-nodemo {grid-template-columns:1fr}
-  .p3 .feat.pr-text {grid-template-columns:1fr;gap:28px}
-}
+/* A checkout that cannot be pressed yet — before its day (`data-pending="opens"`, shows the date) or with no link in
+   `lib/product.ts` (`"checkout"`, deployCheck `[pr]` blocks that deploy). It should not look pressable. */
+.p3 a[data-pending] {cursor:not-allowed}
+.p3 .circ[data-pending]:is(:hover, :focus-visible) {scale:1;box-shadow:var(--rx) var(--ry) 0 var(--white)}
+.p3 .circ[data-pending]:is(:hover, :focus-visible) > span {scale:1}

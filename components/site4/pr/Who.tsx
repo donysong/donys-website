@@ -1,30 +1,32 @@
 'use client';
-/* 01 누구를 — `/ae` 01 과 같은 카드(`article.role.gridp > div.in + div.say`, 하우스 계약).
-   카드마다 원문의 기능 태그가 붙어 있다 — 태그가 **전부** 이 판에서 못 쓰는 기능이면 카드가 빠진다(판 B 에선 Pro 카드 둘이 빠진다).
-   빨간 판 문장은 `/ae` 의 "당신이 말할 문장" 이 아니라 "당신이 하는 것"(누르는 순서)이라 따옴표를 끈다(`q.pr-act`) — 넷째 카드는 원문이 따옴표를 들고 있다. */
+/* 01 Who — the same cards as v5 `/ae` 01 (`article.role.gridp > div.in + div.say`, house contract; 6fps weave entrance).
+   Each card carries the feature ids it talks about; a card stays while any of them is claimable (`lib/pr.ts` `prAny`).
+   The source's two Pro cards (short-form creator · repeat edits) are not here: in the pre-order shape Pro features appear only
+   in the pre-order lists. They come back from PR repo `gtm/site/pr-page.full.md` when Pro opens.
+   The red plate says "what you do" (the press order), not `/ae`'s "what you'd say", so its quotes are off (`q.pr-act`).
+   `data-n` = card count — two cards must not sit in a four-column grid. */
 import { Html, useT } from '@/components/site3p/lang';
 import { prAny } from '@/lib/pr';
 import type { PrFeature } from '@/lib/product';
+import { useReveal } from '@/components/site4/home/V5';
 import Head from './Head';
-import type { Plate } from './state';
 
 const CARDS: { k: string; tags: PrFeature[] }[] = [
   { k: 'r1', tags: ['autocut.basic'] },
-  { k: 'r2', tags: ['facetrack', 'captions.shortform'] },
   { k: 'r3', tags: ['watchfolder', 'bins'] },
-  { k: 'r4', tags: ['chat'] },
 ];
 
-export default function Who({ no, note }: Plate) {
+export default function Who() {
   const { t } = useT();
+  const ref = useReveal<HTMLElement>();
   const cards = CARDS.filter((c) => prAny(c.tags));
   return (
-    <section id="who" className={note ? 'onnote' : undefined} data-plate={no} data-name="pr.plate.who">
+    <section id="who" ref={ref} data-plate="01" data-name="pr.plate.who">
       <div className="sec tight">
-        <Head no={no} stone={2} k="pr.who.h" tag="pr.who.tag" />
-        <div className="roles sweep">
+        <Head no="01" stone={2} k="pr.who.h" tag="pr.who.tag" />
+        <div className="roles sweep" data-n={cards.length}>
           {cards.map((c, i) => (
-            <article className="role gridp" tabIndex={0} data-cur key={c.k}>
+            <article className="role gridp" tabIndex={0} data-cur key={c.k} data-reveal style={{ ['--d' as string]: `${(i * 0.167).toFixed(3)}s` }}>
               <div className="in">
                 <div className="top"><span className="lab lc">{t('pr.role.l')}</span><i>{String(i + 1).padStart(2, '0')}</i></div>
                 <h3>{t(`pr.${c.k}.h`)}</h3>
