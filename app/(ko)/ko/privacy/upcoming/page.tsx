@@ -1,0 +1,24 @@
+import type { Metadata } from 'next';
+import PrivacyKo from '@/components/legal/PrivacyKo';
+import { share } from '@/lib/meta';
+
+const DESCRIPTION = 'You Name It 플러그인의 개인정보 처리방침입니다.';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/ko/privacy/upcoming', languages: { en: '/privacy/upcoming', ko: '/ko/privacy/upcoming', 'x-default': '/privacy/upcoming' } },
+  /* 🔴 브랜드명을 붙이지 마라 — 루트 레이아웃의 `template: '%s — You Name It'` 이 이미 붙인다.
+     붙이면 "… — You Name It — You Name It" 으로 **두 번** 나간다(실측 2026-09-19). */
+  title: '개인정보 처리방침 (시행 예정)',
+  description: DESCRIPTION,
+  robots: { index: false, follow: true },
+  ...share({ path: '/ko/privacy/upcoming', title: '개인정보 처리방침 (시행 예정) — You Name It', description: DESCRIPTION, lang: 'ko' }),
+};
+
+/* 🔴 **시행 예정본** — PR Plugin 개정(`lib/policy.ts` 의 `PR_EFFECTIVE`) 전엔 이 페이지가 아니라 현재 판(`/ko/privacy`)이 효력을 가진다.
+   현재 판 맨 위 "개정 예정 안내" 띠가 여기로 잇는다. 색인하지 않는다(noindex · 사이트맵에 없음).
+   본문 = 현재 판과 같은 `PrivacyKo` 한 벌 — 동의 기반 방문 통계 조항(2026-10-31 시행, `ANALYTICS_ON`)은 현재 판과 똑같이 들어가고 PR 조항만 더해진다.
+   (분석 개정의 예정본은 07957ae 에서 시행과 함께 지웠다 — 이 파일은 PR 개정 고지로 다시 생겼다.)
+   PR 개정이 시행되면(`PR_IN_FORCE`) 이 파일(과 영문 짝)을 지운다 — `deployCheck [policy]` 가 남은 것을 잡는다. */
+export default function PrivacyUpcomingKoPage() {
+  return <PrivacyKo view="upcoming" />;
+}

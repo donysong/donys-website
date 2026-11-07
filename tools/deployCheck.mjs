@@ -20,7 +20,8 @@
      [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
 
      [analytics] 분석(GTM·GA4·Meta)을 방침 고지 7일 전에 켜거나, 방침이 "쿠키 없음"이라 말하는데 켜거나, 동의 전에 Google 로 요청이 나가는 것 · 결제 뒤 면(/thanks)이 색인에 들어가는 것
-     [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 새 방침이 현재 판인 빌드가 시행일 전에 나가거나(이메일 폼이 시행 전 개인정보를 받는다), 고지 띠가 죽은 채 남는 것
+     [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 새 방침이 현재 판인 빌드가 시행일 전에 나가거나(이메일 폼이 시행 전 개인정보를 받는다), 고지 띠가 죽은 채 남는 것.
+                PR Plugin 개정(약관·방침·환불, `lib/policy.ts` PR_*)은 10-24 고지 계획이 통째로 빠졌다가 2026-11-07 고지로 다시 잡혔다 — 시행일·게시일·띠·예정본 짝을 기계로 본다
 
    실행: node tools/deployCheck.mjs              (빌드 뒤에 돌린다)
          node tools/deployCheck.mjs --release    (`npm run deploy` 가 쓴다 — 시행일 게이트 [policy] 가 경고가 아니라 실패가 된다)
@@ -232,24 +233,60 @@ for (const [r, a, b] of [['/ko/privacy.html', '마지막 안내 메일', '3년']
     const dateKo = `${Y}년 ${Number(M)}월 ${Number(D)}일`;
     const dateEn = `${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][Number(M) - 1]} ${Number(D)}, ${Y}`;
     const html = (r) => { const p = pages.find((x) => rel(x) === r); return p ? read(p) : ''; };
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const humanIso = (iso, lang) => { const m = (iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/); if (!m) return null; return lang === 'ko' ? `${m[1]}년 ${Number(m[2])}월 ${Number(m[3])}일` : `${MONTHS[Number(m[2]) - 1]} ${Number(m[3])}, ${m[1]}`; };
     /* 두 번째 개정(동의 기반 방문 통계 — `lib/analytics.ts`): ANALYTICS_EFFECTIVE 가 있고 GTM_ID 가 비면 *고지 단계* —
-       방침 현재 판 위에 개정 예정 띠가 있고 `/…/privacy/upcoming` 이 있어야 한다. 그 외(개정본이 현재 판이거나 개정이 없음)에는 둘 다 남아 있으면 죽은 링크다. 약관은 개정이 없다. */
+       방침 현재 판 위에 개정 예정 띠가 있고 `/…/privacy/upcoming` 이 있어야 한다. */
     const asrc = read(path.join(process.cwd(), 'lib/analytics.ts'));
     const effA = asrc.match(/ANALYTICS_EFFECTIVE(?::\s*string)?\s*=\s*'([^']*)'/)?.[1] ?? '';
     const gtmA = asrc.match(/GTM_ID(?::\s*string)?\s*=\s*'([^']*)'/)?.[1] ?? '';
     const notice = effA !== '' && gtmA === '';
-    const humanA = (lang) => { const m = effA.match(/^(\d{4})-(\d{2})-(\d{2})$/); if (!m) return null; return lang === 'ko' ? `${m[1]}년 ${Number(m[2])}월 ${Number(m[3])}일` : `${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][Number(m[2]) - 1]} ${Number(m[3])}, ${m[1]}`; };
-    for (const [u, d] of [['/privacy', dateEn], ['/terms', dateEn], ['/ko/privacy', dateKo], ['/ko/terms', dateKo]]) {
+    /* 세 번째 개정(You Name It PR Plugin — `lib/policy.ts` PR_POSTED · PR_EFFECTIVE · PR_IN_FORCE): PR_IN_FORCE 가 false 면 *고지 단계* —
+       약관·방침·환불 현재 판 셋 위에 띠(시행일 + 게시일)가 있고 `/…/upcoming` 이 있으며 noindex 다. 시행일 ≥ 게시일 + 7일(약관 제4조 ②).
+       true 면 현재 판이 개정본이고(시행일을 말한다), 시행일 전 배포를 `--release` 가 막는다. 고지·시행 어느 쪽도 아닌 문서에 띠·예정본이 남으면 죽은 링크다. */
+    const psrc = read(path.join(process.cwd(), 'lib/policy.ts'));
+    /* `export const` 로 묶는다 — 머리 주석이 "PR_IN_FORCE = true" 같은 절차를 글로 적고 있어서, 안 묶으면 주석을 읽는다. */
+    const prPosted = psrc.match(/export const PR_POSTED\s*=\s*'(\d{4}-\d{2}-\d{2})'/)?.[1];
+    const prEff = psrc.match(/export const PR_EFFECTIVE\s*=\s*'(\d{4}-\d{2}-\d{2})'/)?.[1];
+    const prForce = psrc.match(/export const PR_IN_FORCE(?::\s*boolean)?\s*=\s*(true|false)/)?.[1];
+    if (!prPosted || !prEff || !prForce) fail.push('[policy] lib/policy.ts 에서 PR_POSTED / PR_EFFECTIVE / PR_IN_FORCE 를 못 읽었다');
+    const prNotice = prForce === 'false';
+    const prInForce = prForce === 'true';
+    const f0 = fail.length;
+    for (const [u, d] of [['/privacy', dateEn], ['/terms', dateEn], ['/refund', null], ['/ko/privacy', dateKo], ['/ko/terms', dateKo], ['/ko/refund', null]]) {
+      const lang = u.startsWith('/ko') ? 'ko' : 'en';
       const cur = html(u + '.html');
-      const hasBand = cur.includes(`href="${u}/upcoming"`), hasUp = !!html(u + '/upcoming.html');
-      if (notice && u.endsWith('/privacy')) {
-        if (!hasBand) fail.push(`[policy] ${u} 에 개정 예정 띠(→ ${u}/upcoming)가 없다 — 고지 단계(ANALYTICS_EFFECTIVE 있음, GTM_ID 빔)인데 방문자에게 개정을 알리지 않는다`);
+      const up = html(u + '/upcoming.html');
+      const hasBand = cur.includes(`href="${u}/upcoming"`), hasUp = !!up;
+      const analyticsHere = notice && u.endsWith('/privacy');
+      if (analyticsHere || prNotice) {
+        if (!hasBand) fail.push(`[policy] ${u} 에 개정 예정 띠(→ ${u}/upcoming)가 없다 — 고지 단계인데 방문자에게 개정을 알리지 않는다`);
         if (!hasUp) fail.push(`[policy] ${u}/upcoming 이 없다 — 띠가 잇는 개정 예정본`);
-        const da = humanA(u.startsWith('/ko') ? 'ko' : 'en');
+        else if (!/<meta[^>]*name="robots"[^>]*content="[^"]*noindex/.test(up)) fail.push(`[policy] ${u}/upcoming 이 noindex 가 아니다`);
+        const da = analyticsHere ? humanIso(effA, lang) : null;
         if (da && !cur.includes(da)) fail.push(`[policy] ${u} 의 개정 예정 띠에 시행일 "${da}"(ANALYTICS_EFFECTIVE)가 없다`);
-      } else if (hasBand || hasUp) fail.push(`[policy] ${u} 에 고지 띠·시행 예정본이 남았다 — 새 방침이 현재 판이 되면 같이 지운다`);
-      if (!cur.includes(d)) fail.push(`[policy] ${u} 에 시행일 "${d}"(lib/policy.ts)가 없다`);
+        if (prNotice) {
+          const dp = humanIso(prEff, lang), dq = humanIso(prPosted, lang);
+          if (dp && dq && !(cur.includes(dp) && cur.includes(dq))) fail.push(`[policy] ${u} 의 개정 예정 띠에 PR 시행일 "${dp}"·게시일 "${dq}"(PR_EFFECTIVE · PR_POSTED)가 없다`);
+          if (dp && hasUp && !up.includes(dp)) fail.push(`[policy] ${u}/upcoming 이 PR 시행일 "${dp}" 를 말하지 않는다`);
+        }
+      } else if (hasBand || hasUp) fail.push(`[policy] ${u} 에 고지 띠·시행 예정본이 남았다 — 개정이 시행되면 같이 지운다`);
+      if (prInForce) {
+        const dp = humanIso(prEff, lang);
+        if (dp && !cur.includes(dp)) fail.push(`[policy] ${u} 에 PR 시행일 "${dp}" 가 없다 — PR_IN_FORCE 인데 현재 판이 개정본이 아니다`);
+      }
+      if (d && !cur.includes(d)) fail.push(`[policy] ${u} 에 시행일 "${d}"(lib/policy.ts)가 없다`);
     }
+    const sitemap = fs.existsSync(path.join(OUT, 'sitemap.xml')) ? read(path.join(OUT, 'sitemap.xml')) : '';
+    if (/\/(terms|privacy|refund)\/upcoming/.test(sitemap)) fail.push('[policy] sitemap.xml 에 /…/upcoming 이 있다 — 시행 예정본은 색인 대상이 아니다');
+    if (prPosted && prEff) {
+      const minEff = new Date(Date.parse(prPosted) + 7 * 86400e3).toISOString().slice(0, 10);
+      if (prEff < minEff) fail.push(`[policy] PR_EFFECTIVE(${prEff})가 PR_POSTED(${prPosted}) + 7일(${minEff})보다 이르다 — 약관 제4조 ②·방침 제16조의 7일 고지가 모자란다`);
+      if (prNotice && release && today > prPosted) warn.push(`[policy] 오늘(${today} KST)은 PR 고지 게시일(${prPosted}) 뒤다 — 고지가 처음 뜨는 배포라면 PR_POSTED 를 오늘로, PR_EFFECTIVE 를 오늘 + 7일 이후로 민다(이미 떠 있으면 무시)`);
+      if (prNotice && today >= prEff) warn.push(`[policy] 오늘(${today} KST)은 PR 시행일(${prEff}) 이후다 — PR_IN_FORCE 를 true 로 바꾸고, 걸린 개정이 없어진 문서의 /…/upcoming 을 지울 차례`);
+      if (prInForce && today < prEff) (release ? fail : warn).push(`[policy] 오늘(${today} KST)은 PR 시행일(${prEff}) 전이다 — PR 조항이 현재 판인 이 빌드는 시행일 전에 배포하지 마라. 먼저 고지 판(PR_IN_FORCE = false)을 낸다`);
+    }
+    if (fail.length === f0 && prNotice) ok.push(`[policy] PR 개정 고지 단계 — 게시 ${prPosted} · 시행 ${prEff} · 약관·방침·환불 현재 판 위 띠 + /…/upcoming(noindex)`);
     if (today < iso) (release ? fail : warn).push(`[policy] 오늘(${today} KST)은 시행일(${iso}) 전이다 — 새 방침이 현재 판인 이 빌드는 시행일 전에 배포하지 마라(이메일 폼이 시행 전 개인정보를 받는다). 먼저 고지 판(policy-notice)을 낸다`);
     if (!fail.some((f) => f.startsWith('[policy]')) && today >= iso) ok.push(`[policy] 시행 ${iso} 이후 — 새 방침이 현재 판`);
   }
