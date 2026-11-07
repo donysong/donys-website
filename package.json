@@ -7,6 +7,7 @@
     "test:docs": "node --test tools/usageMd.test.mjs",
     "test:fn": "node --test tools/functions.test.mjs",
     "test:analytics": "node --test tools/analytics.test.mjs",
+    "test:pr": "node --test tools/pr.test.mjs",
     "gtm": "node tools/gtmContainer.mjs",
     "dev": "node tools/syncFonts.mjs && next dev --turbopack",
     "build": "node tools/syncFonts.mjs && node tools/build-docs-data.mjs && next build",
