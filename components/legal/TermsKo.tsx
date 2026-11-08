@@ -1,11 +1,9 @@
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
-import PolicyNotice from '@/components/PolicyNotice';
 import { BUSINESS, FTC_BIZ_URL, PORTAL_URL, PR, PRICE } from '@/lib/product';
-import { human, policyDate, prDate, prPostedDate, prText } from '@/lib/policy';
+import { human, policyDate, prDate, prPostedDate } from '@/lib/policy';
 
-/* 약관 본문 — `/ko/terms`(현재 판)와 `/ko/terms/upcoming`(개정 예정본)이 **같은 본문**을 그린다(복사본은 갈라진다).
-   `pr`(= You Name It PR Plugin 조항을 싣는가)가 거짓이면 10-23 판 그대로다 — 고지 단계의 현재 판. 참이면 개정본이다.
-   PR 조항 초안 = PR 플러그인 repo `gtm/legal/terms-additions.md`(⚖️ 전문가 검토 전). `{pr ? 새 : 옛}` 의 옛 갈래는 시행 뒤 지운다(`lib/policy.ts`). */
+/* 약관 본문 — `/ko/terms`. You Name It PR Plugin 조항은 2026-11-14 시행(`lib/policy.ts` 의 `PR_EFFECTIVE`) — 그 전 판(10-23)은 git 이력(162faa2)에 있다.
+   PR 조항 초안 = PR 플러그인 repo `gtm/legal/terms-additions.md`(⚖️ 전문가 검토 전). */
 
 /* 🔴 2026-09-30 오너 *"법조인 롤로 직접 작성"* — 조항마다 근거가 있다. 정본 검토서 = 플러그인 repo `donys/docs/LEGAL_KR_REVIEW.md`(비공개 — 이 repo 는 공개다)
    (쟁점 번호 A·B·C·D). 조항을 고치기 전에 그 표의 해당 줄부터 봐라. 영문판(`components/legal/TermsEn.tsx`)은 **같은 20개 조**다 —
@@ -28,8 +26,7 @@ function Mail() {
   );
 }
 
-export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
-  const pr = prText(view);
+export default function TermsKo() {
   const delivery = (
     <>
       결제가 끝나면 라이선스 키와 설치 파일을 바로 제공합니다. 키와 설치 파일은 구매하신 이메일로 로그인하는{' '}
@@ -42,52 +39,35 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
   return (
     <ReadingShell lang="ko" plate="s.ft.terms">
       <header className="max-w-3xl">
-        <p className="lab">{pr ? 'You Name It' : 'You Name It AE Plugin'}</p>
+        <p className="lab">You Name It</p>
         <InkTitle>이용약관</InkTitle>
-        <p className="text-sm">시행일: {pr ? prDate('ko') : policyDate('ko')}</p>
+        <p className="text-sm">시행일: {prDate('ko')}</p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
-        {/* 고지 단계: 현재 판 위에는 개정 예정 띠, 예정본 위에는 현재 판으로 가는 띠. 시행 뒤에는 띠가 없다. */}
-        <PolicyNotice lang="ko" doc="terms" view={view} />
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
             <h2 className={H2}>제1조(목적)</h2>
-            {pr ? (
-              <p>
-                이 약관은 {BUSINESS.name.ko}({BUSINESS.name.en}, 이하 &quot;저희&quot;)이 만들어 파는 You Name It AE Plugin 과 You
-                Name It PR Plugin(각각 또는 함께 이하 &quot;제품&quot;)을 고객이 구매하거나 내려받아 이용할 때 저희와 고객 사이의
-                권리·의무와 책임을 정합니다.
-              </p>
-            ) : (
-              <p>
-                이 약관은 {BUSINESS.name.ko}({BUSINESS.name.en}, 이하 &quot;저희&quot;)이 만들어 파는 You Name It AE
-                Plugin(이하 &quot;제품&quot;)을 고객이 구매하고 이용할 때 저희와 고객 사이의 권리·의무와 책임을 정합니다.
-              </p>
-            )}
+            <p>
+              이 약관은 {BUSINESS.name.ko}({BUSINESS.name.en}, 이하 &quot;저희&quot;)이 만들어 파는 You Name It AE Plugin 과 You
+              Name It PR Plugin(각각 또는 함께 이하 &quot;제품&quot;)을 고객이 구매하거나 내려받아 이용할 때 저희와 고객 사이의
+              권리·의무와 책임을 정합니다.
+            </p>
           </section>
 
           <section>
             <h2 className={H2}>제2조(정의)</h2>
             <ol className={OL}>
-              {pr
-                ? <li>&quot;제품&quot;이란 Adobe After Effects 용 확장 프로그램인 You Name It AE Plugin, Adobe Premiere Pro 용 확장 프로그램과 동반 플러그인으로 이루어진 You Name It PR Plugin, 그리고 그 업데이트와 함께 제공하는 프리셋·스크립트·스타일 프리셋·문서를 말합니다.</li>
-                : <li>&quot;제품&quot;이란 Adobe After Effects 용 확장 프로그램인 You Name It AE Plugin 과 그 업데이트, 함께 제공하는 프리셋·스크립트·문서를 말합니다.</li>}
+              <li>&quot;제품&quot;이란 Adobe After Effects 용 확장 프로그램인 You Name It AE Plugin, Adobe Premiere Pro 용 확장 프로그램과 동반 플러그인으로 이루어진 You Name It PR Plugin, 그리고 그 업데이트와 함께 제공하는 프리셋·스크립트·스타일 프리셋·문서를 말합니다.</li>
               <li>&quot;고객&quot;이란 이 약관에 따라 제품을 구매했거나 이용하는 분을 말합니다.</li>
               <li>&quot;라이선스 키&quot;란 구매하시면 발급되어 제품을 활성화하는 데 쓰는 고유 문자열을 말합니다.</li>
               <li>&quot;판매 대행자&quot;란 저희를 대신해 결제를 받고 세금을 처리하는 Polar Software Inc.(이하 &quot;Polar&quot;)를 말합니다.</li>
-              {pr
-                ? <li>&quot;작업물&quot;이란 고객이 제품을 이용해 만든 레이어·키프레임·익스프레션·시퀀스·클립·자막·마커·렌더 결과물·프로젝트 파일을 말합니다.</li>
-                : <li>&quot;작업물&quot;이란 고객이 제품을 이용해 만든 레이어·키프레임·익스프레션·렌더 결과물·프로젝트 파일을 말합니다.</li>}
-              {pr ? (
-                <>
-                  <li>&quot;무료판&quot;이란 PR Plugin 가운데 라이선스 키 없이 이용하는 기능, 곧 PR Plugin 의 무료 버전(제3조의2)을 말합니다. 무료판은 Polar 의 무료 상품으로 내려받습니다.</li>
-                  <li>&quot;Pro&quot;란 PR Plugin 가운데 라이선스 키로 여는 기능을 말합니다.</li>
-                  <li>&quot;번들&quot;이란 AE Plugin 과 PR Plugin Pro 를 함께 파는 상품을 말합니다.</li>
-                  <li>&quot;사전예약&quot;이란 제14조의2에 따라 Pro 기능이 열리기 전에 Pro 를 구매하는 것을 말합니다.</li>
-                  <li>&quot;보조 프로그램&quot;이란 제품의 일부 기능이 처음 필요할 때 공식 배포처에서 고객 컴퓨터로 내려받는 제3자 프로그램(예: ffmpeg)을 말합니다. 보조 프로그램은 제품에 포함되지 않으며 각 프로그램의 라이선스를 따릅니다.</li>
-                </>
-              ) : null}
+              <li>&quot;작업물&quot;이란 고객이 제품을 이용해 만든 레이어·키프레임·익스프레션·시퀀스·클립·자막·마커·렌더 결과물·프로젝트 파일을 말합니다.</li>
+              <li>&quot;무료판&quot;이란 PR Plugin 가운데 라이선스 키 없이 이용하는 기능, 곧 PR Plugin 의 무료 버전(제3조의2)을 말합니다. 무료판은 Polar 의 무료 상품으로 내려받습니다.</li>
+              <li>&quot;Pro&quot;란 PR Plugin 가운데 라이선스 키로 여는 기능을 말합니다.</li>
+              <li>&quot;번들&quot;이란 AE Plugin 과 PR Plugin Pro 를 함께 파는 상품을 말합니다.</li>
+              <li>&quot;사전예약&quot;이란 제14조의2에 따라 Pro 기능이 열리기 전에 Pro 를 구매하는 것을 말합니다.</li>
+              <li>&quot;보조 프로그램&quot;이란 제품의 일부 기능이 처음 필요할 때 공식 배포처에서 고객 컴퓨터로 내려받는 제3자 프로그램(예: ffmpeg)을 말합니다. 보조 프로그램은 제품에 포함되지 않으며 각 프로그램의 라이선스를 따릅니다.</li>
             </ol>
           </section>
 
@@ -95,9 +75,7 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
             <h2 className={H2}>제3조(약관의 게시와 효력)</h2>
             <ol className={OL}>
               <li>저희는 이 약관을 웹사이트(younameit.works) 첫 화면에서 연결되는 곳에 게시하고, 고객이 요청하시면 사본을 이메일로 보내 드립니다.</li>
-              {pr
-                ? <li>이 약관은 고객이 제품을 구매하거나 무료판을 내려받는 때부터 효력이 생깁니다.</li>
-                : <li>이 약관은 고객이 제품을 구매하는 때부터 효력이 생깁니다.</li>}
+              <li>이 약관은 고객이 제품을 구매하거나 무료판을 내려받는 때부터 효력이 생깁니다.</li>
               <li>이 약관에 없는 사항은 「전자상거래 등에서의 소비자보호에 관한 법률」, 「약관의 규제에 관한 법률」 등 관계 법령과 일반적인 상관례에 따릅니다.</li>
             </ol>
           </section>
@@ -156,18 +134,11 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
           <section>
             <h2 className={H2}>제6조(구매와 결제)</h2>
             <ol className={OL}>
-              {pr ? (
-                <li>
-                  제품은 <strong>일회성 구매</strong>이며 구독이 아닙니다. AE Plugin 은 {PRICE} USD, PR Plugin Pro 는 {PR.price} USD,
-                  번들은 {PR.bundlePrice} USD 입니다. 무료판은 결제 없이 내려받습니다. 결제는 판매 대행자인 Polar 의 결제 화면에서
-                  이루어집니다.
-                </li>
-              ) : (
-                <li>
-                  제품은 {PRICE} USD 의 <strong>일회성 구매</strong>이며 구독이 아닙니다. 결제는 판매 대행자인 Polar 의 결제
-                  화면에서 이루어집니다.
-                </li>
-              )}
+              <li>
+                제품은 <strong>일회성 구매</strong>이며 구독이 아닙니다. AE Plugin 은 {PRICE} USD, PR Plugin Pro 는 {PR.price} USD,
+                번들은 {PR.bundlePrice} USD 입니다. 무료판은 결제 없이 내려받습니다. 결제는 판매 대행자인 Polar 의 결제 화면에서
+                이루어집니다.
+              </li>
               <li>
                 세금이 가격에 들어 있는지, 가격에 더해지는지는 구매하시는 지역에 따라 다릅니다. Polar 가 세금을 계산해{' '}
                 <strong>결제하시기 전에 결제 화면에 최종 금액을 보여 드립니다.</strong>
@@ -178,39 +149,31 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
                 <strong>청약철회와 환불에 대해서는 저희가 Polar 와 함께 책임을 집니다.</strong> 고객은 이 약관과 관계
                 법령에 따라 저희에게 직접 환불을 요청하실 수 있습니다.
               </li>
-              {pr ? (
-                <>
-                  <li>
-                    <strong>할인은 결제 한 번에 하나만 적용됩니다.</strong> 둘 이상의 할인에 해당하면 고객에게 더 큰 할인을 적용하며,
-                    번들에는 다른 할인을 적용하지 않습니다.
-                  </li>
-                  <li>
-                    AE Plugin 구매자에게 드리는 PR Plugin Pro 할인 코드는 AE Plugin 주문 하나에 한 번 쓸 수 있고,{' '}
-                    <strong>{human(PR.aeCouponEnd, 'ko')}까지 유효</strong>하며, 다른 사람에게 팔거나 넘길 수 없습니다. 번들에는 쓸 수
-                    없습니다.
-                  </li>
-                  <li>얼리버드 등 기간 한정 가격은 그 가격과 기간을 웹사이트와 결제 화면에 표시한 대로 적용합니다.</li>
-                  <li>
-                    제6항의 코드는 AE Plugin 구매자께서 구매하신 이메일 주소나 주문 번호(다른 판매처 aescripts 에서 구매하신 경우 그
-                    주문 메일)를 보내 요청하시면 드립니다. 광고성 정보 수신에 동의하신 구매자께는 요청 없이 이메일로 보내 드릴 수
-                    있습니다.
-                  </li>
-                </>
-              ) : null}
+              <li>
+                <strong>할인은 결제 한 번에 하나만 적용됩니다.</strong> 둘 이상의 할인에 해당하면 고객에게 더 큰 할인을 적용하며,
+                번들에는 다른 할인을 적용하지 않습니다.
+              </li>
+              <li>
+                AE Plugin 구매자에게 드리는 PR Plugin Pro 할인 코드는 AE Plugin 주문 하나에 한 번 쓸 수 있고,{' '}
+                <strong>{human(PR.aeCouponEnd, 'ko')}까지 유효</strong>하며, 다른 사람에게 팔거나 넘길 수 없습니다. 번들에는 쓸 수
+                없습니다.
+              </li>
+              <li>얼리버드 등 기간 한정 가격은 그 가격과 기간을 웹사이트와 결제 화면에 표시한 대로 적용합니다.</li>
+              <li>
+                제6항의 코드는 AE Plugin 구매자께서 구매하신 이메일 주소나 주문 번호(다른 판매처 aescripts 에서 구매하신 경우 그
+                주문 메일)를 보내 요청하시면 드립니다. 광고성 정보 수신에 동의하신 구매자께는 요청 없이 이메일로 보내 드릴 수
+                있습니다.
+              </li>
             </ol>
           </section>
 
           <section>
             <h2 className={H2}>제7조(제품의 제공)</h2>
-            {pr ? (
-              <ol className={OL}>
-                <li>{delivery}</li>
-                <li>무료판은 내려받기를 마치는 즉시 제공되며, 설치 파일은 고객 포털에서 언제든 다시 받으실 수 있습니다.</li>
-                <li>사전예약의 경우 라이선스 키는 결제가 끝나면 바로 제공하고, Pro 기능은 제14조의2에 따라 그 기능을 여는 업데이트로 제공합니다.</li>
-              </ol>
-            ) : (
-              <p>{delivery}</p>
-            )}
+            <ol className={OL}>
+              <li>{delivery}</li>
+              <li>무료판은 내려받기를 마치는 즉시 제공되며, 설치 파일은 고객 포털에서 언제든 다시 받으실 수 있습니다.</li>
+              <li>사전예약의 경우 라이선스 키는 결제가 끝나면 바로 제공하고, Pro 기능은 제14조의2에 따라 그 기능을 여는 업데이트로 제공합니다.</li>
+            </ol>
           </section>
 
           <section>
@@ -222,23 +185,19 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
               </li>
               <li>이 라이선스로 개인 작업과 상업 작업(클라이언트 작업 포함) 모두에 제품을 이용하실 수 있습니다.</li>
               <li>제품의 저작권과 그 밖의 지식재산권은 저희에게 있습니다. 라이선스는 이용할 권리이지 제품을 파는 것이 아닙니다.</li>
-              {pr ? (
-                <>
-                  <li>
-                    무료판에 대해 저희는 고객에게 개인 작업과 상업 작업 모두에 무료로 이용할 수 있는 비독점적이고 양도할 수 없는
-                    라이선스를 드립니다. 무료판은 설치하는 컴퓨터 수를 제한하지 않으며, 제10조는 무료판에도 똑같이 적용됩니다.
-                  </li>
-                  <li>
-                    번들을 구매하시면 두 플러그인을 모두 여는 번들 전용 라이선스 키 하나를 드리며, 이 키에 제1항이 적용됩니다. 한
-                    컴퓨터에서 두 플러그인을 쓰면 플러그인마다 한 번씩 활성화되므로, 번들 키의 활성화 한도는 4회(컴퓨터 2대)입니다.
-                  </li>
-                  <li>
-                    <strong>
-                      AE Plugin 의 라이선스 키로는 PR Plugin 의 Pro 를, PR Plugin 의 라이선스 키로는 AE Plugin 을 이용할 수 없습니다.
-                    </strong>
-                  </li>
-                </>
-              ) : null}
+              <li>
+                무료판에 대해 저희는 고객에게 개인 작업과 상업 작업 모두에 무료로 이용할 수 있는 비독점적이고 양도할 수 없는
+                라이선스를 드립니다. 무료판은 설치하는 컴퓨터 수를 제한하지 않으며, 제10조는 무료판에도 똑같이 적용됩니다.
+              </li>
+              <li>
+                번들을 구매하시면 두 플러그인을 모두 여는 번들 전용 라이선스 키 하나를 드리며, 이 키에 제1항이 적용됩니다. 한
+                컴퓨터에서 두 플러그인을 쓰면 플러그인마다 한 번씩 활성화되므로, 번들 키의 활성화 한도는 4회(컴퓨터 2대)입니다.
+              </li>
+              <li>
+                <strong>
+                  AE Plugin 의 라이선스 키로는 PR Plugin 의 Pro 를, PR Plugin 의 라이선스 키로는 AE Plugin 을 이용할 수 없습니다.
+                </strong>
+              </li>
             </ol>
           </section>
 
@@ -254,53 +213,45 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
                 제2조에 적었습니다.
               </li>
               <li>컴퓨터를 바꾸시면 고객 포털이나 제품 안에서 기존 컴퓨터의 활성화를 해제하고 새 컴퓨터에서 활성화하시면 됩니다.</li>
-              {pr ? (
-                <>
-                  <li>
-                    PR Plugin 의 Pro 는 마지막으로 확인에 성공한 뒤 30일이 지나도록 확인하지 못하면 잠기고, 다시 연결되어 확인을 마치면
-                    저절로 다시 열립니다. <strong>무료판 기능은 이와 관계없이 계속 이용하실 수 있습니다.</strong>
-                  </li>
-                  <li>환불되었거나 제18조에 따라 해지된 라이선스 키는 제품이 다음에 확인할 때(길어야 7일 뒤) 잠깁니다.</li>
-                </>
-              ) : null}
+              <li>
+                PR Plugin 의 Pro 는 마지막으로 확인에 성공한 뒤 30일이 지나도록 확인하지 못하면 잠기고, 다시 연결되어 확인을 마치면
+                저절로 다시 열립니다. <strong>무료판 기능은 이와 관계없이 계속 이용하실 수 있습니다.</strong>
+              </li>
+              <li>환불되었거나 제18조에 따라 해지된 라이선스 키는 제품이 다음에 확인할 때(길어야 7일 뒤) 잠깁니다.</li>
             </ol>
           </section>
 
-          {pr ? (
-            <>
-              <section>
-                <h2 className={H2}>제9조의2(편집 방식과 되돌리기)</h2>
-                <ol className={OL}>
-                  <li>
-                    PR Plugin 은 <strong>미디어 파일과 프로젝트 파일을 수정하거나 삭제하지 않도록</strong> 만들어져 있습니다. 시퀀스를
-                    크게 바꾸는 기능은 복제한 시퀀스나 새 트랙에서 작업하고, 고객이 고른 클립에 바로 적용하는 기능은 적용 전 상태를
-                    기록해 제품 안에서 되돌릴 수 있게 합니다.
-                  </li>
-                  <li>
-                    PR Plugin 은 편집을 적용하기 전에 무엇을 바꿀지 계획을 보여 드리고, <strong>고객이 승인한 것만 적용합니다.</strong>{' '}
-                    Chat 기능도 같습니다.
-                  </li>
-                  <li>PR Plugin 이 만든 결과는 Premiere Pro 안의 일반적인 클립·트랙·자막·키프레임이며, 고객은 이를 자유롭게 고치거나 지울 수 있습니다.</li>
-                  <li>Premiere Pro 자체의 오류 등으로 결과가 계획과 다를 수 있으므로, 프로젝트를 저장하고 백업해 두시기 바랍니다(제17조 제5항).</li>
-                </ol>
-              </section>
+          <section>
+            <h2 className={H2}>제9조의2(편집 방식과 되돌리기)</h2>
+            <ol className={OL}>
+              <li>
+                PR Plugin 은 <strong>미디어 파일과 프로젝트 파일을 수정하거나 삭제하지 않도록</strong> 만들어져 있습니다. 시퀀스를
+                크게 바꾸는 기능은 복제한 시퀀스나 새 트랙에서 작업하고, 고객이 고른 클립에 바로 적용하는 기능은 적용 전 상태를
+                기록해 제품 안에서 되돌릴 수 있게 합니다.
+              </li>
+              <li>
+                PR Plugin 은 편집을 적용하기 전에 무엇을 바꿀지 계획을 보여 드리고, <strong>고객이 승인한 것만 적용합니다.</strong>{' '}
+                Chat 기능도 같습니다.
+              </li>
+              <li>PR Plugin 이 만든 결과는 Premiere Pro 안의 일반적인 클립·트랙·자막·키프레임이며, 고객은 이를 자유롭게 고치거나 지울 수 있습니다.</li>
+              <li>Premiere Pro 자체의 오류 등으로 결과가 계획과 다를 수 있으므로, 프로젝트를 저장하고 백업해 두시기 바랍니다(제17조 제5항).</li>
+            </ol>
+          </section>
 
-              <section>
-                <h2 className={H2}>제9조의3(키 자동화)</h2>
-                <ol className={OL}>
-                  <li>
-                    키 자동화는 Premiere Pro 에 프로그램으로 실행할 방법이 없는 동작을 위해 PR Plugin 이 Premiere Pro 의 단축키를 대신
-                    누르는 기능입니다. <strong>기본으로 꺼져 있으며, 고객이 설정에서 직접 켰을 때만 작동합니다.</strong>
-                  </li>
-                  <li>
-                    PR Plugin 은 고객의 단축키 설정 파일을 읽기만 하고 바꾸지 않습니다. 실행 전에 Premiere Pro 가 맨 앞에 있는지
-                    확인하고, 실행 뒤에 결과를 확인하며, 확인에 실패하면 멈추고 알려 드립니다.
-                  </li>
-                  <li>macOS 에서는 손쉬운 사용 권한이 필요하며, 이 권한은 고객이 운영체제 설정에서 직접 주고 거둘 수 있습니다.</li>
-                </ol>
-              </section>
-            </>
-          ) : null}
+          <section>
+            <h2 className={H2}>제9조의3(키 자동화)</h2>
+            <ol className={OL}>
+              <li>
+                키 자동화는 Premiere Pro 에 프로그램으로 실행할 방법이 없는 동작을 위해 PR Plugin 이 Premiere Pro 의 단축키를 대신
+                누르는 기능입니다. <strong>기본으로 꺼져 있으며, 고객이 설정에서 직접 켰을 때만 작동합니다.</strong>
+              </li>
+              <li>
+                PR Plugin 은 고객의 단축키 설정 파일을 읽기만 하고 바꾸지 않습니다. 실행 전에 Premiere Pro 가 맨 앞에 있는지
+                확인하고, 실행 뒤에 결과를 확인하며, 확인에 실패하면 멈추고 알려 드립니다.
+              </li>
+              <li>macOS 에서는 손쉬운 사용 권한이 필요하며, 이 권한은 고객이 운영체제 설정에서 직접 주고 거둘 수 있습니다.</li>
+            </ol>
+          </section>
 
           <section>
             <h2 className={H2}>제10조(금지 행위)</h2>
@@ -341,30 +292,28 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
               <li>구매에는 <strong>무료 마이너 업데이트</strong>가 포함됩니다.</li>
               <li>메이저 버전 업그레이드는 할인된 가격의 추가 구매가 필요할 수 있으며, 그런 경우 미리 알려 드립니다.</li>
               <li>업데이트를 받지 않으셔도 구매하신 버전은 계속 작동합니다.</li>
-              {pr ? <li>사전예약 고객에게 Pro 기능을 여는 업데이트는 무료입니다.</li> : null}
+              <li>사전예약 고객에게 Pro 기능을 여는 업데이트는 무료입니다.</li>
             </ol>
           </section>
 
-          {pr ? (
-            <section>
-              <h2 className={H2}>제12조의2(기능의 원격 중지)</h2>
-              <ol className={OL}>
-                <li>
-                  Premiere Pro 의 업데이트나 제품의 결함 때문에 PR Plugin 의 어떤 기능이 고객의 프로젝트를 손상시킬 위험이 확인되면,
-                  저희는 업데이트 정보 파일을 통해 <strong>그 기능만</strong> 원격으로 끌 수 있습니다. 원격 중지는 기능을 끄는
-                  데에만 쓰며, 제품에 들어 있지 않은 기능을 켜는 데에는 쓰지 않습니다.
-                </li>
-                <li>기능을 끄면 제품 안에 그 사실과 이유를 표시하고, 문제를 고치는 대로 다시 켭니다.</li>
-                <li>
-                  <strong>
-                    Pro 기능이 원격 중지 때문에 30일 넘게 이용할 수 없으면, 고객은 제15조의 기간이 지났더라도 환불을 요청하실 수
-                    있습니다.
-                  </strong>{' '}
-                  번들은 제15조 제6항에 따라 전체를 환불합니다.
-                </li>
-              </ol>
-            </section>
-          ) : null}
+          <section>
+            <h2 className={H2}>제12조의2(기능의 원격 중지)</h2>
+            <ol className={OL}>
+              <li>
+                Premiere Pro 의 업데이트나 제품의 결함 때문에 PR Plugin 의 어떤 기능이 고객의 프로젝트를 손상시킬 위험이 확인되면,
+                저희는 업데이트 정보 파일을 통해 <strong>그 기능만</strong> 원격으로 끌 수 있습니다. 원격 중지는 기능을 끄는
+                데에만 쓰며, 제품에 들어 있지 않은 기능을 켜는 데에는 쓰지 않습니다.
+              </li>
+              <li>기능을 끄면 제품 안에 그 사실과 이유를 표시하고, 문제를 고치는 대로 다시 켭니다.</li>
+              <li>
+                <strong>
+                  Pro 기능이 원격 중지 때문에 30일 넘게 이용할 수 없으면, 고객은 제15조의 기간이 지났더라도 환불을 요청하실 수
+                  있습니다.
+                </strong>{' '}
+                번들은 제15조 제6항에 따라 전체를 환불합니다.
+              </li>
+            </ol>
+          </section>
 
           <section>
             <h2 className={H2}>제13조(외부 서비스)</h2>
@@ -383,70 +332,62 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
                 위해 노력합니다. 이것이 저희 책임 있는 사유로 일어난 경우가 아니면 저희는 그로 인한 손해를 책임지지
                 않습니다.
               </li>
-              {pr ? (
-                <>
-                  <li>
-                    PR Plugin 의 자막 음성 인식은 고객이 본인의 ElevenLabs API 키를 넣으신 경우에만 작동하며,{' '}
-                    <strong>그 사용료는 고객이 ElevenLabs 에 직접 냅니다.</strong> 음성 인식을 위해 고객 컴퓨터에서 ElevenLabs 로
-                    보내는 정보는 개인정보 처리방침 제2조에 적었습니다.
-                  </li>
-                  <li>보조 프로그램은 제품이 공식 배포처에서 고객 컴퓨터로 내려받으며, 각 프로그램의 라이선스를 따릅니다. 저희는 보조 프로그램을 다시 배포하지 않습니다.</li>
-                  <li>설치 스크립트는 Adobe 의 설치 도구(Unified Plugin Installer Agent)를 이용하며, 그 도구에는 Adobe 의 약관이 적용됩니다.</li>
-                </>
-              ) : null}
+              <li>
+                PR Plugin 의 자막 음성 인식은 고객이 본인의 ElevenLabs API 키를 넣으신 경우에만 작동하며,{' '}
+                <strong>그 사용료는 고객이 ElevenLabs 에 직접 냅니다.</strong> 음성 인식을 위해 고객 컴퓨터에서 ElevenLabs 로
+                보내는 정보는 개인정보 처리방침 제2조에 적었습니다.
+              </li>
+              <li>보조 프로그램은 제품이 공식 배포처에서 고객 컴퓨터로 내려받으며, 각 프로그램의 라이선스를 따릅니다. 저희는 보조 프로그램을 다시 배포하지 않습니다.</li>
+              <li>설치 스크립트는 Adobe 의 설치 도구(Unified Plugin Installer Agent)를 이용하며, 그 도구에는 Adobe 의 약관이 적용됩니다.</li>
             </ol>
           </section>
 
           <section>
             <h2 className={H2}>제14조(시스템 요구 사항)</h2>
             <p>
-              {pr ? 'AE Plugin 은' : '제품은'} Windows 또는 macOS 에서 실행되는 Adobe After Effects 2022 이상이 필요합니다. Depth Pass 는 인텔 기반
+              AE Plugin 은 Windows 또는 macOS 에서 실행되는 Adobe After Effects 2022 이상이 필요합니다. Depth Pass 는 인텔 기반
               Mac 에서 실행되지 않습니다. 구매하시기 전에 요구 사항을 확인해 주세요. 요구 사항에 맞지 않는 환경에서 생긴
               문제도 제15조의 환불 기간 안이면 환불받으실 수 있습니다.
             </p>
-            {pr ? (
-              <p className="mt-2">
-                PR Plugin 은 Windows 또는 macOS 에서 실행되는 Adobe Premiere Pro {PR.minPremiere} 이상과, 설치를 위한 Adobe Creative
-                Cloud 데스크톱 앱이 필요합니다. 저희가 테스트한 운영체제와 Premiere Pro 버전은 웹사이트의 사양에 적습니다. 요구 사항에
-                맞지 않는 환경에서 생긴 문제도 제15조의 환불 기간 안이면 환불받으실 수 있습니다.
-              </p>
-            ) : null}
+            <p className="mt-2">
+              PR Plugin 은 Windows 또는 macOS 에서 실행되는 Adobe Premiere Pro {PR.minPremiere} 이상과, 설치를 위한 Adobe Creative
+              Cloud 데스크톱 앱이 필요합니다. 저희가 테스트한 운영체제와 Premiere Pro 버전은 웹사이트의 사양에 적습니다. 요구 사항에
+              맞지 않는 환경에서 생긴 문제도 제15조의 환불 기간 안이면 환불받으실 수 있습니다.
+            </p>
           </section>
 
-          {pr ? (
-            <section>
-              <h2 className={H2}>제14조의2(사전예약)</h2>
-              <ol className={OL}>
-                <li>
-                  Pro 기능이 저희가 정한 완성 기준을 통과하기 전에는, 저희는 Pro 를 사전예약으로 판매할 수 있습니다. 이 경우 판매
-                  화면과 결제 화면에{' '}
-                  <strong>사전예약이라는 사실, 지금 받으시는 것(무료판과 라이선스 키), 업데이트로 열리는 기능</strong>을 표시합니다.
-                </li>
-                <li>
-                  사전예약 고객은 결제 즉시 라이선스 키를 받고, Pro 기능은 그 기능을 여는 업데이트가 나오면 같은 키로 이용합니다.
-                  추가 요금은 없습니다.
-                </li>
-                <li>저희는 Pro 기능이 열리는 날짜를 정하면 구매하신 이메일로 알려 드립니다.</li>
-                <li>
-                  <strong>
-                    사전예약 고객은 Pro 기능이 열리기 전에는 언제든, 열린 날부터 14일 이내에는 이유를 묻지 않고 청약을 철회하고
-                    전액을 돌려받으실 수 있습니다.
-                  </strong>
-                </li>
-                <li>
-                  <strong>
-                    Pro 기능이 {human(PR.preorderDeadline, 'ko')}까지 열리지 않으면, 저희는 고객의 요청을 기다리지 않고 모든
-                    사전예약을 전액 환불합니다.
-                  </strong>{' '}
-                  이 경우 라이선스 키는 해지되고, 무료판은 계속 이용하실 수 있습니다.
-                </li>
-                <li>
-                  사전예약의 가격은 결제 화면에 표시한 얼리버드 가격({PR.earlyPrice} USD)이며, 이 가격은 Pro 기능이 열릴 때까지
-                  유지합니다. Pro 기능이 열리면 열린 날부터 {PR.openEarlyDays}일 동안 같은 가격으로 팝니다.
-                </li>
-              </ol>
-            </section>
-          ) : null}
+          <section>
+            <h2 className={H2}>제14조의2(사전예약)</h2>
+            <ol className={OL}>
+              <li>
+                Pro 기능이 저희가 정한 완성 기준을 통과하기 전에는, 저희는 Pro 를 사전예약으로 판매할 수 있습니다. 이 경우 판매
+                화면과 결제 화면에{' '}
+                <strong>사전예약이라는 사실, 지금 받으시는 것(무료판과 라이선스 키), 업데이트로 열리는 기능</strong>을 표시합니다.
+              </li>
+              <li>
+                사전예약 고객은 결제 즉시 라이선스 키를 받고, Pro 기능은 그 기능을 여는 업데이트가 나오면 같은 키로 이용합니다.
+                추가 요금은 없습니다.
+              </li>
+              <li>저희는 Pro 기능이 열리는 날짜를 정하면 구매하신 이메일로 알려 드립니다.</li>
+              <li>
+                <strong>
+                  사전예약 고객은 Pro 기능이 열리기 전에는 언제든, 열린 날부터 14일 이내에는 이유를 묻지 않고 청약을 철회하고
+                  전액을 돌려받으실 수 있습니다.
+                </strong>
+              </li>
+              <li>
+                <strong>
+                  Pro 기능이 {human(PR.preorderDeadline, 'ko')}까지 열리지 않으면, 저희는 고객의 요청을 기다리지 않고 모든
+                  사전예약을 전액 환불합니다.
+                </strong>{' '}
+                이 경우 라이선스 키는 해지되고, 무료판은 계속 이용하실 수 있습니다.
+              </li>
+              <li>
+                사전예약의 가격은 결제 화면에 표시한 얼리버드 가격({PR.earlyPrice} USD)이며, 이 가격은 Pro 기능이 열릴 때까지
+                유지합니다. Pro 기능이 열리면 열린 날부터 {PR.openEarlyDays}일 동안 같은 가격으로 팝니다.
+              </li>
+            </ol>
+          </section>
 
           <section>
             <h2 className={H2}>제15조(청약철회와 환불)</h2>
@@ -471,15 +412,11 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
                 </a>
                 에 적었습니다.
               </li>
-              {pr ? (
-                <>
-                  <li>사전예약의 청약철회는 제14조의2 제4항을 따릅니다.</li>
-                  <li>
-                    <strong>번들은 전체로만 환불하며, 한 플러그인만 따로 환불하지 않습니다.</strong> 번들을 환불하시면 번들 라이선스
-                    키가 해지되어 두 플러그인 모두에서 사용할 수 없습니다.
-                  </li>
-                </>
-              ) : null}
+              <li>사전예약의 청약철회는 제14조의2 제4항을 따릅니다.</li>
+              <li>
+                <strong>번들은 전체로만 환불하며, 한 플러그인만 따로 환불하지 않습니다.</strong> 번들을 환불하시면 번들 라이선스
+                키가 해지되어 두 플러그인 모두에서 사용할 수 없습니다.
+              </li>
             </ol>
           </section>
 
@@ -511,9 +448,7 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
                   없는 책임에는 제2항과 제3항을 적용하지 않습니다.
                 </strong>
               </li>
-              {pr
-                ? <li>After Effects 와 Premiere Pro 프로젝트는 정기적으로 저장하고 백업해 주세요.</li>
-                : <li>After Effects 프로젝트는 정기적으로 저장하고 백업해 주세요.</li>}
+              <li>After Effects 와 Premiere Pro 프로젝트는 정기적으로 저장하고 백업해 주세요.</li>
             </ol>
           </section>
 
@@ -559,18 +494,11 @@ export default function TermsKo({ view }: { view: 'current' | 'upcoming' }) {
 
           <section>
             <h2 className={H2}>부칙</h2>
-            {pr ? (
-              <p>
-                이 약관은 {prDate('ko')}부터 시행합니다({prPostedDate('ko')} 게시). {policyDate('ko')}부터 시행한 약관에 You Name It PR
-                Plugin 에 관한 내용을 더한 것으로, 제1조·제2조·제3조·제6조·제7조·제8조·제9조·제12조·제13조·제14조·제15조·제17조를
-                고치고 제9조의2·제9조의3·제12조의2·제14조의2를 새로 두었습니다.
-              </p>
-            ) : (
-              <p>
-                이 약관은 {policyDate('ko')}부터 시행합니다. 2026년 9월 30일부터 시행한 약관에 제3조의2(무료 버전)를 더한 것이고, 그 밖의
-                조항은 그대로입니다.
-              </p>
-            )}
+            <p>
+              이 약관은 {prDate('ko')}부터 시행합니다({prPostedDate('ko')} 게시). {policyDate('ko')}부터 시행한 약관에 You Name It PR
+              Plugin 에 관한 내용을 더한 것으로, 제1조·제2조·제3조·제6조·제7조·제8조·제9조·제12조·제13조·제14조·제15조·제17조를
+              고치고 제9조의2·제9조의3·제12조의2·제14조의2를 새로 두었습니다.
+            </p>
           </section>
 
           <section>

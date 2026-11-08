@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import RefundEn from '@/components/legal/RefundEn';
 import { share } from '@/lib/meta';
-import { PR_IN_FORCE } from '@/lib/policy';
 
-const DESCRIPTION = PR_IN_FORCE ? 'Refund Policy for the You Name It plugins.' : 'Refund Policy for You Name It AE Plugin.';
+const DESCRIPTION = 'Refund Policy for the You Name It plugins.';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/refund', languages: { en: '/refund', ko: '/ko/refund', 'x-default': '/refund' } },
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   ...share({ path: '/refund', title: 'Refund Policy — You Name It', description: DESCRIPTION, lang: 'en' }),
 };
 
-/* 본문은 `components/legal/RefundEn.tsx` — 현재 판과 개정 예정본(`./upcoming`)이 같은 본문을 그린다. */
+/* 본문은 `components/legal/RefundEn.tsx`. */
 export default function RefundPage() {
-  return <RefundEn view="current" />;
+  return <RefundEn />;
 }

@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import TermsKo from '@/components/legal/TermsKo';
 import { share } from '@/lib/meta';
-import { PR_IN_FORCE } from '@/lib/policy';
 
-const DESCRIPTION = PR_IN_FORCE ? 'You Name It 플러그인의 이용약관입니다.' : 'You Name It AE Plugin 의 이용약관입니다.';
+const DESCRIPTION = 'You Name It 플러그인의 이용약관입니다.';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/ko/terms', languages: { en: '/terms', ko: '/ko/terms', 'x-default': '/terms' } },
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   ...share({ path: '/ko/terms', title: '이용약관 — You Name It', description: DESCRIPTION, lang: 'ko' }),
 };
 
-/* 본문은 `components/legal/TermsKo.tsx` — 현재 판과 개정 예정본(`./upcoming`)이 같은 본문을 그린다. */
+/* 본문은 `components/legal/TermsKo.tsx`. */
 export default function TermsKoPage() {
-  return <TermsKo view="current" />;
+  return <TermsKo />;
 }
