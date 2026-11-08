@@ -102,6 +102,12 @@ const BANNED = [
   ['TODO', '자리표시자'],
 ];
 
+/* Published license text the notices pages must carry verbatim: a GitHub user name with "112" in it and an author's
+   address in the `ws` MIT copyright line. Only these exact strings, only on those two pages, are taken out before
+   [banned] and [pii] read the page; any other "112" or Gmail there still fails (owner, 2026-11-08). */
+const THIRD_PARTY_TEXT = ['muhwagwa0112', 'einaros@gmail.com'];
+const scrubNotices = (r, s) => (NOTICES_PAGES.includes(r) ? THIRD_PARTY_TEXT.reduce((o, w) => o.split(w).join(''), s) : s);
+
 for (const p of pages) {
   const r = rel(p);
   const html = read(p);
@@ -111,7 +117,7 @@ for (const p of pages) {
   const isKo = r === '/ko.html' || r.startsWith('/ko/');
 
   for (const [w, why] of BANNED) {
-    if (body.includes(w)) fail.push(`[banned] ${r} 에 "${w}" (${why})`);
+    if (scrubNotices(r, body).includes(w)) fail.push(`[banned] ${r} 에 "${w}" (${why})`);
   }
 
   if (isProduct) {
@@ -152,7 +158,7 @@ for (const p of pages) {
     if (MAIL_ORDER && !ftcLink) fail.push(`[biz] ${r} 에 공정위 사업자정보 확인 링크가 없다(신고번호 있음)`);
     if (!MAIL_ORDER && ftcLink) fail.push(`[biz] ${r} 에 공정위 확인 링크가 있다 — 신고 면제 중엔 빈 결과라 걸지 않는다`);
     if (!/mailto:support@younameit\.works/.test(html)) fail.push(`[contact] ${r} 에 지원 주소가 없다`);
-    if (/gmail\.com/i.test(html)) fail.push(`[pii] ${r} 에 개인 Gmail 이 있다`);
+    if (/gmail\.com/i.test(scrubNotices(r, html))) fail.push(`[pii] ${r} 에 개인 Gmail 이 있다`);
     /* 방문자 브라우저를 제3자 서버로 보내지 않는다 — 폰트는 자체 호스팅, 분석은 Cloudflare Web Analytics 하나(2026-09-30).
        되살아나면 개인정보 처리방침(국문 제7조 ② "다른 회사의 서버에 직접 요청하게 하지 않습니다")이 거짓이 된다. */
     const tp = html.match(/(?:src|href)="https?:\/\/(fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net|www\.googletagmanager\.com|www\.google-analytics\.com)/);

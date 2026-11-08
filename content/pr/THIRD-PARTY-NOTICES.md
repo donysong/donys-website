@@ -1,69 +1,7 @@
 # Third-party notices - You Name It PR Plugin
 
-This file lists third-party material that ships in the You Name It PR extension (`.zxp`) and the
-MCP server bundle, with the notices their licenses require (PRD §8, Appendix B).
-
-It was assembled at the W1 integration merge (2026-10-09) from:
-
-- the lane notice files: `src/mcp/NOTICE.md` (L3), `src/styles/fonts/OFL.txt` (L0d, bundled font);
-- the npm packages that esbuild actually pulls into the shipped bundles (`dist/assets/*.js` for
-  the four panels, `dist/node/mcp.js` for the MCP server), with each package's own LICENSE file
-  copied verbatim from `node_modules`.
-
-Updated at the W2-A integration merge (2026-10-09): `chokidar` and `readdirp` are now bundled into
-`dist/node/watchfolder.js` (P5 watch folder, Background extension); the "Powered By GIPHY" mark
-ships with the asset search (section 5). No lane added a NOTICE file in this merge; `src/mcp/NOTICE.md`
-is unchanged.
-
-Updated 2026-10-10 (owner ruling R5): the MCP server ships inside the plugin as `dist/node/mcp.js`
-(Background extension, Streamable HTTP) with the same packages; the stdio `dist/mcp-server.js` is
-built for development only and is not part of a release build.
-
-Updated at the W2.5 Pro toolkit integration merge (2026-10-10, L7 FX Console / Wiggle / Speed
-ramp / Noise removal, L8 Key automation / Nest / Unnest / Face Track / Project collect):
-`es-hangul` is now bundled (FX Console search, section 3); the face-api tiny face detector weights
-ship with Face Track (section 6, lane file `src/features/facetrack/models/NOTICE.txt`); the RNNoise
-model is downloaded at first use from upstream, never redistributed (section 4).
-
-Updated 2026-10-10 (Foundation wave): `@vladmandic/face-api` 1.7.15 (MIT) is now a dependency and
-ships as the lazy Face Track detector chunk (section 3; it bundles TensorFlow.js, see there). Owner
-ruling: the FX Console no longer ships a pre-built effect-name map - the ko/en map is built only
-from the user's installed Premiere at runtime - so the former section 7 (Adobe Premiere Pro effect
-names) is removed.
-
-Updated 2026-10-12 (W3-C fix wave): the Apache-2.0 license text of TensorFlow.js 4.22.0 (bundled in
-the Face Track chunk) is now included verbatim in section 3; the release guard refuses a build
-that ships the Face Track chunk without it (`scripts/release/release-guards.mjs`, guard 5b). The
-ffmpeg pins of section 4 (`src/media/pins.json`) now carry sha256 values for Windows and macOS
-arm64; the macOS x64 entries are not pinned yet (their host rate-limited the download).
-
-Updated 2026-11-08 (release candidate 1.0.0): `ws` 8.22.0 (MIT) is bundled into `dist/node/uxp.js`
-(the Background's local WebSocket server for the UXP companion link) and is now listed in
-section 3; the release guard refuses a build whose Node bundles carry ws without a `ws` row
-(guard 5c).
-
-License texts in this file are copied from those sources, never typed by hand. The lane files stay
-next to the code they cover and remain the source; update them first, then this file.
-
-Open items (L0, PLAN §2-2 ownership; see the L9 draft `gtm/legal/third-party-notices.md`):
-
-1. A build-time generator (port of the AE plugin's `genThirdPartyNotices.mjs`) that rewrites this
-   list from `node_modules` on every build, plus a lint that fails when they disagree.
-2. ~~Ship this file inside the extension folder.~~ Done in W1.5 (2026-10-09): the build copies this
-   file to `dist/THIRD-PARTY-NOTICES.md` and `src/styles/fonts/OFL.txt` to
-   `dist/licenses/Pretendard-OFL.txt` (`scripts/legal-files.mjs`). A release build
-   (`YNI_RELEASE=1`) fails when either is missing, and the release guard refuses a dist without
-   them (`scripts/release/release-guards.mjs`, guard 5, not overridable).
-3. ~~The in-panel "Open-source licenses" view (Main > Settings > About).~~ Done 2026-10-14: Main >
-   Settings > About > "Open-source licenses" reads `dist/THIRD-PARTY-NOTICES.md` from the extension
-   folder and shows it in the panel (license texts verbatim); if the file cannot be read it shows
-   the file's path. The same section carries the trademark notice.
-
-Not included anywhere in this product: code or long passages from midastechtalk-autocut (no
-license; logic read for reference and re-implemented), pymiere (GPL-3.0, ideas only),
-OpenCutAgent (Commons Clause, ideas only), Meta Denoiser. Code ported from the You Name It After
-Effects plugin (license layer, bridge, design system, UI components) is the owner's own work and
-needs no third-party notice.
+This file lists the third-party material that ships in the You Name It PR extension and the
+notices their licenses require. License texts are copied verbatim from their sources, never retyped.
 
 ## Contents
 
@@ -80,7 +18,7 @@ needs no third-party notice.
 ships next to it as `dist/licenses/Pretendard-OFL.txt` (OFL-1.1 condition 2).
 Source: <https://github.com/orioncactus/pretendard>.
 
-Also bundled, for the short-form caption renderer (libass `fontsdir`, owner ruling 2026-10-14):
+Also bundled, for the short-form caption renderer (libass `fontsdir`):
 two static weights of the same font, unmodified, `assets/captions/fonts/*.otf` ->
 `dist/assets/captions/fonts/` (`scripts/captions-assets.mjs`), under the same license. Pretendard
 1.3.9 (font version 1.309), taken from the upstream release archive
@@ -196,13 +134,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 ## 2. Ported or adapted source code - MCP server (`src/mcp/**`)
 
-Merged from `src/mcp/NOTICE.md` (L3 AI Chat):
-
-### Third-party notices - `src/mcp/**` (L3 AI Chat MCP core)
-
-Integration merges this file into the product credits (PRD Appendix B). Nothing here comes from
-pymiere (GPL-3.0) or OpenCutAgent (MIT + Commons Clause); the PR-MCP file-polling bridge and its
-`unnest_sequence` are not used.
+### `src/mcp/**` (AI Chat MCP server)
 
 #### muhwagwa0112/premiere-pro-full-mcp - MIT
 
@@ -744,7 +676,7 @@ text follows here.
 
 <https://github.com/tensorflow/tfjs> - Copyright Google LLC.
 
-Source of the text below (W3-C, 2026-10-12): the published `@tensorflow/tfjs-core` 4.22.0 npm
+Source of the text below: the published `@tensorflow/tfjs-core` 4.22.0 npm
 package declares `"license": "Apache-2.0"` but contains no LICENSE file (checked in the registry
 tarball, integrity `sha512-LEkOyzbk…FW55A==`), so the text is copied verbatim from the
 `LICENSE` file of the tensorflow/tfjs repository at the release tag `tfjs-v4.22.0`
@@ -985,7 +917,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## 4. Downloaded at first use, not redistributed - FFmpeg / ffprobe, RNNoise model
 
-The plugin never bundles or re-hosts FFmpeg (PRD §6-8). On first use it downloads an official
+The plugin never bundles or re-hosts FFmpeg. On first use it downloads an official
 upstream build, checks its pinned sha256 (`src/media/pins.json`) and runs it as a separate
 program. Pinned download hosts at this commit: `evermeet.cx`, `ffmpeg.martin-riedl.de`, `github.com`.
 
@@ -999,12 +931,11 @@ Pinned builds (FFmpeg 8.1.1, GPL builds; sha256 values in `src/media/pins.json`)
 
 FFmpeg is licensed under the LGPL-2.1-or-later, or the GPL-2.0-or-later / GPL-3.0-or-later for
 builds that enable GPL components; the license of each pinned build follows its upstream
-configuration. Source and license: <https://ffmpeg.org/legal.html>. Confirming the exact license of
-each pinned build is an open item (marked for professional review in the L9 draft).
+configuration. Source and license: <https://ffmpeg.org/legal.html>.
 
 ### RNNoise model `sh.rnnn` (Noise removal)
 
-Noise removal (Main > Tools, PRD §6-5) runs FFmpeg's `arnndn` filter with the RNNoise model
+Noise removal (Main > Tools) runs FFmpeg's `arnndn` filter with the RNNoise model
 "somnolent-hogwash" from GregorR/rnnoise-models. The plugin does not bundle or re-host it: on first
 use it downloads the file straight from upstream, pinned by commit and sha256
 (`src/features/denoise/model.ts`), and discards it on a checksum mismatch.
@@ -1025,10 +956,9 @@ credits in the UI and in `<data folder>/assets/credits.json`.
 
 ## 6. Bundled model weights - face-api tiny face detector (MIT)
 
-Face Track (Main > Tools, PRD §6-5) ships the tiny face detector weights in
+Face Track (Main > Tools) ships the tiny face detector weights in
 `src/features/facetrack/models/` (the `.bin` is emitted as `dist/assets/tiny_face_detector_model-*.bin`,
-the manifest is inlined into the Main panel bundle). Lane
-file: `src/features/facetrack/models/NOTICE.txt`.
+the manifest is inlined into the Main panel bundle).
 
 ```text
 Files (sha256 as published in the npm package; the manifest with LF line endings)
@@ -1040,8 +970,6 @@ Copied from the You Name It AE plugin (`models/face-tiny/`), which took them unc
 package `@vladmandic/face-api` 1.7.15 (`model/`). The weights were trained and published by the
 face-api.js project (justadudewhohacks/face-api.js); `@vladmandic/face-api` is its maintained fork.
 The `@vladmandic/face-api` library itself is listed in section 3 (with what its bundle includes).
-The hashes above are pinned by `src/features/facetrack/models/modelNotice.test.ts` (lane NOTICE,
-this section and the package's own model files must agree).
 
 ```text
 Copyright (c) 2018 Vincent Mühler (face-api.js)
