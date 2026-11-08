@@ -227,10 +227,11 @@ export const PR_FEATURES = prRows([
 export type PrFeature = (typeof PR_FEATURES)[number]['id'];
 
 /* Legal links — the PR additions go onto the **existing** three pages (PR repo `gtm/legal/README.md`), so the paths stay.
-   `notices` = third-party license notices page (PRD §8). 🔴 Not there yet — empty = no link and deployCheck `[pr]` fails. */
+   `notices` = third-party license notices page (PRD §8): `/pr/notices` · `/ko/pr/notices`, the plugin's THIRD-PARTY-NOTICES.md
+   (`lib/notices.ts` says where the copy lives and when to re-copy it). Empty = no link, and deployCheck `[pr]` fails. */
 export const PR_LEGAL = {
   terms: '/terms',
   privacy: '/privacy',
   refund: '/refund',
-  notices: '',
+  notices: '/pr/notices',
 } as const;

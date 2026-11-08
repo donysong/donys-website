@@ -119,3 +119,46 @@ test('every placeholder is filled except {names} (components fill it)', () => {
     }
   }
 });
+
+/* ── third-party notices (`/pr/notices`, PRD §8) ─────────────────────────────────────────────────────────────────────
+   The page draws the plugin's THIRD-PARTY-NOTICES.md (`content/pr/`, a byte-for-byte copy — `lib/notices.ts`). What matters is that
+   a license text reaches the page unchanged, so the fenced blocks are compared with an independent extraction, and the reader
+   must throw on what it does not understand instead of drawing it wrong. */
+const { parseNotices, loadPrNotices, PR_NOTICES_FILE } = await import('../lib/notices.ts');
+const { PR_LEGAL } = await import('../lib/product.ts');
+
+test('notices: the reader keeps fenced text exactly and splits the rest', () => {
+  const md = ['# T', '', 'Intro `a` line', 'wrapped.', '', '- one', '  more', '- two', '', '1. x', '', '| A | B |', '|---|---|', '| 1 | `2` |', '',
+    '```text', '  indented, trailing space ', '', '{braces} <tag> & "quote" ~~x~~', '```', 'after'].join('\r\n');
+  assert.deepEqual(parseNotices(md), [
+    { kind: 'heading', level: 1, text: 'T' },
+    { kind: 'para', text: 'Intro `a` line wrapped.' },
+    { kind: 'list', ordered: false, items: ['one more', 'two'] },
+    { kind: 'list', ordered: true, items: ['x'] },
+    { kind: 'table', head: ['A', 'B'], rows: [['1', '`2`']] },
+    { kind: 'code', text: '  indented, trailing space \n\n{braces} <tag> & "quote" ~~x~~' },
+    { kind: 'para', text: 'after' },
+  ]);
+});
+
+test('notices: what the reader does not understand throws', () => {
+  assert.throws(() => parseNotices('```\nnever closed'), /never closed/);
+  assert.throws(() => parseNotices('| A | B |\n|---|---|\n| 1 |'), /cells/);
+  assert.throws(() => parseNotices('text\n- list inside a paragraph'), /inside a paragraph/);
+  assert.throws(() => parseNotices('- a\n1. b'), /bulleted and numbered/);
+});
+
+test('notices: every fenced license block of the shipped copy reaches the reader unchanged', () => {
+  const src = fs.readFileSync(path.join(ROOT, PR_NOTICES_FILE), 'utf8').replace(/\r\n?/g, '\n');
+  const fenced = [...src.matchAll(/^```[^\n]*\n([\s\S]*?)\n```$/gm)].map((m) => m[1]);
+  const read = loadPrNotices().filter((b) => b.kind === 'code').map((b) => b.text);
+  assert.ok(fenced.length >= 10, 'the copy carries its license texts');
+  assert.deepEqual(read, fenced);
+  assert.ok(read.some((x) => x.includes('Apache License')) && read.some((x) => x.includes('SIL OPEN FONT LICENSE')) && read.some((x) => x.includes('MIT License')));
+});
+
+test('notices: PR_LEGAL.notices names a page that exists in both locales', () => {
+  assert.match(PR_LEGAL.notices, /^\/[a-z/-]+$/);
+  assert.ok(fs.existsSync(path.join(ROOT, 'app/(en)' + PR_LEGAL.notices, 'page.tsx')));
+  assert.ok(fs.existsSync(path.join(ROOT, 'app/(ko)/ko' + PR_LEGAL.notices, 'page.tsx')));
+});

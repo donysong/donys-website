@@ -165,6 +165,8 @@ const PR_COPY: Dict = {
     'pr.price.tax': 'Tax depends on your country and is shown at checkout. Checkout is handled by Polar.',
     'pr.price.ai': 'Not in the price: once Pro opens, Chat runs on your own Claude or ChatGPT plan, and captions on your own ElevenLabs key. We don’t charge for either.',
     'pr.legal.notices': 'Third-party notices',
+    'pr.notices.desc': 'The open-source software and other third-party material that ships in the You Name It PR Plugin, with the notices their licenses require.',
+    'pr.notices.intro': 'This is the notices file that ships inside the plugin. The license texts are reproduced exactly as their authors published them, in English.',
 
     /* ── 05 Pre-order ───────────────────────────────────────── */
     'prp.h': 'How the pre-order works',
@@ -490,6 +492,8 @@ const PR_COPY: Dict = {
     'pr.price.tax': '세금은 나라마다 달라서 결제 화면에 나와요. 결제는 Polar가 처리해요.',
     'pr.price.ai': '가격에 안 들어 있는 것: Pro가 열리면 Chat은 본인의 Claude나 ChatGPT 구독으로, 자막은 본인의 ElevenLabs 키로 돌아가요. 둘 다 우리가 따로 받지 않아요.',
     'pr.legal.notices': '오픈소스 라이선스 고지',
+    'pr.notices.desc': 'You Name It PR Plugin 에 들어 있는 오픈소스 소프트웨어와 그 밖의 제3자 자료, 그리고 각 라이선스가 요구하는 고지입니다.',
+    'pr.notices.intro': '플러그인 안에 들어 있는 고지 파일과 같은 내용입니다. 라이선스 원문은 저자가 공개한 그대로 영어로 싣습니다.',
 
     /* ── 05 사전예약 ─────────────────────────────────────────── */
     'prp.h': '사전예약은 이렇게 해요',

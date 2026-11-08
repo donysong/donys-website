@@ -96,7 +96,7 @@ export const KO_PREFIX = '/ko';
    법 3장(`/terms` `/privacy` `/refund`)도 이제 국문판이 있다 — 2026-09-30 오너가 사업자 등록(09-22) 뒤 구 "영문 전용"(09-19)을
    다시 열었다(개인정보 처리방침은 국문 독자가 읽을 수 있어야 한다). 푸터 링크가 이 함수를 타고, deployCheck `[legal]` 이
    국문 면에선 `/ko/…` 를 요구한다. 앵커(`#…`)·외부 주소·`mailto:` 는 그대로 둔다 — 앵커를 여기 통과시키면 `/ko#who` 가 된다. */
-const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter', '/download', '/pr'];
+const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter', '/download', '/pr', '/pr/notices'];
 export function useHref() {
   const { lang, locked } = useLang();
   return (p: string) => {
