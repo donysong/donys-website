@@ -176,7 +176,7 @@ export const PR = {
   checkoutFree: 'https://buy.polar.sh/polar_cl_bEiq2i8tdwneJHwg1ziLo4vm9ivA1qXWoEppG37fX6n',
   checkoutPro: 'https://buy.polar.sh/polar_cl_TLpmGgP3luqCCFROg32FhyT3020MbhXPKblle4FIHYN',
   checkoutBundle: 'https://buy.polar.sh/polar_cl_9aU6PT1I0uE2NL6ukNCdcsdSGkmANGq7TT9fg2Acf5c',
-  /* UXP companion (`.ccx`). Ships in v1.0 but is unmeasured (owner, 2026-11-07) → the page does not mention it.
+  /* UXP companion (`.ccx`). The default 1.0.0 release ships none (no `.ccx` in the installer zip) → the page does not mention it.
      Flip to true only after D2 and the clean install (D20) confirm it; the `.ccx` install lines come back with it. */
   companion: false,
   /* The day `PR_FEATURES[].state` was copied from the release registry (KST). Empty → deployCheck `[pr]` fails.

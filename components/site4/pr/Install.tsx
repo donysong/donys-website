@@ -7,7 +7,7 @@
 
    🔴 Lines not yet confirmed on a clean PC (D20) — check them before release:
      win.li3     the actual warning text and button name
-     first.li1   the KO menu names (Korean Premiere: 창 ▸ 확장)
+     first.li1   the KO menu names (Korean Premiere: 창 ▸ 확장명)
      update.li2  whether the CEP extension shows in Creative Cloud's plugin list
    `PR.companion = false` → the `.ccx` lines (win.li4 · win.li5 · manual.li2 · manual.li3) give way to the `*.nocx` lines. */
 import { Html, useT } from '@/components/site3p/lang';
