@@ -182,7 +182,7 @@ export const PR = {
   /* The day `PR_FEATURES[].state` was copied from the release registry (KST). Empty → deployCheck `[pr]` fails.
      Gate day (11/09 night): PR repo `node gtm/tools/check-gtm.mjs --claims --registry <release>/src/features/registry.ts`
      → set each `state` below → set this to that day. */
-  featuresFrozenOn: '2026-11-08',
+  featuresFrozenOn: '2026-11-09',
 } as const;
 
 /* 🔴 THE feature list — one row per PR repo registry id (`src/features/registry.ts`, same order = screen order).
@@ -206,8 +206,8 @@ export const PR_FEATURES = prRows([
   { id: 'autocut.filler', tier: 'pro', group: 'autocut', state: 'unbuilt', launch: false },
   { id: 'autocut.ngTakes', tier: 'pro', group: 'autocut', state: 'unbuilt', launch: false },
   { id: 'autocut.xmlFastPath', tier: 'pro', group: 'autocut', state: 'off', launch: false },
-  { id: 'captions.longform', tier: 'pro', group: 'captions', state: 'off', launch: true },
-  { id: 'captions.shortform', tier: 'pro', group: 'captions', state: 'off', launch: true },
+  { id: 'captions.longform', tier: 'pro', group: 'captions', state: 'on', launch: true },
+  { id: 'captions.shortform', tier: 'pro', group: 'captions', state: 'on', launch: true },
   { id: 'chat', tier: 'pro', group: 'chat', state: 'off', launch: true },
   { id: 'offset', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'anchor', tier: 'free', group: 'toolkit', state: 'on', launch: false },

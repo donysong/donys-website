@@ -10,7 +10,7 @@ notices their licenses require. License texts are copied verbatim from their sou
 3. npm packages bundled into the build
 4. Downloaded at first use, not redistributed - FFmpeg / ffprobe, RNNoise model
 5. Third-party marks shown in the UI - GIPHY
-6. Bundled model weights - face-api tiny face detector (MIT)
+6. Bundled model weights - face-api tiny face detector (MIT), Silero VAD (MIT)
 
 ## 1. Bundled font - Pretendard (SIL OFL 1.1)
 
@@ -242,6 +242,8 @@ but nothing shipped imports it yet.
 | `es-hangul` | 2.4.0 | MIT | panels (`dist/assets/FxConsole-*.js`, FX Console search in the FX and Main panels) |
 | `@vladmandic/face-api` | 1.7.15 | MIT | Main panel, lazy chunk (`dist/assets/face-api.esm-*.js`, Face Track detector; bundles TensorFlow.js 4.22.0, Apache-2.0) |
 | `ws` | 8.22.0 | MIT | `dist/node/uxp.js` (Background, local WebSocket server for the UXP companion link) |
+| `onnxruntime-web` | 1.31.1 | MIT | `dist/node/vad.js`, `dist/node/vad/ort-wasm-simd-threaded.wasm` (runs the speech detection model of Auto Cut on this computer) |
+| `onnxruntime-common` | 1.31.1 | MIT | `dist/node/vad.js` (part of `onnxruntime-web`) |
 
 ### react 19.3.0 (MIT)
 
@@ -915,6 +917,38 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
+### ONNX Runtime 1.31.1 (MIT)
+
+<https://github.com/microsoft/onnxruntime>
+
+The WebAssembly build statically includes third-party components. Their notices ship unchanged with
+the extension in `licenses/onnxruntime-ThirdPartyNotices.txt`, from
+<https://github.com/microsoft/onnxruntime/blob/v1.31.1/ThirdPartyNotices.txt>.
+
+```text
+MIT License
+
+Copyright (c) Microsoft Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
 ## 4. Downloaded at first use, not redistributed - FFmpeg / ffprobe, RNNoise model
 
 The plugin never bundles or re-hosts FFmpeg. On first use it downloads an official
@@ -954,7 +988,46 @@ GIPHY's API terms require for apps that display GIPHY content. It is a trademark
 attribution only, not under an open-source license. Pexels and Freesound results carry per-item
 credits in the UI and in `<data folder>/assets/credits.json`.
 
-## 6. Bundled model weights - face-api tiny face detector (MIT)
+## 6. Bundled model weights - face-api tiny face detector (MIT), Silero VAD (MIT)
+
+### Silero VAD (MIT)
+
+Auto Cut (Main > Cut) finds pauses with the Silero voice activity detector. The model file ships in
+the extension as `dist/node/vad/silero_vad.onnx` and runs on this computer; no audio leaves it.
+
+```text
+File (unchanged from the Silero VAD repository, commit bfdc0193023f121ea5b3cc7b176dbed570a68a59,
+src/silero_vad/data/silero_vad.onnx; 2,327,524 bytes)
+  silero_vad.onnx  1a153a22f4509e292a94e67d6f9b85e8deb25b4988682b7e174c65279d8788e3
+```
+
+<https://github.com/snakers4/silero-vad>
+
+```text
+MIT License
+
+Copyright (c) 2020-present Silero Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### face-api tiny face detector (MIT)
 
 Face Track (Main > Tools) ships the tiny face detector weights in
 `src/features/facetrack/models/` (the `.bin` is emitted as `dist/assets/tiny_face_detector_model-*.bin`,
