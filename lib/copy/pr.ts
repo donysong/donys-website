@@ -1,21 +1,22 @@
 /* `/pr` dictionary — EN/KO. 🔴 Only the `/pr` lane edits this file.
-   Source = PR repo `gtm/site/` — `pr-page.preorder.md` (variant B: free version + Pro pre-order, the launch shape the owner
+   Source = PR repo `gtm/site/` — `pr-page.preorder.md` (variant B: free version + Pro, the launch shape the owner
    picked on 2026-11-07) on top of `pr-page.full.md`, `pr-faq.md`, `pr-install.md`, `feature-claims.json`.
-   Changes against the source (owner, 2026-11-07; one launch day, owner 2026-11-10): the free version and the Pro pre-order checkout both open on {checkoutOpens} (until then the page
-   says the date), macOS = coming soon (no macOS steps, no macOS version claimed), no video,
-   the UXP companion is not mentioned (`PR.companion`), no early-bird end date (the 11/13 window ends before checkout opens).
+   Changes against the source (owner, 2026-11-07; one launch day and Pro as a regular purchase, owner 2026-11-10): the free version and the Pro
+   checkout both open on {checkoutOpens} (until then the page says the date), the Pro key works at once (no pre-order wording, no opening-date
+   promise, no automatic refund), macOS = coming soon (no macOS steps, no macOS version claimed), no video,
+   the UXP companion is not mentioned (`PR.companion`), the launch price holds through {earlyUntil} (`PR_EARLY_UNTIL` in `lib/pr.ts`).
    KO = v5 site voice: 해요체, first person 우리, `-시-` where the reader acts, no `~세요` (PR repo `gtm/README.md` copy rules).
 
    Rules:
      · Feature lines are `pr.f.<registry id>.name|label|claim|note|ex`. Which ones show is decided by `PR_FEATURES` in
        `lib/product.ts` — components never decide it. Free features carry a claim; Pro features only a name and a table
-       label (the pre-order shape never describes a Pro feature as available). Unbuilt ids have no keys (`tools/pr.test.mjs`).
+       label (a Pro feature is not described beyond that). Unbuilt ids have no keys (`tools/pr.test.mjs`).
      · 🔴 No numbers or dates typed in: `{price}` `{earlyPrice}` `{checkoutOpens}` … are filled by `lib/copy.ts` `prNums`
        from the `PR` block. `{names}` is filled by the component (claimable feature names).
      · 🔴 No `<a` inside strings that render in `#price` (deployCheck `[pr]` counts the links there).
      · Install steps may instruct (VOICE_AND_TERMS §1). Banned copy = PR repo `gtm/README.md` (checked by `tools/pr.test.mjs`).
    Keys the site added (not in the source, owner review pending): `pr.nav.*` `pr.plate.*` `pr.cta.*` `pr.hero.*.soon` `pr.price.free.*`
-   `pr.price.pro.*` `pr.price.closed` `pr.bundle.closed` `prp.when` `prp.h` `pr.faq.mac` `pr.faq.q3.assets` `pr.inst.mac.soon`
+   `pr.price.pro.*` `pr.price.closed` `pr.bundle.closed` `pr.how.*` `pr.faq.mac` `pr.faq.q3.assets` `pr.inst.mac.soon`
    `pr.posi.plain` ({names}) `pr.hero.promise` (without 자막 — captions are a Pro launch feature, not in the free version). */
 import type { Dict } from './types';
 
@@ -25,8 +26,8 @@ const PR_COPY: Dict = {
     'pr.hero.plugin': 'PR PLUGIN',
     'pr.hero.promise': 'Hand off the cutting and cleanup.|The editing calls stay yours.',
     'pr.hero.sub': 'Premiere Pro {minPremiere}+ · Windows · macOS coming soon · v{version}',
-    'pr.hero.pro.note': 'Pre-order Pro · key right away',
-    'pr.hero.pro.soon': 'Pro pre-order opens {checkoutOpensShort}',
+    'pr.hero.pro.note': 'Pro · key right away',
+    'pr.hero.pro.soon': 'Available {checkoutOpensShort}',
     'pr.hero.free': 'Free version',
     'pr.hero.free.note': 'Silence cuts free, no limit',
     'pr.hero.free.soon': 'Available {launchShort}',
@@ -43,12 +44,11 @@ const PR_COPY: Dict = {
     'pr.plate.posi': 'What it is',
     'pr.plate.what': 'Features',
     'pr.plate.price': 'Free and Pro',
-    'pr.plate.prp': 'Pre-order',
+    'pr.plate.how': 'Pro key',
     'pr.plate.faq': 'Common questions',
     'pr.plate.install': 'Install',
-    'pr.cta.pro': 'Pre-order Pro — {earlyPrice}',
+    'pr.cta.pro': 'Buy Pro — {earlyPrice}',
     'pr.cta.free': 'Get the free version',
-    'pr.buy.pre': 'Pre-order',
 
     /* ── 01 Who ─────────────────────────────────────────────── */
     'pr.who.h': 'For people who edit their own videos',
@@ -143,23 +143,23 @@ const PR_COPY: Dict = {
     'pr.f.collect.name': 'Project collect & trim',
 
     /* ── 04 Free and Pro — 🔴 no `<a` in these strings (they render in `#price`) ── */
-    'pr.price.h': 'Start free. Pre-order Pro.',
+    'pr.price.h': 'Start free. Pay once for Pro.',
     'pr.price.free.l': 'Free',
     'pr.price.free.amount': '$0',
     'pr.price.free.keep': 'No key needed. Check out with your email and the download is yours.',
     'pr.price.free.btn': 'Get the free version',
     'pr.price.free.soon': 'Available {launch}',
-    'pr.price.pro.l': 'Pro · pre-order',
+    'pr.price.pro.l': 'Pro',
     'pr.price.amount': '{earlyPrice}',
-    'pr.price.pro.btn': 'Pre-order',
-    'pr.price.closed': 'Pre-order opens {checkoutOpens}',
-    'pr.price.pro.keep': 'This price holds until Pro opens. The key comes right away, and the Pro features in this version work as soon as you enter it.',
+    'pr.price.pro.btn': 'Buy Pro',
+    'pr.price.closed': 'Available {checkoutOpens}',
+    'pr.price.pro.keep': 'Launch price through {earlyUntil}, then {price}. The key comes right away, and the Pro features in this version work as soon as you enter it.',
     'pr.price.pro.lead': 'Everything in Free, plus, unlocked by your key',
     'pr.price.pro.tools': 'Pro toolkit:',
     'pr.price.pro.later': 'Later, one by one:',
-    'pr.price.incl': ['Pay once', 'No subscription', '{computers} computers', 'Full refund any time before Pro opens'],
+    'pr.price.incl': ['Pay once', 'No subscription', '{computers} computers', '{refundDays}-day refund'],
     'pr.bundle.h': 'Together with AE',
-    'pr.bundle.p': 'The AE Plugin and PR Pro together cost {bundlePrice}. One key opens both plugins ({computers} computers). The PR Pro half is a pre-order on the same terms.',
+    'pr.bundle.p': 'The AE Plugin and PR Pro together cost {bundlePrice}. One key opens both plugins ({computers} computers).',
     'pr.bundle.btn': 'Buy the bundle — {bundlePrice}',
     'pr.bundle.closed': 'Bundle checkout opens {checkoutOpens}',
     'pr.price.one': 'One discount per checkout. If more than one applies, the larger one is used, and the bundle takes no extra discount.',
@@ -169,33 +169,26 @@ const PR_COPY: Dict = {
     'pr.notices.desc': 'The open-source software and other third-party material that ships in the You Name It PR Plugin, with the notices their licenses require.',
     'pr.notices.intro': 'This is the notices file that ships inside the plugin. The license texts are reproduced exactly as their authors published them, in English.',
 
-    /* ── 05 Pre-order ───────────────────────────────────────── */
-    'prp.h': 'How the pre-order works',
-    'prp.p': 'The free version is yours to download and use. The Pro features are in the same download, locked until you enter a Pro key. Pre-order and you get a license key right away; enter it and they unlock.',
-    'prp.why': 'We kept the launch date and moved what wasn’t ready, rather than switching on features that weren’t done.',
-    'prp.when': 'Pre-order checkout opens on {checkoutOpens}, the day our updated terms take effect.',
-    'prp.now.h': 'What you get now',
-    'prp.now.p': 'The whole free version and a Pro license key. Enter the key and the Pro features in this version unlock.',
-    'prp.open.h': 'What the key unlocks',
-    'prp.open.cut': 'Silence cut advanced settings: padding, J and L cuts, threshold',
-    'prp.open.cap': 'Captions: long-form caption tracks and short-form highlight captions',
-    'prp.open.chat': 'Chat: ask in words, see the plan, only what you approve is applied',
-    'prp.open.tools': 'Pro toolkit: {names}',
-    'prp.later.h': 'Coming in later updates',
-    'prp.later.p': 'The other Pro tools come in one by one as they pass. We don’t promise dates.',
-    'prp.terms': [
-      'When the opening date is set, we email you at the address you bought with.',
-      'The pre-order price ({earlyPrice}) stays until Pro opens, and for {openEarlyDays} days from the day it opens. After that, the price is {price}.',
-      'Refunds: any time before Pro opens, and within {refundDays} days after it opens, in full, no reason needed.',
-      'If Pro hasn’t opened by {preorderDeadline}, every pre-order is refunded in full automatically. You don’t have to ask.',
-      'Nothing to buy again when Pro opens. The same key switches it on.',
-    ],
+    /* ── 05 How Pro works ───────────────────────────────────── */
+    'pr.how.h': 'How Pro works',
+    'pr.how.p': 'The free version is yours to download and use. The Pro features are in the same download, locked until you enter a Pro key. Buy Pro and the license key comes right away; enter it and they unlock.',
+    'pr.how.price': 'The launch price ({earlyPrice}) holds through {earlyUntil}. After that, the price is {price}.',
+    'pr.how.refund': 'Refunds: within {refundDays} days of purchase, in full, no reason needed. The details are in the <a href="/refund">refund policy</a>.',
+    'pr.how.now.h': 'What you get',
+    'pr.how.now.p': 'The whole free version and a Pro license key. Enter the key and the Pro features in this version unlock.',
+    'pr.how.open.h': 'What the key unlocks',
+    'pr.how.open.cut': 'Silence cut advanced settings: padding, J and L cuts, threshold',
+    'pr.how.open.cap': 'Captions: long-form caption tracks and short-form highlight captions',
+    'pr.how.open.chat': 'Chat: ask in words, see the plan, only what you approve is applied',
+    'pr.how.open.tools': 'Pro toolkit: {names}',
+    'pr.how.later.h': 'Coming in later updates',
+    'pr.how.later.p': 'The other Pro tools come in one by one as they pass. We don’t promise dates.',
 
     /* ── Specs (9 fields) ───────────────────────────────────── */
     'pr.spec.h': 'Specs',
     'pr.sp1.k': 'Price',
     'pr.sp1.v': 'Free · Pro {earlyPrice} USD',
-    'pr.sp1.n': 'Pro is a pre-order, paid once · tax depends on your country, shown at checkout · Polar',
+    'pr.sp1.n': 'Paid once · launch price through {earlyUntil}, then {price} · tax depends on your country, shown at checkout · Polar',
     'pr.sp2.k': 'Host app',
     'pr.sp2.v': 'Premiere Pro {minPremiere} or newer',
     'pr.sp2.n': 'Tested on Windows {testedWin}',
@@ -272,10 +265,10 @@ const PR_COPY: Dict = {
     'pr.faq.q19.a': '{computers} active at a time. When you change computers, deactivate one yourself in the customer portal or inside the panel, then activate the new one. To <a href="{portal}" target="_blank" rel="noopener">manage your computers</a>, sign in with the email you paid with. The free version has no key, so no computer limit.',
     'pr.faq.q21.q': 'Is there a discount if I own the AE plugin?',
     'pr.faq.q21.v': '{aeCoupon}',
-    'pr.faq.q21.a': 'Buyers of the You Name It AE Plugin get a PR Pro discount code. Email <a href="mailto:support@younameit.works">support@younameit.works</a> with the address you bought AE with or your order number and we reply with the code; if you bought it on aescripts, forward your aescripts order email. AE buyers who agreed to our newsletter get the code by email without asking. Each code works once per AE order, until {aeCouponEnd}, and not on the bundle. Only one discount applies per checkout, so while the pre-order price applies, the code can’t take the price below it.',
+    'pr.faq.q21.a': 'Buyers of the You Name It AE Plugin get a PR Pro discount code. Email <a href="mailto:support@younameit.works">support@younameit.works</a> with the address you bought AE with or your order number and we reply with the code; if you bought it on aescripts, forward your aescripts order email. AE buyers who agreed to our newsletter get the code by email without asking. Each code works once per AE order, until {aeCouponEnd}, and not on the bundle. Only one discount applies per checkout, so while the launch price applies, the code can’t take the price below it.',
     'pr.faq.q22.q': 'Does my AE key unlock PR Pro?',
     'pr.faq.q22.v': 'No',
-    'pr.faq.q22.a': 'The two plugins are separate products with separate keys. To use both, pre-order PR Pro on its own or pick the bundle ({bundlePrice}), whose one key opens both plugins.',
+    'pr.faq.q22.a': 'The two plugins are separate products with separate keys. To use both, buy PR Pro on its own or pick the bundle ({bundlePrice}), whose one key opens both plugins.',
     'pr.faq.q23.q': 'Can I combine two discounts?',
     'pr.faq.q23.v': 'One only',
     'pr.faq.q23.a': 'One discount per checkout. If more than one applies, the larger one is used. The bundle takes no extra discount.',
@@ -288,25 +281,19 @@ const PR_COPY: Dict = {
     'pr.faq.q27.q': 'The checkout button does nothing',
     'pr.faq.q27.v': 'Usually the terms box',
     'pr.faq.q27.a': 'Checkout needs the box agreeing to the terms and refund policy. Without it, the button does nothing and no message appears. The three newsletter boxes are optional; leaving them unticked never blocks a checkout.',
-    'pr.faq.g4': 'Pre-order',
-    'pr.faq.p1.q': 'What do I get when I pre-order?',
-    'pr.faq.p1.v': 'A key and the free version',
-    'pr.faq.p1.a': 'You get the whole free version and a Pro license key right away. Enter the key and the Pro features in the version you downloaded unlock. Tools that arrive in later updates switch on with the same key.',
-    'pr.faq.p2.q': 'When does Pro open?',
-    'pr.faq.p2.v': 'Checkout opens {checkoutOpens}',
-    'pr.faq.p2.a': 'The Pro features are already in the version you download, locked until you enter a Pro key. Silence cut advanced settings, captions, Chat and the Pro toolkit have passed our completion criteria. Pre-order checkout opens {checkoutOpens}, the day our updated terms take effect. The tools still in the works come in later updates as they pass; we don’t promise dates.',
-    'pr.faq.p3.q': 'Can I get a refund before it opens?',
-    'pr.faq.p3.v': 'Any time',
-    'pr.faq.p3.a': 'Any time before Pro opens, and within {refundDays} days after it opens, in full and with no reason needed. Email <a href="mailto:support@younameit.works">support@younameit.works</a> with your order number or the email you paid with. If Pro hasn’t opened by {preorderDeadline}, we refund you in full without being asked. A bundle is refunded only as a whole.',
-    'pr.faq.p4.q': 'What does the pre-order cost?',
-    'pr.faq.p4.v': '{earlyPrice}',
-    'pr.faq.p4.a': 'That’s the early-bird price, and it stays until Pro opens. When Pro opens, it runs for {openEarlyDays} more days from that day; after that the price is {price}.',
-    'pr.faq.p5.q': 'Do I pay again when Pro opens?',
-    'pr.faq.p5.v': 'No',
-    'pr.faq.p5.a': 'The same key switches it on. Nothing else to pay.',
-    'pr.faq.p6.q': 'What if Pro never opens?',
-    'pr.faq.p6.v': 'An automatic full refund',
-    'pr.faq.p6.a': 'If Pro hasn’t opened by {preorderDeadline}, every pre-order is refunded in full without anyone having to ask, and we email you when it’s done. The refund revokes the Pro key; the free version keeps working.',
+    'pr.faq.g4': 'Buying Pro',
+    'pr.faq.buy1.q': 'What do I get when I buy Pro?',
+    'pr.faq.buy1.v': 'A key, right away',
+    'pr.faq.buy1.a': 'The Pro license key arrives as soon as payment completes. The free version needs no key. Enter the key and the Pro features in the version you downloaded unlock.',
+    'pr.faq.buy2.q': 'When can I use Pro?',
+    'pr.faq.buy2.v': 'From {checkoutOpens}',
+    'pr.faq.buy2.a': 'Pro is on sale from {checkoutOpens}, the same day as the free version, and it works as soon as you enter the key. The Pro features are already in the version you download, locked until you do. Silence cut advanced settings, captions, Chat and the Pro toolkit have passed our completion criteria. The tools still in the works come in later updates as they pass; we don’t promise dates.',
+    'pr.faq.buy3.q': 'Can I get a refund?',
+    'pr.faq.buy3.v': '{refundDays} days',
+    'pr.faq.buy3.a': 'Yes, within {refundDays} days of purchase, in full and with no reason needed, even if you have already installed or used it. Email <a href="mailto:support@younameit.works">support@younameit.works</a> with your order number or the email you paid with. A bundle is refunded only as a whole. The details are in the <a href="/refund">refund policy</a>.',
+    'pr.faq.buy4.q': 'What does Pro cost?',
+    'pr.faq.buy4.v': '{earlyPrice}',
+    'pr.faq.buy4.a': 'That’s the launch price, and it holds through {earlyUntil}. After that the price is {price}.',
 
     /* ── 07 Install (`pr-install.md`) — mechanical steps may instruct ── */
     'pr.inst.h': 'Install',
@@ -346,7 +333,7 @@ const PR_COPY: Dict = {
 
     /* ── Meta — no brand in the title (the layout template adds it) ── */
     'pr.meta.title': 'PR Plugin',
-    'pr.meta.desc': 'A Premiere Pro panel. Silence cuts are free with no limit, and Pro is a pre-order. It shows the plan first, applies only what you approve, and leaves your originals alone.',
+    'pr.meta.desc': 'A Premiere Pro panel. Silence cuts are free with no limit, and Pro unlocks more with a key. It shows the plan first, applies only what you approve, and leaves your originals alone.',
   },
 
   ko: {
@@ -354,8 +341,8 @@ const PR_COPY: Dict = {
     'pr.hero.plugin': 'PR PLUGIN',
     'pr.hero.promise': '컷·정리 같은 손일은 맡기고,|편집 판단은 당신이.',
     'pr.hero.sub': 'Premiere Pro {minPremiere} 이상 · Windows · macOS는 곧 지원 · v{version}',
-    'pr.hero.pro.note': 'Pro 사전예약 · 키는 바로',
-    'pr.hero.pro.soon': '{checkoutOpensShort} 사전예약 시작',
+    'pr.hero.pro.note': 'Pro · 키는 바로',
+    'pr.hero.pro.soon': '{checkoutOpensShort}부터',
     'pr.hero.free': '무료판',
     'pr.hero.free.note': '무음 컷 무료 · 횟수 제한 없음',
     'pr.hero.free.soon': '{launchShort}부터',
@@ -372,12 +359,11 @@ const PR_COPY: Dict = {
     'pr.plate.posi': '무엇인가',
     'pr.plate.what': '기능',
     'pr.plate.price': '무료와 Pro',
-    'pr.plate.prp': '사전예약',
+    'pr.plate.how': 'Pro 키',
     'pr.plate.faq': '자주 묻는 것',
     'pr.plate.install': '설치',
-    'pr.cta.pro': 'Pro 사전예약 — {earlyPrice}',
+    'pr.cta.pro': 'Pro 구매 — {earlyPrice}',
     'pr.cta.free': '무료판 받기',
-    'pr.buy.pre': '사전예약',
 
     /* ── 01 누구를 ───────────────────────────────────────────── */
     'pr.who.h': '직접 편집하는 사람',
@@ -472,23 +458,23 @@ const PR_COPY: Dict = {
     'pr.f.collect.name': '프로젝트 수집·트림',
 
     /* ── 04 무료와 Pro — 🔴 이 문자열들엔 `<a` 금지(`#price` 안에 그려진다) ── */
-    'pr.price.h': '무료로 시작, Pro는 사전예약',
+    'pr.price.h': '무료로 시작, Pro는 한 번 결제',
     'pr.price.free.l': '무료',
     'pr.price.free.amount': '$0',
     'pr.price.free.keep': '키는 필요 없어요. 이메일로 결제 과정을 마치면 내려받을 수 있어요.',
     'pr.price.free.btn': '무료판 받기',
     'pr.price.free.soon': '{launch}부터 받을 수 있어요',
-    'pr.price.pro.l': 'Pro · 사전예약',
+    'pr.price.pro.l': 'Pro',
     'pr.price.amount': '{earlyPrice}',
-    'pr.price.pro.btn': '사전예약',
-    'pr.price.closed': '{checkoutOpens} 사전예약 시작',
-    'pr.price.pro.keep': 'Pro가 열릴 때까지 이 가격이에요. 키는 바로 받고, 이 버전에 들어 있는 Pro 기능은 키를 넣으면 바로 쓸 수 있어요.',
+    'pr.price.pro.btn': 'Pro 구매',
+    'pr.price.closed': '{checkoutOpens}부터 구매할 수 있어요',
+    'pr.price.pro.keep': '{earlyUntil}까지 출시 가격이고, 그 뒤에는 {price}예요. 키는 바로 받고, 이 버전에 들어 있는 Pro 기능은 키를 넣으면 바로 쓸 수 있어요.',
     'pr.price.pro.lead': '무료 기능 전부에 더해, 키로 열리는 것',
     'pr.price.pro.tools': 'Pro 툴킷:',
     'pr.price.pro.later': '나중에 하나씩:',
-    'pr.price.incl': ['일회 구매', '구독 없음', '컴퓨터 {computers}대', 'Pro가 열리기 전엔 언제든 전액 환불'],
+    'pr.price.incl': ['일회 구매', '구독 없음', '컴퓨터 {computers}대', '{refundDays}일 환불'],
     'pr.bundle.h': 'AE와 함께',
-    'pr.bundle.p': 'AE 플러그인과 PR Pro를 함께 사면 {bundlePrice}예요. 키 하나로 두 플러그인을 모두 열어요(컴퓨터 {computers}대). PR Pro 쪽은 같은 조건의 사전예약이에요.',
+    'pr.bundle.p': 'AE 플러그인과 PR Pro를 함께 사면 {bundlePrice}예요. 키 하나로 두 플러그인을 모두 열어요(컴퓨터 {computers}대).',
     'pr.bundle.btn': '번들 구매 — {bundlePrice}',
     'pr.bundle.closed': '{checkoutOpens} 번들 구매 시작',
     'pr.price.one': '할인은 결제 한 번에 하나만 붙어요. 둘 이상 해당하면 큰 쪽이 적용되고, 번들에는 다른 할인이 붙지 않아요.',
@@ -498,33 +484,26 @@ const PR_COPY: Dict = {
     'pr.notices.desc': 'You Name It PR Plugin 에 들어 있는 오픈소스 소프트웨어와 그 밖의 제3자 자료, 그리고 각 라이선스가 요구하는 고지입니다.',
     'pr.notices.intro': '플러그인 안에 들어 있는 고지 파일과 같은 내용입니다. 라이선스 원문은 저자가 공개한 그대로 영어로 싣습니다.',
 
-    /* ── 05 사전예약 ─────────────────────────────────────────── */
-    'prp.h': '사전예약은 이렇게 해요',
-    'prp.p': '무료판은 받아서 쓸 수 있어요. Pro 기능도 같은 설치 파일에 들어 있고, Pro 키를 넣기 전까지는 잠겨 있어요. 예약하시면 라이선스 키를 바로 드리고, 키를 넣으면 열려요.',
-    'prp.why': '출시일은 지키고, 기준에 못 미친 기능은 뒤로 미뤘어요. 덜 된 기능을 켜 두는 것보다 낫다고 봤어요.',
-    'prp.when': '사전예약 결제는 {checkoutOpens}에 열려요. 바뀐 약관이 시행되는 날이에요.',
-    'prp.now.h': '지금 받는 것',
-    'prp.now.p': '무료판 전부와 Pro 라이선스 키. 키를 넣으면 이 버전에 들어 있는 Pro 기능이 열려요.',
-    'prp.open.h': '키로 열리는 것',
-    'prp.open.cut': '무음 컷 고급 설정: 여유 시간, J컷·L컷, 기준값',
-    'prp.open.cap': '자막: 롱폼 자막 트랙, 숏폼 강조 자막',
-    'prp.open.chat': 'Chat: 말로 부탁하면 계획을 보여 드리고, 승인하신 것만 적용해요',
-    'prp.open.tools': 'Pro 툴킷: {names}',
-    'prp.later.h': '그다음 업데이트에서',
-    'prp.later.p': '나머지 Pro 툴은 기준을 통과하는 대로 하나씩 들어와요. 날짜는 약속하지 않아요.',
-    'prp.terms': [
-      'Pro가 열리는 날이 정해지면 구매한 메일로 알려 드려요.',
-      '사전예약 가격({earlyPrice})은 Pro가 열릴 때까지, 그리고 열린 날부터 {openEarlyDays}일 동안 그대로예요. 그 뒤 가격은 {price}예요.',
-      '환불: Pro가 열리기 전에는 언제든, 열린 뒤에는 {refundDays}일 안에 이유를 묻지 않고 전액 돌려드려요.',
-      '{preorderDeadline}까지 Pro가 열리지 않으면 요청하지 않으셔도 모든 사전예약을 전액 환불해 드려요.',
-      'Pro가 열려도 다시 살 건 없어요. 같은 키로 켜져요.',
-    ],
+    /* ── 05 Pro 키 ───────────────────────────────────────────── */
+    'pr.how.h': 'Pro는 이렇게 열려요',
+    'pr.how.p': '무료판은 받아서 쓸 수 있어요. Pro 기능도 같은 설치 파일에 들어 있고, Pro 키를 넣기 전까지는 잠겨 있어요. Pro를 구매하시면 라이선스 키를 바로 드리고, 키를 넣으면 열려요.',
+    'pr.how.price': '출시 가격({earlyPrice})은 {earlyUntil}까지예요. 그 뒤 가격은 {price}예요.',
+    'pr.how.refund': '환불: 구매 후 {refundDays}일 안에, 이유를 묻지 않고 전액 돌려드려요. 자세한 조건은 <a href="/ko/refund">환불 정책</a>에 있어요.',
+    'pr.how.now.h': '받는 것',
+    'pr.how.now.p': '무료판 전부와 Pro 라이선스 키. 키를 넣으면 이 버전에 들어 있는 Pro 기능이 열려요.',
+    'pr.how.open.h': '키로 열리는 것',
+    'pr.how.open.cut': '무음 컷 고급 설정: 여유 시간, J컷·L컷, 기준값',
+    'pr.how.open.cap': '자막: 롱폼 자막 트랙, 숏폼 강조 자막',
+    'pr.how.open.chat': 'Chat: 말로 부탁하면 계획을 보여 드리고, 승인하신 것만 적용해요',
+    'pr.how.open.tools': 'Pro 툴킷: {names}',
+    'pr.how.later.h': '그다음 업데이트에서',
+    'pr.how.later.p': '나머지 Pro 툴은 기준을 통과하는 대로 하나씩 들어와요. 날짜는 약속하지 않아요.',
 
     /* ── 사양 9필드 ─────────────────────────────────────────── */
     'pr.spec.h': '사양',
     'pr.sp1.k': '가격',
     'pr.sp1.v': '무료 · Pro {earlyPrice} USD',
-    'pr.sp1.n': 'Pro는 사전예약, 일회 구매 · 세금은 나라마다 달라서 결제 화면에 나와요 · 결제는 Polar',
+    'pr.sp1.n': '일회 구매 · {earlyUntil}까지 출시 가격, 그 뒤에는 {price} · 세금은 나라마다 달라서 결제 화면에 나와요 · 결제는 Polar',
     'pr.sp2.k': '호스트 앱',
     'pr.sp2.v': 'Premiere Pro {minPremiere} 이상',
     'pr.sp2.n': '테스트한 버전: Windows {testedWin}',
@@ -601,10 +580,10 @@ const PR_COPY: Dict = {
     'pr.faq.q19.a': '동시에 {computers}대까지 활성화할 수 있어요. 컴퓨터를 바꿀 땐 고객 포털이나 패널에서 직접 활성화를 해제하고, 새 컴퓨터에서 다시 활성화하면 돼요. <a href="{portal}" target="_blank" rel="noopener">컴퓨터 관리</a> 페이지에는 구매한 메일로 로그인해요. 무료판은 키가 없어서 대수 제한도 없어요.',
     'pr.faq.q21.q': 'AE 플러그인이 있으면 할인되나요?',
     'pr.faq.q21.v': '{aeCoupon}',
-    'pr.faq.q21.a': 'You Name It AE 플러그인을 사신 분께 PR Pro 할인 코드를 드려요. AE를 산 메일 주소나 주문 번호를 <a href="mailto:support@younameit.works">support@younameit.works</a>로 보내 주시면 답장으로 드리고, aescripts에서 사셨다면 aescripts 주문 메일을 보내 주시면 돼요. 소식 받기에 동의하신 AE 구매자께는 메일로 먼저 보내 드려요. 코드는 AE 주문 하나에 한 번, {aeCouponEnd}까지 쓸 수 있고 번들에는 못 써요. 할인은 결제 한 번에 하나만 붙어서, 사전예약 가격이 적용되는 동안에는 코드를 써도 그 가격보다 내려가지 않아요.',
+    'pr.faq.q21.a': 'You Name It AE 플러그인을 사신 분께 PR Pro 할인 코드를 드려요. AE를 산 메일 주소나 주문 번호를 <a href="mailto:support@younameit.works">support@younameit.works</a>로 보내 주시면 답장으로 드리고, aescripts에서 사셨다면 aescripts 주문 메일을 보내 주시면 돼요. 소식 받기에 동의하신 AE 구매자께는 메일로 먼저 보내 드려요. 코드는 AE 주문 하나에 한 번, {aeCouponEnd}까지 쓸 수 있고 번들에는 못 써요. 할인은 결제 한 번에 하나만 붙어서, 출시 가격이 적용되는 동안에는 코드를 써도 그 가격보다 내려가지 않아요.',
     'pr.faq.q22.q': 'AE 키로 PR Pro를 쓸 수 있나요?',
     'pr.faq.q22.v': '아니요',
-    'pr.faq.q22.a': '두 플러그인은 따로 파는 제품이라 키도 따로예요. 둘 다 쓰시려면 PR Pro를 따로 사전예약하거나 번들({bundlePrice})을 고르면 되고, 번들은 키 하나로 두 플러그인을 모두 열어요.',
+    'pr.faq.q22.a': '두 플러그인은 따로 파는 제품이라 키도 따로예요. 둘 다 쓰시려면 PR Pro를 따로 구매하거나 번들({bundlePrice})을 고르면 되고, 번들은 키 하나로 두 플러그인을 모두 열어요.',
     'pr.faq.q23.q': '할인 두 개를 같이 쓸 수 있나요?',
     'pr.faq.q23.v': '하나만',
     'pr.faq.q23.a': '결제 한 번에 할인 하나만 붙고, 둘 이상 해당하면 큰 쪽이 적용돼요. 번들에는 다른 할인이 붙지 않아요.',
@@ -617,25 +596,19 @@ const PR_COPY: Dict = {
     'pr.faq.q27.q': '결제 버튼을 눌러도 넘어가지 않아요',
     'pr.faq.q27.v': '대개 약관 동의 칸이에요',
     'pr.faq.q27.a': '결제하려면 약관·환불 정책 동의 칸에 체크해야 해요. 체크하지 않으면 버튼을 눌러도 안내 문구 없이 그대로 멈춰 있어요. 소식 메일 동의 세 칸은 선택이라, 체크하지 않아도 결제에는 영향이 없어요.',
-    'pr.faq.g4': '사전예약',
-    'pr.faq.p1.q': '사전예약하면 지금 뭘 받나요?',
-    'pr.faq.p1.v': '키와 무료판',
-    'pr.faq.p1.a': '무료판 전부와 Pro 라이선스 키를 바로 받아요. 키를 넣으면 내려받은 버전에 들어 있는 Pro 기능이 열리고, 이후 업데이트로 들어오는 툴도 같은 키로 켜져요.',
-    'pr.faq.p2.q': 'Pro는 언제 열리나요?',
-    'pr.faq.p2.v': '{checkoutOpens} 결제 시작',
-    'pr.faq.p2.a': 'Pro 기능은 내려받는 버전에 이미 들어 있고, Pro 키를 넣기 전까지는 잠겨 있어요. 무음 컷 고급 설정, 자막, Chat, Pro 툴킷은 우리 완성 기준을 통과했어요. 사전예약 결제는 {checkoutOpens}에 열려요. 바뀐 약관이 시행되는 날이에요. 아직 만드는 중인 툴은 기준을 통과하는 대로 업데이트로 들어오고, 날짜는 약속하지 않아요.',
-    'pr.faq.p3.q': '열리기 전에 환불되나요?',
-    'pr.faq.p3.v': '언제든',
-    'pr.faq.p3.a': 'Pro가 열리기 전에는 언제든, 열린 뒤에는 {refundDays}일 안에 이유를 묻지 않고 전액 돌려드려요. 주문 번호나 결제한 메일 주소를 적어 <a href="mailto:support@younameit.works">support@younameit.works</a>로 보내 주시면 돼요. {preorderDeadline}까지 Pro가 열리지 않으면 요청하지 않으셔도 전액 환불해 드려요. 번들은 전체로만 환불돼요.',
-    'pr.faq.p4.q': '사전예약 가격은 얼마인가요?',
-    'pr.faq.p4.v': '{earlyPrice}',
-    'pr.faq.p4.a': '얼리버드 가격이고, Pro가 열릴 때까지 그대로예요. Pro가 열리면 그날부터 {openEarlyDays}일 동안 더 이어지고, 그 뒤 가격은 {price}예요.',
-    'pr.faq.p5.q': 'Pro가 열리면 다시 사야 하나요?',
-    'pr.faq.p5.v': '아니요',
-    'pr.faq.p5.a': '같은 키로 켜져요. 따로 결제할 건 없어요.',
-    'pr.faq.p6.q': 'Pro가 끝내 열리지 않으면요?',
-    'pr.faq.p6.v': '자동 전액 환불',
-    'pr.faq.p6.a': '{preorderDeadline}까지 Pro가 열리지 않으면, 요청하지 않으셔도 모든 사전예약을 전액 환불하고 메일로 알려 드려요. 환불되면 Pro 키는 해지되지만, 무료판은 그대로 쓸 수 있어요.',
+    'pr.faq.g4': 'Pro 구매',
+    'pr.faq.buy1.q': 'Pro를 구매하면 뭘 받나요?',
+    'pr.faq.buy1.v': '키를 바로',
+    'pr.faq.buy1.a': '결제가 끝나면 Pro 라이선스 키를 바로 받아요. 무료판은 키 없이 쓸 수 있고요. 키를 넣으면 내려받은 버전에 들어 있는 Pro 기능이 열려요.',
+    'pr.faq.buy2.q': 'Pro는 언제부터 쓸 수 있나요?',
+    'pr.faq.buy2.v': '{checkoutOpens}부터',
+    'pr.faq.buy2.a': 'Pro는 무료판과 같은 날인 {checkoutOpens}부터 살 수 있고, 키를 넣으면 바로 쓸 수 있어요. Pro 기능은 내려받는 버전에 이미 들어 있고, 키를 넣기 전까지는 잠겨 있어요. 무음 컷 고급 설정, 자막, Chat, Pro 툴킷은 우리 완성 기준을 통과했어요. 아직 만드는 중인 툴은 기준을 통과하는 대로 업데이트로 들어오고, 날짜는 약속하지 않아요.',
+    'pr.faq.buy3.q': '환불되나요?',
+    'pr.faq.buy3.v': '{refundDays}일',
+    'pr.faq.buy3.a': '구매 후 {refundDays}일 안에는 이유를 묻지 않고 전액 돌려드려요. 이미 설치하거나 써 보셨어도 마찬가지예요. 주문 번호나 결제한 메일 주소를 적어 <a href="mailto:support@younameit.works">support@younameit.works</a>로 보내 주시면 돼요. 번들은 전체로만 환불돼요. 자세한 조건은 <a href="/ko/refund">환불 정책</a>에 있어요.',
+    'pr.faq.buy4.q': 'Pro는 얼마인가요?',
+    'pr.faq.buy4.v': '{earlyPrice}',
+    'pr.faq.buy4.a': '출시 가격이고, {earlyUntil}까지 그대로예요. 그 뒤 가격은 {price}예요.',
 
     /* ── 07 설치 — 절차라 지시형이 허용된다(VOICE_AND_TERMS §1). 해요체 ── */
     'pr.inst.h': '설치',
@@ -675,7 +648,7 @@ const PR_COPY: Dict = {
 
     /* ── 메타 ─────────────────────────────────────────────────── */
     'pr.meta.title': 'PR Plugin',
-    'pr.meta.desc': 'Premiere Pro 패널이에요. 무음 컷은 제한 없이 무료, Pro는 사전예약이에요. 계획을 먼저 보여 드리고 승인한 것만 적용하며, 원본은 그대로 둬요.',
+    'pr.meta.desc': 'Premiere Pro 패널이에요. 무음 컷은 제한 없이 무료, Pro는 키로 더 열려요. 계획을 먼저 보여 드리고 승인한 것만 적용하며, 원본은 그대로 둬요.',
   },
 };
 

@@ -50,7 +50,7 @@ test('feature copy follows the list (no orphan ids, required parts present)', ()
       const f = PR_FEATURES.find((x) => x.id === id);
       assert.ok(f, `${lang} ${k}: not a registry id`);
       assert.notEqual(f.state, 'unbuilt', `${lang} ${k}: unbuilt features have no copy`);
-      if (f.tier === 'pro') assert.ok(!/\.(claim|note)$/.test(k), `${lang} ${k}: the pre-order shape never describes a Pro feature as available`);
+      if (f.tier === 'pro') assert.ok(!/\.(claim|note)$/.test(k), `${lang} ${k}: a Pro feature is listed by name and table label only`);
     }
     for (const f of PR_FEATURES) {
       if (f.state === 'unbuilt' || f.group === 'infra') continue;
@@ -61,7 +61,7 @@ test('feature copy follows the list (no orphan ids, required parts present)', ()
   assert.deepEqual(Object.keys(COPY.en).sort(), Object.keys(COPY.ko).sort());
 });
 
-test('pre-order shape: no Pro feature is claimable; launch set and later lists are disjoint', () => {
+test('Pro features are listed by name only: none is claimable; launch set and later lists are disjoint', () => {
   for (const f of PR_FEATURES) if (f.tier === 'pro') assert.equal(pr.prClaimable(f.id), false, f.id);
   const launch = pr.prLaunchSet(), later = pr.prLater();
   assert.ok(launch.length > 0);
@@ -82,11 +82,41 @@ test('date gates open at 00:00 KST of their day', () => {
     assert.equal(pr.prOpenAt(t0, kind), true, `${kind} on ${day}`);
   }
   assert.ok(PR.checkoutOpensOn >= PR.launchOn);
-  /* the pre-order checkout opens on the day the terms revision with PR takes effect (`lib/policy.ts` owns the notice) */
+  /* the Pro checkout opens on the day the terms revision with PR takes effect (`lib/policy.ts` owns the date) */
   assert.equal(PR.checkoutOpensOn, policy.PR_EFFECTIVE);
   assert.ok(policy.PR_POSTED <= PR.launchOn, 'the notice is up before /pr goes public');
   assert.equal(pr.prAeCouponAt(pr.kstDayEnd(PR.aeCouponEnd) - 1), true);
   assert.equal(pr.prAeCouponAt(pr.kstDayEnd(PR.aeCouponEnd)), false);
+});
+
+/* Owner 2026-11-10: Pro is a regular purchase, the launch price holds through 11/28 (= checkout-open day 11/14 + 14 days, KST, inclusive). */
+test('the launch price period ends on the checkout-open day + openEarlyDays, and the copy shows that date', () => {
+  assert.equal(PR.checkoutOpensOn, '2026-11-14');
+  assert.equal(PR.openEarlyDays, 14);
+  assert.equal(pr.PR_EARLY_UNTIL, '2026-11-28');
+  const shows = { en: 'November 28, 2026', ko: '2026년 11월 28일' };
+  for (const lang of ['en', 'ko']) {
+    for (const k of ['pr.how.price', 'pr.price.pro.keep', 'pr.faq.buy4.a', 'pr.sp1.n']) assert.ok(T[lang][k].includes(shows[lang]), `${lang} ${k} shows the end of the launch price`);
+  }
+  const offers = pr.prJsonLd('https://x.test', '/pr', 'd').offers;
+  assert.deepEqual(offers.map((o) => o.name), ['Free', 'Pro']);
+  assert.ok(offers.every((o) => o.availability === 'https://schema.org/InStock'));
+  assert.equal(offers[1].priceValidUntil, pr.PR_EARLY_UNTIL);
+});
+
+/* The refund the page promises is the one the refund page in force states (Refund §1: a plain 14-day, no-reason refund), and the page links to it. */
+test('refund copy matches the refund page in force and links to it', async () => {
+  const legal = { en: fs.readFileSync(path.join(ROOT, 'components/legal/RefundEn.tsx'), 'utf8'), ko: fs.readFileSync(path.join(ROOT, 'components/legal/RefundKo.tsx'), 'utf8') };
+  assert.ok(legal.en.includes(`${PR.refundDays} days`) && legal.ko.includes(`${PR.refundDays}일`), 'PR.refundDays is the number in the refund policy');
+  const at = { en: '/refund', ko: '/ko/refund' };
+  assert.equal((await import('../lib/product.ts')).PR_LEGAL.refund, '/refund');
+  for (const lang of ['en', 'ko']) {
+    for (const k of ['pr.how.refund', 'pr.faq.buy3.a']) {
+      assert.ok(COPY[lang][k].includes(`href="${at[lang]}"`), `${lang} ${k} links to the refund policy`);
+      assert.ok(T[lang][k].includes(String(PR.refundDays)), `${lang} ${k} says the refund period`);
+    }
+    assert.ok(fs.existsSync(path.join(ROOT, lang === 'ko' ? 'app/(ko)/ko/refund' : 'app/(en)/refund', 'page.tsx')), `${lang} refund page exists`);
+  }
 });
 
 /* PR repo `gtm/README.md` copy rules (the same list `gtm/tools/check-gtm.mjs` uses for the drafts) + the site's own:
@@ -100,6 +130,7 @@ const BANNED = [
   /(?<!안녕)[가-힣]세요/, /십시오/,
   /\b(Cutback|FireCut|PremiereCopilot|Recut|Gling|Submagic|Vrew|CapCut|PlumePack|SubMachine)\b|\bAutoCut\b/,
   /\b20\d\d\b/, /\$\d/,
+  /pre-?order/i, /사전 ?예약/,   // Pro is a regular purchase (owner 2026-11-10): no pre-order wording on the page
 ];
 test('copy rules: banned phrases, no typed prices or years', () => {
   for (const lang of ['en', 'ko']) {

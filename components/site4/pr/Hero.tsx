@@ -1,7 +1,7 @@
 'use client';
 /* `/pr` cover — wordmark → promise (two lines) → host · version → two circles. Same markup as the v5 `/ae` cover
    (`ae/Hero.tsx`) minus the centre film: there is no demo at launch (owner, 2026-11-07), so `.pr-nodemo` sets the circles side by side.
-   Circles = *buy → Pro pre-order* (fill — purchase only, REBRAND §9.9 ③) / *free → free version* (outline).
+   Circles = *buy → Pro* (fill — purchase only, REBRAND §9.9 ③) / *free → free version* (outline).
    Before a checkout opens its circle shows the day instead of a link (`state.tsx` `Checkout`). No stamps (v5 `/ae` dropped them). */
 import { useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';

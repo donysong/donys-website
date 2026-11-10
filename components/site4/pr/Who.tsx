@@ -1,8 +1,8 @@
 'use client';
 /* 01 Who — the same cards as v5 `/ae` 01 (`article.role.gridp > div.in + div.say`, house contract; 6fps weave entrance).
    Each card carries the feature ids it talks about; a card stays while any of them is claimable (`lib/pr.ts` `prAny`).
-   The source's two Pro cards (short-form creator · repeat edits) are not here: in the pre-order shape Pro features appear only
-   in the pre-order lists. They come back from PR repo `gtm/site/pr-page.full.md` when Pro opens.
+   The source's two Pro cards (short-form creator · repeat edits) are not here: Pro features appear by name only, in the price card and
+   the key list (05). They come back from PR repo `gtm/site/pr-page.full.md` once their claim copy is approved.
    The red plate says "what you do" (the press order), not `/ae`'s "what you'd say", so its quotes are off (`q.pr-act`).
    `data-n` = card count — two cards must not sit in a four-column grid. */
 import { Html, useT } from '@/components/site3p/lang';

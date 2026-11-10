@@ -1,13 +1,13 @@
 'use client';
 /* 04 Free · Pro — the v5 `/ae` 04 two-plan ledger (`.pricing.plans`, `app/plans.css`), on the note sheet.
-   Free = $0 + the claimable free features (table labels) + the free checkout (outline). Pro = pre-order price + the one filled
+   Free = $0 + the claimable free features (table labels) + the free checkout (outline). Pro = launch price + the one filled
    button + what the same key opens: the launch set (labels) and, smaller, the Pro toolkit that is in this release (names) and
    the Pro tools that are not (names, no dates).
    🔴 `#price` holds exactly two links: the Pro button (`data-price-cta` — the rail hides while it is on screen) and the free
       checkout. deployCheck `[pr]` counts them. Before a checkout's day the button shows the date instead (`state.tsx`).
    🔴 No `<a` inside dictionary strings rendered here. Bundle · discounts · tax · AI costs · legal links sit below, outside
       `#price` but on the same sheet (`#bundle`) — the `.onnote` wrapper makes the two one sheet, like `/ae` FAQ + specs.
-   The AE-owner code is not offered here: during the pre-order it cannot go below the pre-order price (one discount per
+   The AE-owner code is not offered here: during the launch price it cannot go below that price (one discount per
    checkout), so it lives in FAQ q21 with that caveat. */
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';

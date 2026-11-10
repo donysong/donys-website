@@ -5,7 +5,7 @@
      lib/copy/home.ts   `/`        브랜드 루트
      lib/copy/ae.ts     `/ae`      제품
      lib/copy/docs.ts   `/ae/docs` 읽는 면
-     lib/copy/pr.ts     `/pr`      PR 플러그인(무료판 + Pro 사전예약)
+     lib/copy/pr.ts     `/pr`      PR 플러그인(무료판 + Pro)
 
    합칠 때 **뒤가 이긴다** — 페이지 사전이 shared 를 덮는다.
    🔴 구 `v33.ts`(프로토 v3.3 사전 194키)는 2026-09-19 에 지웠다. §14 분리로 단일 페이지가 죽으면서
@@ -15,6 +15,7 @@
    (사이트가 없는 프리셋 112개를 두 달간 광고한 전례가 있다).
    타자기 표기: [[말]] = 동그라미가 그려진다 · __말__ = 밑줄. */
 import { COUNTS, PORTAL_URL, PR, PRICE, TIERS, VERSION } from './product';
+import { PR_EARLY_UNTIL } from './pr';
 import type { Dict, Entry, Lang } from './copy/types';
 import SHARED from './copy/shared';
 import HOME from './copy/home';
@@ -55,9 +56,8 @@ function prNums(lang: Lang): [string, string][] {
     '{launchShort}': prDay(lang, PR.launchOn),
     '{checkoutOpens}': prDate(lang, PR.checkoutOpensOn),
     '{checkoutOpensShort}': prDay(lang, PR.checkoutOpensOn),
-    '{openEarlyDays}': String(PR.openEarlyDays),
+    '{earlyUntil}': prDate(lang, PR_EARLY_UNTIL),
     '{bundlePrice}': PR.bundlePrice,
-    '{preorderDeadline}': prDate(lang, PR.preorderDeadline),
     '{aeCoupon}': `${PR.aeCouponPct}%`,
     '{aeCouponEnd}': prDate(lang, PR.aeCouponEnd),
     '{computers}': String(PR.computers),

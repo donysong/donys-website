@@ -145,22 +145,25 @@ export const IG_REELS = [
       (`lib/copy/pr.ts`) are filled from **this block** (`lib/copy.ts` `prNums`) before the AE table runs.
    Dates are **KST calendar days**. A day "opens" at 00:00 KST and an end day lasts until 23:59:59 KST (`lib/pr.ts` does the math).
 
-   Launch shape (owner, 2026-11-07, PR repo PRD §14 "출시 재계획"): free version + Pro **pre-order**. The page renders only that shape.
-   When Pro opens (an update that switches the Pro launch set on), the page gets its buy shape in a later change. */
+   Launch shape (owner, 2026-11-10; PR repo PRD §14 "출시 재계획"): the free version and Pro go on sale on one day, and **Pro is a regular
+   purchase** — the key comes right away and unlocks the Pro features already in the download. There is no pre-order: the pre-order
+   articles of the Terms (14-2) and Refund (1-3) stay in the legal text but the page never uses them. */
 export const PR = {
-  price: '$49.99',                // list price — after the post-opening early-bird (facts.md)
-  earlyPrice: '$34.99',           // pre-order price = early-bird price; it stays until Pro opens
+  price: '$49.99',                // list price — what Pro costs after the launch price ends (the Terms §6 price)
+  earlyPrice: '$34.99',           // the launch price, from the checkout-open day through `PR_EARLY_UNTIL` (`lib/pr.ts`). The unused Terms 14-2 calls it "early-bird" and reads this name
   earlyPriceUsd: '34.99',
   /* 🔴 The two dates the owner may move (today they are the same day: owner, 2026-11-10 — free and Pro open together). Each one is a gate the browser re-checks against its own clock (`lib/pr.ts` `prOpenAt`),
      so a page built before the date opens by itself on the day. The real gate is Polar: keep a product unpublished until its day. */
   launchOn: '2026-11-14',         // /pr goes public · the free version can be downloaded (free checkout link opens) — the same day as checkoutOpensOn (owner, 2026-11-10: free and Pro open together)
-  /* Pro pre-order + bundle checkout opens = the day the terms · privacy · refund revision with PR takes effect.
-     🔴 Must equal `PR_EFFECTIVE` in `lib/policy.ts` (that file owns the notice: posted date, 7-day count, notice band, upcoming pages).
+  /* Pro + bundle checkout opens = the day the terms · privacy · refund revision with PR takes effect.
+     🔴 Must equal `PR_EFFECTIVE` in `lib/policy.ts` (that file owns the effective date).
      Move the two together — deployCheck `[pr]` and `npm run test:pr` fail when they differ. (Not imported: policy → analytics → product is a cycle.) */
   checkoutOpensOn: '2026-11-14',
-  openEarlyDays: 14,              // when Pro opens, the pre-order price keeps running this many days from that day (opening day included)
+  /* The launch price keeps running through the day that is this many days after the checkout-open day: 11/14 + 14 = 11/28 (KST, inclusive;
+     owner 2026-11-10). `PR_EARLY_UNTIL` in `lib/pr.ts` does the sum and the page shows that date. The Terms 14-2 (unused) reads this number too. */
+  openEarlyDays: 14,
   bundlePrice: '$79.99',          // AE + PR Pro bundle — one key opens both (4 activations)
-  preorderDeadline: '2026-12-15', // KST, inclusive — Pro not open by then → every pre-order refunded in full, automatically
+  preorderDeadline: '2026-12-15', // 🔴 not used by the page (regular purchase). Only the pre-order articles of the Terms 14-2 and Refund 1-3 read it, and they stay unused — delete it together with them
   aeCouponPct: 30,                // PR Pro discount code for AE buyers
   aeCouponEnd: '2026-12-31',      // KST, inclusive — after this the page drops the code offer by itself (`lib/pr.ts`)
   computers: 2,
@@ -193,7 +196,7 @@ export const PR = {
      state   'on'      switched on in the release build → free features are described as available
              'off'     not in this release → free features appear by name under "still in the works"; Pro features by name under "later"
              'unbuilt' no code in v1 (`claim: null` in PR repo `gtm/site/feature-claims.json`) → appears nowhere, can never be 'on'
-     launch  the Pro launch set the pre-order promises (PRD §0): Pro opens when all of these pass §15
+     launch  the Pro launch set the key unlocks on sale day (PRD §0): the price card and 05 list these by label
    🔴 Until the gate the states are a draft (every built feature 'on'); deployCheck `[pr]` blocks the deploy until `featuresFrozenOn` is set.
    `keyauto` is a setting, not something we sell — it does not appear on the page. */
 export type PrState = 'on' | 'off' | 'unbuilt';

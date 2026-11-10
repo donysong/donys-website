@@ -3,7 +3,7 @@
    `utm_*` (passed on to the checkout link).
 
    🔴 The baked HTML is the state at **build time** (`builtAt`, passed by page.tsx on the server). When the browser opens
-      the page it re-decides with its own clock — a page built on 11/10 must open the pre-order by itself on 11/14
+      the page it re-decides with its own clock — a page built on 11/10 must open the Pro checkout by itself on 11/14
       (`lib/pr.ts` header). First render = server values, so hydration never diverges (changes happen in the effect only).
    🔴 utm pass-through (PR repo `gtm/polar/polar-setup.md` §4): arriving with `?utm_source=…` appends that query to the Polar
       link so the order keeps its source. Not analytics — the visitor's browser sends nothing to a third party.

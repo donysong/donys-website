@@ -1,7 +1,7 @@
 'use client';
 /* 03 Features — the v5 `/ae` 03 layout: cream cards alternating left/right on the red stem (`ae/PenTimeline.tsx`).
    Cards here are text only — there are no release-build panel captures yet (`/ae` §15.3: captures come from the release tag,
-   and the pre-order shape shows no Pro screens). When captures exist, a card gets `/ae`'s `figure.fig` back.
+   and the page shows no Pro screens). When captures exist, a card gets `/ae`'s `figure.fig` back.
    Cards (each one drops when its features are not claimable, `lib/pr.ts`):
      silence cuts   autocut.basic
      toolkit        the claimable toolkit features, one line each: name — claim — note (`pr.f.<id>.*`)

@@ -1,7 +1,8 @@
 'use client';
-/* `/pr` — You Name It PR Plugin sales page, launch shape = free version + Pro pre-order (owner, 2026-11-07).
+/* `/pr` — You Name It PR Plugin sales page, launch shape = free version + Pro, both on sale from one day, Pro as a regular
+   purchase (owner, 2026-11-10).
    Source copy = PR repo `gtm/site/pr-page.preorder.md` over `pr-page.full.md`. Skeleton = v5 `/ae` (AePage.tsx), so the two
-   product pages read as one site: cover → 01 who → 02 what it is → 03 features → 04 free · Pro → 05 pre-order (in `/ae`'s
+   product pages read as one site: cover → 01 who → 02 what it is → 03 features → 04 free · Pro → 05 how Pro works (in `/ae`'s
    05 slot) → 06 FAQ + specs (one sheet) → 07 install. Paper alternates blue ↔ note exactly like `/ae` (01 blue, 02 note …).
    No video in the cover (owner: no demo at launch) — the two circles sit together.
 
@@ -18,7 +19,7 @@ import Who from './Who';
 import Posi from './Posi';
 import Features from './Features';
 import Price from './Price';
-import Preorder from './Preorder';
+import HowPro from './HowPro';
 import Faq, { Specs } from './Faq';
 import Install from './Install';
 import { usePr } from './state';
@@ -36,7 +37,7 @@ export default function PrPage() {
   const { open, checkout, pending } = usePr();
   const pro = open('pro');
   const buy: BuyCta = pro
-    ? { href: checkout('pro'), label: t('pr.cta.pro'), big: t('pr.buy.pre'), small: PR.earlyPrice, pending: pending('pro') }
+    ? { href: checkout('pro'), label: t('pr.cta.pro'), big: t('s.buy'), small: PR.earlyPrice, pending: pending('pro') }
     : { href: checkout('free'), label: t('pr.cta.free'), big: '', small: '', line: true, pending: pending('free') };
   return (
     <Page4 page="pr" plateTotal={7} links={LINKS} cta={{ href: buy.href, k: pro ? 'pr.cta.pro' : 'pr.cta.free', pending: buy.pending }} buy={buy} rail={pro}>
@@ -45,7 +46,7 @@ export default function PrPage() {
       <Posi />
       <Features />
       <Price />
-      <Preorder />
+      <HowPro />
       {/* FAQ + specs = one sheet (`/ae` does the same — specs follow the FAQ with no top gap). */}
       <div className="onnote">
         <Faq />

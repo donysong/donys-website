@@ -1415,9 +1415,6 @@
 .p3 .pr-legal {margin-top:12px;font-size:13px}
 .p3 .pr-legal b {font-weight:800;margin-right:4px}
 
-/* 05 — the checkout-open date (only before that day) */
-.p3 .posi .plain.pr-when {margin-top:16px;font-weight:700}
-
 /* 07 — numbered steps inside `.howto` (Windows · Pro activation · manual): the dash bullet becomes a number */
 .p3 .howto ol {margin:0 0 10px;padding:0 0 0 1.4em;display:grid;gap:8px;list-style:decimal}
 .p3 .howto ol > li {padding-left:2px}

@@ -420,7 +420,7 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33', 'pr']) {
   else ok.push(`[i18n] lib/copy/${f}.ts ${en.size}/${ko.size} 대칭`);
 }
 
-/* ── PR 플러그인 면 (`/pr` · `/ko/pr`, 2026-10-10 · pre-order shape 2026-11-07) ───────────────────────────────────
+/* ── PR 플러그인 면 (`/pr` · `/ko/pr`, 2026-10-10 · 무료판 + Pro 동시 판매 2026-11-10) ───────────────────────────────────
    Values = the `PR` block in `lib/product.ts`. A failure here means "this page cannot sell yet": an empty checkout link
    (a buy button nobody can press), feature states not copied from the release registry (selling what is not in the build),
    terms that do not cover the product, no third-party notices page (PRD §8).
@@ -438,7 +438,7 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33', 'pr']) {
   }
   if (launchOn && opensOn && opensOn < launchOn) fail.push(`[pr] PR.checkoutOpensOn(${opensOn})이 launchOn(${launchOn})보다 이르다`);
   if (launchOn && today < launchOn) (release ? fail : warn).push(`[pr] 오늘(${today} KST)은 출시일(PR.launchOn ${launchOn}) 전이다 — 이 빌드를 배포하면 /pr 이 출시 전에 공개된다(무료판 버튼은 그날까지 날짜만 보인다)`);
-  if (opensOn && today < opensOn) warn.push(`[pr] Pro 사전예약·번들 결제는 ${opensOn} 에 열린다 — 이 빌드의 구매 버튼은 날짜만 보이고, 방문자 브라우저가 그날 00:00 KST 에 연다. 🔴 Polar Pro·번들 상품은 그날까지 비공개로`);
+  if (opensOn && today < opensOn) warn.push(`[pr] Pro·번들 결제는 ${opensOn} 에 열린다 — 이 빌드의 구매 버튼은 날짜만 보이고, 방문자 브라우저가 그날 00:00 KST 에 연다. 🔴 Polar Pro·번들 상품은 그날까지 비공개로`);
   for (const [k, what] of [['checkoutFree', '무료판'], ['checkoutPro', 'Pro'], ['checkoutBundle', '번들']]) {
     const v = prv(k);
     if (!v) fail.push(`[pr] lib/product.ts PR.${k} 가 비어 있다 — ${what} 구매 버튼이 href 없이 나간다. Polar 링크(PR repo gtm/polar/polar-setup.md §4)를 오너가 채운다`);
@@ -450,8 +450,8 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33', 'pr']) {
      Here: the checkout opens exactly on that revision's effective day, so nobody buys under terms that do not cover the product. */
   const prEffective = read(path.join(process.cwd(), 'lib/policy.ts')).match(/export const PR_EFFECTIVE\s*=\s*'(\d{4}-\d{2}-\d{2})'/)?.[1];
   if (!prEffective) fail.push('[pr] lib/policy.ts 에 PR_EFFECTIVE 가 없다 — PR 조항을 담은 약관·방침·환불 개정(고지)이 사이트에 없다');
-  else if (prEffective !== opensOn) fail.push(`[pr] PR.checkoutOpensOn(${opensOn}) ≠ lib/policy.ts PR_EFFECTIVE(${prEffective}) — 사전예약 결제는 PR 약관 시행일에 연다. 두 줄을 같이 옮긴다`);
-  else ok.push(`[pr] 사전예약 결제일 = PR 약관 시행일 ${opensOn}`);
+  else if (prEffective !== opensOn) fail.push(`[pr] PR.checkoutOpensOn(${opensOn}) ≠ lib/policy.ts PR_EFFECTIVE(${prEffective}) — Pro 결제는 PR 약관 시행일에 연다. 두 줄을 같이 옮긴다`);
+  else ok.push(`[pr] Pro 결제일 = PR 약관 시행일 ${opensOn}`);
   /* Third-party notices (PRD §8 "앱과 사이트에"): the path is set, both locales are baked, /pr and /ko/pr link to it, and every fenced
      license text of the shipped copy (`content/pr/THIRD-PARTY-NOTICES.md`, see `lib/notices.ts`) is on the page exactly as in the copy. */
   const noticesPath = product.match(/\bnotices:\s*'([^']+)'/)?.[1];

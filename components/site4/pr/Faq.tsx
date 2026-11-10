@@ -1,9 +1,9 @@
 'use client';
 /* 06 FAQ — the v5 `/ae` 06 (`details.qa` · summary = question + one-word verdict · GSAP disclosure `useDisclosure`).
-   Source = PR repo `gtm/site/pr-faq.md`; groups: work · technical · license · pre-order (p1–p6 replace q20 refund in this shape).
-   Left out against the source, because they describe Pro features as available (pre-order rule 1) or are gone:
+   Source = PR repo `gtm/site/pr-faq.md`; groups: work · technical · license · buying Pro (buy1–buy4 replace q20 refund in this shape).
+   Left out against the source, because they describe Pro features beyond their names (not approved copy yet) or are gone:
    q4 captions cost · q5 q6 Chat · q7 bad takes (unbuilt) · q8 comparison · q15 key automation (only Pro uses it) · q16 (D1) ·
-   q20 (→ p3) · q25 (Pro offline lock). New: `mac` (macOS coming soon, owner 2026-11-07).
+   q20 (→ buy3) · q25 (Pro offline lock). New: `mac` (macOS coming soon, owner 2026-11-07).
    Tags: a question drops when none of its features is claimable. q21 drops once the AE code expires (`PR.aeCouponEnd`). */
 import { Html, useT } from '@/components/site3p/lang';
 import { useRef } from 'react';
@@ -21,7 +21,7 @@ const GROUPS: { lab: string; qs: string[] }[] = [
   { lab: 'pr.faq.g1', qs: ['q1', 'q2', 'q3', 'q9', 'q10'] },
   { lab: 'pr.faq.g2', qs: ['q11', 'mac', 'q12', 'q13', 'q14', 'q17'] },
   { lab: 'pr.faq.g3', qs: ['q18', 'q19', 'q21', 'q22', 'q23', 'q24', 'q26', 'q27'] },
-  { lab: 'pr.faq.g4', qs: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'] },
+  { lab: 'pr.faq.g4', qs: ['buy1', 'buy2', 'buy3', 'buy4'] },
 ];
 
 export default function Faq() {
