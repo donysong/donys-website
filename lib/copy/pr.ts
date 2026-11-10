@@ -1,8 +1,8 @@
 /* `/pr` dictionary — EN/KO. 🔴 Only the `/pr` lane edits this file.
    Source = PR repo `gtm/site/` — `pr-page.preorder.md` (variant B: free version + Pro pre-order, the launch shape the owner
    picked on 2026-11-07) on top of `pr-page.full.md`, `pr-faq.md`, `pr-install.md`, `feature-claims.json`.
-   Changes against the source (owner, 2026-11-07): launch 11/11, Pro pre-order checkout opens {checkoutOpens} (until then the page
-   offers the free version and says the date), macOS = coming soon (no macOS steps, no macOS version claimed), no video,
+   Changes against the source (owner, 2026-11-07; one launch day, owner 2026-11-10): the free version and the Pro pre-order checkout both open on {checkoutOpens} (until then the page
+   says the date), macOS = coming soon (no macOS steps, no macOS version claimed), no video,
    the UXP companion is not mentioned (`PR.companion`), no early-bird end date (the 11/13 window ends before checkout opens).
    KO = v5 site voice: 해요체, first person 우리, `-시-` where the reader acts, no `~세요` (PR repo `gtm/README.md` copy rules).
 
@@ -500,7 +500,7 @@ const PR_COPY: Dict = {
 
     /* ── 05 사전예약 ─────────────────────────────────────────── */
     'prp.h': '사전예약은 이렇게 해요',
-    'prp.p': '무료판은 지금 받아서 쓸 수 있어요. Pro 기능도 같은 설치 파일에 들어 있고, Pro 키를 넣기 전까지는 잠겨 있어요. 예약하시면 라이선스 키를 바로 드리고, 키를 넣으면 열려요.',
+    'prp.p': '무료판은 받아서 쓸 수 있어요. Pro 기능도 같은 설치 파일에 들어 있고, Pro 키를 넣기 전까지는 잠겨 있어요. 예약하시면 라이선스 키를 바로 드리고, 키를 넣으면 열려요.',
     'prp.why': '출시일은 지키고, 기준에 못 미친 기능은 뒤로 미뤘어요. 덜 된 기능을 켜 두는 것보다 낫다고 봤어요.',
     'prp.when': '사전예약 결제는 {checkoutOpens}에 열려요. 바뀐 약관이 시행되는 날이에요.',
     'prp.now.h': '지금 받는 것',

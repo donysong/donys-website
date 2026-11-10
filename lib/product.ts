@@ -151,9 +151,9 @@ export const PR = {
   price: '$49.99',                // list price — after the post-opening early-bird (facts.md)
   earlyPrice: '$34.99',           // pre-order price = early-bird price; it stays until Pro opens
   earlyPriceUsd: '34.99',
-  /* 🔴 The two dates the owner may move. Each one is a gate the browser re-checks against its own clock (`lib/pr.ts` `prOpenAt`),
+  /* 🔴 The two dates the owner may move (today they are the same day: owner, 2026-11-10 — free and Pro open together). Each one is a gate the browser re-checks against its own clock (`lib/pr.ts` `prOpenAt`),
      so a page built before the date opens by itself on the day. The real gate is Polar: keep a product unpublished until its day. */
-  launchOn: '2026-11-11',         // /pr goes public · the free version can be downloaded (free checkout link opens)
+  launchOn: '2026-11-14',         // /pr goes public · the free version can be downloaded (free checkout link opens) — the same day as checkoutOpensOn (owner, 2026-11-10: free and Pro open together)
   /* Pro pre-order + bundle checkout opens = the day the terms · privacy · refund revision with PR takes effect.
      🔴 Must equal `PR_EFFECTIVE` in `lib/policy.ts` (that file owns the notice: posted date, 7-day count, notice band, upcoming pages).
      Move the two together — deployCheck `[pr]` and `npm run test:pr` fail when they differ. (Not imported: policy → analytics → product is a cycle.) */

@@ -8,7 +8,7 @@
    🔴 Every purchase CTA here is **PR Pro checkout** (rail · cover circle · price button · footer). Never the AE checkout —
       the shell defaults to AE, so `buy` must always be passed.
    🔴 Before the Pro checkout opens (`PR.checkoutOpensOn`) there is nothing to buy: no rail, the nav and footer slots carry
-      the free version as an outline (fill is for purchase only, REBRAND §9.9 ③), the filled buttons show the date.
+      the free version as an outline (fill is for purchase only, REBRAND §9.9 ③), the filled buttons show the date. Free opens the same day (owner, 2026-11-10), so before it the outline shows the date too.
    🔴 No brand story in the body (`/ae` rule ①) — the footer is the only way to the brand. */
 import Page4, { type BuyCta, type NavLink } from '@/components/site4/Shell';
 import { useT } from '@/components/site3p/lang';

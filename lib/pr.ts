@@ -18,8 +18,8 @@ export function kstDayStart(iso: string): number {
 /** The instant a day ends (next day 00:00 KST) — the moment right after "until 23:59:59 that day" */
 export const kstDayEnd = (iso: string) => kstDayStart(iso) + DAY;
 
-/** Which checkout may be pressed at `now`. Free opens on launch day; Pro pre-order and the bundle open on the day the
- *  terms/privacy revision takes effect (owner, 2026-11-07). Before that the page shows the date instead of a link. */
+/** Which checkout may be pressed at `now`. Free, the Pro pre-order and the bundle all open on one day: the day the terms/privacy
+ *  revision takes effect (owner, 2026-11-07; one launch day, owner 2026-11-10). Before that the page shows the date instead of a link. */
 export type CheckoutKind = 'free' | 'pro' | 'bundle';
 export const prOpensOn = (k: CheckoutKind) => (k === 'free' ? PR.launchOn : PR.checkoutOpensOn);
 export const prOpenAt = (now: number, k: CheckoutKind) => now >= kstDayStart(prOpensOn(k));
