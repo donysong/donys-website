@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import PrivacyEn from '@/components/legal/PrivacyEn';
 import { share } from '@/lib/meta';
-import { PR_IN_FORCE } from '@/lib/policy';
 
-const DESCRIPTION = PR_IN_FORCE ? 'Privacy Policy for the You Name It plugins.' : 'Privacy Policy for You Name It AE Plugin.';
+const DESCRIPTION = 'Privacy Policy for the You Name It plugins.';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/privacy', languages: { en: '/privacy', ko: '/ko/privacy', 'x-default': '/privacy' } },
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   ...share({ path: '/privacy', title: 'Privacy Policy — You Name It', description: DESCRIPTION, lang: 'en' }),
 };
 
-/* 본문은 `components/legal/PrivacyEn.tsx` — 현재 판과 개정 예정본(`./upcoming`)이 같은 본문을 그린다. */
+/* 본문은 `components/legal/PrivacyEn.tsx`. */
 export default function PrivacyPage() {
-  return <PrivacyEn view="current" />;
+  return <PrivacyEn />;
 }

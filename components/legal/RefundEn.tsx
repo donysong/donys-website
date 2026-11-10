@@ -1,10 +1,9 @@
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
-import PolicyNotice from '@/components/PolicyNotice';
 import { BUSINESS, PR } from '@/lib/product';
-import { human, prDate, prText } from '@/lib/policy';
+import { human, prDate } from '@/lib/policy';
 
-/* 환불 정책 본문(영문) — `/refund`(현재 판)와 `/refund/upcoming`(개정 예정본)이 **같은 본문**을 그린다. `pr` 이 거짓이면 09-30 판 그대로다.
-   초안 = PR 플러그인 repo `gtm/legal/refund-additions.md`(⚖️ 전문가 검토 전). `{pr ? 새 : 옛}` 의 옛 갈래는 시행 뒤 지운다(`lib/policy.ts`). */
+/* 환불 정책 본문(영문) — `/refund`. You Name It PR Plugin 절은 2026-11-14 시행(`lib/policy.ts` 의 `PR_EFFECTIVE`) — 그 전 판(09-30)은 git 이력(162faa2)에 있다.
+   초안 = PR 플러그인 repo `gtm/legal/refund-additions.md`(⚖️ 전문가 검토 전). */
 
 /* 🔴 2026-09-30 오너 *"법조인 롤로 직접 작성"* — 국문판(`components/legal/RefundKo.tsx`)과 **같은 약속**이다. 근거·쟁점 =
    플러그인 repo `donys/docs/LEGAL_KR_REVIEW.md`(비공개 — 이 repo 는 공개다) §2 A6~A11 (국문판 머리 주석에 조문 요약). 🔴 "5–7 business days" 로 되돌리지 마라 —
@@ -22,19 +21,16 @@ function Mail() {
   );
 }
 
-export default function RefundEn({ view }: { view: 'current' | 'upcoming' }) {
-  const pr = prText(view);
+export default function RefundEn() {
   return (
     <ReadingShell lang="en" plate="s.ft.refund">
       <header className="max-w-3xl">
-        <p className="lab">{pr ? 'You Name It' : 'You Name It AE Plugin'}</p>
+        <p className="lab">You Name It</p>
         <InkTitle>Refund Policy</InkTitle>
-        <p className="text-sm">Effective: {pr ? prDate('en') : 'September 30, 2026'}</p>
+        <p className="text-sm">Effective: {prDate('en')}</p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
-        {/* 고지 단계: 현재 판 위에는 개정 예정 띠, 예정본 위에는 현재 판으로 가는 띠. 시행 뒤에는 띠가 없다. */}
-        <PolicyNotice lang="en" doc="refund" view={view} />
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
             <h2 className={H2}>1. 14-Day Refund, No Questions Asked</h2>
@@ -44,46 +40,42 @@ export default function RefundEn({ view }: { view: 'current' | 'upcoming' }) {
             </p>
           </section>
 
-          {pr ? (
-            <>
-              <section>
-                <h2 className={H2}>1-2. Free Version</h2>
-                <p>The Free Version involves no payment, so there is nothing to refund. You can delete it at any time, and your work stays as it is.</p>
-              </section>
+          <section>
+            <h2 className={H2}>1-2. Free Version</h2>
+            <p>The Free Version involves no payment, so there is nothing to refund. You can delete it at any time, and your work stays as it is.</p>
+          </section>
 
-              <section>
-                <h2 className={H2}>1-3. Pre-orders</h2>
-                <p>
-                  If you pre-ordered Pro, we refund you in full, with no reason needed,{' '}
-                  <strong>at any time before the Pro features open and within 14 days from the day they open</strong>. We email you the
-                  opening date at the address you bought with.{' '}
-                  <strong>
-                    If the Pro features have not opened by {human(PR.preorderDeadline, 'en')}, we refund every Pre-order in full without
-                    waiting for a request.
-                  </strong>{' '}
-                  The license key is then terminated, and the Free Version keeps working.
-                </p>
-              </section>
+          <section>
+            <h2 className={H2}>1-3. Pre-orders</h2>
+            <p>
+              If you pre-ordered Pro, we refund you in full, with no reason needed,{' '}
+              <strong>at any time before the Pro features open and within 14 days from the day they open</strong>. We email you the
+              opening date at the address you bought with.{' '}
+              <strong>
+                If the Pro features have not opened by {human(PR.preorderDeadline, 'en')}, we refund every Pre-order in full without
+                waiting for a request.
+              </strong>{' '}
+              The license key is then terminated, and the Free Version keeps working.
+            </p>
+          </section>
 
-              <section>
-                <h2 className={H2}>1-4. Bundle</h2>
-                <p>
-                  The Bundle counts as one purchase and is refunded in full within 14 days.{' '}
-                  <strong>The Bundle is refunded only as a whole; we do not make partial refunds that keep one of the two plugins.</strong>{' '}
-                  A refund terminates the Bundle license key, which locks Pro in both plugins. A refund under Section 5 (remote switch-off)
-                  also covers the whole Bundle.
-                </p>
-              </section>
+          <section>
+            <h2 className={H2}>1-4. Bundle</h2>
+            <p>
+              The Bundle counts as one purchase and is refunded in full within 14 days.{' '}
+              <strong>The Bundle is refunded only as a whole; we do not make partial refunds that keep one of the two plugins.</strong>{' '}
+              A refund terminates the Bundle license key, which locks Pro in both plugins. A refund under Section 5 (remote switch-off)
+              also covers the whole Bundle.
+            </p>
+          </section>
 
-              <section>
-                <h2 className={H2}>1-5. Purchases Made with an AE Buyer Code</h2>
-                <p>
-                  If you refund PR Pro bought with an AE buyer discount code, that code counts as used. If you buy again later, you can ask
-                  for a new code against the same AE order until {human(PR.aeCouponEnd, 'en')}.
-                </p>
-              </section>
-            </>
-          ) : null}
+          <section>
+            <h2 className={H2}>1-5. Purchases Made with an AE Buyer Code</h2>
+            <p>
+              If you refund PR Pro bought with an AE buyer discount code, that code counts as used. If you buy again later, you can ask
+              for a new code against the same AE order until {human(PR.aeCouponEnd, 'en')}.
+            </p>
+          </section>
 
           <section>
             <h2 className={H2}>2. If the Product Is Not as Described</h2>
@@ -129,31 +121,23 @@ export default function RefundEn({ view }: { view: 'current' | 'upcoming' }) {
             <p>
               We also look at requests outside Sections 1 and 2. If you hit a serious technical problem we are unable to
               resolve, we may refund you after the period has passed.
-              {pr ? (
-                <>
-                  {' '}
-                  <strong>
-                    If a PR Plugin Pro feature stays unavailable for more than 30 days because we switched it off remotely, we refund
-                    you on request even after 14 days
-                  </strong>{' '}
-                  (Terms, Section 12-2). <strong>A Bundle is then refunded as a whole.</strong>
-                </>
-              ) : null}
+              {' '}
+              <strong>
+                If a PR Plugin Pro feature stays unavailable for more than 30 days because we switched it off remotely, we refund
+                you on request even after 14 days
+              </strong>{' '}
+              (Terms, Section 12-2). <strong>A Bundle is then refunded as a whole.</strong>
             </p>
           </section>
 
           <section>
             <h2 className={H2}>6. Your License After a Refund</h2>
-            {pr ? (
-              <p>
-                A refund terminates the license key. For the AE Plugin, the activation is released, so please delete the Product from your
-                computer.{' '}
-                <strong>For the PR Plugin, only the Pro features lock, at the next check (at most 7 days later); the Free Version features keep working.</strong>{' '}
-                Either way, the work you have made stays as it is.
-              </p>
-            ) : (
-              <p>After a refund, your license key is deactivated. Please uninstall the Product from your computers.</p>
-            )}
+            <p>
+              A refund terminates the license key. For the AE Plugin, the activation is released, so please delete the Product from your
+              computer.{' '}
+              <strong>For the PR Plugin, only the Pro features lock, at the next check (at most 7 days later); the Free Version features keep working.</strong>{' '}
+              Either way, the work you have made stays as it is.
+            </p>
           </section>
 
           <section>

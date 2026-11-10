@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import TermsEn from '@/components/legal/TermsEn';
 import { share } from '@/lib/meta';
-import { PR_IN_FORCE } from '@/lib/policy';
 
-const DESCRIPTION = PR_IN_FORCE ? 'Terms of Service for the You Name It plugins.' : 'Terms of Service for You Name It AE Plugin.';
+const DESCRIPTION = 'Terms of Service for the You Name It plugins.';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/terms', languages: { en: '/terms', ko: '/ko/terms', 'x-default': '/terms' } },
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   ...share({ path: '/terms', title: 'Terms of Service — You Name It', description: DESCRIPTION, lang: 'en' }),
 };
 
-/* 본문은 `components/legal/TermsEn.tsx` — 현재 판과 개정 예정본(`./upcoming`)이 같은 본문을 그린다. */
+/* 본문은 `components/legal/TermsEn.tsx`. */
 export default function TermsPage() {
-  return <TermsEn view="current" />;
+  return <TermsEn />;
 }

@@ -1,11 +1,9 @@
 import ReadingShell, { InkTitle } from '@/components/ReadingShell';
-import PolicyNotice from '@/components/PolicyNotice';
 import { BUSINESS, PR } from '@/lib/product';
-import { human, prDate, prText } from '@/lib/policy';
+import { human, prDate } from '@/lib/policy';
 
-/* 환불 정책 본문 — `/ko/refund`(현재 판)와 `/ko/refund/upcoming`(개정 예정본)이 **같은 본문**을 그린다(복사본은 갈라진다).
-   `pr`(= You Name It PR Plugin 절을 싣는가)가 거짓이면 09-30 판 그대로다. 초안 = PR 플러그인 repo `gtm/legal/refund-additions.md`(⚖️ 전문가 검토 전).
-   `{pr ? 새 : 옛}` 의 옛 갈래는 시행 뒤 지운다(`lib/policy.ts`). */
+/* 환불 정책 본문 — `/ko/refund`. You Name It PR Plugin 절은 2026-11-14 시행(`lib/policy.ts` 의 `PR_EFFECTIVE`) — 그 전 판(09-30)은 git 이력(162faa2)에 있다.
+   초안 = PR 플러그인 repo `gtm/legal/refund-additions.md`(⚖️ 전문가 검토 전). */
 
 /* 🔴 2026-09-30 오너 *"법조인 롤로 직접 작성"* — 정본 검토서 = 플러그인 repo `donys/docs/LEGAL_KR_REVIEW.md`(비공개 — 이 repo 는 공개다) §2 A6~A11.
    영문판(`components/legal/RefundEn.tsx`)과 **같은 약속**이다 — 한쪽을 고치면 다른 쪽도 같이 고쳐라.
@@ -29,19 +27,16 @@ function Mail() {
   );
 }
 
-export default function RefundKo({ view }: { view: 'current' | 'upcoming' }) {
-  const pr = prText(view);
+export default function RefundKo() {
   return (
     <ReadingShell lang="ko" plate="s.ft.refund">
       <header className="max-w-3xl">
-        <p className="lab">{pr ? 'You Name It' : 'You Name It AE Plugin'}</p>
+        <p className="lab">You Name It</p>
         <InkTitle>환불 정책</InkTitle>
-        <p className="text-sm">시행일: {pr ? prDate('ko') : '2026년 9월 30일'}</p>
+        <p className="text-sm">시행일: {prDate('ko')}</p>
       </header>
       {/* T3 — 긴 읽는 면은 파란 대지가 아니라 종이 위다. `.p3 a` 가 밑줄을 지우므로 important 로 되살린다. */}
       <div className="sheet mt-10 max-w-3xl [--m:1] [&_a]:underline!">
-        {/* 고지 단계: 현재 판 위에는 개정 예정 띠, 예정본 위에는 현재 판으로 가는 띠. 시행 뒤에는 띠가 없다. */}
-        <PolicyNotice lang="ko" doc="refund" view={view} />
         <div className="space-y-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
           <section>
             <h2 className={H2}>1. 14일 무조건 환불</h2>
@@ -52,44 +47,40 @@ export default function RefundKo({ view }: { view: 'current' | 'upcoming' }) {
             </p>
           </section>
 
-          {pr ? (
-            <>
-              <section>
-                <h2 className={H2}>1-2. 무료판</h2>
-                <p>무료판은 결제가 없어 환불 대상이 아닙니다. 무료판 설치 파일은 언제든 지우실 수 있고, 지우셔도 작업물은 그대로 남습니다.</p>
-              </section>
+          <section>
+            <h2 className={H2}>1-2. 무료판</h2>
+            <p>무료판은 결제가 없어 환불 대상이 아닙니다. 무료판 설치 파일은 언제든 지우실 수 있고, 지우셔도 작업물은 그대로 남습니다.</p>
+          </section>
 
-              <section>
-                <h2 className={H2}>1-3. 사전예약</h2>
-                <p>
-                  Pro 를 사전예약으로 구매하신 경우, <strong>Pro 기능이 열리기 전에는 언제든, 열린 날부터 14일 이내에는</strong> 이유를
-                  묻지 않고 전액을 돌려드립니다. 열리는 날은 구매하신 이메일로 알려 드립니다.{' '}
-                  <strong>
-                    Pro 기능이 {human(PR.preorderDeadline, 'ko')}까지 열리지 않으면, 요청을 기다리지 않고 모든 사전예약을 전액
-                    환불합니다.
-                  </strong>{' '}
-                  이 경우 라이선스 키는 해지되고, 무료판은 계속 이용하실 수 있습니다.
-                </p>
-              </section>
+          <section>
+            <h2 className={H2}>1-3. 사전예약</h2>
+            <p>
+              Pro 를 사전예약으로 구매하신 경우, <strong>Pro 기능이 열리기 전에는 언제든, 열린 날부터 14일 이내에는</strong> 이유를
+              묻지 않고 전액을 돌려드립니다. 열리는 날은 구매하신 이메일로 알려 드립니다.{' '}
+              <strong>
+                Pro 기능이 {human(PR.preorderDeadline, 'ko')}까지 열리지 않으면, 요청을 기다리지 않고 모든 사전예약을 전액
+                환불합니다.
+              </strong>{' '}
+              이 경우 라이선스 키는 해지되고, 무료판은 계속 이용하실 수 있습니다.
+            </p>
+          </section>
 
-              <section>
-                <h2 className={H2}>1-4. 번들</h2>
-                <p>
-                  번들은 하나의 구매로 보고 14일 안에 전액을 돌려드립니다.{' '}
-                  <strong>번들은 전체로만 환불하며, 한쪽 플러그인만 남기는 부분 환불은 하지 않습니다.</strong> 환불하시면 번들 라이선스
-                  키가 해지되어 두 플러그인 모두에서 Pro 가 잠깁니다. 5의 원격 중지에 따른 환불도 번들 전체로 합니다.
-                </p>
-              </section>
+          <section>
+            <h2 className={H2}>1-4. 번들</h2>
+            <p>
+              번들은 하나의 구매로 보고 14일 안에 전액을 돌려드립니다.{' '}
+              <strong>번들은 전체로만 환불하며, 한쪽 플러그인만 남기는 부분 환불은 하지 않습니다.</strong> 환불하시면 번들 라이선스
+              키가 해지되어 두 플러그인 모두에서 Pro 가 잠깁니다. 5의 원격 중지에 따른 환불도 번들 전체로 합니다.
+            </p>
+          </section>
 
-              <section>
-                <h2 className={H2}>1-5. AE 구매자 할인 코드로 사신 경우</h2>
-                <p>
-                  AE 구매자 할인 코드로 사신 PR Pro 를 환불하시면, 그 코드는 이미 쓴 것으로 처리됩니다. 나중에 다시 사실 때는{' '}
-                  {human(PR.aeCouponEnd, 'ko')}까지 같은 AE 주문으로 새 코드를 요청하실 수 있습니다.
-                </p>
-              </section>
-            </>
-          ) : null}
+          <section>
+            <h2 className={H2}>1-5. AE 구매자 할인 코드로 사신 경우</h2>
+            <p>
+              AE 구매자 할인 코드로 사신 PR Pro 를 환불하시면, 그 코드는 이미 쓴 것으로 처리됩니다. 나중에 다시 사실 때는{' '}
+              {human(PR.aeCouponEnd, 'ko')}까지 같은 AE 주문으로 새 코드를 요청하실 수 있습니다.
+            </p>
+          </section>
 
           <section>
             <h2 className={H2}>2. 설명과 다른 경우</h2>
@@ -137,30 +128,22 @@ export default function RefundKo({ view }: { view: 'current' | 'upcoming' }) {
             <p>
               1번과 2번에 해당하지 않는 요청도 살펴봅니다. 저희가 해결하지 못하는 심각한 기술 문제가 있으면 기간이 지났어도
               환불해 드릴 수 있습니다.
-              {pr ? (
-                <>
-                  {' '}
-                  <strong>
-                    PR Plugin 의 Pro 기능이 저희의 원격 중지 때문에 30일 넘게 쓸 수 없는 상태가 이어지면, 14일이 지났어도 요청하시는
-                    대로 환불해 드립니다
-                  </strong>
-                  (이용약관 제12조의2). <strong>번들은 이 경우에도 번들 전체를 환불합니다.</strong>
-                </>
-              ) : null}
+              {' '}
+              <strong>
+                PR Plugin 의 Pro 기능이 저희의 원격 중지 때문에 30일 넘게 쓸 수 없는 상태가 이어지면, 14일이 지났어도 요청하시는
+                대로 환불해 드립니다
+              </strong>
+              (이용약관 제12조의2). <strong>번들은 이 경우에도 번들 전체를 환불합니다.</strong>
             </p>
           </section>
 
           <section>
             <h2 className={H2}>6. 환불 뒤 라이선스</h2>
-            {pr ? (
-              <p>
-                환불하면 라이선스 키가 해지됩니다. AE Plugin 은 활성화가 해제되니 컴퓨터에서 제품을 삭제해 주세요.{' '}
-                <strong>PR Plugin 은 다음 확인 때(길어야 7일 뒤) Pro 기능만 잠기고, 무료판 기능은 계속 쓰실 수 있습니다.</strong> 어느
-                쪽이든 이미 만든 작업물은 그대로 남습니다.
-              </p>
-            ) : (
-              <p>환불하면 라이선스 키의 활성화가 해제됩니다. 컴퓨터에서 제품을 삭제해 주세요.</p>
-            )}
+            <p>
+              환불하면 라이선스 키가 해지됩니다. AE Plugin 은 활성화가 해제되니 컴퓨터에서 제품을 삭제해 주세요.{' '}
+              <strong>PR Plugin 은 다음 확인 때(길어야 7일 뒤) Pro 기능만 잠기고, 무료판 기능은 계속 쓰실 수 있습니다.</strong> 어느
+              쪽이든 이미 만든 작업물은 그대로 남습니다.
+            </p>
           </section>
 
           <section>

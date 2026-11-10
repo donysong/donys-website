@@ -183,9 +183,6 @@ test('고지 단계 시행일 — 방침 시행일(POLICY_EFFECTIVE)+8일 이후
   const P = await import('../lib/policy.ts');
   const min = new Date(Date.parse(P.POLICY_EFFECTIVE) + 8 * 86400e3).toISOString().slice(0, 10);
   assert.ok(A.ANALYTICS_EFFECTIVE >= min, `ANALYTICS_EFFECTIVE ${A.ANALYTICS_EFFECTIVE} < ${min}`);
-  assert.equal(P.ANALYTICS_NOTICE, !A.ANALYTICS_ON, '시행일이 있으면 켜기 전까지가 고지 단계');
-  assert.equal(P.revisedText('current'), A.ANALYTICS_ON, '켜기 전 현재 판은 옛 방침, 켠 뒤엔 개정본');
-  assert.equal(P.revisedText('upcoming'), true);
   assert.equal(P.analyticsDate('ko').includes('년'), true);
   assert.match(P.analyticsDate('en'), /^[A-Z][a-z]+ \d{1,2}, \d{4}$/);
 });
