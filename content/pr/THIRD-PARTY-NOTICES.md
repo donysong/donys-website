@@ -239,7 +239,7 @@ but nothing shipped imports it yet.
 | `zod-to-json-schema` | 3.25.2 | ISC | `dist/node/mcp.js` |
 | `chokidar` | 4.0.3 | MIT | `dist/node/watchfolder.js` |
 | `readdirp` | 4.1.2 | MIT | `dist/node/watchfolder.js` (dependency of `chokidar`) |
-| `es-hangul` | 2.4.0 | MIT | panels (`dist/assets/FxConsole-*.js`, FX Console search in the FX and Main panels) |
+| `es-hangul` | 2.4.0 | MIT | panels (`dist/assets/FxConsole-*.js`, FX Search in the FX and Main panels) |
 | `@vladmandic/face-api` | 1.7.15 | MIT | Main panel, lazy chunk (`dist/assets/face-api.esm-*.js`, Face Track detector; bundles TensorFlow.js 4.22.0, Apache-2.0) |
 | `ws` | 8.22.0 | MIT | `dist/node/uxp.js` (Background, local WebSocket server for the UXP companion link) |
 | `onnxruntime-web` | 1.31.1 | MIT | `dist/node/vad.js`, `dist/node/vad/ort-wasm-simd-threaded.wasm` (runs the speech detection model of Auto Cut on this computer) |
