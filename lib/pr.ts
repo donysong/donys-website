@@ -44,9 +44,12 @@ export const prIn = (group: string) => PR_FEATURES.filter((f) => f.group === gro
 /** Free features not in this release — names only, under "still in the works". */
 export const prPlanned = () => PR_FEATURES.filter((f) => f.tier === 'free' && f.state === 'off' && f.group !== 'infra').map((f) => f.id);
 
-/** Pro features the pre-order promises for the opening update / the rest (names only, no dates). Unbuilt ones never appear. */
+/** Pro features the pre-order promises (labels). */
 export const prLaunchSet = () => PR_FEATURES.filter((f) => f.tier === 'pro' && f.launch).map((f) => f.id);
-export const prLater = () => PR_FEATURES.filter((f) => f.tier === 'pro' && !f.launch && f.state !== 'unbuilt').map((f) => f.id);
+/** Pro toolkit tools that are in this release, locked by the license until the key is entered (names only). */
+export const prProTools = () => PR_FEATURES.filter((f) => f.tier === 'pro' && !f.launch && f.state === 'on').map((f) => f.id);
+/** Pro tools not in this release — names only, no dates. Unbuilt ones never appear. */
+export const prLater = () => PR_FEATURES.filter((f) => f.tier === 'pro' && !f.launch && f.state === 'off').map((f) => f.id);
 
 /** JSON-LD (`SoftwareApplication`) for `/pr` · `/ko/pr` — same skeleton, description in the page language.
  *  Offers = Free ($0, in stock from launch day) · Pro (pre-order price, `PreOrder`, from the checkout-open day). */

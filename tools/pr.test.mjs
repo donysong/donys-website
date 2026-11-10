@@ -66,7 +66,11 @@ test('pre-order shape: no Pro feature is claimable; launch set and later lists a
   const launch = pr.prLaunchSet(), later = pr.prLater();
   assert.ok(launch.length > 0);
   assert.equal(launch.filter((id) => later.includes(id)).length, 0);
-  for (const id of later) assert.notEqual(PR_FEATURES.find((f) => f.id === id).state, 'unbuilt', id);
+  for (const id of later) assert.equal(PR_FEATURES.find((f) => f.id === id).state, 'off', id);
+  /* the Pro toolkit in this release (on) and the Pro tools not in it (off) never overlap, and neither holds a launch or unbuilt row */
+  const tools = pr.prProTools();
+  assert.equal(tools.filter((id) => later.includes(id) || launch.includes(id)).length, 0);
+  for (const id of tools) assert.equal(PR_FEATURES.find((f) => f.id === id).state, 'on', id);
 });
 
 test('date gates open at 00:00 KST of their day', () => {

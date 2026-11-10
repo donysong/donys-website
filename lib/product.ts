@@ -180,9 +180,10 @@ export const PR = {
      Flip to true only after D2 and the clean install (D20) confirm it; the `.ccx` install lines come back with it. */
   companion: false,
   /* The day `PR_FEATURES[].state` was copied from the release registry (KST). Empty → deployCheck `[pr]` fails.
-     Gate day (11/09 night): PR repo `node gtm/tools/check-gtm.mjs --claims --registry <release>/src/features/registry.ts`
+     Gate day (11/10, PR repo df40461 — free and Pro ship together in v1.0.0, Pro locked by the license until checkout opens):
+     PR repo `node gtm/tools/check-gtm.mjs --claims --registry <release>/src/features/registry.ts`
      → set each `state` below → set this to that day. */
-  featuresFrozenOn: '2026-11-09',
+  featuresFrozenOn: '2026-11-10',
 } as const;
 
 /* 🔴 THE feature list — one row per PR repo registry id (`src/features/registry.ts`, same order = screen order).
@@ -202,26 +203,26 @@ type PrRow<I extends string> = { id: I; tier: 'free' | 'pro'; group: 'autocut' |
 const prRows = <I extends string>(rows: readonly PrRow<I>[]) => rows;
 export const PR_FEATURES = prRows([
   { id: 'autocut.basic', tier: 'free', group: 'autocut', state: 'on', launch: false },
-  { id: 'autocut.advanced', tier: 'pro', group: 'autocut', state: 'off', launch: true },
+  { id: 'autocut.advanced', tier: 'pro', group: 'autocut', state: 'on', launch: true },
   { id: 'autocut.filler', tier: 'pro', group: 'autocut', state: 'unbuilt', launch: false },
   { id: 'autocut.ngTakes', tier: 'pro', group: 'autocut', state: 'unbuilt', launch: false },
   { id: 'autocut.xmlFastPath', tier: 'pro', group: 'autocut', state: 'off', launch: false },
   { id: 'captions.longform', tier: 'pro', group: 'captions', state: 'on', launch: true },
   { id: 'captions.shortform', tier: 'pro', group: 'captions', state: 'on', launch: true },
-  { id: 'chat', tier: 'pro', group: 'chat', state: 'off', launch: true },
+  { id: 'chat', tier: 'pro', group: 'chat', state: 'on', launch: true },
   { id: 'offset', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'anchor', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'bins', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'watchfolder', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'assets', tier: 'free', group: 'toolkit', state: 'off', launch: false },
-  { id: 'fxconsole', tier: 'pro', group: 'toolkit', state: 'off', launch: false },
-  { id: 'wiggle', tier: 'pro', group: 'toolkit', state: 'off', launch: false },
-  { id: 'speedramp', tier: 'pro', group: 'toolkit', state: 'off', launch: false },
-  { id: 'unnest', tier: 'pro', group: 'toolkit', state: 'off', launch: false },
+  { id: 'fxconsole', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'wiggle', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'speedramp', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'unnest', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'nest', tier: 'pro', group: 'toolkit', state: 'off', launch: false },
-  { id: 'facetrack', tier: 'pro', group: 'toolkit', state: 'off', launch: false },
-  { id: 'denoise', tier: 'pro', group: 'toolkit', state: 'off', launch: false },
-  { id: 'collect', tier: 'pro', group: 'toolkit', state: 'off', launch: false },
+  { id: 'facetrack', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'denoise', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'collect', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'keyauto', tier: 'free', group: 'infra', state: 'off', launch: false },
 ]);
 export type PrFeature = (typeof PR_FEATURES)[number]['id'];

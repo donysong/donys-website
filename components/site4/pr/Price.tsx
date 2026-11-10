@@ -1,7 +1,8 @@
 'use client';
 /* 04 Free · Pro — the v5 `/ae` 04 two-plan ledger (`.pricing.plans`, `app/plans.css`), on the note sheet.
    Free = $0 + the claimable free features (table labels) + the free checkout (outline). Pro = pre-order price + the one filled
-   button + what the same key opens: the launch set (labels) and, smaller, the later Pro tools (names, no dates).
+   button + what the same key opens: the launch set (labels) and, smaller, the Pro toolkit that is in this release (names) and
+   the Pro tools that are not (names, no dates).
    🔴 `#price` holds exactly two links: the Pro button (`data-price-cta` — the rail hides while it is on screen) and the free
       checkout. deployCheck `[pr]` counts them. Before a checkout's day the button shows the date instead (`state.tsx`).
    🔴 No `<a` inside dictionary strings rendered here. Bundle · discounts · tax · AI costs · legal links sit below, outside
@@ -12,7 +13,7 @@ import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 import { useHref } from '@/components/site4/Shell';
 import { PR_LEGAL } from '@/lib/product';
-import { prClaimable, prIn, prLater, prLaunchSet } from '@/lib/pr';
+import { prClaimable, prIn, prLater, prLaunchSet, prProTools } from '@/lib/pr';
 import Head from './Head';
 import { Checkout } from './state';
 
@@ -21,7 +22,9 @@ const FREE = [...prIn('autocut'), ...prIn('toolkit')].filter(prClaimable);
 export default function Price() {
   const { t, list } = useT();
   const href = useHref();
+  const tools = prProTools();
   const later = prLater();
+  const names = (ids: string[]) => ids.map((x) => t(`pr.f.${x}.name`)).join(' · ');
   const legal: [string, string][] = [
     [PR_LEGAL.terms, t('s.ft.terms')],
     [PR_LEGAL.refund, t('s.ft.refund')],
@@ -57,9 +60,13 @@ export default function Price() {
                 {prLaunchSet().map((id, i, all) => (
                   <li key={id}>
                     {t(`pr.f.${id}.label`)}
-                    {/* the later Pro tools go under the last launch line, smaller (as `/ae` lists its Pro-only tool names) */}
+                    {/* the other Pro tools go under the last launch line, smaller (as `/ae` lists its Pro-only tool names):
+                        first the ones in this release, then the ones that are not */}
+                    {i === all.length - 1 && tools.length
+                      ? <span className="plan-tools">{t('pr.price.pro.tools')} {names(tools)}</span>
+                      : null}
                     {i === all.length - 1 && later.length
-                      ? <span className="plan-tools">{t('pr.price.pro.later')} {later.map((x) => t(`pr.f.${x}.name`)).join(' · ')}</span>
+                      ? <span className="plan-tools">{t('pr.price.pro.later')} {names(later)}</span>
                       : null}
                   </li>
                 ))}
