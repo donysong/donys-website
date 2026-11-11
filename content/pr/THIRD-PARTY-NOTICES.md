@@ -221,8 +221,8 @@ SOFTWARE.
 ## 3. npm packages bundled into the build
 
 Packages esbuild resolves into the shipped bundles at this commit (development tools such as
-vite, vitest, typescript and `@types/*` are not shipped). `zustand` is a declared dependency
-but nothing shipped imports it yet.
+vite, vitest, typescript and `@types/*` are not shipped). `zustand` and `es-hangul` are declared
+dependencies but nothing shipped imports them.
 
 | Package | Version | License | Shipped in |
 |---|---|---|---|
@@ -239,7 +239,7 @@ but nothing shipped imports it yet.
 | `zod-to-json-schema` | 3.25.2 | ISC | `dist/node/mcp.js` |
 | `chokidar` | 4.0.3 | MIT | `dist/node/watchfolder.js` |
 | `readdirp` | 4.1.2 | MIT | `dist/node/watchfolder.js` (dependency of `chokidar`) |
-| `es-hangul` | 2.4.0 | MIT | panels (`dist/assets/FxConsole-*.js`, FX Search in the FX and Main panels) |
+| `lucide-react` | 0.577.0 | ISC (portions MIT, from Feather) | panels (`dist/assets/*.js`, the Tools tab icons in the Main panel) |
 | `@vladmandic/face-api` | 1.7.15 | MIT | Main panel, lazy chunk (`dist/assets/face-api.esm-*.js`, Face Track detector; bundles TensorFlow.js 4.22.0, Apache-2.0) |
 | `ws` | 8.22.0 | MIT | `dist/node/uxp.js` (Background, local WebSocket server for the UXP companion link) |
 | `onnxruntime-web` | 1.31.1 | MIT | `dist/node/vad.js`, `dist/node/vad/ort-wasm-simd-threaded.wasm` (runs the speech detection model of Auto Cut on this computer) |
@@ -612,14 +612,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### es-hangul 2.4.0 (MIT)
+### lucide-react 0.577.0 (ISC)
 
-<https://github.com/toss/es-hangul>
+<https://github.com/lucide-icons/lucide> - the package's `LICENSE` file, verbatim (ISC for Lucide, MIT for the portions derived from Feather):
 
 ```text
-MIT License
+ISC License
 
-Copyright (c) 2024 Viva Republica, Inc
+Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2026 as part of Feather (MIT). All other copyright (c) for Lucide are held by Lucide Contributors 2026.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+---
+
+The MIT License (MIT) (for portions derived from Feather)
+
+Copyright (c) 2013-2026 Cole Bemis
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

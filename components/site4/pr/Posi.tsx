@@ -5,8 +5,7 @@
      pr.posi.plain   chores it takes (silence cuts · bin cleanup)           — `pr.f.<id>.ex`
      pr.diff2.free   the other free tools                                   — `pr.f.<id>.name`, line drops when none
      pr.safe.li1     work done on a copy / new tracks (silence cuts)        — `pr.f.<id>.ex`
-     pr.safe.li2     tools on the selected clips with plugin undo (Offset · Anchor point)
-   FX Search is not in li2: it has no plugin undo (PR repo PRD §0, principle-1 exception, W6.4). */
+     pr.safe.li2     tools on the selected clips with plugin undo (Offset · Anchor point) */
 import { Html, useT } from '@/components/site3p/lang';
 import type { PrFeature } from '@/lib/product';
 import { prClaimable } from '@/lib/pr';

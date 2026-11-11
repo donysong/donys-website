@@ -186,7 +186,7 @@ export const PR = {
      Gate day (11/10, PR repo df40461 — free and Pro ship together in v1.0.0, Pro locked by the license until checkout opens):
      PR repo `node gtm/tools/check-gtm.mjs --claims --registry <release>/src/features/registry.ts`
      → set each `state` below → set this to that day. */
-  featuresFrozenOn: '2026-11-10',
+  featuresFrozenOn: '2026-11-11',   // 11/11: FX Search (`fxconsole`) taken out of v1.0 → 'unbuilt'
 } as const;
 
 /* 🔴 THE feature list — one row per PR repo registry id (`src/features/registry.ts`, same order = screen order).
@@ -195,7 +195,8 @@ export const PR = {
      tier    fact from the registry (what is free). Do not edit here.
      state   'on'      switched on in the release build → free features are described as available
              'off'     not in this release → free features appear by name under "still in the works"; Pro features by name under "later"
-             'unbuilt' no code in v1 (`claim: null` in PR repo `gtm/site/feature-claims.json`) → appears nowhere, can never be 'on'
+             'unbuilt' no code in v1, or taken out of the release by the owner (`claim: null` in PR repo `gtm/site/feature-claims.json`;
+                       FX Search `fxconsole` since 2026-11-11) → appears nowhere, not even as a name, can never be 'on'
      launch  the Pro launch set the key unlocks on sale day (PRD §0): the price card and 05 list these by label
    🔴 Until the gate the states are a draft (every built feature 'on'); deployCheck `[pr]` blocks the deploy until `featuresFrozenOn` is set.
    `keyauto` is a setting, not something we sell — it does not appear on the page. */
@@ -218,7 +219,7 @@ export const PR_FEATURES = prRows([
   { id: 'bins', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'watchfolder', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'assets', tier: 'free', group: 'toolkit', state: 'off', launch: false },
-  { id: 'fxconsole', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'fxconsole', tier: 'pro', group: 'toolkit', state: 'unbuilt', launch: false },
   { id: 'wiggle', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'speedramp', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'unnest', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
