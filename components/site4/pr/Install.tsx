@@ -42,7 +42,7 @@ export default function Install() {
         <div className="howto pr-inst">
           <div>
             <h3>{t('pr.inst.first.h')}</h3>
-            <ul>{[1, 2, 3].map((n) => li(`pr.inst.first.li${n}`))}</ul>
+            <ul>{[1, 2, 3, 4, 5].map((n) => li(`pr.inst.first.li${n}`))}</ul>
           </div>
           <div>
             <h3>{t('pr.inst.pro.h')}</h3>

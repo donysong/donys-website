@@ -1,7 +1,7 @@
 /* `/pr` self-check — the one feature list (`PR_FEATURES`), the copy keyed by it, the date gates and the copy rules.
    Run: npm run test:pr   (Node ≥ 22.18 — type stripping + `tools/tsResolve.mjs`). No network, no build.
-   When the PR repo sits next to this one (`../YouNameIt-PR`), the list is also checked against its registry and
-   `gtm/site/feature-claims.json`; otherwise those two tests skip. */
+   When the PR repo sits next to this one (`../YouNameIt-PR`, or the folder in the `PR_REPO` environment variable — a worktree of it, say),
+   the list is also checked against its registry and `gtm/site/feature-claims.json`; otherwise those tests skip. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -18,7 +18,7 @@ const { T } = await import('../lib/copy.ts');
 const policy = await import('../lib/policy.ts');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const PR_REPO = path.resolve(ROOT, '..', 'YouNameIt-PR');
+const PR_REPO = process.env.PR_REPO ? path.resolve(process.env.PR_REPO) : path.resolve(ROOT, '..', 'YouNameIt-PR');
 const ids = PR_FEATURES.map((f) => f.id);
 
 test('the feature list has each id once, with a known tier/state', () => {
@@ -42,6 +42,20 @@ test('unbuilt = `claim: null` in the PR repo feature-claims.json', { skip: !fs.e
   for (const f of PR_FEATURES) assert.equal(f.state === 'unbuilt', claims[f.id].claim === null, f.id);
 });
 
+/* The PR repo's claims file is the guard for what the page may say (`check-gtm`). The EN claim and note of every feature that is on are the same words there
+   (apostrophes aside); KO is the site's 해요체 version of the repo's 합니다체, so only EN is compared. */
+test('claims on the page are the PR repo claims (EN)', { skip: !fs.existsSync(path.join(PR_REPO, 'gtm/site/feature-claims.json')) }, () => {
+  const claims = JSON.parse(fs.readFileSync(path.join(PR_REPO, 'gtm/site/feature-claims.json'), 'utf8')).features;
+  const norm = (s) => s.replaceAll('’', "'");
+  for (const f of PR_FEATURES) {
+    if (f.state !== 'on' || f.group === 'infra') continue;
+    const c = claims[f.id];
+    assert.ok(c && c.claim, `${f.id}: the PR repo has no claim for a feature that is on`);
+    assert.equal(norm(COPY.en[`pr.f.${f.id}.claim`]), c.claim.en, `${f.id} claim`);
+    assert.equal(norm(COPY.en[`pr.f.${f.id}.note`] ?? ''), c.note ? c.note.en : '', `${f.id} note`);
+  }
+});
+
 test('feature copy follows the list (no orphan ids, required parts present)', () => {
   for (const lang of ['en', 'ko']) {
     const keys = Object.keys(COPY[lang]).filter((k) => k.startsWith('pr.f.'));
@@ -50,19 +64,21 @@ test('feature copy follows the list (no orphan ids, required parts present)', ()
       const f = PR_FEATURES.find((x) => x.id === id);
       assert.ok(f, `${lang} ${k}: not a registry id`);
       assert.notEqual(f.state, 'unbuilt', `${lang} ${k}: unbuilt features have no copy`);
-      if (f.tier === 'pro') assert.ok(!/\.(claim|note)$/.test(k), `${lang} ${k}: a Pro feature is listed by name and table label only`);
+      if (f.state === 'off') assert.ok(!/\.(claim|note)$/.test(k), `${lang} ${k}: a feature that is off is listed by name only`);
     }
     for (const f of PR_FEATURES) {
       if (f.state === 'unbuilt' || f.group === 'infra') continue;
-      const need = f.tier === 'free' ? ['name', 'label', 'claim'] : f.launch ? ['name', 'label'] : ['name'];
+      /* every feature that is on is described, free or Pro (owner 2026-11-10); the label is what the price card shows */
+      const need = f.state === 'off' ? ['name'] : f.tier === 'free' || f.launch ? ['name', 'label', 'claim'] : ['name', 'claim'];
       for (const part of need) assert.ok(`pr.f.${f.id}.${part}` in COPY[lang], `${lang} pr.f.${f.id}.${part} missing`);
     }
   }
   assert.deepEqual(Object.keys(COPY.en).sort(), Object.keys(COPY.ko).sort());
 });
 
-test('Pro features are listed by name only: none is claimable; launch set and later lists are disjoint', () => {
-  for (const f of PR_FEATURES) if (f.tier === 'pro') assert.equal(pr.prClaimable(f.id), false, f.id);
+test('a feature is described when it is on (free or Pro); launch set and later lists are disjoint', () => {
+  for (const f of PR_FEATURES) assert.equal(pr.prClaimable(f.id), f.state === 'on', f.id);
+  for (const f of PR_FEATURES) assert.equal(pr.prFree(f.id), f.state === 'on' && f.tier === 'free', f.id);
   const launch = pr.prLaunchSet(), later = pr.prLater();
   assert.ok(launch.length > 0);
   assert.equal(launch.filter((id) => later.includes(id)).length, 0);
@@ -77,31 +93,65 @@ test('date gates open at 00:00 KST of their day', () => {
   assert.equal(pr.kstDayStart('2026-11-14'), Date.parse('2026-11-13T15:00:00Z'));
   assert.equal(pr.kstDayEnd('2026-12-31'), Date.parse('2026-12-31T15:00:00Z'));
   for (const [kind, day] of [['free', PR.launchOn], ['pro', PR.checkoutOpensOn], ['bundle', PR.checkoutOpensOn]]) {
+    if (!pr.PR_DATED) { assert.equal(pr.prOpenAt(Date.now() + 1e12, kind), false, `${kind}: nothing opens while the day is not set`); continue; }
     const t0 = pr.kstDayStart(day);
     assert.equal(pr.prOpenAt(t0 - 1, kind), false, `${kind} before ${day}`);
     assert.equal(pr.prOpenAt(t0, kind), true, `${kind} on ${day}`);
   }
-  assert.ok(PR.checkoutOpensOn >= PR.launchOn);
-  /* the Pro checkout opens on the day the terms revision with PR takes effect (`lib/policy.ts` owns the date) */
-  assert.equal(PR.checkoutOpensOn, policy.PR_EFFECTIVE);
-  assert.ok(policy.PR_POSTED <= PR.launchOn, 'the notice is up before /pr goes public');
   assert.equal(pr.prAeCouponAt(pr.kstDayEnd(PR.aeCouponEnd) - 1), true);
   assert.equal(pr.prAeCouponAt(pr.kstDayEnd(PR.aeCouponEnd)), false);
 });
 
-/* Owner 2026-11-10: Pro is a regular purchase, the launch price holds through 11/28 (= checkout-open day 11/14 + 14 days, KST, inclusive). */
-test('the launch price period ends on the checkout-open day + openEarlyDays, and the copy shows that date', () => {
-  assert.equal(PR.checkoutOpensOn, '2026-11-14');
-  assert.equal(PR.openEarlyDays, 14);
-  assert.equal(pr.PR_EARLY_UNTIL, '2026-11-28');
-  const shows = { en: 'November 28, 2026', ko: '2026년 11월 28일' };
+/* Owner 2026-11-11: the launch day is not set (both dates empty = "date to be announced"); setting both is the only change that opens the page.
+   When it is set, Pro is never sold before the terms revision with PR is in force (`lib/policy.ts` owns that date; 2026-11-14, decided separately). */
+test('the launch day is all or nothing, never before the terms revision, and the notice is up first', () => {
+  assert.equal(Boolean(PR.launchOn), Boolean(PR.checkoutOpensOn), 'launchOn and checkoutOpensOn are set together or not at all');
+  assert.equal(pr.PR_DATED, Boolean(PR.launchOn));
+  if (!pr.PR_DATED) return;
+  assert.match(PR.launchOn, /^\d{4}-\d{2}-\d{2}$/);
+  assert.match(PR.checkoutOpensOn, /^\d{4}-\d{2}-\d{2}$/);
+  assert.ok(PR.checkoutOpensOn >= PR.launchOn);
+  assert.ok(PR.checkoutOpensOn >= policy.PR_EFFECTIVE, 'nobody buys under terms that do not cover the product');
+  assert.ok(policy.PR_POSTED <= PR.launchOn, 'the notice is up before /pr goes public');
+});
+
+/* Every string that names a launch date has a `.tbd` twin without one, so the page never shows a date, or an unfilled placeholder, while the day is not set. */
+test('date copy has a `.tbd` twin that carries no date', () => {
+  const DATE = /\{(launch|launchShort|checkoutOpens|checkoutOpensShort|earlyUntil)\}/;
   for (const lang of ['en', 'ko']) {
-    for (const k of ['pr.how.price', 'pr.price.pro.keep', 'pr.faq.buy4.a', 'pr.sp1.n']) assert.ok(T[lang][k].includes(shows[lang]), `${lang} ${k} shows the end of the launch price`);
+    const dict = COPY[lang];
+    for (const [k, v] of Object.entries(dict)) {
+      if (k.endsWith('.tbd')) continue;
+      if (!(Array.isArray(v) ? v : [v]).some((s) => DATE.test(s))) continue;
+      assert.ok(`${k}.tbd` in dict, `${lang} ${k} names the launch day and has no .tbd twin`);
+      assert.ok(!(Array.isArray(dict[`${k}.tbd`]) ? dict[`${k}.tbd`] : [dict[`${k}.tbd`]]).some((s) => DATE.test(s)), `${lang} ${k}.tbd must not name a date`);
+    }
+    for (const k of Object.keys(dict)) if (k.endsWith('.tbd')) assert.ok(k.slice(0, -4) in dict, `${lang} ${k} has no base key`);
   }
-  const offers = pr.prJsonLd('https://x.test', '/pr', 'd').offers;
-  assert.deepEqual(offers.map((o) => o.name), ['Free', 'Pro']);
-  assert.ok(offers.every((o) => o.availability === 'https://schema.org/InStock'));
-  assert.equal(offers[1].priceValidUntil, pr.PR_EARLY_UNTIL);
+  for (const lang of ['en', 'ko']) for (const k of Object.keys(T[lang])) assert.ok(!k.endsWith('.tbd'), `${lang} ${k}: .tbd keys are swapped in or dropped by lib/copy.ts`);
+});
+
+/* Owner 2026-11-10: Pro is a regular purchase, the launch price holds for `openEarlyDays` (14) days from the checkout-open day, KST, inclusive.
+   Owner 2026-11-11: until the day is set the copy says "the first {earlyDays} days" and the markup offers nothing for sale. */
+test('the launch price period is openEarlyDays long, and the copy says it', () => {
+  assert.equal(PR.openEarlyDays, 14);
+  const KEYS = ['pr.how.price', 'pr.price.pro.keep', 'pr.faq.buy4.a', 'pr.sp1.n'];
+  const ld = pr.prJsonLd('https://x.test', '/pr', 'd');
+  if (pr.PR_DATED) {
+    const end = new Date(pr.kstDayStart(PR.checkoutOpensOn) + PR.openEarlyDays * 86_400_000 + 9 * 3_600_000).toISOString().slice(0, 10);
+    assert.equal(pr.PR_EARLY_UNTIL, end);
+    const [y, m, d] = end.split('-').map(Number);
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const shows = { en: `${months[m - 1]} ${d}, ${y}`, ko: `${y}년 ${m}월 ${d}일` };
+    for (const lang of ['en', 'ko']) for (const k of KEYS) assert.ok(T[lang][k].includes(shows[lang]), `${lang} ${k} shows the end of the launch price`);
+    assert.deepEqual(ld.offers.map((o) => o.name), ['Free', 'Pro']);
+    assert.ok(ld.offers.every((o) => o.availability === 'https://schema.org/InStock'));
+    assert.equal(ld.offers[1].priceValidUntil, pr.PR_EARLY_UNTIL);
+  } else {
+    assert.equal(pr.PR_EARLY_UNTIL, '');
+    for (const lang of ['en', 'ko']) for (const k of KEYS) assert.ok(T[lang][k].includes(String(PR.openEarlyDays)), `${lang} ${k} says the length of the launch price`);
+    assert.equal(ld.offers, undefined, 'nothing is for sale while the day is not set');
+  }
 });
 
 /* The refund the page promises is the one the refund page in force states (Refund §1: a plain 14-day, no-reason refund), and the page links to it. */
@@ -146,6 +196,7 @@ test('copy rules: banned phrases, no typed prices or years', () => {
 test('every placeholder is filled except {names} (components fill it)', () => {
   for (const lang of ['en', 'ko']) {
     for (const k of Object.keys(COPY[lang])) {
+      if (k.endsWith('.tbd')) continue;   // swapped in for its base key by lib/copy.ts, or dropped
       const v = T[lang][k];
       for (const s of Array.isArray(v) ? v : [v]) {
         const left = (s.match(/\{[a-zA-Z]+\}/g) || []).filter((p) => p !== '{names}');

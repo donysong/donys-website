@@ -13,11 +13,11 @@ import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 import { useHref } from '@/components/site4/Shell';
 import { PR_LEGAL } from '@/lib/product';
-import { prClaimable, prIn, prLater, prLaunchSet, prProTools } from '@/lib/pr';
+import { prFree, prIn, prLater, prLaunchSet, prProTools } from '@/lib/pr';
 import Head from './Head';
 import { Checkout } from './state';
 
-const FREE = [...prIn('autocut'), ...prIn('toolkit')].filter(prClaimable);
+const FREE = [...prIn('autocut'), ...prIn('toolkit')].filter(prFree);
 
 export default function Price() {
   const { t, list } = useT();

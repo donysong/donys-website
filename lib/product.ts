@@ -147,20 +147,28 @@ export const IG_REELS = [
 
    Launch shape (owner, 2026-11-10; PR repo PRD §14 "출시 재계획"): the free version and Pro go on sale on one day, and **Pro is a regular
    purchase** — the key comes right away and unlocks the Pro features already in the download. There is no pre-order: the pre-order
-   articles of the Terms (14-2) and Refund (1-3) stay in the legal text but the page never uses them. */
+   articles of the Terms (14-2) and Refund (1-3) stay in the legal text but the page never uses them.
+   Launch day (owner, 2026-11-11, PR repo PRD §14 "출시본 기능 전부 켬"): **not set.** The launch waits until every feature of the release has
+   passed the Premiere Lab, so `launchOn` and `checkoutOpensOn` below are empty = "date to be announced": every checkout stays closed, the
+   page says so (the `*.tbd` strings in `lib/copy/pr.ts`), and deployCheck blocks a `--release` deploy. Setting both dates is the only change
+   that opens the page (see the two constants). */
 export const PR = {
   price: '$49.99',                // list price — what Pro costs after the launch price ends (the Terms §6 price)
   earlyPrice: '$34.99',           // the launch price, from the checkout-open day through `PR_EARLY_UNTIL` (`lib/pr.ts`). The unused Terms 14-2 calls it "early-bird" and reads this name
   earlyPriceUsd: '34.99',
-  /* 🔴 The two dates the owner may move (today they are the same day: owner, 2026-11-10 — free and Pro open together). Each one is a gate the browser re-checks against its own clock (`lib/pr.ts` `prOpenAt`),
-     so a page built before the date opens by itself on the day. The real gate is Polar: keep a product unpublished until its day. */
-  launchOn: '2026-11-14',         // /pr goes public · the free version can be downloaded (free checkout link opens) — the same day as checkoutOpensOn (owner, 2026-11-10: free and Pro open together)
-  /* Pro + bundle checkout opens = the day the terms · privacy · refund revision with PR takes effect.
-     🔴 Must equal `PR_EFFECTIVE` in `lib/policy.ts` (that file owns the effective date).
-     Move the two together — deployCheck `[pr]` and `npm run test:pr` fail when they differ. (Not imported: policy → analytics → product is a cycle.) */
-  checkoutOpensOn: '2026-11-14',
-  /* The launch price keeps running through the day that is this many days after the checkout-open day: 11/14 + 14 = 11/28 (KST, inclusive;
-     owner 2026-11-10). `PR_EARLY_UNTIL` in `lib/pr.ts` does the sum and the page shows that date. The Terms 14-2 (unused) reads this number too. */
+  /* 🔴 THE launch date: the two dates the owner may move (they are the same day: owner, 2026-11-10 — free and Pro open together). **Empty = date to
+     be announced** (owner, 2026-11-11): nothing opens and the copy says so. To launch, set BOTH to the same KST day (YYYY-MM-DD). Each one is a gate
+     the browser re-checks against its own clock (`lib/pr.ts` `prOpenAt`), so a page built before the date opens by itself on the day.
+     The real gate is Polar: keep a product unpublished until its day, and move the Pro launch-price discount (D1) dates with the launch day.
+     (`as string`: the object is `as const`, and an empty literal type would make the dated branches unreachable for the type checker.) */
+  launchOn: '' as string,         // /pr goes public · the free version can be downloaded (free checkout link opens) — the same day as checkoutOpensOn
+  /* Pro + bundle checkout opens. 🔴 Never before `PR_EFFECTIVE` in `lib/policy.ts` (the day the terms · privacy · refund revision with PR takes
+     effect — 2026-11-14, owner decides separately whether it moves): nobody may buy under terms that do not cover the product.
+     `deployCheck [pr]` and `npm run test:pr` fail when it is earlier. (Not imported: policy → analytics → product is a cycle.) */
+  checkoutOpensOn: '' as string,
+  /* The launch price keeps running through the day that is this many days after the checkout-open day (KST, inclusive; owner 2026-11-10, 14 days).
+     `PR_EARLY_UNTIL` in `lib/pr.ts` does the sum and the page shows that date; while the date is empty the page says "the first {earlyDays} days".
+     The Terms 14-2 (unused) reads this number too. */
   openEarlyDays: 14,
   bundlePrice: '$79.99',          // AE + PR Pro bundle — one key opens both (4 activations)
   preorderDeadline: '2026-12-15', // 🔴 not used by the page (regular purchase). Only the pre-order articles of the Terms 14-2 and Refund 1-3 read it, and they stay unused — delete it together with them
@@ -172,6 +180,9 @@ export const PR = {
   offlineDays: 30,
   remoteOffRefundDays: 30,        // a Pro feature switched off remotely longer than this → refund even after 14 days
   minPremiere: '25.6.4',          // 25.6.2 · 25.6.3 freeze panel scripts and are blocked
+  /* TODO (owner, 2026-11-11): the owner is updating Premiere 2026 on the Lab PC, so "26.5.2" is stale and the new tested version is not known yet.
+     Replace it with the 2026 build that the Lab suites actually ran on (PR repo `docs/HANDOFF.md` / `lab/results/`); 25.6.6 = the 2025 build of 11/08.
+     Do not guess a version. The value is shown in the specs and FAQ q11, so a stale number is a claim about a test that did not happen. */
   testedWin: '25.6.6 · 26.5.2',   // PR repo Lab 2026-11-08 (`lab/qa/matrix.mjs`): the required suites on both. macOS = "coming soon", no version claimed
   version: '1.0.0',               // 🔴 not by hand — the release tag's value (same rule as AE `VERSION`)
   /* Polar checkout links (production, PR repo `gtm/polar/polar-setup.md` §8). Empty = not made yet → the button renders without
@@ -186,7 +197,7 @@ export const PR = {
      Gate day (11/10, PR repo df40461 — free and Pro ship together in v1.0.0, Pro locked by the license until checkout opens):
      PR repo `node gtm/tools/check-gtm.mjs --claims --registry <release>/src/features/registry.ts`
      → set each `state` below → set this to that day. */
-  featuresFrozenOn: '2026-11-11',   // 11/11: FX Search (`fxconsole`) taken out of v1.0 → 'unbuilt'
+  featuresFrozenOn: '2026-11-11',   // 11/11: every feature on except FX Search (`fxconsole`, out of v1.0 → 'unbuilt'); skin smoothing (`beauty`) added
 } as const;
 
 /* 🔴 THE feature list — one row per PR repo registry id (`src/features/registry.ts`, same order = screen order).
@@ -197,9 +208,12 @@ export const PR = {
              'off'     not in this release → free features appear by name under "still in the works"; Pro features by name under "later"
              'unbuilt' no code in v1, or taken out of the release by the owner (`claim: null` in PR repo `gtm/site/feature-claims.json`;
                        FX Search `fxconsole` since 2026-11-11) → appears nowhere, not even as a name, can never be 'on'
-     launch  the Pro launch set the key unlocks on sale day (PRD §0): the price card and 05 list these by label
+     launch  the Pro features the key unlocks on sale day: the price card and 05 list these by label. Since 2026-11-11 that is every Pro feature outside
+             the toolkit (silence cut advanced · filler and NG-take candidates · XML fast path · captions · Chat); the Pro toolkit is listed by name
+   Free AND Pro features that are 'on' are described on the page, each with its honesty note (`pr.f.<id>.claim|note`, from `feature-claims.json`):
+   since 2026-11-10 Pro is sold in the same download, so a buyer reads what they pay for, approximations labelled.
    🔴 Until the gate the states are a draft (every built feature 'on'); deployCheck `[pr]` blocks the deploy until `featuresFrozenOn` is set.
-   `keyauto` is a setting, not something we sell — it does not appear on the page. */
+   `keyauto` is a setting, not something we sell — it does not appear on the page (Nest and the XML fast path notes say what it does). */
 export type PrState = 'on' | 'off' | 'unbuilt';
 type PrRow<I extends string> = { id: I; tier: 'free' | 'pro'; group: 'autocut' | 'captions' | 'chat' | 'toolkit' | 'infra'; state: PrState; launch: boolean };
 /* Identity helper: keeps the ids as a literal union (`PrFeature`) while `state` stays the full `PrState` (an `as const` array
@@ -208,9 +222,9 @@ const prRows = <I extends string>(rows: readonly PrRow<I>[]) => rows;
 export const PR_FEATURES = prRows([
   { id: 'autocut.basic', tier: 'free', group: 'autocut', state: 'on', launch: false },
   { id: 'autocut.advanced', tier: 'pro', group: 'autocut', state: 'on', launch: true },
-  { id: 'autocut.filler', tier: 'pro', group: 'autocut', state: 'unbuilt', launch: false },
-  { id: 'autocut.ngTakes', tier: 'pro', group: 'autocut', state: 'unbuilt', launch: false },
-  { id: 'autocut.xmlFastPath', tier: 'pro', group: 'autocut', state: 'off', launch: false },
+  { id: 'autocut.filler', tier: 'pro', group: 'autocut', state: 'on', launch: true },
+  { id: 'autocut.ngTakes', tier: 'pro', group: 'autocut', state: 'on', launch: true },
+  { id: 'autocut.xmlFastPath', tier: 'pro', group: 'autocut', state: 'on', launch: true },
   { id: 'captions.longform', tier: 'pro', group: 'captions', state: 'on', launch: true },
   { id: 'captions.shortform', tier: 'pro', group: 'captions', state: 'on', launch: true },
   { id: 'chat', tier: 'pro', group: 'chat', state: 'on', launch: true },
@@ -218,16 +232,17 @@ export const PR_FEATURES = prRows([
   { id: 'anchor', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'bins', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'watchfolder', tier: 'free', group: 'toolkit', state: 'on', launch: false },
-  { id: 'assets', tier: 'free', group: 'toolkit', state: 'off', launch: false },
+  { id: 'assets', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'fxconsole', tier: 'pro', group: 'toolkit', state: 'unbuilt', launch: false },
   { id: 'wiggle', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'speedramp', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'unnest', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
-  { id: 'nest', tier: 'pro', group: 'toolkit', state: 'off', launch: false },
+  { id: 'nest', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'facetrack', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'denoise', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'beauty', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'collect', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
-  { id: 'keyauto', tier: 'free', group: 'infra', state: 'off', launch: false },
+  { id: 'keyauto', tier: 'free', group: 'infra', state: 'on', launch: false },
 ]);
 export type PrFeature = (typeof PR_FEATURES)[number]['id'];
 

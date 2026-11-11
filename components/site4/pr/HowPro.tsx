@@ -3,7 +3,7 @@
    🔴 The key list covers **only the launch set** (`PR_FEATURES[].launch`): one line per group below, shown while one of its ids is
       in the launch set. If a group leaves the launch set, this list and the price card change together.
    Pro toolkit in this release = one line of names under "what the key unlocks"; Pro tools not in this release = names only,
-   **no dates** (source rule 3).
+   **no dates** (source rule 3), and the whole "later" column is left out while there are none (every feature but FX Search is on).
    Price + refund lines = what the terms in force say for a regular purchase: the launch price through `PR_EARLY_UNTIL`
    (`lib/pr.ts`), then the list price; a 14-day refund, with the refund policy linked for the details. */
 import { Html, useT } from '@/components/site3p/lang';
@@ -14,6 +14,8 @@ import { joinNames } from './state';
 
 const OPEN: { k: string; ids: PrFeature[] }[] = [
   { k: 'pr.how.open.cut', ids: ['autocut.advanced'] },
+  { k: 'pr.how.open.cand', ids: ['autocut.filler', 'autocut.ngTakes'] },
+  { k: 'pr.how.open.xml', ids: ['autocut.xmlFastPath'] },
   { k: 'pr.how.open.cap', ids: ['captions.longform', 'captions.shortform'] },
   { k: 'pr.how.open.chat', ids: ['chat'] },
 ];
@@ -42,11 +44,13 @@ export default function HowPro() {
               {tools.length ? <li>{t('pr.how.open.tools').split('{names}').join(joinNames(lang, tools.map((id) => t(`pr.f.${id}.name`))))}</li> : null}
             </ul>
           </div>
-          <div>
-            <h3>{t('pr.how.later.h')}</h3>
-            <p>{t('pr.how.later.p')}</p>
-            {later.length ? <p className="pr-more">{joinNames(lang, later.map((id) => t(`pr.f.${id}.name`)))}</p> : null}
-          </div>
+          {later.length ? (
+            <div>
+              <h3>{t('pr.how.later.h')}</h3>
+              <p>{t('pr.how.later.p')}</p>
+              <p className="pr-more">{joinNames(lang, later.map((id) => t(`pr.f.${id}.name`)))}</p>
+            </div>
+          ) : null}
         </div>
         {/* the refund line carries a link, so the price + refund list sits in `.howto` (links there get the pen underline; links in `.posi .plain` stay bare) */}
         <div className="howto pr-one">

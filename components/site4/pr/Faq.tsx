@@ -1,27 +1,36 @@
 'use client';
 /* 06 FAQ — the v5 `/ae` 06 (`details.qa` · summary = question + one-word verdict · GSAP disclosure `useDisclosure`).
    Source = PR repo `gtm/site/pr-faq.md`; groups: work · technical · license · buying Pro (buy1–buy4 replace q20 refund in this shape).
-   Left out against the source, because they describe Pro features beyond their names (not approved copy yet) or are gone:
-   q4 captions cost · q5 q6 Chat · q7 bad takes (unbuilt) · q8 comparison · q15 key automation (only Pro uses it) · q16 (D1) ·
-   q20 (→ buy3) · q25 (Pro offline lock). New: `mac` (macOS coming soon, owner 2026-11-07).
+   Left out against the source: q7 (merged into q28, the candidates entry) · q16 (Korean input box, spike D1 still open) · q20 (→ buy3).
+   New: `mac` (macOS coming soon, owner 2026-11-07) · q28 filler and NG-take candidates · q29 skin smoothing · q30 speed ramp · q31 on-device
+   transcription (owner 2026-11-11: those features are in the release, so their honesty labels are answers here).
    Tags: a question drops when none of its features is claimable. q21 drops once the AE code expires (`PR.aeCouponEnd`). */
 import { Html, useT } from '@/components/site3p/lang';
 import { useRef } from 'react';
 import { useDisclosure } from '@/components/site4/motion';
 import { PR, type PrFeature } from '@/lib/product';
-import { prAny, prClaimable } from '@/lib/pr';
+import { prAny } from '@/lib/pr';
 import Head from './Head';
 import { usePr } from './state';
 
 const TAGS: Record<string, PrFeature[]> = {
   q2: ['autocut.basic'],
+  q4: ['captions.longform'],
+  q5: ['chat'],
+  q6: ['chat'],
+  q8: ['autocut.advanced', 'captions.longform', 'chat'],
+  q15: ['keyauto'],
+  q28: ['autocut.filler', 'autocut.ngTakes'],
+  q29: ['beauty'],
+  q30: ['speedramp'],
+  q31: ['captions.longform'],
 };
 
 const GROUPS: { lab: string; qs: string[] }[] = [
-  { lab: 'pr.faq.g1', qs: ['q1', 'q2', 'q3', 'q9', 'q10'] },
-  { lab: 'pr.faq.g2', qs: ['q11', 'mac', 'q12', 'q13', 'q14', 'q17'] },
-  { lab: 'pr.faq.g3', qs: ['q18', 'q19', 'q21', 'q22', 'q23', 'q24', 'q26', 'q27'] },
-  { lab: 'pr.faq.g4', qs: ['buy1', 'buy2', 'buy3', 'buy4'] },
+  { lab: 'pr.faq.g1', qs: ['q1', 'q2', 'q3', 'q28', 'q29', 'q30', 'q6', 'q9', 'q10', 'q8'] },
+  { lab: 'pr.faq.g2', qs: ['q11', 'mac', 'q12', 'q13', 'q14', 'q15', 'q31', 'q17'] },
+  { lab: 'pr.faq.g3', qs: ['q18', 'q19', 'q21', 'q22', 'q23', 'q24', 'q25', 'q26', 'q27'] },
+  { lab: 'pr.faq.g4', qs: ['buy1', 'buy2', 'buy3', 'buy4', 'q4', 'q5'] },
 ];
 
 export default function Faq() {
@@ -32,7 +41,6 @@ export default function Faq() {
   const shown = (q: string) => (!TAGS[q] || prAny(TAGS[q])) && (q !== 'q21' || aeCoupon);
   const answer = (q: string) => {
     if (q === 'q12' && !PR.companion) return t('pr.faq.q12.a.nocx');
-    if (q === 'q3' && prClaimable('assets')) return `${t('pr.faq.q3.a')} ${t('pr.faq.q3.assets')}`;
     return t(`pr.faq.${q}.a`);
   };
   return (

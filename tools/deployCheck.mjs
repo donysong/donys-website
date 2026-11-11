@@ -427,18 +427,23 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33', 'pr']) {
    Date gates (`PR.launchOn` · `PR.checkoutOpensOn`): a button before its day is baked as `data-pending="opens"` and the browser
    opens it on the day (`components/site4/pr/state.tsx`). That is fine **only while the build day is before that day**.
    `--release` before `launchOn` fails — the page would go public before launch day.
+   Both dates empty (owner 2026-11-11: launch day not set, "date to be announced") = every button stays closed and the copy says so; `--release`
+   fails then too (there is no day to go public on), a plain check only warns. One date set without the other always fails.
    🔴 A failure here stops the **whole site** deploy — do not merge this branch into the deploy line before the PR values are in. */
 {
   const prv = (k) => product.match(new RegExp(`\\b${k}:\\s*'([^']*)'`))?.[1];
   const release = process.argv.includes('--release');
   const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
-  const launchOn = prv('launchOn'), opensOn = prv('checkoutOpensOn');
+  const launchOn = prv('launchOn') || '', opensOn = prv('checkoutOpensOn') || '';
+  const dated = Boolean(launchOn && opensOn);
   for (const [k, v] of [['launchOn', launchOn], ['checkoutOpensOn', opensOn]]) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(v || '')) fail.push(`[pr] PR.${k} "${v}" 가 YYYY-MM-DD 가 아니다`);
+    if (v && !/^\d{4}-\d{2}-\d{2}$/.test(v)) fail.push(`[pr] PR.${k} "${v}" 가 YYYY-MM-DD 가 아니다`);
   }
+  if (Boolean(launchOn) !== Boolean(opensOn)) fail.push(`[pr] PR.launchOn("${launchOn}")과 PR.checkoutOpensOn("${opensOn}") 은 같이 채우거나 같이 비워 둔다`);
   if (launchOn && opensOn && opensOn < launchOn) fail.push(`[pr] PR.checkoutOpensOn(${opensOn})이 launchOn(${launchOn})보다 이르다`);
+  if (!dated) (release ? fail : warn).push('[pr] 출시일이 없다(PR.launchOn · PR.checkoutOpensOn 이 비어 있다, 오너 2026-11-11 "날짜 미정") — 결제는 전부 닫혀 있고 /pr 은 날짜 미정이라고 말한다. 출시일을 정하면 두 값을 같은 날로 채운다');
   if (launchOn && today < launchOn) (release ? fail : warn).push(`[pr] 오늘(${today} KST)은 출시일(PR.launchOn ${launchOn}) 전이다 — 이 빌드를 배포하면 /pr 이 출시 전에 공개된다(무료판 버튼은 그날까지 날짜만 보인다)`);
-  if (opensOn && today < opensOn) warn.push(`[pr] Pro·번들 결제는 ${opensOn} 에 열린다 — 이 빌드의 구매 버튼은 날짜만 보이고, 방문자 브라우저가 그날 00:00 KST 에 연다. 🔴 Polar Pro·번들 상품은 그날까지 비공개로`);
+  if (opensOn && today < opensOn) warn.push(`[pr] Pro·번들 결제는 ${opensOn} 에 열린다 — 이 빌드의 구매 버튼은 날짜만 보이고, 방문자 브라우저가 그날 00:00 KST 에 연다. 🔴 Polar Pro·번들 상품은 그날까지 비공개로, 출시 가격(D1) 날짜도 이 날에 맞춰 둔다`);
   for (const [k, what] of [['checkoutFree', '무료판'], ['checkoutPro', 'Pro'], ['checkoutBundle', '번들']]) {
     const v = prv(k);
     if (!v) fail.push(`[pr] lib/product.ts PR.${k} 가 비어 있다 — ${what} 구매 버튼이 href 없이 나간다. Polar 링크(PR repo gtm/polar/polar-setup.md §4)를 오너가 채운다`);
@@ -447,11 +452,12 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33', 'pr']) {
   }
   if (!prv('featuresFrozenOn')) fail.push('[pr] PR.featuresFrozenOn 이 비어 있다 — 기능 상태(PR_FEATURES[].state)를 출고 레지스트리에서 옮겨 적지 않았다. 판정 게이트 절차 = lib/product.ts 주석');
   /* The terms cover PR once the PR revision is on the site (notice band + upcoming text, or in force) — `[policy]` checks that part.
-     Here: the checkout opens exactly on that revision's effective day, so nobody buys under terms that do not cover the product. */
+     Here: the checkout opens on that revision's effective day or later, never before, so nobody buys under terms that do not cover the product
+     (the launch day itself is separate and may be unset, 2026-11-11). */
   const prEffective = read(path.join(process.cwd(), 'lib/policy.ts')).match(/export const PR_EFFECTIVE\s*=\s*'(\d{4}-\d{2}-\d{2})'/)?.[1];
   if (!prEffective) fail.push('[pr] lib/policy.ts 에 PR_EFFECTIVE 가 없다 — PR 조항을 담은 약관·방침·환불 개정(고지)이 사이트에 없다');
-  else if (prEffective !== opensOn) fail.push(`[pr] PR.checkoutOpensOn(${opensOn}) ≠ lib/policy.ts PR_EFFECTIVE(${prEffective}) — Pro 결제는 PR 약관 시행일에 연다. 두 줄을 같이 옮긴다`);
-  else ok.push(`[pr] Pro 결제일 = PR 약관 시행일 ${opensOn}`);
+  else if (opensOn && opensOn < prEffective) fail.push(`[pr] PR.checkoutOpensOn(${opensOn}) < lib/policy.ts PR_EFFECTIVE(${prEffective}) — Pro 결제는 PR 약관 시행일 전에 열 수 없다`);
+  else ok.push(opensOn ? `[pr] Pro 결제일 ${opensOn} ≥ PR 약관 시행일 ${prEffective}` : `[pr] Pro 결제일 미정 — PR 약관 시행일은 ${prEffective} (정하면 그날 이후여야 한다)`);
   /* Third-party notices (PRD §8 "앱과 사이트에"): the path is set, both locales are baked, /pr and /ko/pr link to it, and every fenced
      license text of the shipped copy (`content/pr/THIRD-PARTY-NOTICES.md`, see `lib/notices.ts`) is on the page exactly as in the copy. */
   const noticesPath = product.match(/\bnotices:\s*'([^']+)'/)?.[1];
@@ -474,7 +480,7 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33', 'pr']) {
   const prPro = prv('checkoutPro'), prFree = prv('checkoutFree');
   const aeCheckout = product.match(/export const CHECKOUT_URL =\s*'([^']+)'/)?.[1];
   /* A gated button is honest only before its day; on or after it the build must carry the link. */
-  const gated = (a, day) => /data-pending="opens"/.test(a) && !/\shref="/.test(a) && today < day;
+  const gated = (a, day) => /data-pending="opens"/.test(a) && !/\shref="/.test(a) && (!day || today < day);
   const hrefOf = (a) => a.match(/\shref="([^"]*)"/)?.[1];
   for (const r of PR_PAGES) {
     const p = pages.find((x) => rel(x) === r);

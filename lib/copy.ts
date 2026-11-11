@@ -15,7 +15,7 @@
    (사이트가 없는 프리셋 112개를 두 달간 광고한 전례가 있다).
    타자기 표기: [[말]] = 동그라미가 그려진다 · __말__ = 밑줄. */
 import { COUNTS, PORTAL_URL, PR, PRICE, TIERS, VERSION } from './product';
-import { PR_EARLY_UNTIL } from './pr';
+import { PR_DATED, PR_EARLY_UNTIL } from './pr';
 import type { Dict, Entry, Lang } from './copy/types';
 import SHARED from './copy/shared';
 import HOME from './copy/home';
@@ -37,6 +37,9 @@ function merge(...ds: Dict[]): Dict {
    AE 버전(2.8.0)과 AE 가격이 찍힌다 — 그래서 PR 키는 여기서 `lib/product.ts` 의 `PR` 로 먼저 다 채운 뒤에 합친다
    (그 뒤엔 `NUMS` 가 건드릴 자리가 남지 않는다). 자리표시자 정본 = PR repo `gtm/facts.md` 의 표.
    날짜는 언어마다 다르게 적는다(KO `2026년 11월 14일` · EN `November 14, 2026`) — 이 표만 언어를 받는 이유다.
+   🔴 출시일이 비어 있는 동안(`PR_DATED` = false, 오너 2026-11-11 "날짜 미정") 날짜 자리표시자 다섯(`{launch}` `{launchShort}` `{checkoutOpens}`
+   `{checkoutOpensShort}` `{earlyUntil}`)은 아예 채우지 않는다. 그 자리를 쓰는 문장은 `<키>.tbd` 짝이 있어서 `prFill` 이 그쪽으로 바꿔 끼운다 —
+   짝 없이 날짜를 쓰는 문장이 남으면 `pr.test.mjs`(안 채운 자리표시자)와 deployCheck 가 잡는다. 날짜를 정하면 `.tbd` 짝은 쓰이지 않고 지워진다.
    `{names}` 만 컴포넌트가 채운다. */
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 function prDate(lang: Lang, iso: string): string {
@@ -52,11 +55,14 @@ function prNums(lang: Lang): [string, string][] {
   return Object.entries({
     '{price}': PR.price,
     '{earlyPrice}': PR.earlyPrice,
-    '{launch}': prDate(lang, PR.launchOn),
-    '{launchShort}': prDay(lang, PR.launchOn),
-    '{checkoutOpens}': prDate(lang, PR.checkoutOpensOn),
-    '{checkoutOpensShort}': prDay(lang, PR.checkoutOpensOn),
-    '{earlyUntil}': prDate(lang, PR_EARLY_UNTIL),
+    ...(PR_DATED ? {
+      '{launch}': prDate(lang, PR.launchOn),
+      '{launchShort}': prDay(lang, PR.launchOn),
+      '{checkoutOpens}': prDate(lang, PR.checkoutOpensOn),
+      '{checkoutOpensShort}': prDay(lang, PR.checkoutOpensOn),
+      '{earlyUntil}': prDate(lang, PR_EARLY_UNTIL),
+    } : {}),
+    '{earlyDays}': String(PR.openEarlyDays),
     '{bundlePrice}': PR.bundlePrice,
     '{aeCoupon}': `${PR.aeCouponPct}%`,
     '{aeCouponEnd}': prDate(lang, PR.aeCouponEnd),
@@ -71,11 +77,18 @@ function prNums(lang: Lang): [string, string][] {
     '{portal}': PORTAL_URL,
   });
 }
+/* `<key>.tbd` = the wording for a launch day that is not set yet. Dated → the `.tbd` strings are dropped; not dated → each one replaces its key. */
+const TBD = '.tbd';
 function prFill(d: Dict): Dict {
   const one = (lang: Lang) => {
     const nums = prNums(lang);
     const sub = (s: string) => nums.reduce((o, [k, n]) => o.split(k).join(n), s);
-    return Object.fromEntries(Object.entries(d[lang]).map(([k, v]) => [k, Array.isArray(v) ? v.map(sub) : sub(v)]));
+    const src = d[lang];
+    const pick = (k: string) => (PR_DATED ? src[k] : (src[k + TBD] ?? src[k]));
+    return Object.fromEntries(Object.keys(src).filter((k) => !k.endsWith(TBD)).map((k) => {
+      const v = pick(k);
+      return [k, Array.isArray(v) ? v.map(sub) : sub(v)];
+    }));
   };
   return { en: one('en'), ko: one('ko') };
 }

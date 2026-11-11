@@ -8,7 +8,7 @@ notices their licenses require. License texts are copied verbatim from their sou
 1. Bundled font - Pretendard (SIL OFL 1.1)
 2. Ported or adapted source code - MCP server (`src/mcp/**`)
 3. npm packages bundled into the build
-4. Downloaded at first use, not redistributed - FFmpeg / ffprobe, RNNoise model
+4. Downloaded at first use, not redistributed - FFmpeg / ffprobe, RNNoise model, whisper.cpp and the Whisper model
 5. Third-party marks shown in the UI - GIPHY
 6. Bundled model weights - face-api tiny face detector (MIT), Silero VAD (MIT)
 
@@ -967,7 +967,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## 4. Downloaded at first use, not redistributed - FFmpeg / ffprobe, RNNoise model
+## 4. Downloaded at first use, not redistributed - FFmpeg / ffprobe, RNNoise model, whisper.cpp and the Whisper model
 
 The plugin never bundles or re-hosts FFmpeg. On first use it downloads an official
 upstream build, checks its pinned sha256 (`src/media/pins.json`) and runs it as a separate
@@ -997,6 +997,49 @@ use it downloads the file straight from upstream, pinned by commit and sha256
 - sha256 `70bb6685eb0c2a1d18e2918dca3fbfbd39317010b1802eb1b6ea73a92f3fdec0`, 297,646 bytes
 - License: the repository README states the models are not subject to copyright. The source is
   named here anyway.
+
+### whisper.cpp and the Whisper large-v3 model (Captions, on-device transcription)
+
+Captions can transcribe on this computer without a key ("내 컴퓨터", Windows x64). The plugin does
+not bundle or re-host either file: when the user agrees, it downloads them straight from upstream,
+pinned by URL, size and sha256 (`src/features/captions/stt/local/pins.json`), and discards a file
+whose checksum does not match. The program runs as a separate process.
+
+- whisper.cpp 1.9.5 Windows x64 CPU build, published by the project under the release tag `b5454`
+  (commit `d1be6fde11ac6e0407606b4e42fe72d34add8037`):
+  <https://github.com/ggml-org/whisper.cpp/releases/download/b5454/whisper-bin-x64.zip>,
+  sha256 `6ba69e3482d7826214f90a6a9c84ca07782aec1e1d0c6a7c30c994fd5d816ccb`, 8,928,640 bytes.
+  It needs the Microsoft Visual C++ 2015-2022 runtime, which it does not include.
+- Whisper large-v3 (OpenAI) in ggml 5-bit form, from the whisper.cpp model repository at commit
+  `5359861c739e955e79d9a303bcbc70fb988958b1`:
+  <https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-large-v3-q5_0.bin>,
+  sha256 `d75795ecff3f83b5faa89d1900604ad8c780abd5739fae406de19f23ecd98ad1`, 1,081,140,203 bytes.
+
+Both are MIT licensed: whisper.cpp "Copyright (c) 2023-2026 The ggml authors"
+(<https://github.com/ggml-org/whisper.cpp/blob/master/LICENSE>), the Whisper model weights
+"Copyright (c) 2022 OpenAI" (<https://github.com/openai/whisper/blob/main/LICENSE>), under this text:
+
+```text
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 ## 5. Third-party marks shown in the UI - GIPHY
 
