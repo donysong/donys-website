@@ -197,7 +197,7 @@ export const PR = {
      Gate day (free and Pro ship together in v1.0.0, Pro locked by the license until checkout opens):
      PR repo `node gtm/tools/check-gtm.mjs --claims --registry <release>/src/features/registry.ts`
      → set each `state` below → set this to that day. */
-  featuresFrozenOn: '2026-11-15',   // 11/15 (PR repo 4ed817a): every registry row is on. FX Search (`fxconsole`) is back with its Windows shortcut window, Ease curve (`easecurve`) is new, Nest is gone.
+  featuresFrozenOn: '2026-11-15',   // 11/15 (PR repo 4ed817a): every registry row but Speed ramp is on (Speed ramp off, owner 2026-11-15 night). FX Search (`fxconsole`) is back with its Windows shortcut window, Ease curve (`easecurve`) is new, Nest is gone.
 } as const;
 
 /* 🔴 THE feature list — one row per PR repo registry id (`src/features/registry.ts`, same order = screen order).
@@ -236,7 +236,7 @@ export const PR_FEATURES = prRows([
   { id: 'assets', tier: 'free', group: 'toolkit', state: 'on', launch: false },
   { id: 'fxconsole', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'wiggle', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
-  { id: 'speedramp', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'speedramp', tier: 'pro', group: 'toolkit', state: 'off', launch: false },   // owner 2026-11-15 night: out of v1.0 (PR repo 09b91e9), back when real Time Remapping keys work
   { id: 'easecurve', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'unnest', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
   { id: 'facetrack', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
