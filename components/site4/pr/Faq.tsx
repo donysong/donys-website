@@ -3,7 +3,8 @@
    Source = PR repo `gtm/site/pr-faq.md`; groups: work · technical · license · buying Pro (buy1–buy4 replace q20 refund in this shape).
    Left out against the source: q7 (merged into q28, the candidates entry) · q16 (Korean input box, spike D1 still open) · q20 (→ buy3).
    New: `mac` (macOS coming soon, owner 2026-11-07) · q28 filler and NG-take candidates · q29 skin smoothing · q30 speed ramp · q31 on-device
-   transcription (owner 2026-11-11: those features are in the release, so their honesty labels are answers here).
+   transcription (owner 2026-11-11: those features are in the release, so their honesty labels are answers here) · q32 FX Search shortcut (Ctrl+Space
+   takes a Premiere shortcut) · q33 FX Search undo (Ctrl+Z, no plugin undo) · q34 Ease curve (baked keyframes, approximate; owner 2026-11-15).
    Tags: a question drops when none of its features is claimable. q21 drops once the AE code expires (`PR.aeCouponEnd`). */
 import { Html, useT } from '@/components/site3p/lang';
 import { useRef } from 'react';
@@ -24,10 +25,13 @@ const TAGS: Record<string, PrFeature[]> = {
   q29: ['beauty'],
   q30: ['speedramp'],
   q31: ['captions.longform'],
+  q32: ['fxconsole'],
+  q33: ['fxconsole'],
+  q34: ['easecurve'],
 };
 
 const GROUPS: { lab: string; qs: string[] }[] = [
-  { lab: 'pr.faq.g1', qs: ['q1', 'q2', 'q3', 'q28', 'q29', 'q30', 'q6', 'q9', 'q10', 'q8'] },
+  { lab: 'pr.faq.g1', qs: ['q1', 'q2', 'q3', 'q28', 'q29', 'q30', 'q34', 'q32', 'q33', 'q6', 'q9', 'q10', 'q8'] },
   { lab: 'pr.faq.g2', qs: ['q11', 'mac', 'q12', 'q13', 'q14', 'q15', 'q31', 'q17'] },
   { lab: 'pr.faq.g3', qs: ['q18', 'q19', 'q21', 'q22', 'q23', 'q24', 'q25', 'q26', 'q27'] },
   { lab: 'pr.faq.g4', qs: ['buy1', 'buy2', 'buy3', 'buy4', 'q4', 'q5'] },

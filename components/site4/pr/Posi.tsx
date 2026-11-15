@@ -5,7 +5,8 @@
      pr.posi.plain   chores it takes (silence cuts · captions · bin cleanup) — `pr.f.<id>.ex`
      pr.diff2.free   the other free tools                                   — `pr.f.<id>.name`, line drops when none
      pr.safe.li1     work done on a copy / new tracks (silence cuts · captions · speed ramps · noise removal · skin smoothing) — `pr.f.<id>.ex`
-     pr.safe.li2     tools on the selected clips with plugin undo (Offset · Anchor point · Wiggle · Face Track) */
+     pr.safe.li2     tools on the selected clips with plugin undo (Offset · Anchor point · Wiggle · Ease curve · Face Track)
+     pr.safe.fx      FX Search: the one selected-clip tool with no plugin undo (Ctrl+Z in Premiere, PRD §14 2026-11-15) — only while `fxconsole` is on */
 import { Html, useT } from '@/components/site3p/lang';
 import type { PrFeature } from '@/lib/product';
 import { prClaimable } from '@/lib/pr';
@@ -15,7 +16,7 @@ import { joinNames } from './state';
 const CHORES: PrFeature[] = ['autocut.basic', 'captions.longform', 'bins'];
 const FREE_TOOLS: PrFeature[] = ['offset', 'anchor', 'bins', 'watchfolder', 'assets'];
 const ON_COPY: PrFeature[] = ['autocut.basic', 'captions.longform', 'speedramp', 'denoise', 'beauty'];
-const DIRECT: PrFeature[] = ['offset', 'anchor', 'wiggle', 'facetrack'];
+const DIRECT: PrFeature[] = ['offset', 'anchor', 'wiggle', 'easecurve', 'facetrack'];
 
 export default function Posi() {
   const { t, lang } = useT();
@@ -55,6 +56,7 @@ export default function Posi() {
             <ul>
               {onCopy ? <li dangerouslySetInnerHTML={{ __html: fill('pr.safe.li1', onCopy) }} /> : null}
               {direct ? <li dangerouslySetInnerHTML={{ __html: fill('pr.safe.li2', direct) }} /> : null}
+              {prClaimable('fxconsole') ? <li>{t('pr.safe.fx')}</li> : null}
               <li>{t('pr.safe.li3')}</li>
             </ul>
           </div>

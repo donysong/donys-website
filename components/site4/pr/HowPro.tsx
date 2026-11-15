@@ -3,7 +3,7 @@
    🔴 The key list covers **only the launch set** (`PR_FEATURES[].launch`): one line per group below, shown while one of its ids is
       in the launch set. If a group leaves the launch set, this list and the price card change together.
    Pro toolkit in this release = one line of names under "what the key unlocks"; Pro tools not in this release = names only,
-   **no dates** (source rule 3), and the whole "later" column is left out while there are none (every feature but FX Search is on).
+   **no dates** (source rule 3), and the whole "later" column is left out while there are none (every registry row is on at 2026-11-15).
    Price + refund lines = what the terms in force say for a regular purchase: the launch price through `PR_EARLY_UNTIL`
    (`lib/pr.ts`), then the list price; a 14-day refund, with the refund policy linked for the details. */
 import { Html, useT } from '@/components/site3p/lang';
