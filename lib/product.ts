@@ -124,7 +124,7 @@ export const FTC_BIZ_URL = BUSINESS.mailOrderNo ? `https://www.ftc.go.kr/bizComm
    🔴 주소를 바꾸면 여기 한 곳만 고친다. 순서 = 화면 순서. */
 export const SOCIAL = [
   { id: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/willyounameit/' },
-  { id: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@YouNameIt-10' },
+  { id: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@YouNameIt_Works' },
   { id: 'x', label: 'X', url: 'https://x.com/YouNameI_Works' },
   { id: 'tiktok', label: 'TikTok', url: 'https://www.tiktok.com/@you.name.it548' },
 ] as const;
