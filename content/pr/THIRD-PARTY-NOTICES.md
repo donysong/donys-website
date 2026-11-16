@@ -232,6 +232,7 @@ but nothing shipped imports it yet.
 | `@modelcontextprotocol/sdk` | 1.32.1 | MIT | `dist/node/mcp.js` |
 | `ajv` | 8.20.0 | MIT | `dist/node/mcp.js` |
 | `ajv-formats` | 3.0.1 | MIT | `dist/node/mcp.js` |
+| `content-type` | 1.0.5 | MIT | `dist/node/mcp.js` |
 | `fast-deep-equal` | 3.1.3 | MIT | `dist/node/mcp.js` |
 | `fast-uri` | 3.1.8 | BSD-3-Clause | `dist/node/mcp.js` |
 | `json-schema-traverse` | 1.0.0 | MIT | `dist/node/mcp.js` |
@@ -412,6 +413,35 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
+
+### content-type 1.0.5 (MIT)
+
+<https://github.com/jshttp/content-type>
+
+```text
+(The MIT License)
+
+Copyright (c) 2015 Douglas Christopher Wilson
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
 ### fast-deep-equal 3.1.3 (MIT)
