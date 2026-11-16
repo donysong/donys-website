@@ -20,6 +20,7 @@
      [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
      [pr]       PR 플러그인 면(`/pr`)은 결제 링크·기능 동결·PR 법 조항·제3자 고지가 갖춰지기 전엔 팔 수 없다 — 자리표시자 그대로 나가는 걸 막는다(2026-10-10)
      [assethost] 프로덕션 빌드에서 `public/` 그림·영상이 `younameit.works`(한국에서 LAX 경유, 요청마다 1~2초) 로 되돌아가 있었다 → 상대 경로가 남았나, 릴리스가 buildProd 의 `out/` 인가
+     [pr-update] 패널 `version.json` 의 `url`(`/pr/update`)이 출시 당일 404 였다(2026-11-16) — 두 언어가 구워졌고 · 정규 주소가 계약 주소이고 · 현재 버전 내려받기 링크와 SHA-256 이 있는지
 
      [analytics] 분석(GTM·GA4·Meta)을 방침 고지 7일 전에 켜거나, 방침이 "쿠키 없음"이라 말하는데 켜거나, 동의 전에 Google 로 요청이 나가는 것 · 결제 뒤 면(/thanks)이 색인에 들어가는 것
      [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 새 방침이 현재 판인 빌드가 시행일 전에 나가거나(이메일 폼이 시행 전 개인정보를 받는다), 고지 띠가 죽은 채 남는 것.
@@ -71,11 +72,13 @@ const KO = ['/ko.html', '/ko/ae.html', '/ko/ae/docs.html'];
 /* PR 플러그인 제3자 라이선스 고지(PRD §8) — `PR_LEGAL.notices`. 플러그인의 THIRD-PARTY-NOTICES.md 사본을 그대로 싣는 읽는 면이라 같은 셸 푸터를 쓴다.
    본문 검사는 아래 `[pr]`(링크 · 라이선스 원문 보존). 사본·재복사 규칙 = `lib/notices.ts`. */
 const NOTICES_PAGES = ['/pr/notices.html', '/ko/pr/notices.html'];
+/* PR 플러그인 업데이트 면 — 패널 version.json 의 `url` 이 가리키는 계약 경로(2026-11-16). 셸 푸터를 쓰는 읽는 면이라 법·사업자·공유 검사를 같이 탄다. 고유 검사는 아래 `[pr-update]`. */
+const PR_UPDATE_PAGES = ['/pr/update.html', '/ko/pr/update.html'];
 /* 셸 푸터를 쓰는 나머지 면 — 2026-09-26 전엔 구 `Navbar`/`Footer` 였고 `Buy` 가 없는 앵커(`/#pricing`)로 갔다.
    같은 법·지원 검사를 태워서 구 크롬이 되살아나면 여기서 잡는다. */
 const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.html', '/refund.html',
   '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html', '/download.html', '/ko/download.html',
-  '/thanks.html', '/ko/thanks.html', ...NOTICES_PAGES];
+  '/thanks.html', '/ko/thanks.html', ...NOTICES_PAGES, ...PR_UPDATE_PAGES];
 /* PR 플러그인 판매 면(2026-10-10) — 셸 푸터를 쓰는 판매 면이라 법·사업자·공유 검사를 같이 탄다. 고유 검사는 아래 `[pr]`. */
 const PR_PAGES = ['/pr.html', '/ko/pr.html'];
 const prMissing = PR_PAGES.filter((r) => !pages.some((p) => rel(p) === r));
@@ -149,8 +152,8 @@ for (const p of pages) {
     /* 🔴 업데이트 노트·법 3장은 **로캘을 따라간다**(VOICE_AND_TERMS §5-4) — 국문 면은 `/ko/…`. 계약 경로 `/update` 는
        영문 면이 걸고, `/ko/update` 첫 화면이 영문 전환을 갖는다. 법 3장 국문판 = 2026-09-30. */
     const L = (h) => (isKo ? '/ko' + h : h);
-    /* `/update` is the AE release log. `/pr` has no notes page of its own yet, so its footer does not link there
-       (owner 2026-11-16); drop this exemption when `/pr/update` exists. */
+    /* `/update` is the AE release log, and the `/pr` footer does not link there (owner 2026-11-16). `/pr/update` exists now (`[pr-update]`) but is not linked
+       from `/pr` either: people come to it from the panel. */
     const isPr = /^\/(ko\/)?pr\.html$/.test(r);
     for (const [href, label] of [[L('/terms'), '약관'], [L('/privacy'), '개인정보'], [L('/refund'), '환불'], [L('/update'), '업데이트']]) {
       if (label === '업데이트' && isPr) continue;
@@ -539,6 +542,37 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33', 'pr']) {
         continue;
       }
       if (!prPro || !href || !href.startsWith(prPro)) fail.push(`[pr] ${r} 의 채움 버튼(${cls})이 PR Pro 결제가 아닌 곳(${href || 'href 없음'})으로 간다`);
+    }
+  }
+}
+
+/* ── PR 업데이트 면 (`/pr/update` · `/ko/pr/update`, 2026-11-16) ─────────────────────────────────────────────
+   패널의 version.json `url`(PR repo `scripts/release/version-json.mjs` RELEASE_NOTES_URL = SITE + /pr/update)이 가리키는 **계약 경로**다. 출시 당일 이 주소가 404 였다 —
+   새 버전이 나오면 패널의 "업데이트 있음" 안내가 사람을 여기로 보낸다. 본다: 두 언어가 구워졌고 · 정규 주소가 계약 주소이고 · 현재 버전(`PR.version`)의 내려받기 링크 둘
+   (Windows · macOS zip)과 그 버전 .zxp 의 SHA-256 이 본문에 있고 · 안 채운 자리표시자가 없고 · 사이트맵에 있다. 릴리스 노트 항목 없이 `PR.version` 만 올리는 일은
+   빌드가 먼저 막는다(`lib/prReleases.ts`). */
+{
+  const ver = product.match(/\bversion:\s*'(\d+\.\d+\.\d+)'/)?.[1];
+  const dl = product.match(/export const DIST_BASE\s*=\s*'([^']+)'/)?.[1];
+  const site = product.match(/export const SITE\s*=\s*'([^']+)'/)?.[1];
+  const sha = read(path.join(process.cwd(), 'lib/prReleases.ts')).match(/sha256:\s*'([0-9a-f]{64})'/)?.[1];
+  const sitemap = fs.existsSync(path.join(OUT, 'sitemap.xml')) ? read(path.join(OUT, 'sitemap.xml')) : '';
+  if (!ver || !dl || !site || !sha) fail.push('[pr-update] lib/product.ts 의 PR.version · DIST_BASE · SITE 또는 lib/prReleases.ts 의 첫 sha256 을 못 읽었다');
+  else {
+    for (const r of PR_UPDATE_PAGES) {
+      const p = pages.find((x) => rel(x) === r);
+      if (!p) { fail.push(`[pr-update] ${r} 가 구워지지 않았다 — 패널 version.json 의 url(${site}/pr/update)이 404 가 된다`); continue; }
+      const html = read(p);
+      const at = r.replace(/\.html$/, '');
+      const canon = html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]*)"/)?.[1];
+      if (canon?.replace(/\/$/, '') !==`${site}${at}`) fail.push(`[pr-update] ${r} 의 canonical(${canon})이 ${site}${at} 가 아니다`);
+      const miss = ['win', 'mac'].map((os) => `${dl}/pr/younameit-pr-${ver}-${os}.zip`).filter((u) => !html.includes(`href="${u}"`));
+      if (miss.length) fail.push(`[pr-update] ${r} 에 현재 버전(${ver}) 내려받기 링크가 없다: ${miss.join(' · ')}`);
+      if (!html.includes(sha)) fail.push(`[pr-update] ${r} 에 첫 릴리스 항목의 .zxp SHA-256 이 없다`);
+      const ph = text(html).match(/\{[a-zA-Z]+\}/);
+      if (ph) fail.push(`[pr-update] ${r} 에 안 채운 자리표시자 ${ph[0]}`);
+      if (!sitemap.includes(`${site}${at}</loc>`)) fail.push(`[pr-update] sitemap.xml 에 ${site}${at} 가 없다`);
+      if (!fail.some((f) => f.startsWith(`[pr-update] ${r}`))) ok.push(`[pr-update] ${r} 구워짐 · 정규 주소 · 내려받기 링크 둘 · SHA-256 · 사이트맵`);
     }
   }
 }

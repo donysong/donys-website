@@ -14,8 +14,8 @@
    🔴 숫자는 사전에 박지 마라 — `{scripts}` 같은 자리표시자를 쓰면 `lib/product.ts` 가 채운다
    (사이트가 없는 프리셋 112개를 두 달간 광고한 전례가 있다).
    타자기 표기: [[말]] = 동그라미가 그려진다 · __말__ = 밑줄. */
-import { COUNTS, PORTAL_URL, PR, PRICE, TIERS, VERSION } from './product';
-import { PR_DATED, PR_EARLY_UNTIL } from './pr';
+import { BUSINESS, COUNTS, PORTAL_URL, PR, PRICE, TIERS, VERSION } from './product';
+import { PR_DATED, PR_EARLY_UNTIL, PR_VERSION_JSON, prFiles } from './pr';
 import type { Dict, Entry, Lang } from './copy/types';
 import SHARED from './copy/shared';
 import HOME from './copy/home';
@@ -42,7 +42,7 @@ function merge(...ds: Dict[]): Dict {
    짝 없이 날짜를 쓰는 문장이 남으면 `pr.test.mjs`(안 채운 자리표시자)와 deployCheck 가 잡는다. 날짜를 정하면 `.tbd` 짝은 쓰이지 않고 지워진다.
    `{names}` 만 컴포넌트가 채운다. */
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-function prDate(lang: Lang, iso: string): string {
+export function prDate(lang: Lang, iso: string): string {
   const [y, m, d] = iso.split('-').map(Number);
   return lang === 'ko' ? `${y}년 ${m}월 ${d}일` : `${MONTHS[m - 1]} ${d}, ${y}`;
 }
@@ -75,6 +75,12 @@ function prNums(lang: Lang): [string, string][] {
     '{testedWin}': PR.testedWin,
     '{testedMac}': PR.testedMac,
     '{version}': PR.version,
+    /* `/pr/update`: the download file names and the panel's version.json come from `lib/pr.ts` `prFiles`; the address people write to comes from `BUSINESS`. */
+    '{winFile}': prFiles().win.name,
+    '{macFile}': prFiles().mac.name,
+    '{zxpFile}': prFiles().zxp.name,
+    '{versionJson}': PR_VERSION_JSON,
+    '{email}': BUSINESS.email,
     '{portal}': PORTAL_URL,
   });
 }

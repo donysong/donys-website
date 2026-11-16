@@ -248,3 +248,59 @@ test('notices: PR_LEGAL.notices names a page that exists in both locales', () =>
   assert.ok(fs.existsSync(path.join(ROOT, 'app/(en)' + PR_LEGAL.notices, 'page.tsx')));
   assert.ok(fs.existsSync(path.join(ROOT, 'app/(ko)/ko' + PR_LEGAL.notices, 'page.tsx')));
 });
+
+/* ── `/pr/update` (the page the panel's version.json `url` points to) ─────────────────────────────────────────────────
+   A release adds one entry to `lib/prReleases.ts` and bumps `PR.version`; these keep that one step honest. The files and addresses come from `lib/pr.ts`
+   `prFiles`; when the PR repo is at hand they are compared with its release scripts (the producers of version.json and the zips). */
+const { PR_RELEASES } = await import('../lib/prReleases.ts');
+const SITE = (await import('../lib/product.ts')).SITE;
+
+test('update page: the release history is in step with PR.version and keeps its own rules', () => {
+  assert.equal(PR_RELEASES[0].version, PR.version, 'the first entry is the current version');
+  const versions = PR_RELEASES.map((r) => r.version);
+  assert.equal(new Set(versions).size, versions.length, 'no version twice');
+  const cmp = (x, y) => { const [a, b] = [x.split('.').map(Number), y.split('.').map(Number)]; return a[0] - b[0] || a[1] - b[1] || a[2] - b[2]; };
+  for (let i = 1; i < PR_RELEASES.length; i++) {
+    assert.ok(cmp(versions[i - 1], versions[i]) > 0, `${versions[i - 1]} comes before ${versions[i]}: newest first`);
+    assert.ok(PR_RELEASES[i - 1].date >= PR_RELEASES[i].date, `${versions[i - 1]} is not older than ${versions[i]}`);
+  }
+  const hashes = PR_RELEASES.map((r) => r.sha256);
+  assert.equal(new Set(hashes).size, hashes.length, 'one .zxp hash per version');
+  for (const r of PR_RELEASES) {
+    assert.match(r.version, /^\d+\.\d+\.\d+$/);
+    assert.match(r.date, /^\d{4}-\d{2}-\d{2}$/, `${r.version} date`);
+    assert.match(r.sha256, /^[0-9a-f]{64}$/, `${r.version} sha256 is lower-case hex`);
+    assert.ok(r.items.en.length > 0 && r.items.en.length === r.items.ko.length, `${r.version}: EN and KO lines in step`);
+    for (const s of [...r.items.en, ...r.items.ko]) assert.ok(s.trim(), `${r.version}: no empty line`);
+  }
+});
+
+test('update page: file names come from prFiles, and the install steps on /pr name the same zips', () => {
+  const f = pr.prFiles();
+  assert.deepEqual([f.zxp.name, f.win.name, f.mac.name], [`younameit-pr-${PR.version}.zxp`, `younameit-pr-${PR.version}-win.zip`, `younameit-pr-${PR.version}-mac.zip`]);
+  for (const x of Object.values(f)) assert.equal(x.url, `${pr.PR_DL}/${x.name}`);
+  assert.equal(pr.PR_VERSION_JSON, `${pr.PR_DL}/version.json`);
+  for (const lang of ['en', 'ko']) {
+    assert.ok(T[lang]['pr.inst.win.li1'].includes(f.win.name), `${lang} install step names the Windows zip as prFiles does`);
+    assert.ok(T[lang]['pr.inst.mac.li1'].includes(f.mac.name), `${lang} install step names the Mac zip as prFiles does`);
+    assert.ok(T[lang]['pr.upd.win.li2'].includes(f.win.name) && T[lang]['pr.upd.mac.li2'].includes(f.mac.name) && T[lang]['pr.upd.mac.li3'].includes(f.zxp.name));
+    assert.ok(T[lang]['pr.upd.sum.p1'].includes(pr.PR_VERSION_JSON) && T[lang]['pr.upd.sum.win'].includes(f.zxp.name) && T[lang]['pr.upd.sum.mac'].includes(f.zxp.name));
+  }
+});
+
+test('update page: both locales are baked, in the sitemap, and the contact address is the support one', () => {
+  for (const p of ['app/(en)/pr/update/page.tsx', 'app/(ko)/ko/pr/update/page.tsx']) assert.ok(fs.existsSync(path.join(ROOT, p)), p);
+  const sitemap = fs.readFileSync(path.join(ROOT, 'app/sitemap.ts'), 'utf8');
+  assert.ok(sitemap.includes('${SITE}/pr/update`') && sitemap.includes('${SITE}/ko/pr/update`'));
+  for (const lang of ['en', 'ko']) assert.ok(T[lang]['pr.upd.help'].includes('mailto:support@younameit.works'), `${lang} help line writes to support`);
+});
+
+/* What the panel opens is decided in the PR repo: `version.json` is built by `scripts/release/version-json.mjs`, the zips by `bundle-installer.mjs`. */
+test('update page: the address and file names are the PR repo release scripts\'', { skip: !fs.existsSync(path.join(PR_REPO, 'scripts/release/version-json.mjs')) }, () => {
+  const src = fs.readFileSync(path.join(PR_REPO, 'scripts/release/version-json.mjs'), 'utf8');
+  assert.equal(src.match(/RELEASE_NOTES_URL = '([^']+)'/)?.[1], `${SITE}/pr/update`, 'the url version.json carries is this page');
+  assert.equal(src.match(/DOWNLOAD_BASE = '([^']+)'/)?.[1], pr.PR_DL, 'the download host and folder');
+  assert.ok(src.includes('`younameit-pr-${o.version}.zxp`'), 'the .zxp name pattern');
+  const bundle = fs.readFileSync(path.join(PR_REPO, 'scripts/release/bundle-installer.mjs'), 'utf8');
+  assert.ok(bundle.includes('`younameit-pr-${o.version}-${o.os}`'), 'the zip name pattern: younameit-pr-<v>-<os>');
+});

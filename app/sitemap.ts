@@ -38,6 +38,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     /* 제3자 라이선스 고지(PR 플러그인, PRD §8) — 법 면과 같은 층. 라이선스 원문은 두 언어 모두 영어다. */
     { url: `${SITE}/pr/docs`,       lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE}/ko/pr/docs`,    lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    /* The page the panel's `version.json` `url` opens (PR plugin update + release notes). Not in the nav or the footer, but it is a public page like `/update`. */
+    { url: `${SITE}/pr/update`,     lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${SITE}/ko/pr/update`,  lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE}/pr/notices`,    lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE}/ko/pr/notices`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ];
