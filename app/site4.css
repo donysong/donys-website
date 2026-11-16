@@ -1434,3 +1434,5 @@
 
 /* `/pr` 03 blocks: the picture is a 16:9 still (public/pr/feat-*), same frame as the AE clips. */
 .p3.p4 .feat .fig .spot-fig > img {display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:var(--r-card);box-shadow:var(--shot-edge)}
+/* 2026-11-16: the free callout headline is two lines on purpose ("Free to start." / "No card."); in Korean the two plates ran together on one line */
+.p3.p4 .v5-free-h .pl {display:block;width:max-content;max-width:100%;margin-inline:auto}
