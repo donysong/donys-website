@@ -31,7 +31,7 @@ export function useReveal<T extends HTMLElement>() {
 
 /* 01 — 소개 한 문단 + 행동 둘 + 큰 그림(돌 카드), 그 밑에 만든 것 행 */
 export function Intro() {
-  const { t, lang } = useT();
+  const { t } = useT();
   const href = useHref();
   return (
     <section id="lineup" data-plate="02" data-name="home.nav.lineup">
@@ -54,7 +54,7 @@ export function Intro() {
           {/* 브랜드 필름 스틸(33s · 로고 콜라주) — 구 Bento Grid 호버 시트는 오너 2026-10-26 *"개 구림"* 으로 뺐다.
               원본 = 영상 R2 의 `younameit-brand-film-2026-10.mp4` 프레임(1920×1080) → 1280×720 webp. 호버 = 레퍼런스(이미지 1.05). */}
           <figure className="row-fig v5-still">
-            <img src="/riso/brand/film-still-row.webp" alt={t('home.v5.row.still')} width={1280} height={720} loading="lazy" decoding="async" />
+            <img src="/riso/brand/row-ae.webp" alt={t('home.v5.row.still')} width={1280} height={720} loading="lazy" decoding="async" />
           </figure>
           <div className="row-body">
             <div className="row-name">
@@ -73,11 +73,11 @@ export function Intro() {
             </div>
           </div>
         </li>
-        {/* 2026-11-16 (owner): the PR plugin row, same markup as the AE row. The picture = the real panel (Tools, Silence cut, Chat) on a sample sequence. */}
+        {/* 2026-11-16 (owner): the PR plugin row, same markup as the AE row. The picture = the AE row's brand film still with the PR Plugin label (owner 2026-11-16). */}
         <li className="row open">
           <a className="hit" href={href('/pr')} aria-label={t('pr.home.aria')} data-cur />
           <figure className="row-fig v5-still">
-            <img src={`/pr/row-${lang}.webp`} alt={t('pr.shots.note')} width={1280} height={720} loading="lazy" decoding="async" />
+            <img src="/riso/brand/row-pr.webp" alt={t('pr.home.still')} width={1280} height={720} loading="lazy" decoding="async" />
           </figure>
           <div className="row-body">
             <div className="row-name">
@@ -137,7 +137,10 @@ export function FreeCallout() {
   return (
     <section className="v5-free" ref={ref}>
       <div className="sec">
-        <h2 className="disp v5-free-h" data-reveal><Plate3 k="home.v5.free.h" boil={false} /></h2>
+        <h2 className="disp v5-free-h" data-reveal>
+          <Plate3 k="home.v5.free.h1" boil={false} block />
+          <Plate3 k="home.v5.free.h2" boil={false} block />
+        </h2>
         <p className="v5-free-p">{t('home.v5.free.p')}</p>
         <a className="btn-fill v5-free-cta" href={href('/download')} data-cur>{t('home.v5.cta.free')} <span aria-hidden="true">↓</span></a>
         <ul className="v5-proof">{list('home.v5.free.proof').map((s) => <li key={s}>{s}</li>)}</ul>

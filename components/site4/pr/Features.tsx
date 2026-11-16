@@ -1,109 +1,59 @@
 'use client';
-/* 03 Features — the v5 `/ae` 03 layout: cream cards alternating left/right on the red stem (`ae/PenTimeline.tsx`).
-   Cards here are text only — there are no release-build panel captures yet (`/ae` §15.3: captures come from the release tag,
-   and the page shows no Pro screens). When captures exist, a card gets `/ae`'s `figure.fig` back.
-   Cards (each one drops when its features are not claimable, `lib/pr.ts`):
-     silence cuts   autocut.basic
-     toolkit        the free toolkit features that are on, one line each: name — claim — note (`pr.f.<id>.*`)
-     Pro cut …      the Pro features outside the toolkit that are on (silence cut advanced · candidates · XML fast path · captions · Chat), same lines
-     Pro toolkit    the Pro toolkit features that are on, same lines — approximations and what needs the buyer's own key are in the note
-     can't do       honesty: what Premiere does not open to scripts (not a feature claim)
-     on a Mac       honesty: the four things that differ on macOS (`pr.mac.*`, variant `launch/pr-v5e`; not a feature claim, so not in `feature-claims.json`)
-     in the works   features that are `off` in this release — names only, no claim, no date (source 4b)
-   Pro features are described here as well as named in 04 / 05 (owner 2026-11-10: Pro ships in the same download, so the buyer reads what the
-   key unlocks, honesty note included — the text is the PR repo's `feature-claims.json`). */
-import { Html, useT } from '@/components/site3p/lang';
+/* 03 Features — the v5 `/ae` 03 shape (`ae/Features.tsx`): a picture on the left, a claim heading and ONE short paragraph on the right,
+   cream cards on the red stem (`ae/PenTimeline.tsx`). Owner 2026-11-16: "put the product UI in the blocks, shorten the text, match the AE page,
+   the detail goes to the Docs". Everything that used to be a long card here (every tool with its note, what Premiere cannot do, the Mac
+   limits, what is not in this release) now lives on `/pr/docs` (`pr/Docs.tsx`); the blocks link there.
+   Pictures = `public/pr/feat-<silence|captions|chat|tools>-<en|ko>.webp`: the product's own panels rendered in a browser on a sample sequence
+   (Mock Premiere), composed on a 16:9 paper. Not Premiere windows. Re-shoot = PR repo `node scripts/preview/serve.mjs`.
+   Blocks (each drops when its feature is not claimable, `lib/pr.ts`): silence cut · captions · Chat · the toolbox. */
+import { useT } from '@/components/site3p/lang';
+import { useHref } from '@/components/site4/Shell';
 import type { PrFeature } from '@/lib/product';
-import { T } from '@/lib/copy';
-import { prClaimable, prFree, prIn, prLaunchSet, prPlanned, prProTools } from '@/lib/pr';
+import { prClaimable, prFree, prIn } from '@/lib/pr';
 import { useReveal } from '@/components/site4/home/V5';
 import PenTimeline from '@/components/site4/ae/PenTimeline';
 import Head from './Head';
+import { joinNames } from './state';
 
-/* Not every feature has a note — `t()` returns the key for a missing key, so look in the dictionary itself. */
-const hasNote = (id: PrFeature) => `pr.f.${id}.note` in T.en;
-
-/* One line per feature: name — claim — note. */
-function Claims({ ids }: { ids: PrFeature[] }) {
-  const { t } = useT();
-  return (
-    <ul className="pr-claims">
-      {ids.map((id) => (
-        <li key={id}>
-          <b>{t(`pr.f.${id}.name`)}</b>{t(`pr.f.${id}.claim`)}
-          {hasNote(id) ? <i>{t(`pr.f.${id}.note`)}</i> : null}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function Card({ i, children }: { i: number; children: React.ReactNode }) {
-  return <div className="feat sweep" data-reveal style={{ ['--d' as string]: `${((i % 2) * 0.167).toFixed(3)}s` }}><div>{children}</div></div>;
-}
+const BLOCKS: { k: string; img: string; gate: PrFeature | null; pro: boolean; more: string }[] = [
+  { k: 'pr.v5.f1', img: 'silence', gate: 'autocut.basic', pro: false, more: '#silence' },
+  { k: 'pr.v5.f2', img: 'captions', gate: 'captions.longform', pro: true, more: '#pro' },
+  { k: 'pr.v5.f3', img: 'chat', gate: 'chat', pro: true, more: '#pro' },
+  { k: 'pr.v5.f4', img: 'tools', gate: null, pro: false, more: '#toolkit' },
+];
 
 export default function Features() {
-  const { t, list } = useT();
+  const { t, lang } = useT();
+  const href = useHref();
   const ref = useReveal<HTMLElement>();
-  const tools = prIn('toolkit').filter(prFree);
-  const proCut = prLaunchSet().filter(prClaimable);
-  const proTools = prProTools();
-  const planned = prPlanned();
-  const cards: React.ReactNode[] = [];
-  if (prClaimable('autocut.basic')) cards.push(
-    <>
-      <h3>{t('pr.cut.h')}</h3>
-      <Html k="pr.cut.p" as="p" />
-      <p className="pr-note">{t('pr.cut.note')}</p>
-    </>,
-  );
-  if (tools.length) cards.push(
-    <>
-      <h3>{t('pr.tools.h')}</h3>
-      <Html k="pr.tools.p" as="p" />
-      <Claims ids={tools} />
-    </>,
-  );
-  if (proCut.length) cards.push(
-    <>
-      <h3>{t('pr.pro.h')}</h3>
-      <p>{t('pr.pro.p')}</p>
-      <Claims ids={proCut} />
-    </>,
-  );
-  if (proTools.length) cards.push(
-    <>
-      <h3>{t('pr.protools.h')}</h3>
-      <p>{t('pr.protools.p')}</p>
-      <Claims ids={proTools} />
-    </>,
-  );
-  cards.push(
-    <>
-      <h3>{t('pr.cant.h')}</h3>
-      <p>{t('pr.cant.p')}</p>
-      <ul>{list('pr.cant.li').map((s) => <li key={s}>{s}</li>)}</ul>
-    </>,
-    <>
-      <h3>{t('pr.mac.h')}</h3>
-      <p>{t('pr.mac.p')}</p>
-      <ul>{list('pr.mac.li').map((s) => <li key={s}>{s}</li>)}</ul>
-    </>,
-  );
-  if (planned.length) cards.push(
-    <>
-      <h3>{t('pr.planned.h')}</h3>
-      <p>{t('pr.planned.p')}</p>
-      <ul>{planned.map((id) => <li key={id}>{t(`pr.f.${id}.name`)}</li>)}</ul>
-    </>,
-  );
+  const free = joinNames(lang, prIn('toolkit').filter(prFree).map((id) => t(`pr.f.${id}.name`)));
+  const blocks = BLOCKS.filter((b) => !b.gate || prClaimable(b.gate));
   return (
     <section id="what" ref={ref} data-plate="03" data-name="pr.plate.what">
       <div className="sec">
         <Head no="03" stone={4} k="pr.what.h" tag="pr.what.tag" />
         <PenTimeline>
-          {cards.map((c, i) => <Card i={i} key={i}>{c}</Card>)}
+          {blocks.map((b, i) => (
+            <div className="feat sweep" data-reveal key={b.k} style={{ ['--d' as string]: `${((i % 2) * 0.167).toFixed(3)}s` }}>
+              <figure className="fig">
+                <figure className="spot-fig">
+                  <img src={`/pr/feat-${b.img}-${lang}.webp`} alt={t(`${b.k}.alt`)} width={1600} height={900} loading="lazy" decoding="async" />
+                  <figcaption className="cap" style={{ marginTop: 12 }}>{t(`${b.k}.cap`)}</figcaption>
+                </figure>
+              </figure>
+              <div>
+                {b.pro ? <span className="stamp red v5-pro"><span className="dot" />{t('ae.v5.pro')}</span> : null}
+                <h3>{t(`${b.k}.h`)}</h3>
+                <p>{t(`${b.k}.p1`).split('{names}').join(free)}</p>
+                <a className="feat-more" href={href(`/pr/docs${b.more}`)} data-cur>{t('pr.v5.more')} <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
+          ))}
         </PenTimeline>
+        <div className="docs-cta">
+          <span className="txt">{t('pr.v5.docs.txt')}</span>
+          <a className="btn-line" href={href('/pr/docs')} data-cur>{t('pr.v5.docs.btn')} <span aria-hidden="true">→</span></a>
+        </div>
       </div>
     </section>
   );

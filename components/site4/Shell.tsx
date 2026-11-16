@@ -96,7 +96,7 @@ export const KO_PREFIX = '/ko';
    법 3장(`/terms` `/privacy` `/refund`)도 이제 국문판이 있다 — 2026-09-30 오너가 사업자 등록(09-22) 뒤 구 "영문 전용"(09-19)을
    다시 열었다(개인정보 처리방침은 국문 독자가 읽을 수 있어야 한다). 푸터 링크가 이 함수를 타고, deployCheck `[legal]` 이
    국문 면에선 `/ko/…` 를 요구한다. 앵커(`#…`)·외부 주소·`mailto:` 는 그대로 둔다 — 앵커를 여기 통과시키면 `/ko#who` 가 된다. */
-const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter', '/download', '/pr', '/pr/notices'];
+const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter', '/download', '/pr', '/pr/docs', '/pr/notices'];
 export function useHref() {
   const { lang, locked } = useLang();
   return (p: string) => {
@@ -219,6 +219,7 @@ function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
             {/* `/pr` 의 지원 열은 그 면의 FAQ · 설치 절을 가리킨다 — AE Docs 로 보내면 다른 제품의 설치 순서를 읽는다. */}
             {page === 'pr' ? (
               <>
+                <li><a href={href('/pr/docs')} data-cur>{t('s.ft.docs')}</a></li>
                 <li><a href="#faq" data-cur>{t('s.ft.faq')}</a></li>
                 <li><a href="#install" data-cur>{t('s.ft.specs')}</a></li>
               </>

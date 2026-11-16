@@ -22,7 +22,7 @@
      · Install steps may instruct (VOICE_AND_TERMS §1). Banned copy = PR repo `gtm/README.md` (checked by `tools/pr.test.mjs`).
    Keys the site added (not in the source, owner review pending): `pr.nav.*` `pr.plate.*` `pr.cta.*` `pr.hero.*.soon` `pr.price.free.*`
    `pr.price.pro.*` `pr.price.closed` `pr.bundle.closed` `pr.how.*` `pr.pro.*` `pr.protools.*` `pr.faq.mac` `pr.mac.*` `pr.inst.mac.*`
-   `pr.shots.*` `pr.home.*` `pr.posi.plain` ({names}). `pr.hero.promise` is the owner's headline again (captions are in the version you can download, with Pro). */
+   `pr.v5.*` `pr.home.*` `pr.docs.*` `pr.posi.plain` ({names}). `pr.hero.promise` is the owner's headline again (captions are in the version you can download, with Pro). */
 import type { Dict } from './types';
 
 const PR_COPY: Dict = {
@@ -454,17 +454,38 @@ const PR_COPY: Dict = {
     'pr.inst.update.li2': 'To remove it: Creative Cloud desktop app ▸ Manage plugins, then remove You Name It PR.',
     'pr.inst.update.li3': 'Downloaded ffmpeg, the on-device transcription files (about 1.1 GB) and your settings live in the data folder: <code>%LOCALAPPDATA%\\younameit\\pr</code> on Windows, <code>~/Library/Application Support/younameit/pr</code> on a Mac. Deleting that folder removes them. Your projects and media are never stored there.',
 
-    /* ── Screens of the panel (browser renders of the real panel with a sample sequence) and the home row ── */
-    'pr.shots.tools': 'The Main panel: every tool, grouped as Edit, Motion, Clips and Project.',
-    'pr.shots.silence': 'Silence cut: pick the audio tracks and the shortest silence to cut.',
-    'pr.shots.captions': 'Captions: speech to text in the language spoken, with no translation.',
-    'pr.shots.chat': 'Chat: it shows the plan and waits for your approval.',
-    'pr.shots.note': 'Panel screens with a sample sequence.',
+    /* ── The PR rows on the main site, and the 03 feature blocks (same shape as /ae 03; the detail is on /pr/docs) ── */
     'pr.home.aria': 'See You Name It PR Plugin',
     'pr.home.name': 'PR Plugin',
     'pr.home.one': 'Premiere Pro panel. Silence cuts are free, with no limit.',
     'pr.home.price': 'Free · Pro {price}',
     'pr.home.chip': 'Pr',
+    'pr.home.still': 'A still from the You Name It brand film, with the PR Plugin label',
+    'pr.v5.f1.alt': 'Silence cut panel with the audio tracks and the minimum silence',
+    'pr.v5.f1.cap': 'The Silence cut panel. Pick the audio tracks and the shortest silence to cut.',
+    'pr.v5.f1.h': 'Cut the silence, keep the original',
+    'pr.v5.f1.p1': 'It finds where every dialogue track you picked goes quiet and shows the cut count and time saved. After you approve, it cuts a duplicate of the sequence.',
+    'pr.v5.f2.alt': 'Captions panel with the transcription engine and the spoken language',
+    'pr.v5.f2.cap': 'The Captions panel. Choose how to transcribe and which language is spoken.',
+    'pr.v5.f2.h': 'Captions on a native track',
+    'pr.v5.f2.p1': 'Speech becomes text in the language spoken, on a Premiere caption track you can edit. Use your own ElevenLabs key, or transcribe on this computer on Windows.',
+    'pr.v5.f3.alt': 'Chat panel with a plan waiting for approval',
+    'pr.v5.f3.cap': 'The Chat panel. The plan comes first, and nothing changes until you approve it.',
+    'pr.v5.f3.h': 'Say it, then approve the plan',
+    'pr.v5.f3.p1': 'Chat reads the sequence and shows what it will change. It runs on your own Claude Code or Codex plan and applies nothing before you say yes.',
+    'pr.v5.f4.alt': 'Tools tab with the tools grouped as Edit, Motion, Clips and Project',
+    'pr.v5.f4.cap': 'The Tools tab. Every tool sits in one of four groups.',
+    'pr.v5.f4.h': 'Small jobs, one button each',
+    'pr.v5.f4.p1': 'Free: {names}. Pro adds more for motion and clips.',
+    'pr.v5.more': 'More in the Docs',
+    'pr.v5.docs.txt': 'Every tool, what it needs and what it leaves alone is in the Docs. You can read all of it before you buy.',
+    'pr.v5.docs.btn': 'Read the Docs',
+    'pr.nav.docs': 'Docs',
+    'pr.docs.plate': 'Docs',
+    'pr.docs.h': 'Docs',
+    'pr.docs.desc': 'What each part of the You Name It PR Plugin does, what it needs to run, and what it leaves alone.',
+    'pr.docs.intro': 'What each part of the plugin does, what it needs to run, and what it leaves alone. You can read all of it before you buy.',
+    'pr.docs.back': 'Back to the plugin page',
 
     /* ── Meta — no brand in the title (the layout template adds it) ── */
     'pr.meta.title': 'PR Plugin',
@@ -900,17 +921,38 @@ const PR_COPY: Dict = {
     'pr.inst.update.li3': '내려받은 ffmpeg와 내 컴퓨터 받아쓰기 파일(약 1.1GB), 설정은 데이터 폴더에 있어요. Windows는 <code>%LOCALAPPDATA%\\younameit\\pr</code>, Mac은 <code>~/Library/Application Support/younameit/pr</code>예요. 이 폴더를 지우면 전부 사라져요. 프로젝트와 미디어는 이 폴더에 두지 않아요.',
 
     /* ── 메타 ─────────────────────────────────────────────────── */
-    /* ── 패널 화면(샘플 시퀀스로 띄운 실제 패널)과 홈 행 ── */
-    'pr.shots.tools': 'Main 패널: 도구가 편집, 모션, 클립, 프로젝트로 묶여 있어요.',
-    'pr.shots.silence': '무음 컷: 분석할 오디오 트랙과 최소 무음 길이를 골라요.',
-    'pr.shots.captions': '자막: 말한 언어 그대로 받아쓰고, 번역은 하지 않아요.',
-    'pr.shots.chat': 'Chat: 계획을 먼저 보여 주고 승인을 기다려요.',
-    'pr.shots.note': '샘플 시퀀스로 띄운 패널 화면이에요.',
+    /* ── 메인 사이트의 PR 행과 03 기능 블록(/ae 03 과 같은 모양, 자세한 건 /pr/docs) ── */
     'pr.home.aria': 'You Name It PR Plugin 보기',
     'pr.home.name': 'PR Plugin',
     'pr.home.one': 'Premiere Pro 패널이에요. 무음 컷은 제한 없이 무료예요.',
     'pr.home.price': '무료 · Pro {price}',
     'pr.home.chip': 'Pr',
+    'pr.home.still': 'You Name It 브랜드 필름의 한 장면에 PR Plugin 라벨이 붙은 모습',
+    'pr.v5.f1.alt': '무음 컷 패널. 오디오 트랙과 최소 무음 길이를 고르는 화면',
+    'pr.v5.f1.cap': '무음 컷 패널이에요. 분석할 오디오 트랙과 최소 무음 길이를 골라요.',
+    'pr.v5.f1.h': '무음은 자르고, 원본은 그대로',
+    'pr.v5.f1.p1': '고른 대사 트랙이 전부 조용한 구간을 찾아서, 컷 수와 줄어드는 시간을 먼저 보여 줘요. 승인하면 시퀀스 복제본에서 잘라요.',
+    'pr.v5.f2.alt': '자막 패널. 받아쓰는 방식과 말하는 언어를 고르는 화면',
+    'pr.v5.f2.cap': '자막 패널이에요. 받아쓰는 방식과 말하는 언어를 골라요.',
+    'pr.v5.f2.h': '자막은 Premiere 자막 트랙에',
+    'pr.v5.f2.p1': '말한 언어 그대로 받아써서, 고칠 수 있는 Premiere 자막 트랙에 넣어요. 본인 ElevenLabs 키를 쓰거나, Windows에서는 이 컴퓨터에서 받아써요.',
+    'pr.v5.f3.alt': 'Chat 패널. 승인을 기다리는 계획이 보이는 화면',
+    'pr.v5.f3.cap': 'Chat 패널이에요. 계획이 먼저 나오고, 승인해야 적용돼요.',
+    'pr.v5.f3.h': '말로 시키고, 계획을 승인해요',
+    'pr.v5.f3.p1': 'Chat이 시퀀스를 읽고 바꿀 내용을 먼저 보여 줘요. 본인 Claude Code나 Codex 구독으로 돌고, 승인하기 전에는 아무것도 적용하지 않아요.',
+    'pr.v5.f4.alt': 'Tools 탭. 도구가 편집, 모션, 클립, 프로젝트로 묶인 화면',
+    'pr.v5.f4.cap': 'Tools 탭이에요. 도구가 네 묶음으로 나뉘어 있어요.',
+    'pr.v5.f4.h': '자잘한 일은 버튼 하나씩',
+    'pr.v5.f4.p1': '무료: {names}. Pro는 모션과 클립 쪽 도구가 더 있어요.',
+    'pr.v5.more': 'Docs에서 더 보기',
+    'pr.v5.docs.txt': '도구마다 뭘 하는지, 뭐가 필요한지, 뭘 건드리지 않는지 Docs에 적어 뒀어요. 사기 전에 전부 읽어 볼 수 있어요.',
+    'pr.v5.docs.btn': 'Docs 보기',
+    'pr.nav.docs': 'Docs',
+    'pr.docs.plate': 'Docs',
+    'pr.docs.h': 'Docs',
+    'pr.docs.desc': 'You Name It PR Plugin의 부분마다 뭘 하는지, 뭐가 있어야 돌아가는지, 뭘 건드리지 않는지 적었어요.',
+    'pr.docs.intro': '부분마다 뭘 하는지, 뭐가 있어야 돌아가는지, 뭘 건드리지 않는지 적었어요. 사기 전에 전부 읽어 볼 수 있어요.',
+    'pr.docs.back': '플러그인 페이지로 돌아가기',
     'pr.meta.title': 'PR Plugin',
     'pr.meta.desc': 'Premiere Pro 패널이에요. 무음 컷은 제한 없이 무료, Pro는 키로 더 열려요. 계획을 먼저 보여 드리고 승인한 것만 적용하며, 원본은 그대로 둬요.',
   },

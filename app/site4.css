@@ -1189,7 +1189,7 @@
 @media (max-width:999px){ .p3.p4 .v5-rel {scrollbar-width:none} .p3.p4 .v5-rel::-webkit-scrollbar {display:none} }
 @media (min-width:700px){ .p3.p4 .v5-tile-h {padding-right:calc(clamp(72px,8vw,120px) - var(--sp-lg))} }   /* 제목 두 줄이 오른쪽 위 돌에 닿았다(1440 · 타일 4) */
 /* 타일 제목 = 한 줄(오너 2026-10-26 *"타이틀은 한줄로"*) — 1000 이상에서 접지 않는다. 그 아래는 칸이 좁아 접힌다. 위 `max-width:14ch`·오른쪽 여백을 푼다 */
-@media (min-width:1000px){ .p3.p4 .v5-tile-h {max-width:none;padding-right:0;white-space:nowrap} }
+@media (min-width:1000px){ .p3.p4 .v5-tile-h {max-width:none;padding-right:0;white-space:normal;text-wrap:balance} }   /* 2026-11-16: 영문 제목이 칸을 넘었다("You don’t need a license to make things.") → 한 줄 고정을 풀고 두 줄로 접는다 */
 /* 한 줄 제목이 칸을 넘었다(영문 "Our archenemy: busywork." 1440 · 1100 실측) → 타일 글 폭(cqi = 안쪽 여백 뺀 폭)에 맞춰 줄인다. 가장 긴 제목(국문 "우리의 주적은 반복과 비효율.") ≈ 15.5em.
    그림(오른쪽 위)과 겹치지 않게 1000 이상에선 위 여백을 그림 높이만큼 확보한다. */
 @media (min-width:1000px){
@@ -1432,13 +1432,5 @@
 .p3 .circ[data-pending]:is(:hover, :focus-visible) {scale:1;box-shadow:var(--rx) var(--ry) 0 var(--white)}
 .p3 .circ[data-pending]:is(:hover, :focus-visible) > span {scale:1}
 
-/* `/pr` screens (2026-11-16): four panel pictures under the cover. Natural heights, aligned at the top, a black edge like the other stills. */
-.p3.p4 .pr-shots {position:relative;z-index:2;padding-bottom:clamp(24px,4vw,56px)}
-.p3.p4 .pr-shots ul {list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,28px);align-items:start}
-.p3.p4 .pr-shots figure {margin:0}
-.p3.p4 .pr-shots img {display:block;width:100%;height:auto;border-radius:var(--r-card);box-shadow:var(--shot-edge)}
-.p3.p4 .pr-shots figcaption {margin-top:10px;font-size:13px;line-height:1.4;font-weight:600;text-wrap:balance}
-.p3.p4 .pr-shots .pr-shots-note {margin:18px 0 0;font-size:12px;font-weight:600;opacity:.7;text-align:center}
-@media (max-width:900px) {
-  .p3.p4 .pr-shots ul {grid-template-columns:repeat(2,minmax(0,1fr))}
-}
+/* `/pr` 03 blocks: the picture is a 16:9 still (public/pr/feat-*), same frame as the AE clips. */
+.p3.p4 .feat .fig .spot-fig > img {display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:var(--r-card);box-shadow:var(--shot-edge)}

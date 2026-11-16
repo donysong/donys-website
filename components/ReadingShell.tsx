@@ -11,17 +11,19 @@
 import { LangProvider } from '@/components/site3p/lang';
 import Page4 from '@/components/site4/Shell';
 
-export default function ReadingShell({ lang, plate, langSwitch = true, children }: {
+export default function ReadingShell({ lang, plate, langSwitch = true, cta = { href: '/ae', k: 's.toProduct' }, children }: {
   lang: 'en' | 'ko';
   /** 네비 판 라벨에 찍힐 사전 키(`lib/copy/shared.ts`) — 예: `s.ft.notes` */
   plate: string;
   langSwitch?: boolean;
+  /** 네비의 제품 진입 버튼 — 기본은 AE. `/pr/docs` 는 PR 로 넘긴다. */
+  cta?: { href: string; k: string };
   children: React.ReactNode;
 }) {
   /* `page="docs"` = 읽는 면 판면(`--field:1160px`)을 탄다. 네비 링크는 비운다: Docs 로 가는 길은
      본문(설치 안내 링크)과 셸 푸터가 갖는다. */
   const shell = (
-    <Page4 page="docs" plateTotal={1} ownNav cta={{ href: '/ae', k: 's.toProduct' }}>
+    <Page4 page="docs" plateTotal={1} ownNav cta={cta}>
       <section className="sec" data-plate="01" data-name={plate}>{children}</section>
     </Page4>
   );

@@ -14,7 +14,7 @@
     "start": "next start",
     "preview": "npx --yes serve out -l 4173",
     "check": "node tools/deployCheck.mjs",
-    "deploy": "npm run build && node tools/stripLegacy.mjs && node tools/deployCheck.mjs --release && npx wrangler pages deploy out --project-name=younameit --branch=main"
+    "deploy": "node tools/buildProd.mjs && node tools/stripLegacy.mjs && node tools/deployCheck.mjs --release && npx wrangler pages deploy out --project-name=younameit --branch=main"
   },
   "dependencies": {
     "@rive-app/react-canvas-lite": "^4.36.0",
