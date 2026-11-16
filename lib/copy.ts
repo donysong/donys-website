@@ -73,6 +73,7 @@ function prNums(lang: Lang): [string, string][] {
     '{remoteOffDays}': String(PR.remoteOffRefundDays),
     '{minPremiere}': PR.minPremiere,
     '{testedWin}': PR.testedWin,
+    '{testedMac}': PR.testedMac,
     '{version}': PR.version,
     '{portal}': PORTAL_URL,
   });

@@ -2,14 +2,18 @@
 /* 07 Install — 🔴 the `#install` anchor is a destination for incoming links (cover circle · FAQ q12 · spec 3 · footer · the
    `README.txt` in the download). Source = PR repo `gtm/site/pr-install.md` (one installer script, manual route if it fails).
    Layout = the Docs install vocabulary (`.howto` columns + `.byhand` fold), which v5 keeps.
-   macOS: one line — coming soon, no steps (owner 2026-11-07: verified on Windows only; the matrix runs after launch).
+   macOS (variant `launch/pr-v5e`, owner 2026-11-16: Windows and macOS ship together): four steps taken from the Mac bundle's own README
+   (`younameit-pr-<v>-mac.zip` → `Install You Name It PR.command`, `scripts/release/bundle-installer.mjs` `readmeText`). The Windows-only variant `launch/pr-v5d`
+   has one "not yet" line here instead.
    Install steps may instruct (VOICE_AND_TERMS §1).
 
-   🔴 Lines not yet confirmed on a clean PC (D20) — check them before release:
+   🔴 Lines not yet confirmed on a clean PC / Mac (D20) — check them before release:
      win.li3     the actual warning text and button name
+     mac.li3     the Gatekeeper wording and System Settings names as macOS shows them (the README text; no clean Mac was available)
      first.li1   the KO menu names (Korean Premiere: 창 ▸ 확장명)
      update.li2  whether the CEP extension shows in Creative Cloud's plugin list
-   `PR.companion = false` → the `.ccx` lines (win.li4 · win.li5 · manual.li2 · manual.li3) give way to the `*.nocx` lines. */
+   `PR.companion = false` → the `.ccx` lines (win.li4 · win.li5 · manual.li2 · manual.li3) give way to the `*.nocx` lines. The Mac steps never name the companion;
+   if `PR.companion` turns true, the Mac bundle needs `--ccx` too and a Mac line for the untrusted-developer warning (like win.li5). */
 import { Html, useT } from '@/components/site3p/lang';
 import { PR } from '@/lib/product';
 import Head from './Head';
@@ -36,7 +40,7 @@ export default function Install() {
           </div>
           <div>
             <h3>{t('pr.inst.mac.h')}</h3>
-            <p>{t('pr.inst.mac.soon')}</p>
+            <ol>{[1, 2, 3, 4].map((n) => li(`pr.inst.mac.li${n}`))}</ol>
           </div>
         </div>
         <div className="howto pr-inst">

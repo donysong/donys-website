@@ -74,7 +74,7 @@ export function prJsonLd(site: string, path: string, description: string) {
     '@type': 'SoftwareApplication',
     name: 'You Name It PR Plugin',
     applicationCategory: 'MultimediaApplication',
-    operatingSystem: 'Windows',
+    operatingSystem: 'Windows, macOS',
     softwareVersion: PR.version,
     url: `${site}${path}`,
     description,

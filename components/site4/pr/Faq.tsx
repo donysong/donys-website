@@ -2,7 +2,7 @@
 /* 06 FAQ — the v5 `/ae` 06 (`details.qa` · summary = question + one-word verdict · GSAP disclosure `useDisclosure`).
    Source = PR repo `gtm/site/pr-faq.md`; groups: work · technical · license · buying Pro (buy1–buy4 replace q20 refund in this shape).
    Left out against the source: q7 (merged into q28, the candidates entry) · q16 (Korean input box, spike D1 still open) · q20 (→ buy3).
-   New: `mac` (macOS coming soon, owner 2026-11-07) · q28 filler and NG-take candidates · q29 skin smoothing · q30 speed ramp · q31 on-device
+   New: `mac` (does it work on a Mac: yes, four limits; owner 2026-11-16, variant `launch/pr-v5e`) · q28 filler and NG-take candidates · q29 skin smoothing · q30 speed ramp · q31 on-device
    transcription (owner 2026-11-11: those features are in the release, so their honesty labels are answers here) · q32 FX Search shortcut (Ctrl+Space
    takes a Premiere shortcut) · q33 FX Search undo (Ctrl+Z, no plugin undo) · q34 Ease curve (baked keyframes, approximate; owner 2026-11-15).
    Tags: a question drops when none of its features is claimable. q21 drops once the AE code expires (`PR.aeCouponEnd`). */

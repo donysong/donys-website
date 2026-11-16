@@ -181,8 +181,11 @@ export const PR = {
   remoteOffRefundDays: 30,        // a Pro feature switched off remotely longer than this → refund even after 14 days
   minPremiere: '25.6.4',          // 25.6.2 · 25.6.3 freeze panel scripts and are blocked
   /* The Premiere builds the Lab ran on (PR repo `docs/lab/2026-11-11-premiere27.md`, then the central night of 2026-11-15: 27.0 → 26.5.2 → 25.6.6).
-     Shown in the specs and FAQ q11, so a build that did not pass that night comes out of this list before the deploy. macOS = "coming soon", no version claimed. */
+     Shown in the specs and FAQ q11, so a build that did not pass that night comes out of this list before the deploy. */
   testedWin: '25.6.6 · 26.5.2 · 27.0',
+  /* macOS (variant `launch/pr-v5e`, owner 2026-11-16: Windows and macOS ship together): the Mac Lab ran on Premiere Pro 27.0 on an Apple silicon Mac only
+     (PR repo `MAC-REPORT.md` 2026-11-16). Mac 26.5.2 and Intel Macs are untested, so the copy says "only". */
+  testedMac: '27.0',
   version: '1.0.0',               // 🔴 not by hand — the release tag's value (same rule as AE `VERSION`)
   /* Polar checkout links (production, PR repo `gtm/polar/polar-setup.md` §8). Empty = not made yet → the button renders without
      href (`data-pending="checkout"`) and deployCheck `[pr]` fails. */

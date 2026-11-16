@@ -8,6 +8,7 @@
      Pro cut …      the Pro features outside the toolkit that are on (silence cut advanced · candidates · XML fast path · captions · Chat), same lines
      Pro toolkit    the Pro toolkit features that are on, same lines — approximations and what needs the buyer's own key are in the note
      can't do       honesty: what Premiere does not open to scripts (not a feature claim)
+     on a Mac       honesty: the four things that differ on macOS (`pr.mac.*`, variant `launch/pr-v5e`; not a feature claim, so not in `feature-claims.json`)
      in the works   features that are `off` in this release — names only, no claim, no date (source 4b)
    Pro features are described here as well as named in 04 / 05 (owner 2026-11-10: Pro ships in the same download, so the buyer reads what the
    key unlocks, honesty note included — the text is the PR repo's `feature-claims.json`). */
@@ -82,6 +83,11 @@ export default function Features() {
       <h3>{t('pr.cant.h')}</h3>
       <p>{t('pr.cant.p')}</p>
       <ul>{list('pr.cant.li').map((s) => <li key={s}>{s}</li>)}</ul>
+    </>,
+    <>
+      <h3>{t('pr.mac.h')}</h3>
+      <p>{t('pr.mac.p')}</p>
+      <ul>{list('pr.mac.li').map((s) => <li key={s}>{s}</li>)}</ul>
     </>,
   );
   if (planned.length) cards.push(
