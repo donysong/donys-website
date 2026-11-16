@@ -186,7 +186,7 @@ function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
               둘 중 하나는 거짓말이다. `/ae`·`/ae/docs` 는 실제 결제라 채움 그대로. */}
           <div className="cta-row" style={{ marginTop: 22 }}>
             {page === 'home'
-              ? <a className="btn-line" href={href('/ae')} data-cur>{t('s.toProduct')}</a>
+              ? <><a className="btn-line" href={href('/ae')} data-cur>{t('s.toProduct')}</a> <a className="btn-line" href={href('/pr')} data-cur>{t('s.toProduct.pr')}</a></>
               : buy
                 ? <a className={buy.line ? 'btn-line' : 'buy'} href={buy.href || undefined} data-pending={buy.href ? undefined : buy.pending ?? 'checkout'} data-cur>{buy.label}</a>
                 : <a className="buy" href={CHECKOUT_URL} data-cur>{t('s.buy.price')}</a>}

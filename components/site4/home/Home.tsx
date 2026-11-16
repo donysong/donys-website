@@ -17,6 +17,7 @@ import { Intro, Tiles, FreeCallout, Recent, Films, Outro } from './V5';
 const LINKS: NavLink[] = [
   { href: '#lineup', k: 'home.nav.lineup' },
   { href: '#how', k: 'home.nav.how' },
+  { href: '/pr', k: 's.toProduct.pr' },   // 2026-11-16 (owner): the way into the PR page from the main site
 ];
 
 export default function Home() {

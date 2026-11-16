@@ -22,7 +22,7 @@
      · Install steps may instruct (VOICE_AND_TERMS §1). Banned copy = PR repo `gtm/README.md` (checked by `tools/pr.test.mjs`).
    Keys the site added (not in the source, owner review pending): `pr.nav.*` `pr.plate.*` `pr.cta.*` `pr.hero.*.soon` `pr.price.free.*`
    `pr.price.pro.*` `pr.price.closed` `pr.bundle.closed` `pr.how.*` `pr.pro.*` `pr.protools.*` `pr.faq.mac` `pr.mac.*` `pr.inst.mac.*`
-   `pr.posi.plain` ({names}). `pr.hero.promise` is the owner's headline again (captions are in the version you can download, with Pro). */
+   `pr.shots.*` `pr.home.*` `pr.posi.plain` ({names}). `pr.hero.promise` is the owner's headline again (captions are in the version you can download, with Pro). */
 import type { Dict } from './types';
 
 const PR_COPY: Dict = {
@@ -453,6 +453,18 @@ const PR_COPY: Dict = {
     'pr.inst.update.li1': 'When a new version is out, the panel shows a notice. It installs from the panel when it can; otherwise download the new installer and run it the same way (it may ask for administrator rights).',
     'pr.inst.update.li2': 'To remove it: Creative Cloud desktop app ▸ Manage plugins, then remove You Name It PR.',
     'pr.inst.update.li3': 'Downloaded ffmpeg, the on-device transcription files (about 1.1 GB) and your settings live in the data folder: <code>%LOCALAPPDATA%\\younameit\\pr</code> on Windows, <code>~/Library/Application Support/younameit/pr</code> on a Mac. Deleting that folder removes them. Your projects and media are never stored there.',
+
+    /* ── Screens of the panel (browser renders of the real panel with a sample sequence) and the home row ── */
+    'pr.shots.tools': 'The Main panel: every tool, grouped as Edit, Motion, Clips and Project.',
+    'pr.shots.silence': 'Silence cut: pick the audio tracks and the shortest silence to cut.',
+    'pr.shots.captions': 'Captions: speech to text in the language spoken, with no translation.',
+    'pr.shots.chat': 'Chat: it shows the plan and waits for your approval.',
+    'pr.shots.note': 'Panel screens with a sample sequence.',
+    'pr.home.aria': 'See You Name It PR Plugin',
+    'pr.home.name': 'PR Plugin',
+    'pr.home.one': 'Premiere Pro panel. Silence cuts are free, with no limit.',
+    'pr.home.price': 'Free · Pro {price}',
+    'pr.home.chip': 'Pr',
 
     /* ── Meta — no brand in the title (the layout template adds it) ── */
     'pr.meta.title': 'PR Plugin',
@@ -888,6 +900,17 @@ const PR_COPY: Dict = {
     'pr.inst.update.li3': '내려받은 ffmpeg와 내 컴퓨터 받아쓰기 파일(약 1.1GB), 설정은 데이터 폴더에 있어요. Windows는 <code>%LOCALAPPDATA%\\younameit\\pr</code>, Mac은 <code>~/Library/Application Support/younameit/pr</code>예요. 이 폴더를 지우면 전부 사라져요. 프로젝트와 미디어는 이 폴더에 두지 않아요.',
 
     /* ── 메타 ─────────────────────────────────────────────────── */
+    /* ── 패널 화면(샘플 시퀀스로 띄운 실제 패널)과 홈 행 ── */
+    'pr.shots.tools': 'Main 패널: 도구가 편집, 모션, 클립, 프로젝트로 묶여 있어요.',
+    'pr.shots.silence': '무음 컷: 분석할 오디오 트랙과 최소 무음 길이를 골라요.',
+    'pr.shots.captions': '자막: 말한 언어 그대로 받아쓰고, 번역은 하지 않아요.',
+    'pr.shots.chat': 'Chat: 계획을 먼저 보여 주고 승인을 기다려요.',
+    'pr.shots.note': '샘플 시퀀스로 띄운 패널 화면이에요.',
+    'pr.home.aria': 'You Name It PR Plugin 보기',
+    'pr.home.name': 'PR Plugin',
+    'pr.home.one': 'Premiere Pro 패널이에요. 무음 컷은 제한 없이 무료예요.',
+    'pr.home.price': '무료 · Pro {price}',
+    'pr.home.chip': 'Pr',
     'pr.meta.title': 'PR Plugin',
     'pr.meta.desc': 'Premiere Pro 패널이에요. 무음 컷은 제한 없이 무료, Pro는 키로 더 열려요. 계획을 먼저 보여 드리고 승인한 것만 적용하며, 원본은 그대로 둬요.',
   },

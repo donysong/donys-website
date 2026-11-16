@@ -16,6 +16,7 @@ import Page4, { type BuyCta, type NavLink } from '@/components/site4/Shell';
 import { useT } from '@/components/site3p/lang';
 import { PR } from '@/lib/product';
 import Hero from './Hero';
+import Shots from './Shots';
 import Who from './Who';
 import Posi from './Posi';
 import Features from './Features';
@@ -43,6 +44,7 @@ export default function PrPage() {
   return (
     <Page4 page="pr" plateTotal={7} links={LINKS} cta={{ href: buy.href, k: pro ? 'pr.cta.pro' : 'pr.cta.free', pending: buy.pending }} buy={buy} rail={pro}>
       <Hero />
+      <Shots />
       <Who />
       <Posi />
       <Features />

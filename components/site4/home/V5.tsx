@@ -31,7 +31,7 @@ export function useReveal<T extends HTMLElement>() {
 
 /* 01 — 소개 한 문단 + 행동 둘 + 큰 그림(돌 카드), 그 밑에 만든 것 행 */
 export function Intro() {
-  const { t } = useT();
+  const { t, lang } = useT();
   const href = useHref();
   return (
     <section id="lineup" data-plate="02" data-name="home.nav.lineup">
@@ -69,6 +69,29 @@ export function Intro() {
               <span className="chips"><span className="chip">{t('home.row1.chip')}</span></span>
               <span className="dash" />
               <span className="price v5-price">{t('home.v5.row.price')}</span>
+              <span className="go">{t('home.row1.go')} <span className="arrow">→</span></span>
+            </div>
+          </div>
+        </li>
+        {/* 2026-11-16 (owner): the PR plugin row, same markup as the AE row. The picture = the real panel (Tools, Silence cut, Chat) on a sample sequence. */}
+        <li className="row open">
+          <a className="hit" href={href('/pr')} aria-label={t('pr.home.aria')} data-cur />
+          <figure className="row-fig v5-still">
+            <img src={`/pr/row-${lang}.webp`} alt={t('pr.shots.note')} width={1280} height={720} loading="lazy" decoding="async" />
+          </figure>
+          <div className="row-body">
+            <div className="row-name">
+              <span className="disp" lang="en">
+                <span className="brandpart">{t('home.row1.brand')}</span>
+                <Plate3 k="pr.home.name" />
+              </span>
+              <span className="stamp red badge" onClick={rePress}><span className="dot" />{t('home.row1.badge')}</span>
+            </div>
+            <p className="one">{t('pr.home.one')}</p>
+            <div className="lmeta">
+              <span className="chips"><span className="chip">{t('pr.home.chip')}</span></span>
+              <span className="dash" />
+              <span className="price v5-price">{t('pr.home.price')}</span>
               <span className="go">{t('home.row1.go')} <span className="arrow">→</span></span>
             </div>
           </div>
