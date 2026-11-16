@@ -5,7 +5,7 @@
    A page built on 11/10 and still up on 11/14 would keep the Pro button closed (or, after the AE code expires,
    keep offering it). So the baked HTML carries the build-time state and the browser re-decides with its own clock
    (`components/site4/pr/state.tsx`). First render = server values, so hydration never diverges. */
-import { PR, PR_FEATURES, type PrFeature } from './product';
+import { DIST_BASE, PR, PR_FEATURES, type PrFeature } from './product';
 
 const DAY = 86_400_000;
 const KST = 9 * 3_600_000;
@@ -31,6 +31,16 @@ export const prOpenAt = (now: number, k: CheckoutKind) => PR_DATED && now >= kst
 /** The last KST day of the Pro launch price: the checkout-open day + `PR.openEarlyDays` (14 days; owner, 2026-11-10). Empty while the launch day is not set.
  *  The page shows this date. Polar is the real gate — the price there has to change after this day (nothing in this site does that). */
 export const PR_EARLY_UNTIL = PR_DATED ? new Date(kstDayStart(PR.checkoutOpensOn) + PR.openEarlyDays * DAY + KST).toISOString().slice(0, 10) : '';
+
+/* The files of one release on R2, `https://dl.younameit.works/pr/`. 🔴 The names are the PR repo's: `scripts/release/version-json.mjs` (`.zxp`, the `download` the panel installs)
+   and `bundle-installer.mjs` (`-win.zip` · `-mac.zip`, the per-OS download), and the panel's own `version.json` sits next to them. Nothing else spells them: `/pr/update` and
+   the `{winFile}` `{macFile}` `{zxpFile}` placeholders of the copy (`lib/copy.ts` `prNums`) both read this one function, and `tools/pr.test.mjs` compares it with the install steps on `/pr`. */
+export const PR_DL = `${DIST_BASE}/pr`;
+export const PR_VERSION_JSON = `${PR_DL}/version.json`;
+export function prFiles(version: string = PR.version) {
+  const file = (name: string) => ({ name, url: `${PR_DL}/${name}` });
+  return { zxp: file(`younameit-pr-${version}.zxp`), win: file(`younameit-pr-${version}-win.zip`), mac: file(`younameit-pr-${version}-mac.zip`) };
+}
 
 /** The AE-owner code offer may still be on the page (a page must not offer an expired code). */
 export const prAeCouponAt = (now: number) => now < kstDayEnd(PR.aeCouponEnd);
