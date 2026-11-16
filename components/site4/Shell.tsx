@@ -203,7 +203,10 @@ function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
           <h2>{t('s.ft.made')}</h2>
           <ul>
             <li><a href={href('/ae')} data-cur>{t('s.product')}</a></li>
-            <li><a href={href('/update')} data-cur>{t('s.ft.notes')}</a></li>
+            {/* Launch day: the way into `/pr` from every other page (owner 2026-11-16). */}
+            {page !== 'pr' ? <li><a href={href('/pr')} data-cur>{t('s.product.pr')}</a></li> : null}
+            {/* `/update` is the AE release log; `/pr` has no notes page of its own yet, so it must not link there (owner 2026-11-16). */}
+            {page !== 'pr' ? <li><a href={href('/update')} data-cur>{t('s.ft.notes')}</a></li> : null}
             {/* On `/pr` the free download is the PR free version (its plan in `#price`), not the AE download page. */}
             <li><a href={page === 'pr' ? '#free' : href('/download')} data-cur>{t('s.ft.download')}</a></li>
             {/* 광고성 정보 수신 동의 창구(2026-09-30) — 동의한 분께만 보낸다(정보통신망법 §50). */}
