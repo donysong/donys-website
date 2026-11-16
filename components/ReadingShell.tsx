@@ -9,23 +9,26 @@
    🔴 `langSwitch={false}` = 짝 언어가 없는 면(지금은 404 하나). 셸의 전환은 `/ko` 를 앞에 붙인 주소로 가므로
    켜 두면 **404 로 가는 버튼**이 된다. 법 3장은 2026-09-30 국문판(`/ko/terms` 등)이 생겨 전환을 켰다. */
 import { LangProvider } from '@/components/site3p/lang';
+import { t } from '@/lib/copy';
 import Page4, { type BuyCta } from '@/components/site4/Shell';
 
-export default function ReadingShell({ lang, plate, langSwitch = true, cta = { href: '/ae', k: 's.toProduct' }, buy, children }: {
+export default function ReadingShell({ lang, plate, langSwitch = true, cta = { href: '/ae', k: 's.toProduct' }, buy, prFooter, children }: {
   lang: 'en' | 'ko';
   /** 네비 판 라벨에 찍힐 사전 키(`lib/copy/shared.ts`) — 예: `s.ft.notes` */
   plate: string;
   langSwitch?: boolean;
   /** 네비의 제품 진입 버튼 — 기본은 AE. `/pr/docs` 는 PR 로 넘긴다. */
   cta?: { href: string; k: string };
-  /** 푸터의 구매 슬롯 — 안 넘기면 AE 결제(`Buy — $49.99`)다. AE 가 아닌 면(`/pr/update`)은 자기 것을 넘긴다. */
+  /** 푸터의 구매 슬롯 — 안 넘기면 AE 결제(`Buy — $49.99`)다. */
   buy?: BuyCta;
+  /** A PR plugin page (`/pr/docs` · `/pr/update` · `/pr/notices`): the footer carries PR's links, and its purchase slot is an outline link to `/pr` instead of the AE checkout. */
+  prFooter?: boolean;
   children: React.ReactNode;
 }) {
   /* `page="docs"` = 읽는 면 판면(`--field:1160px`)을 탄다. 네비 링크는 비운다: Docs 로 가는 길은
      본문(설치 안내 링크)과 셸 푸터가 갖는다. */
   const shell = (
-    <Page4 page="docs" plateTotal={1} ownNav cta={cta} buy={buy}>
+    <Page4 page="docs" plateTotal={1} ownNav cta={cta} buy={buy ?? (prFooter ? { href: lang === 'ko' ? '/ko/pr' : '/pr', label: t(lang, 's.toProduct.pr'), big: '', small: '', line: true } : undefined)} prFooter={prFooter}>
       <section className="sec" data-plate="01" data-name={plate}>{children}</section>
     </Page4>
   );

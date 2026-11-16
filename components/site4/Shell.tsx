@@ -97,7 +97,7 @@ export const KO_PREFIX = '/ko';
    법 3장(`/terms` `/privacy` `/refund`)도 이제 국문판이 있다 — 2026-09-30 오너가 사업자 등록(09-22) 뒤 구 "영문 전용"(09-19)을
    다시 열었다(개인정보 처리방침은 국문 독자가 읽을 수 있어야 한다). 푸터 링크가 이 함수를 타고, deployCheck `[legal]` 이
    국문 면에선 `/ko/…` 를 요구한다. 앵커(`#…`)·외부 주소·`mailto:` 는 그대로 둔다 — 앵커를 여기 통과시키면 `/ko#who` 가 된다. */
-const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter', '/download', '/pr', '/pr/docs', '/pr/notices'];
+const LOCALIZED = ['/', '/ae', '/ae/docs', '/update', '/terms', '/privacy', '/refund', '/newsletter', '/download', '/pr', '/pr/docs', '/pr/update', '/pr/notices'];
 export function useHref() {
   const { lang, locked } = useLang();
   return (p: string) => {
@@ -173,9 +173,11 @@ export function BuyRail({ buy }: { buy?: BuyCta }) {
 /* ── 푸터 ─────────────────────────────────────────────────────────────
    🔴 법 4줄(약관·개인정보·환불·연락처)은 **실링크**다. proto4 정적본은 이걸 텍스트로 잃어버렸고,
    결제 페이지가 약관 없이 나가는 상태였다. `/update` 도 패널 `version.json` 이 가리키는 계약 경로다. */
-function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
+function Footer4({ page, buy, pr }: { page: Page4Kind; buy?: BuyCta; pr: boolean }) {
   const { t } = useT();
   const href = useHref();
+  /* `pr` = the PR plugin's pages (`/pr` and its reading pages). Their footer links are PR's, never AE's; the section anchors live on `/pr`, so off that page they carry its address. */
+  const prAt = page === 'pr' ? '' : href('/pr');
   return (
     <footer>
       <div className="band lines" />
@@ -206,10 +208,10 @@ function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
             <li><a href={href('/ae')} data-cur>{t('s.product')}</a></li>
             {/* Launch day: the way into `/pr` from every other page (owner 2026-11-16). */}
             {page !== 'pr' ? <li><a href={href('/pr')} data-cur>{t('s.product.pr')}</a></li> : null}
-            {/* `/update` is the AE release log; `/pr` has no notes page of its own yet, so it must not link there (owner 2026-11-16). */}
-            {page !== 'pr' ? <li><a href={href('/update')} data-cur>{t('s.ft.notes')}</a></li> : null}
-            {/* On `/pr` the free download is the PR free version (its plan in `#price`), not the AE download page. */}
-            <li><a href={page === 'pr' ? '#free' : href('/download')} data-cur>{t('s.ft.download')}</a></li>
+            {/* `/update` is the AE release log, `/pr/update` the PR one (the page the panel's version.json opens). */}
+            <li><a href={href(pr ? '/pr/update' : '/update')} data-cur>{t('s.ft.notes')}</a></li>
+            {/* On the PR pages the free download is the PR free version (its plan in `#free`), not the AE download page. */}
+            <li><a href={pr ? `${prAt}#free` : href('/download')} data-cur>{t('s.ft.download')}</a></li>
             {/* 광고성 정보 수신 동의 창구(2026-09-30) — 동의한 분께만 보낸다(정보통신망법 §50). */}
             <li><a href={href('/newsletter')} data-cur>{t('s.ft.news')}</a></li>
           </ul>
@@ -218,11 +220,11 @@ function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
           <h2>{t('s.ft.support')}</h2>
           <ul>
             {/* `/pr` 의 지원 열은 그 면의 FAQ · 설치 절을 가리킨다 — AE Docs 로 보내면 다른 제품의 설치 순서를 읽는다. */}
-            {page === 'pr' ? (
+            {pr ? (
               <>
                 <li><a href={href('/pr/docs')} data-cur>{t('s.ft.docs')}</a></li>
-                <li><a href="#faq" data-cur>{t('s.ft.faq')}</a></li>
-                <li><a href="#install" data-cur>{t('s.ft.specs')}</a></li>
+                <li><a href={`${prAt}#faq`} data-cur>{t('s.ft.faq')}</a></li>
+                <li><a href={`${prAt}#install`} data-cur>{t('s.ft.specs')}</a></li>
               </>
             ) : (
               <>
@@ -291,13 +293,15 @@ function BizLine() {
   );
 }
 
-export default function Page4({ page, plateTotal, links = [], cta, logo = 'logo-red.webp', rail = false, ownNav = false, buy, children }: {
+export default function Page4({ page, plateTotal, links = [], cta, logo = 'logo-red.webp', rail = false, ownNav = false, buy, prFooter = false, children }: {
   page: Page4Kind; plateTotal: number; links?: NavLink[]; cta?: NavLink;
   logo?: string; rail?: boolean;
   /** 제품 네비 대신 넘긴 `links`·`cta` 를 쓴다 — 읽는 면(`ReadingShell`: `/update` · 법 3장 · 404)만. */
   ownNav?: boolean;
   /** 레일·푸터의 구매 버튼(안 넘기면 AE 결제) — `/pr` 만 넘긴다. */
   buy?: BuyCta;
+  /** A reading page of the PR plugin (`/pr/docs` · `/pr/update`): the footer carries PR's links, not AE's. `/pr` itself always does. */
+  prFooter?: boolean;
   children: React.ReactNode;
 }) {
   const { lang } = useLang();
@@ -317,7 +321,7 @@ export default function Page4({ page, plateTotal, links = [], cta, logo = 'logo-
       <Nav4 page={page} plateTotal={plateTotal} links={nav.links} cta={nav.cta} logo={logo} product={product} />
       {children}
       {rail ? <BuyRail buy={buy} /> : null}
-      <Footer4 page={page} buy={buy} />
+      <Footer4 page={page} buy={buy} pr={page === 'pr' || prFooter} />
     </div>
   );
 }

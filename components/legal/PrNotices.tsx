@@ -67,7 +67,7 @@ export default function PrNotices({ lang }: { lang: 'en' | 'ko' }) {
   /* skip the file's own H1 (see the header) */
   const blocks = loadPrNotices().filter((b, i) => !(i === 0 && b.kind === 'heading' && b.level === 1));
   return (
-    <ReadingShell lang={lang} plate="pr.legal.notices">
+    <ReadingShell lang={lang} plate="pr.legal.notices" prFooter>
       <header className="max-w-3xl">
         <p className="lab">You Name It PR Plugin</p>
         <InkTitle>{t(lang, 'pr.legal.notices')}</InkTitle>

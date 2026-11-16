@@ -152,11 +152,9 @@ for (const p of pages) {
     /* 🔴 업데이트 노트·법 3장은 **로캘을 따라간다**(VOICE_AND_TERMS §5-4) — 국문 면은 `/ko/…`. 계약 경로 `/update` 는
        영문 면이 걸고, `/ko/update` 첫 화면이 영문 전환을 갖는다. 법 3장 국문판 = 2026-09-30. */
     const L = (h) => (isKo ? '/ko' + h : h);
-    /* `/update` is the AE release log, and the `/pr` footer does not link there (owner 2026-11-16). `/pr/update` exists now (`[pr-update]`) but is not linked
-       from `/pr` either: people come to it from the panel. */
-    const isPr = /^\/(ko\/)?pr\.html$/.test(r);
-    for (const [href, label] of [[L('/terms'), '약관'], [L('/privacy'), '개인정보'], [L('/refund'), '환불'], [L('/update'), '업데이트']]) {
-      if (label === '업데이트' && isPr) continue;
+    /* `/update` is the AE release log. The PR plugin's pages (`/pr` and its reading pages) carry the PR one, `/pr/update` (`[pr-update]`), in their footer instead. */
+    const isPr = /^\/(ko\/)?pr(\.html|\/)/.test(r);
+    for (const [href, label] of [[L('/terms'), '약관'], [L('/privacy'), '개인정보'], [L('/refund'), '환불'], [L(isPr ? '/pr/update' : '/update'), '업데이트']]) {
       if (!html.includes(`href="${href}"`)) fail.push(`[legal] ${r} 에 ${label} 링크(${href})가 없다`);
     }
     /* 사업자 줄(Shell `BizLine`) — §10 초기화면 표시. 셸 푸터라 모든 면에 있어야 한다. 공정위 공개페이지 링크는 통신판매업 신고 정보를

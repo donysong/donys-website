@@ -27,13 +27,11 @@ export default function PrUpdate({ lang }: { lang: 'en' | 'ko' }) {
   const latest = PR_RELEASES[0];
   const back = lang === 'ko' ? '/ko/pr' : '/pr';
   const other = lang === 'ko' ? '/pr/update' : '/ko/pr/update';
-  /* The footer's purchase slot defaults to the AE checkout, which has no business on a PR page: an outline link to the plugin page instead (`big` · `small` are the rail's, and there is no rail here). */
-  const buy = { href: back, label: T('s.toProduct.pr'), big: '', small: '', line: true };
   const steps = (os: 'win' | 'mac', n: number) => (
     <ol className={OL}>{Array.from({ length: n }, (_, i) => <li key={i} {...html(`pr.upd.${os}.li${i + 1}`)} />)}</ol>
   );
   return (
-    <ReadingShell lang={lang} plate="pr.upd.plate" cta={{ href: '/pr', k: 's.toProduct.pr' }} buy={buy}>
+    <ReadingShell lang={lang} plate="pr.upd.plate" cta={{ href: '/pr', k: 's.toProduct.pr' }} prFooter>
       <header className={`max-w-3xl ${LINKS}`}>
         <p className="lab">You Name It PR Plugin</p>
         <InkTitle>{T('pr.upd.h')}</InkTitle>

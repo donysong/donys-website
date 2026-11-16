@@ -32,7 +32,7 @@ export default function PrDocs({ lang }: { lang: 'en' | 'ko' }) {
   const planned = prPlanned();
   const back = lang === 'ko' ? '/ko/pr' : '/pr';
   return (
-    <ReadingShell lang={lang} plate="pr.docs.plate" cta={{ href: '/pr', k: 's.toProduct.pr' }}>
+    <ReadingShell lang={lang} plate="pr.docs.plate" cta={{ href: '/pr', k: 's.toProduct.pr' }} prFooter>
       <header className="max-w-3xl">
         <p className="lab">You Name It PR Plugin</p>
         <InkTitle>{t(lang, 'pr.docs.h')}</InkTitle>
