@@ -73,7 +73,7 @@ export function Intro() {
             </div>
           </div>
         </li>
-        {/* 2026-11-16 (owner): the PR plugin row, same markup as the AE row. The picture = the AE row's brand film still with the PR Plugin label (owner 2026-11-16). */}
+        {/* 2026-11-16 (owner): the PR plugin row, same markup as the AE row. The picture = the AE row's brand film still with the Premiere Pro icon (owner 2026-11-16: the real AE / PR logos, one on each row). */}
         <li className="row open">
           <a className="hit" href={href('/pr')} aria-label={t('pr.home.aria')} data-cur />
           <figure className="row-fig v5-still">
@@ -97,6 +97,8 @@ export function Intro() {
           </div>
         </li>
       </ul>
+      {/* The two rows carry Adobe's app icons: say whose they are. */}
+      <div className="sec tight"><p className="v5-tm">{t('home.v5.tm')}</p></div>
     </section>
   );
 }

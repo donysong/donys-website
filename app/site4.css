@@ -1436,3 +1436,6 @@
 .p3.p4 .feat .fig .spot-fig > img {display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:var(--r-card);box-shadow:var(--shot-edge)}
 /* 2026-11-16: the free callout headline is two lines on purpose ("Free to start." / "No card."); in Korean the two plates ran together on one line */
 .p3.p4 .v5-free-h .pl {display:block;width:max-content;max-width:100%;margin-inline:auto}
+
+/* the Adobe trademark line under the home lineup */
+.p3.p4 .v5-tm {margin:0;padding:18px 0 4px;font-size:12px;line-height:1.5;font-weight:600;opacity:.72}
