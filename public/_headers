@@ -4,6 +4,6 @@
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-# The riso art and the brand stills keep their names when edited rarely: a day, then serve stale while it refreshes.
+# The riso art and the brand stills: a day, then serve stale while it refreshes. 🔴 Edited art needs a NEW file name (row-ae-icon.webp, not row-ae.webp again): the edge keeps the old bytes under the old name for up to a day.
 /riso/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
