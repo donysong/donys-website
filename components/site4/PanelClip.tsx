@@ -13,6 +13,7 @@
    모션 줄이기 = 포스터(첫 프레임)만 — 영상 요소를 아예 안 만든다. 정적 HTML 도 포스터다(JS 가 붙으면 영상으로 바뀐다). */
 import { useEffect, useRef, useState } from 'react';
 import { useT } from '@/components/site3p/lang';
+import { asset } from '@/lib/asset';
 import './PanelClip.css';
 
 /** dock 벌 — 찍은 창의 크기(CSS px) = 영상의 가로세로비. 키 = `DOCS_PANELS` 의 key. wide 벌은 전부 16:9 다. */
@@ -27,6 +28,8 @@ export const CLIPS = {
 } as const;
 export type ClipId = keyof typeof CLIPS;
 
+/* 🔴 포스터(`.webp`)만 자산 호스트(`lib/asset.ts`)에서 받는다. 영상(`.webm` · `.mp4`)은 **같은 출처에 둔다**: `younameit.pages.dev` 는 Range 요청에 206 이 아니라 200 + 전체를
+   돌려주고(2026-11-16 실측), Safari(AVFoundation)는 206 이 아니면 영상을 거부한다(-11850). `younameit.works` 는 206 을 준다. 클립은 `preload="none"` 이라 화면에 들어올 때만 받는다. */
 const SRC = '/riso/panel-clips';
 
 export type WideId = 'chat' | 'toolbox' | 'library' | 'curves' | 'custom-1';
@@ -53,13 +56,13 @@ export default function PanelClip({ id, label, wide = false }: { id: ClipId; lab
   }, [motion, lang]);
 
   const media = motion ? (
-    <video key={base} ref={ref} className="pclip-m" poster={`${base}.webp`} muted loop playsInline preload="none"
+    <video key={base} ref={ref} className="pclip-m" poster={asset(`${base}.webp`)} muted loop playsInline preload="none"
       aria-label={label} role="img">
       <source src={`${base}.webm`} type="video/webm" />
       <source src={`${base}.mp4`} type="video/mp4" />
     </video>
   ) : (
-    <img className="pclip-m" src={`${base}.webp`} alt={label} loading="lazy" decoding="async" />
+    <img className="pclip-m" src={asset(`${base}.webp`)} alt={label} loading="lazy" decoding="async" />
   );
 
   const [w, h] = wide ? [16, 9] : CLIPS[id];

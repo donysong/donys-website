@@ -16,6 +16,7 @@ import { Fragment } from 'react';
 import { useT } from '@/components/site3p/lang';
 import { T } from '@/lib/copy';
 import { DOCS_CATS, DOCS_TOOLS, type DocsTool } from '@/lib/docsData';
+import { asset } from '@/lib/asset';
 import SecHead from './SecHead';
 import { Usage, useUsage } from './Usage';
 
@@ -39,7 +40,7 @@ function ToolCard({ tool }: { tool: DocsTool }) {
         {tool.preview === 'sheet' ? (
           <figure className="spot-fig">
             <i className="spot" role="img" aria-label={tool.name}
-              style={{ backgroundImage: `url(/riso/spots/${tool.id}.webp)` }} />
+              style={{ backgroundImage: `url(${asset(`/riso/spots/${tool.id}.webp`)})` }} />
           </figure>
         ) : (
           <div className="noimg">{t('docs.noimg')}</div>

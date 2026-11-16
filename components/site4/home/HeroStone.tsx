@@ -13,6 +13,7 @@ import { useT } from '@/components/site3p/lang';
 import { penPath } from '@/components/site3p/pen';
 import { inkPath, startStroke } from '@/components/site3p/scrawl';
 import { useHref } from '@/components/site4/Shell';
+import { asset } from '@/lib/asset';
 import { P1Cover } from './Hero';
 import './HeroToy.css';
 
@@ -223,7 +224,7 @@ export default function HeroStone() {
         <div className="toy-pad" ref={pad} onPointerDown={down}>
           <span className="toy-shadow" ref={shadow} aria-hidden="true" />
           <div className="toy-body" ref={body}>
-            <img src="/riso/stones/stone-3.webp" alt="" width={720} height={704} draggable={false} />
+            <img src={asset('/riso/stones/stone-3.webp')} alt="" width={720} height={704} draggable={false} />
             <svg ref={svg} viewBox={`0 0 ${VB} ${VB}`} aria-hidden="true" focusable="false" />
           </div>
         </div>

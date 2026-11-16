@@ -19,6 +19,7 @@
      [film]     브랜드 영상(14MB)이 공개 repo 의 public/ 에 커밋될 뻔했다(2026-10-05) — 영상은 R2, 히어로 <source> 는 dl.younameit.works
      [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
      [pr]       PR 플러그인 면(`/pr`)은 결제 링크·기능 동결·PR 법 조항·제3자 고지가 갖춰지기 전엔 팔 수 없다 — 자리표시자 그대로 나가는 걸 막는다(2026-10-10)
+     [assethost] 프로덕션 빌드에서 `public/` 그림·영상이 `younameit.works`(한국에서 LAX 경유, 요청마다 1~2초) 로 되돌아가 있었다 → 상대 경로가 남았나, 릴리스가 buildProd 의 `out/` 인가
 
      [analytics] 분석(GTM·GA4·Meta)을 방침 고지 7일 전에 켜거나, 방침이 "쿠키 없음"이라 말하는데 켜거나, 동의 전에 Google 로 요청이 나가는 것 · 결제 뒤 면(/thanks)이 색인에 들어가는 것
      [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 새 방침이 현재 판인 빌드가 시행일 전에 나가거나(이메일 폼이 시행 전 개인정보를 받는다), 고지 띠가 죽은 채 남는 것.
@@ -188,10 +189,30 @@ for (const p of pages) {
 
   /* 로컬 자산 실존 — 깨진 이미지는 판이 비어 보인다. 로컬 영상(`<source src>` · 패널 클립)도 센다 — 없는 영상은 포스터만 남아 조용히 죽는다.
      R2 에 있는 브랜드 영상(https://…)은 이 검사의 몫이 아니다 — 아래 `[film]`. */
-  for (const m of html.matchAll(/(?:src|href)="(\/[^"#?]+\.(?:webp|png|jpg|svg|css|js|json|zxp|mp4|webm))"/g)) {
+  /* 프로덕션 빌드는 `_next/static` 과 `public/` 그림·영상을 `https://<자산 호스트>/…` 로 내보낸다(`next.config.ts` · `lib/asset.ts`) — 호스트를 떼고 `out/` 에서 찾는다. */
+  const assetHost = html.match(/(https:\/\/[^"'\s/]+)\/_next\/static\//)?.[1] ?? '';
+  const local = assetHost ? html.split(assetHost + '/').join('/') : html;
+  for (const m of local.matchAll(/(?:src|href|poster)="(\/[^"#?]+\.(?:webp|png|jpg|svg|css|js|json|zxp|mp4|webm))"/g)) {
     const f = path.join(OUT, m[1]);
     if (!fs.existsSync(f)) fail.push(`[assets] ${r} → 없는 파일 ${m[1]}`);
   }
+
+  /* 정적 그림 호스트 — 프로덕션 빌드(`_next/static` 이 자산 호스트에서 온다)에선 `public/` 그림·영상도 같은 호스트에서 와야 한다. 상대 경로가 남았다 = `asset()` 을 안 거쳤다 →
+     그 요청은 `younameit.works`(LAX)로 간다. 구운 HTML 은 `"/riso/x.webp"` · `url(/riso/x.png)` 모양(RSC 페이로드의 `\"/riso/…` 도 같다)이고, `og:image` · JSON-LD 는
+     `https://younameit.works/…` 라 앞 글자가 달라 안 걸린다. 면제 = 파비콘(브라우저가 정식 도메인에서 읽는다) · 영상(`.webm` · `.mp4` — `pages.dev` 가 Range 에 206 을 안 줘서 Safari 가 거부한다, `PanelClip.tsx`). CSS 파일 안의 `url(/riso/…)` 는 스타일시트가 자산 호스트에서
+     오므로 그 호스트로 풀린다 — 여기서 볼 게 아니다. */
+  if (assetHost) {
+    const FAVICON = /^\/(?:icon\.png|apple-touch-icon\.png|favicon\.ico)$/;
+    const stray = new Set([...html.matchAll(/["'(=](\/(?!_next\/)[^"'()\s\\]+\.(?:webp|png|jpg|jpeg|gif|svg|avif))/g)].map((m) => m[1]).filter((u) => !FAVICON.test(u)));
+    if (stray.size) fail.push(`[assethost] ${r} 에 자산 호스트(${assetHost})를 안 거친 상대 경로 ${stray.size}개 — lib/asset.ts 의 asset() 으로 감싼다: ${[...stray].slice(0, 4).join(' · ')}`);
+  }
+}
+
+/* ── 자산 호스트 ── 릴리스는 `tools/buildProd.mjs` 로 만든 `out/` 이어야 한다(그냥 `npm run build` 의 `out/` 은 JS·글꼴·그림이 전부 `younameit.works` 로 돌아간다 — 2026-11-16 로딩 개선). */
+{
+  const prod = pages.some((p) => /https:\/\/[^"'\s/]+\/_next\/static\//.test(read(p)));
+  if (process.argv.includes('--release') && !prod) fail.push('[assethost] `--release` 인데 `_next/static` 이 같은 출처다 — `node tools/buildProd.mjs` 로 다시 빌드한다(YNI_ASSET_PREFIX)');
+  else if (prod && !fail.some((f) => f.startsWith('[assethost]'))) ok.push('[assethost] 프로덕션 빌드 — `_next/static` · `public/` 그림·영상이 자산 호스트에서 온다');
 }
 
 /* ── 브랜드 영상 ── `/ae` 히어로 가운데(`components/site4/ae/Film.tsx` `FILM_SRC`). 🔴 영상은 R2 `dl.younameit.works` 에 산다

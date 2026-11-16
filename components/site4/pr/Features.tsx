@@ -12,6 +12,7 @@ import type { PrFeature } from '@/lib/product';
 import { prClaimable, prFree, prIn } from '@/lib/pr';
 import { useReveal } from '@/components/site4/home/V5';
 import PenTimeline from '@/components/site4/ae/PenTimeline';
+import { asset } from '@/lib/asset';
 import Head from './Head';
 import { joinNames } from './state';
 
@@ -37,7 +38,7 @@ export default function Features() {
             <div className="feat sweep" data-reveal key={b.k} style={{ ['--d' as string]: `${((i % 2) * 0.167).toFixed(3)}s` }}>
               <figure className="fig">
                 <figure className="spot-fig">
-                  <img src={`/pr/feat-${b.img}-${lang}.webp`} alt={t(`${b.k}.alt`)} width={1600} height={900} loading="lazy" decoding="async" />
+                  <img src={asset(`/pr/feat-${b.img}-${lang}.webp`)} alt={t(`${b.k}.alt`)} width={1600} height={900} loading="lazy" decoding="async" />
                   <figcaption className="cap" style={{ marginTop: 12 }}>{t(`${b.k}.cap`)}</figcaption>
                 </figure>
               </figure>

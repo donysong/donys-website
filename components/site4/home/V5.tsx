@@ -12,6 +12,7 @@ import { RELEASES } from '@/lib/releases';
 import { DOCS_TOOLS } from '@/lib/docsData';
 import { rePress, StoneCard } from './Hero';
 import { IG_REELS, SOCIAL } from '@/lib/product';
+import { asset } from '@/lib/asset';
 
 /* 화면에 들어오면 `.in` — 한 번만. CSS 가 팝·지연을 쥔다(site4.css `.v5-*`). */
 export function useReveal<T extends HTMLElement>() {
@@ -54,7 +55,7 @@ export function Intro() {
           {/* 브랜드 필름 스틸(33s · 로고 콜라주) — 구 Bento Grid 호버 시트는 오너 2026-10-26 *"개 구림"* 으로 뺐다.
               원본 = 영상 R2 의 `younameit-brand-film-2026-10.mp4` 프레임(1920×1080) → 1280×720 webp. 호버 = 레퍼런스(이미지 1.05). */}
           <figure className="row-fig v5-still">
-            <img src="/riso/brand/row-ae-icon.webp" alt={t('home.v5.row.still')} width={1280} height={720} loading="lazy" decoding="async" />
+            <img src={asset('/riso/brand/row-ae-icon.webp')} alt={t('home.v5.row.still')} width={1280} height={720} loading="lazy" decoding="async" />
           </figure>
           <div className="row-body">
             <div className="row-name">
@@ -77,7 +78,7 @@ export function Intro() {
         <li className="row open">
           <a className="hit" href={href('/pr')} aria-label={t('pr.home.aria')} data-cur />
           <figure className="row-fig v5-still">
-            <img src="/riso/brand/row-pr-icon.webp" alt={t('pr.home.still')} width={1280} height={720} loading="lazy" decoding="async" />
+            <img src={asset('/riso/brand/row-pr-icon.webp')} alt={t('pr.home.still')} width={1280} height={720} loading="lazy" decoding="async" />
           </figure>
           <div className="row-body">
             <div className="row-name">
@@ -120,7 +121,7 @@ export function Tiles() {
           {TILES.map((x) => (
             <li className="v5-tile" key={x.k} data-reveal>
               <span className="v5-tile-bg" aria-hidden="true" />
-              <img className="v5-tile-art" src={`/riso/stones/${x.stone}.webp`} alt="" width={160} height={160} />
+              <img className="v5-tile-art" src={asset(`/riso/stones/${x.stone}.webp`)} alt="" width={160} height={160} />
               <h3 className="v5-tile-h">{t(`home.v5.${x.k}.h`)}</h3>
               <p className="v5-tile-p">{t(`home.v5.${x.k}.p`)}</p>
             </li>
@@ -188,7 +189,7 @@ export function Recent() {
     <section id="recent" className="onnote" data-plate="04" data-name="home.nav.recent" ref={ref}>
       <div className="sec">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-3.webp" alt="" /> <span className="lab">04</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-3.webp')} alt="" /> <span className="lab">04</span></div>
           <h2 className="disp"><Plate3 k="home.nav.recent" boil={false} /></h2>
           <a className="tag" href={href('/update')} data-cur>{t('home.v5.rel.all')} →</a>
         </div>
@@ -242,7 +243,7 @@ export function Films() {
             {IG_REELS.map((r) => (
               <li key={r.id}>
                 <a href={r.url} target="_blank" rel="noopener noreferrer" data-cur>
-                  <img src={`/riso/ig/${r.id}.webp`} alt={r.alt[lang]} width={540} height={960} loading="lazy" decoding="async" />
+                  <img src={asset(`/riso/ig/${r.id}.webp`)} alt={r.alt[lang]} width={540} height={960} loading="lazy" decoding="async" />
                   <span className="v5-reel-play" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M8 5v14l11-7z" /></svg></span>
                 </a>
               </li>

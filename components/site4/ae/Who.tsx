@@ -11,6 +11,7 @@
 import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 import { useReveal } from '@/components/site4/home/V5';
+import { asset } from '@/lib/asset';
 
 const ROLES = [
   { n: '01', k: 'r1' },
@@ -26,7 +27,7 @@ export default function Who() {
     <section id="who" ref={ref} data-plate="01" data-name="ae.plate.who">
       <div className="sec tight">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-2.webp" alt="" /> <span className="lab">01</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-2.webp')} alt="" /> <span className="lab">01</span></div>
           <h2 className="disp"><Plate3 k="ae.who.h" boil={false} /></h2>
           <Html k="ae.who.tag" as="p" className="tag" />
         </div>

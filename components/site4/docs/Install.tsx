@@ -23,6 +23,7 @@ import { useT } from '@/components/site3p/lang';
 import { useHref } from '@/components/site4/Shell';
 import { CHECKOUT_URL, PORTAL_URL } from '@/lib/product';
 import { DOCS_PANELS } from '@/lib/docsData';
+import { asset } from '@/lib/asset';
 import SecHead from './SecHead';
 
 const FIELDS = ['price', 'host', 'form', 'os', 'license', 'lang', 'net', 'support'] as const;
@@ -67,7 +68,7 @@ export default function Install() {
               {shot ? (
                 <details className="step-shot">
                   <summary data-cur>{t('docs.step.shot')} <span className="pm" aria-hidden="true">+</span></summary>
-                  <img src={`/riso/install/${shot[0]}.${lang}.webp`} alt={t(`docs.step${n}.alt`)}
+                  <img src={asset(`/riso/install/${shot[0]}.${lang}.webp`)} alt={t(`docs.step${n}.alt`)}
                     width={shot[1]} height={shot[2]} loading="lazy" decoding="async" />
                 </details>
               ) : null}

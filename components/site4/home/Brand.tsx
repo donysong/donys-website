@@ -22,6 +22,7 @@
    브랜드의 말(*"생각은 당신이 한다"*)과 빈칸에 빨간 펜으로 긋는 `You [ ] It` 이 모눈 노트 위에 온다. 앞(01 라인업)·뒤(03)는 파랑. */
 import { Plate3 } from '@/components/site3p/Plate3';
 import { Html } from '@/components/site3p/lang';
+import { asset } from '@/lib/asset';
 import YouIt from './YouIt';
 
 export default function Brand() {
@@ -29,7 +30,7 @@ export default function Brand() {
     <section id="brand" className="onnote" data-plate="02" data-name="home.nav.brand">
       <div className="sec">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-1.webp" alt="" /> <span className="lab">02</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-1.webp')} alt="" /> <span className="lab">02</span></div>
           <h2 className="disp"><Plate3 k="home.brand.h2" boil={false} /></h2>
         </div>
 

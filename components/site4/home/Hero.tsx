@@ -10,6 +10,7 @@ import { useEffect, useRef } from 'react';
 import { typedHTML } from '@/components/site3p/Typed';
 import { useT } from '@/components/site3p/lang';
 import { useClearNav, useProgress } from '@/components/site4/motion';
+import { asset } from '@/lib/asset';
 
 /* 고무 스탬프 — 누르면 다시 찍힌다(proto4.js 와 같은 동작). 처음엔 안 찍는다. */
 export function rePress(e: React.MouseEvent<HTMLSpanElement>) {
@@ -64,7 +65,7 @@ export function StoneCard({ caption = true }: { caption?: boolean } = {}) {
           <span className="sc-l2" dangerouslySetInnerHTML={{ __html: typedHTML(t('home.hero.fig2')) }} />
         </figcaption>
       ) : null}
-      <img className="sc-rock" src="/riso/stones/stone-7.webp" alt="" width={720} height={704} />
+      <img className="sc-rock" src={asset('/riso/stones/stone-7.webp')} alt="" width={720} height={704} />
       <span className="sc-flap" aria-hidden="true" />
     </figure>
   );

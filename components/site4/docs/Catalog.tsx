@@ -11,6 +11,7 @@
    이펙트 슬러그는 `lib/docsData.ts`(= 출고 태그 `seed-presets/effects/` 실측)가 준다. */
 import { useT } from '@/components/site3p/lang';
 import { DOCS_FX } from '@/lib/docsData';
+import { asset } from '@/lib/asset';
 import SecHead from './SecHead';
 import { Usage, useUsage } from './Usage';
 
@@ -46,7 +47,7 @@ export default function Catalog() {
       <div className="fxrow sweep">
         {DOCS_FX.map((slug) => (
           <figure key={slug}>
-            <img src={`/riso/spots/fx-${slug}.webp`} alt={t(`docs.fx.${slug}`)} />
+            <img src={asset(`/riso/spots/fx-${slug}.webp`)} alt={t(`docs.fx.${slug}`)} />
             <figcaption>
               {t(`docs.fx.${slug}`)}
               <small>{t(`docs.fx.${slug}.d`)}</small>

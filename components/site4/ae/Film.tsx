@@ -16,6 +16,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useT } from '@/components/site3p/lang';
 import { track } from '@/lib/analytics';
+import { asset } from '@/lib/asset';
 import './Film.css';
 
 /** 🔴 영상 주소 — **호스팅을 바꿀 땐 이 한 줄만** 고친다. 지금 = R2 `dl.younameit.works`(오너 2026-10-05 — 14MB 를 사이트 repo·
@@ -24,7 +25,7 @@ import './Film.css';
     🔴 파일을 다시 뽑으면 **새 이름으로** 올려라(`…-2026-10.mp4` 처럼) — 같은 이름을 덮으면 엣지 캐시가 구판을 계속 준다.
     `deployCheck [film]` 이 이 호스트를 지킨다(네트워크는 안 탄다 — 주소가 살아 있는지는 업로드 때 확인). 포스터는 사이트에 남는다. */
 export const FILM_SRC = 'https://dl.younameit.works/brand/younameit-brand-film-2026-10.mp4';
-const POSTER = '/riso/brand/film.webp';
+const POSTER = asset('/riso/brand/film.webp');
 
 export default function Film() {
   const { t } = useT();

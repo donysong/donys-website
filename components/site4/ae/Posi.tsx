@@ -6,13 +6,14 @@
    판 = 노트(`.onnote`, 2026-09-29) — 제품의 한 문장이 모눈 노트에 적힌다. */
 import { Html } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
+import { asset } from '@/lib/asset';
 
 export default function Posi() {
   return (
     <section id="posi" className="onnote" data-plate="02" data-name="ae.plate.posi">
       <div className="sec tight">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-5.webp" alt="" /> <span className="lab">02</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-5.webp')} alt="" /> <span className="lab">02</span></div>
           <h2 className="disp"><Plate3 k="ae.plate.posi" boil={false} /></h2>
         </div>
         <div className="posi">

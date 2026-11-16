@@ -8,6 +8,7 @@ import { Plate3 } from '@/components/site3p/Plate3';
 import { PORTAL_URL } from '@/lib/product';
 import { useRef } from 'react';
 import { useDisclosure } from '@/components/site4/motion';
+import { asset } from '@/lib/asset';
 
 const GROUPS = [
   { lab: 'ae.faq.g1', qs: [1, 2, 3] },
@@ -23,7 +24,7 @@ export default function Faq() {
     <section ref={ref} id="faq" data-plate="06" data-name="ae.plate.faq">
       <div className="sec tight">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-1.webp" alt="" /> <span className="lab">06</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-1.webp')} alt="" /> <span className="lab">06</span></div>
           <h2 className="disp"><Plate3 k="ae.faq.h" boil={false} /></h2>
           <Html k="ae.faq.tag" as="p" className="tag" />
         </div>
