@@ -138,15 +138,124 @@ export const IG_REELS = [
   { id: 'DewOVCCOikZ', url: 'https://www.instagram.com/willyounameit/reel/DewOVCCOikZ/', alt: { ko: '인스타 릴: 긴장감 만드는 법', en: 'Instagram reel: how to build suspense' } },
 ] as const;
 
-/* You Name It PR Plugin — 법 면(약관·방침·환불)이 읽는 값만. 정본 = PR 플러그인 repo `gtm/facts.md`(맨 끝 "Proposed PR block").
-   🔴 `feat/pr-page` 의 `PR` 블록의 **부분집합**이다(같은 키 · 같은 값). 그 브랜치를 합칠 때는 그쪽 블록 전체를 남기고 이 블록을 지운다 —
-   값이 같아서 법 면은 그대로 읽는다. 날짜 = KST 달력 날짜, 그날 23:59:59 KST 까지. */
+/* ════ You Name It PR Plugin (`/pr` · `/ko/pr`) — prices, dates, links and the feature list, in one place ════════════
+   Source of truth for the numbers = PR repo `gtm/facts.md`. Change a value here and that table changes with it
+   (the GTM emails, legal drafts and Polar checklist read the same table).
+   🔴 Do not mix with the AE values above (PRICE · CHECKOUT_URL · COUNTS · VERSION). `{price}` `{version}` in the PR dictionary
+      (`lib/copy/pr.ts`) are filled from **this block** (`lib/copy.ts` `prNums`) before the AE table runs.
+   Dates are **KST calendar days**. A day "opens" at 00:00 KST and an end day lasts until 23:59:59 KST (`lib/pr.ts` does the math).
+
+   Launch shape (owner, 2026-11-10; PR repo PRD §14 "출시 재계획"): the free version and Pro go on sale on one day, and **Pro is a regular
+   purchase** — the key comes right away and unlocks the Pro features already in the download. There is no pre-order: the pre-order
+   articles of the Terms (14-2) and Refund (1-3) stay in the legal text but the page never uses them.
+   Launch day (owner, 2026-11-15, PR repo PRD §14 "출시일 (2026-11-15)"): **2026-11-16, 18:00 KST**, free, Pro and the bundle together. Both dates below are
+   KST *calendar days* that open at 00:00 KST, but the coordinator deploys this site at 18:00 and keeps the Polar products (P1 · P2 · P3) unpublished until
+   then, so nothing can be bought before 18:00 even though a browser clock would already open the buttons at 00:00. Until the deploy, the site in production
+   is the one without `/pr`. (An empty date = "date to be announced": every checkout closed, the `*.tbd` strings in `lib/copy/pr.ts`, and `deployCheck --release` blocks.) */
 export const PR = {
-  price: '$49.99',
-  earlyPrice: '$34.99',
-  openEarlyDays: 14,              // 사전예약 → Pro 가 열린 날부터(그날 포함) 얼리버드가 이어지는 날 수
-  bundlePrice: '$79.99',          // AE + PR Pro 번들 — 키 하나로 둘 다(활성화 4)
-  preorderDeadline: '2026-12-15', // 그때까지 안 열리면 사전예약 전부 자동 전액 환불
-  aeCouponEnd: '2026-12-31',      // AE 구매자 PR Pro 할인 코드의 마지막 날
-  minPremiere: '25.6.4',          // 25.6.2 · 25.6.3 은 스크립트가 멈춰 막혀 있다
+  price: '$49.99',                // list price — what Pro costs after the launch price ends (the Terms §6 price)
+  earlyPrice: '$34.99',           // the launch price, from the checkout-open day through `PR_EARLY_UNTIL` (`lib/pr.ts`). The unused Terms 14-2 calls it "early-bird" and reads this name
+  earlyPriceUsd: '34.99',
+  /* 🔴 THE launch date: the two dates the owner may move (they are the same day: owner, 2026-11-10 — free and Pro open together). **Empty = date to
+     be announced** (owner, 2026-11-11): nothing opens and the copy says so. To launch, set BOTH to the same KST day (YYYY-MM-DD). Each one is a gate
+     the browser re-checks against its own clock (`lib/pr.ts` `prOpenAt`), so a page built before the date opens by itself on the day.
+     The real gate is Polar: keep a product unpublished until its day, and move the Pro launch-price discount (D1) dates with the launch day.
+     (`as string`: the object is `as const`, and an empty literal type would make the dated branches unreachable for the type checker.) */
+  launchOn: '2026-11-16' as string, // /pr goes public · the free version can be downloaded (free checkout link opens) — the same day as checkoutOpensOn
+  /* Pro + bundle checkout opens. 🔴 Never before `PR_EFFECTIVE` in `lib/policy.ts` (the day the terms · privacy · refund revision with PR takes
+     effect — 2026-11-14, owner decides separately whether it moves): nobody may buy under terms that do not cover the product.
+     `deployCheck [pr]` and `npm run test:pr` fail when it is earlier. (Not imported: policy → analytics → product is a cycle.) */
+  checkoutOpensOn: '2026-11-16' as string,   // same day as launchOn (18:00 KST deploy; Polar P2 · P3 are published at the same moment)
+  /* The launch price keeps running through the day that is this many days after the checkout-open day (KST, inclusive; owner 2026-11-10, 14 days).
+     `PR_EARLY_UNTIL` in `lib/pr.ts` does the sum and the page shows that date; while the date is empty the page says "the first {earlyDays} days".
+     The Terms 14-2 (unused) reads this number too. */
+  openEarlyDays: 14,
+  bundlePrice: '$79.99',          // AE + PR Pro bundle — one key opens both (4 activations)
+  preorderDeadline: '2026-12-15', // 🔴 not used by the page (regular purchase). Only the pre-order articles of the Terms 14-2 and Refund 1-3 read it, and they stay unused — delete it together with them
+  aeCouponPct: 30,                // PR Pro discount code for AE buyers
+  aeCouponEnd: '2026-12-31',      // KST, inclusive — after this the page drops the code offer by itself (`lib/pr.ts`)
+  computers: 2,
+  refundDays: 14,
+  revalidateDays: 7,
+  offlineDays: 30,
+  remoteOffRefundDays: 30,        // a Pro feature switched off remotely longer than this → refund even after 14 days
+  minPremiere: '25.6.4',          // 25.6.2 · 25.6.3 freeze panel scripts and are blocked
+  /* The Premiere builds the Lab ran on (PR repo `docs/lab/2026-11-11-premiere27.md`, then the central night of 2026-11-15: 27.0 → 26.5.2 → 25.6.6).
+     Shown in the specs and FAQ q11, so a build that did not pass that night comes out of this list before the deploy. */
+  testedWin: '25.6.6 · 26.5.2 · 27.0',
+  /* macOS (variant `launch/pr-v5e`, owner 2026-11-16: Windows and macOS ship together): the Mac Lab ran on Premiere Pro 27.0 on an Apple silicon Mac only
+     (PR repo `MAC-REPORT.md` 2026-11-16). Mac 26.5.2 and Intel Macs are untested, so the copy says "only". */
+  testedMac: '27.0',
+  version: '1.0.0',               // 🔴 not by hand — the release tag's value (same rule as AE `VERSION`)
+  /* Polar checkout links (production, PR repo `gtm/polar/polar-setup.md` §8). Empty = not made yet → the button renders without
+     href (`data-pending="checkout"`) and deployCheck `[pr]` fails. */
+  checkoutFree: 'https://buy.polar.sh/polar_cl_bEiq2i8tdwneJHwg1ziLo4vm9ivA1qXWoEppG37fX6n',
+  checkoutPro: 'https://buy.polar.sh/polar_cl_TLpmGgP3luqCCFROg32FhyT3020MbhXPKblle4FIHYN',
+  checkoutBundle: 'https://buy.polar.sh/polar_cl_9aU6PT1I0uE2NL6ukNCdcsdSGkmANGq7TT9fg2Acf5c',
+  /* UXP companion (`.ccx`). The default 1.0.0 release ships none (no `.ccx` in the installer zip) → the page does not mention it.
+     Owner session C (D2 · D3) runs on 2026-11-15 night; flip to true only when it picks a `.ccx` format AND the clean install (D20) confirms it —
+     the `.ccx` install lines come back with it. Left `false` here on purpose (owner 2026-11-15). */
+  companion: false,
+  /* The day `PR_FEATURES[].state` was copied from the release registry (KST). Empty → deployCheck `[pr]` fails.
+     Gate day (free and Pro ship together in v1.0.0, Pro locked by the license until checkout opens):
+     PR repo `node gtm/tools/check-gtm.mjs --claims --registry <release>/src/features/registry.ts`
+     → set each `state` below → set this to that day. */
+  featuresFrozenOn: '2026-11-15',   // 11/15 (PR repo 4ed817a): every registry row but Speed ramp is on (Speed ramp off, owner 2026-11-15 night). FX Search (`fxconsole`) is back with its Windows shortcut window, Ease curve (`easecurve`) is new, Nest is gone.
+} as const;
+
+/* 🔴 THE feature list — one row per PR repo registry id (`src/features/registry.ts`, same order = screen order).
+   Every feature claim on `/pr` is decided here and nowhere else: components look a feature up by id, the copy for it is
+   `pr.f.<id>.*` in `lib/copy/pr.ts`. To trim a claim after the gate, change its `state` — not the components.
+     tier    fact from the registry (what is free). Do not edit here.
+     state   'on'      switched on in the release build → free features are described as available
+             'off'     not in this release → free features appear by name under "still in the works"; Pro features by name under "later"
+                       (FX Search, if tonight's Lab (2026-11-15) fails its criteria: PRD §14 "FX 검색 단축키 팝업" ships it `off` as a whole)
+             'unbuilt' no code in v1, or taken out of the release by the owner (`claim: null` in PR repo `gtm/site/feature-claims.json`)
+                       → appears nowhere, not even as a name, can never be 'on'. No row uses it today (Nest was deleted, not parked).
+     launch  the Pro features the key unlocks on sale day: the price card and 05 list these by label. Since 2026-11-11 that is every Pro feature outside
+             the toolkit (silence cut advanced · filler and NG-take candidates · XML fast path · captions · Chat); the Pro toolkit is listed by name
+   Free AND Pro features that are 'on' are described on the page, each with its honesty note (`pr.f.<id>.claim|note`, from `feature-claims.json`):
+   since 2026-11-10 Pro is sold in the same download, so a buyer reads what they pay for, approximations labelled.
+   🔴 deployCheck `[pr]` blocks the deploy until `featuresFrozenOn` is set. If tonight's Lab fails a feature, flip its `state` here (and `featuresFrozenOn` stays the day it was decided).
+   `keyauto` is a setting, not something we sell — it does not appear on the page (the XML fast path note and FAQ q15 say what it does). */
+export type PrState = 'on' | 'off' | 'unbuilt';
+type PrRow<I extends string> = { id: I; tier: 'free' | 'pro'; group: 'autocut' | 'captions' | 'chat' | 'toolkit' | 'infra'; state: PrState; launch: boolean };
+/* Identity helper: keeps the ids as a literal union (`PrFeature`) while `state` stays the full `PrState` (an `as const` array
+   would narrow it to the values used today, and `state === 'off'` would stop type-checking). */
+const prRows = <I extends string>(rows: readonly PrRow<I>[]) => rows;
+export const PR_FEATURES = prRows([
+  { id: 'autocut.basic', tier: 'free', group: 'autocut', state: 'on', launch: false },
+  { id: 'autocut.advanced', tier: 'pro', group: 'autocut', state: 'on', launch: true },
+  { id: 'autocut.filler', tier: 'pro', group: 'autocut', state: 'on', launch: true },
+  { id: 'autocut.ngTakes', tier: 'pro', group: 'autocut', state: 'on', launch: true },
+  { id: 'autocut.xmlFastPath', tier: 'pro', group: 'autocut', state: 'on', launch: true },
+  { id: 'captions.longform', tier: 'pro', group: 'captions', state: 'on', launch: true },
+  { id: 'captions.shortform', tier: 'pro', group: 'captions', state: 'on', launch: true },
+  { id: 'chat', tier: 'pro', group: 'chat', state: 'on', launch: true },
+  { id: 'offset', tier: 'free', group: 'toolkit', state: 'on', launch: false },
+  { id: 'anchor', tier: 'free', group: 'toolkit', state: 'on', launch: false },
+  { id: 'bins', tier: 'free', group: 'toolkit', state: 'on', launch: false },
+  { id: 'watchfolder', tier: 'free', group: 'toolkit', state: 'on', launch: false },
+  { id: 'assets', tier: 'free', group: 'toolkit', state: 'on', launch: false },
+  { id: 'fxconsole', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'wiggle', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'speedramp', tier: 'pro', group: 'toolkit', state: 'off', launch: false },   // owner 2026-11-15 night: out of v1.0 (PR repo 09b91e9), back when real Time Remapping keys work
+  { id: 'easecurve', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'unnest', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'facetrack', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'denoise', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'beauty', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'collect', tier: 'pro', group: 'toolkit', state: 'on', launch: false },
+  { id: 'keyauto', tier: 'free', group: 'infra', state: 'on', launch: false },
+]);
+export type PrFeature = (typeof PR_FEATURES)[number]['id'];
+
+/* Legal links — the PR additions go onto the **existing** three pages (PR repo `gtm/legal/README.md`), so the paths stay.
+   `notices` = third-party license notices page (PRD §8): `/pr/notices` · `/ko/pr/notices`, the plugin's THIRD-PARTY-NOTICES.md
+   (`lib/notices.ts` says where the copy lives and when to re-copy it). Empty = no link, and deployCheck `[pr]` fails. */
+export const PR_LEGAL = {
+  terms: '/terms',
+  privacy: '/privacy',
+  refund: '/refund',
+  notices: '/pr/notices',
 } as const;

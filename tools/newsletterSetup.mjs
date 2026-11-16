@@ -23,7 +23,8 @@ const SITE = process.env.SITE_URL || 'https://younameit.works';
 const PROJECT = 'younameit';
 const SEGMENT = 'newsletter';
 const FREE_SEGMENT = 'free-download';
-const PROPS = ['consent_at', 'consent_ver', 'lang', 'recheck_at', 'free_at', 'free_ver'];
+/* source = 어디서 동의했나 — 비면 `/newsletter` 폼, 'pr-checkout' = PR 결제 화면(`tools/prConsentSync.mjs`). */
+const PROPS = ['consent_at', 'consent_ver', 'lang', 'recheck_at', 'free_at', 'free_ver', 'source'];
 const HOOK = `${SITE}/api/newsletter/webhook`;
 
 if (!KEY) { console.error('RESEND_API_KEY 가 필요하다(Full access).'); process.exit(1); }

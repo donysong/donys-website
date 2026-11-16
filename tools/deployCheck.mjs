@@ -18,6 +18,7 @@
      [usage]    사용법을 개발 우회(`DOCS_PLUGIN_REF`)로 읽은 채 배포하면 안 나간 문서가 출고본 Docs 에 실린다
      [film]     브랜드 영상(14MB)이 공개 repo 의 public/ 에 커밋될 뻔했다(2026-10-05) — 영상은 R2, 히어로 <source> 는 dl.younameit.works
      [anchors]  앵커 링크(`#tool-<id>` · `/ae/docs#install` …)가 가리키는 id 가 구운 페이지에 없다 — 툴 개명·이사가 외부 링크만 죽이는 게 아니라 내부 링크도 죽인다
+     [pr]       PR 플러그인 면(`/pr`)은 결제 링크·기능 동결·PR 법 조항·제3자 고지가 갖춰지기 전엔 팔 수 없다 — 자리표시자 그대로 나가는 걸 막는다(2026-10-10)
 
      [analytics] 분석(GTM·GA4·Meta)을 방침 고지 7일 전에 켜거나, 방침이 "쿠키 없음"이라 말하는데 켜거나, 동의 전에 Google 로 요청이 나가는 것 · 결제 뒤 면(/thanks)이 색인에 들어가는 것
      [policy]   방침·약관 개정은 시행 7일 전부터 알려야 한다(방침 제16조 · 약관 제4조) — 새 방침이 현재 판인 빌드가 시행일 전에 나가거나(이메일 폼이 시행 전 개인정보를 받는다), 고지 띠가 죽은 채 남는 것.
@@ -66,11 +67,19 @@ else ok.push(`[routes] ${REQUIRED.join(' · ')} 존재`);
 
 /* 국문 정적 경로 — 없으면 국문은 주소도 색인도 없다 */
 const KO = ['/ko.html', '/ko/ae.html', '/ko/ae/docs.html'];
+/* PR 플러그인 제3자 라이선스 고지(PRD §8) — `PR_LEGAL.notices`. 플러그인의 THIRD-PARTY-NOTICES.md 사본을 그대로 싣는 읽는 면이라 같은 셸 푸터를 쓴다.
+   본문 검사는 아래 `[pr]`(링크 · 라이선스 원문 보존). 사본·재복사 규칙 = `lib/notices.ts`. */
+const NOTICES_PAGES = ['/pr/notices.html', '/ko/pr/notices.html'];
 /* 셸 푸터를 쓰는 나머지 면 — 2026-09-26 전엔 구 `Navbar`/`Footer` 였고 `Buy` 가 없는 앵커(`/#pricing`)로 갔다.
    같은 법·지원 검사를 태워서 구 크롬이 되살아나면 여기서 잡는다. */
 const READING = ['/update.html', '/ko/update.html', '/terms.html', '/privacy.html', '/refund.html',
   '/ko/terms.html', '/ko/privacy.html', '/ko/refund.html', '/newsletter.html', '/ko/newsletter.html', '/download.html', '/ko/download.html',
-  '/thanks.html', '/ko/thanks.html'];
+  '/thanks.html', '/ko/thanks.html', ...NOTICES_PAGES];
+/* PR 플러그인 판매 면(2026-10-10) — 셸 푸터를 쓰는 판매 면이라 법·사업자·공유 검사를 같이 탄다. 고유 검사는 아래 `[pr]`. */
+const PR_PAGES = ['/pr.html', '/ko/pr.html'];
+const prMissing = PR_PAGES.filter((r) => !pages.some((p) => rel(p) === r));
+if (prMissing.length) fail.push(`[routes] 빠진 PR 페이지: ${prMissing.join(' · ')}`);
+else ok.push(`[routes] ${PR_PAGES.join(' · ')} 존재`);
 const koMissing = KO.filter((r) => !pages.some((p) => rel(p) === r));
 if (koMissing.length) fail.push(`[i18n] 국문 정적 경로가 없다: ${koMissing.join(' · ')} — 클라이언트 토글만으로는 색인도 공유도 안 된다`);
 else ok.push('[i18n] 국문 정적 경로 3장');
@@ -93,16 +102,22 @@ const BANNED = [
   ['TODO', '자리표시자'],
 ];
 
+/* Published license text the notices pages must carry verbatim: a GitHub user name with "112" in it and an author's
+   address in the `ws` MIT copyright line. Only these exact strings, only on those two pages, are taken out before
+   [banned] and [pii] read the page; any other "112" or Gmail there still fails (owner, 2026-11-08). */
+const THIRD_PARTY_TEXT = ['muhwagwa0112', 'einaros@gmail.com'];
+const scrubNotices = (r, s) => (NOTICES_PAGES.includes(r) ? THIRD_PARTY_TEXT.reduce((o, w) => o.split(w).join(''), s) : s);
+
 for (const p of pages) {
   const r = rel(p);
   const html = read(p);
   const body = text(html);
   const isProduct = /^\/(ko\/)?ae(\.html|\/)/.test(r);
-  const isSurface = REQUIRED.includes(r) || KO.includes(r) || READING.includes(r);
+  const isSurface = REQUIRED.includes(r) || KO.includes(r) || READING.includes(r) || PR_PAGES.includes(r);
   const isKo = r === '/ko.html' || r.startsWith('/ko/');
 
   for (const [w, why] of BANNED) {
-    if (body.includes(w)) fail.push(`[banned] ${r} 에 "${w}" (${why})`);
+    if (scrubNotices(r, body).includes(w)) fail.push(`[banned] ${r} 에 "${w}" (${why})`);
   }
 
   if (isProduct) {
@@ -133,7 +148,11 @@ for (const p of pages) {
     /* 🔴 업데이트 노트·법 3장은 **로캘을 따라간다**(VOICE_AND_TERMS §5-4) — 국문 면은 `/ko/…`. 계약 경로 `/update` 는
        영문 면이 걸고, `/ko/update` 첫 화면이 영문 전환을 갖는다. 법 3장 국문판 = 2026-09-30. */
     const L = (h) => (isKo ? '/ko' + h : h);
+    /* `/update` is the AE release log. `/pr` has no notes page of its own yet, so its footer does not link there
+       (owner 2026-11-16); drop this exemption when `/pr/update` exists. */
+    const isPr = /^\/(ko\/)?pr\.html$/.test(r);
     for (const [href, label] of [[L('/terms'), '약관'], [L('/privacy'), '개인정보'], [L('/refund'), '환불'], [L('/update'), '업데이트']]) {
+      if (label === '업데이트' && isPr) continue;
       if (!html.includes(`href="${href}"`)) fail.push(`[legal] ${r} 에 ${label} 링크(${href})가 없다`);
     }
     /* 사업자 줄(Shell `BizLine`) — §10 초기화면 표시. 셸 푸터라 모든 면에 있어야 한다. 공정위 공개페이지 링크는 통신판매업 신고 정보를
@@ -143,7 +162,7 @@ for (const p of pages) {
     if (MAIL_ORDER && !ftcLink) fail.push(`[biz] ${r} 에 공정위 사업자정보 확인 링크가 없다(신고번호 있음)`);
     if (!MAIL_ORDER && ftcLink) fail.push(`[biz] ${r} 에 공정위 확인 링크가 있다 — 신고 면제 중엔 빈 결과라 걸지 않는다`);
     if (!/mailto:support@younameit\.works/.test(html)) fail.push(`[contact] ${r} 에 지원 주소가 없다`);
-    if (/gmail\.com/i.test(html)) fail.push(`[pii] ${r} 에 개인 Gmail 이 있다`);
+    if (/gmail\.com/i.test(scrubNotices(r, html))) fail.push(`[pii] ${r} 에 개인 Gmail 이 있다`);
     /* 방문자 브라우저를 제3자 서버로 보내지 않는다 — 폰트는 자체 호스팅, 분석은 Cloudflare Web Analytics 하나(2026-09-30).
        되살아나면 개인정보 처리방침(국문 제7조 ② "다른 회사의 서버에 직접 요청하게 하지 않습니다")이 거짓이 된다. */
     const tp = html.match(/(?:src|href)="https?:\/\/(fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net|www\.googletagmanager\.com|www\.google-analytics\.com)/);
@@ -390,7 +409,7 @@ if (!bizVal('mailOrderNo')) warn.push('[biz] 통신판매업 신고 면제 중(�
 else ok.push(`[biz] BUSINESS.mailOrderNo = ${bizVal('mailOrderNo')}`);
 
 /* ── 사전 EN/KO 대칭 ────────────────────────────────────────────── */
-for (const f of ['shared', 'home', 'ae', 'docs', 'v33']) {
+for (const f of ['shared', 'home', 'ae', 'docs', 'v33', 'pr']) {
   const p = path.join(process.cwd(), 'lib/copy', f + '.ts');
   if (!fs.existsSync(p)) continue;
   const s = read(p);
@@ -403,6 +422,104 @@ for (const f of ['shared', 'home', 'ae', 'docs', 'v33']) {
   if (onlyEn.length || onlyKo.length)
     fail.push(`[i18n] lib/copy/${f}.ts 비대칭 — EN만 ${onlyEn.length}(${onlyEn.slice(0, 5)}) · KO만 ${onlyKo.length}(${onlyKo.slice(0, 5)})`);
   else ok.push(`[i18n] lib/copy/${f}.ts ${en.size}/${ko.size} 대칭`);
+}
+
+/* ── PR 플러그인 면 (`/pr` · `/ko/pr`, 2026-10-10 · 무료판 + Pro 동시 판매 2026-11-10) ───────────────────────────────────
+   Values = the `PR` block in `lib/product.ts`. A failure here means "this page cannot sell yet": an empty checkout link
+   (a buy button nobody can press), feature states not copied from the release registry (selling what is not in the build),
+   terms that do not cover the product, no third-party notices page (PRD §8).
+   Date gates (`PR.launchOn` · `PR.checkoutOpensOn`): a button before its day is baked as `data-pending="opens"` and the browser
+   opens it on the day (`components/site4/pr/state.tsx`). That is fine **only while the build day is before that day**.
+   `--release` before `launchOn` fails — the page would go public before launch day.
+   Both dates empty (owner 2026-11-11: launch day not set, "date to be announced") = every button stays closed and the copy says so; `--release`
+   fails then too (there is no day to go public on), a plain check only warns. One date set without the other always fails.
+   🔴 A failure here stops the **whole site** deploy — do not merge this branch into the deploy line before the PR values are in. */
+{
+  const prv = (k) => product.match(new RegExp(`\\b${k}:\\s*'([^']*)'`))?.[1];
+  const release = process.argv.includes('--release');
+  const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
+  const launchOn = prv('launchOn') || '', opensOn = prv('checkoutOpensOn') || '';
+  const dated = Boolean(launchOn && opensOn);
+  for (const [k, v] of [['launchOn', launchOn], ['checkoutOpensOn', opensOn]]) {
+    if (v && !/^\d{4}-\d{2}-\d{2}$/.test(v)) fail.push(`[pr] PR.${k} "${v}" 가 YYYY-MM-DD 가 아니다`);
+  }
+  if (Boolean(launchOn) !== Boolean(opensOn)) fail.push(`[pr] PR.launchOn("${launchOn}")과 PR.checkoutOpensOn("${opensOn}") 은 같이 채우거나 같이 비워 둔다`);
+  if (launchOn && opensOn && opensOn < launchOn) fail.push(`[pr] PR.checkoutOpensOn(${opensOn})이 launchOn(${launchOn})보다 이르다`);
+  if (!dated) (release ? fail : warn).push('[pr] 출시일이 없다(PR.launchOn · PR.checkoutOpensOn 이 비어 있다, 오너 2026-11-11 "날짜 미정") — 결제는 전부 닫혀 있고 /pr 은 날짜 미정이라고 말한다. 출시일을 정하면 두 값을 같은 날로 채운다');
+  if (launchOn && today < launchOn) (release ? fail : warn).push(`[pr] 오늘(${today} KST)은 출시일(PR.launchOn ${launchOn}) 전이다 — 이 빌드를 배포하면 /pr 이 출시 전에 공개된다(무료판 버튼은 그날까지 날짜만 보인다)`);
+  if (opensOn && today < opensOn) warn.push(`[pr] Pro·번들 결제는 ${opensOn} 에 열린다 — 이 빌드의 구매 버튼은 날짜만 보이고, 방문자 브라우저가 그날 00:00 KST 에 연다. 🔴 Polar Pro·번들 상품은 그날까지 비공개로, 출시 가격(D1) 날짜도 이 날에 맞춰 둔다`);
+  for (const [k, what] of [['checkoutFree', '무료판'], ['checkoutPro', 'Pro'], ['checkoutBundle', '번들']]) {
+    const v = prv(k);
+    if (!v) fail.push(`[pr] lib/product.ts PR.${k} 가 비어 있다 — ${what} 구매 버튼이 href 없이 나간다. Polar 링크(PR repo gtm/polar/polar-setup.md §4)를 오너가 채운다`);
+    else if (!v.startsWith(`https://${CHECKOUT}/`)) fail.push(`[pr] PR.${k} = ${v} — Polar 결제 링크(https://${CHECKOUT}/…)가 아니다`);
+    else ok.push(`[pr] PR.${k} = ${v}`);
+  }
+  if (!prv('featuresFrozenOn')) fail.push('[pr] PR.featuresFrozenOn 이 비어 있다 — 기능 상태(PR_FEATURES[].state)를 출고 레지스트리에서 옮겨 적지 않았다. 판정 게이트 절차 = lib/product.ts 주석');
+  /* The terms cover PR once the PR revision is on the site (notice band + upcoming text, or in force) — `[policy]` checks that part.
+     Here: the checkout opens on that revision's effective day or later, never before, so nobody buys under terms that do not cover the product
+     (the launch day itself is separate and may be unset, 2026-11-11). */
+  const prEffective = read(path.join(process.cwd(), 'lib/policy.ts')).match(/export const PR_EFFECTIVE\s*=\s*'(\d{4}-\d{2}-\d{2})'/)?.[1];
+  if (!prEffective) fail.push('[pr] lib/policy.ts 에 PR_EFFECTIVE 가 없다 — PR 조항을 담은 약관·방침·환불 개정(고지)이 사이트에 없다');
+  else if (opensOn && opensOn < prEffective) fail.push(`[pr] PR.checkoutOpensOn(${opensOn}) < lib/policy.ts PR_EFFECTIVE(${prEffective}) — Pro 결제는 PR 약관 시행일 전에 열 수 없다`);
+  else ok.push(opensOn ? `[pr] Pro 결제일 ${opensOn} ≥ PR 약관 시행일 ${prEffective}` : `[pr] Pro 결제일 미정 — PR 약관 시행일은 ${prEffective} (정하면 그날 이후여야 한다)`);
+  /* Third-party notices (PRD §8 "앱과 사이트에"): the path is set, both locales are baked, /pr and /ko/pr link to it, and every fenced
+     license text of the shipped copy (`content/pr/THIRD-PARTY-NOTICES.md`, see `lib/notices.ts`) is on the page exactly as in the copy. */
+  const noticesPath = product.match(/\bnotices:\s*'([^']+)'/)?.[1];
+  if (!noticesPath) fail.push('[pr] PR_LEGAL.notices 가 비어 있다 — 제3자 라이선스 고지 면이 없다(PRD §8 "앱과 사이트에", PR repo gtm/legal/third-party-notices.md)');
+  else {
+    const unesc = (s) => s.replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+    const licenses = [...read(path.join(process.cwd(), 'content/pr/THIRD-PARTY-NOTICES.md')).replace(/\r\n?/g, '\n').matchAll(/^```[^\n]*\n([\s\S]*?)\n```$/gm)].map((m) => m[1]);
+    if (!licenses.length) fail.push('[pr] content/pr/THIRD-PARTY-NOTICES.md 에 라이선스 원문(``` 블록)이 없다 — 사본이 비었거나 형식이 바뀌었다');
+    for (const [from, at] of [['/pr.html', noticesPath], ['/ko/pr.html', '/ko' + noticesPath]]) {
+      const page = pages.find((x) => rel(x) === at + '.html');
+      const linker = pages.find((x) => rel(x) === from);
+      if (!page) { fail.push(`[pr] ${at} 가 구워지지 않았다 — PR_LEGAL.notices(${noticesPath})가 가리키는 면이 없다`); continue; }
+      if (linker && !read(linker).includes(`href="${at}"`)) { fail.push(`[pr] ${from} 에 제3자 고지 링크(${at})가 없다`); continue; }
+      const pres = [...read(page).replace(/<script[\s\S]*?<\/script>/g, '').matchAll(/<pre(?:\s[^>]*)?>([\s\S]*?)<\/pre>/g)].map((m) => unesc(m[1]).replace(/^\n/, ''));   // a browser drops one newline right after <pre> (React adds one when the text starts with a newline)
+      const lost = licenses.filter((l) => !pres.includes(l));
+      if (lost.length) fail.push(`[pr] ${at} 에서 라이선스 원문 ${lost.length}개가 사본과 다르다(첫 줄: "${lost[0].split('\n')[0]}") — 원문은 한 글자도 바꾸지 않는다`);
+      else if (licenses.length) ok.push(`[pr] ${at} 라이선스 원문 ${licenses.length}개 보존 · ${from} 에서 링크`);
+    }
+  }
+  const prPro = prv('checkoutPro'), prFree = prv('checkoutFree');
+  const aeCheckout = product.match(/export const CHECKOUT_URL =\s*'([^']+)'/)?.[1];
+  /* A gated button is honest only before its day; on or after it the build must carry the link. */
+  const gated = (a, day) => /data-pending="opens"/.test(a) && !/\shref="/.test(a) && (!day || today < day);
+  const hrefOf = (a) => a.match(/\shref="([^"]*)"/)?.[1];
+  for (const r of PR_PAGES) {
+    const p = pages.find((x) => rel(x) === r);
+    if (!p) continue;   // [routes] already stops it
+    const html = read(p);
+    const body = text(html);
+    /* source ⟦D…⟧ markers and unfilled placeholders must not reach the screen */
+    if (body.includes('⟦')) fail.push(`[pr] ${r} 에 원문 확인 표식(⟦…⟧)이 새어 있다`);
+    const ph = body.match(/\{[a-zA-Z]+\}/);
+    if (ph) fail.push(`[pr] ${r} 에 안 채운 자리표시자 ${ph[0]} — lib/copy.ts prNums 에 없거나 컴포넌트가 안 채웠다`);
+    /* the shell defaults to the AE checkout — an AE link here means PrPage forgot `buy` */
+    if (aeCheckout && html.includes(aeCheckout)) fail.push(`[pr] ${r} 에 AE 결제 링크가 있다 — PR 면의 구매 버튼은 전부 PR.checkoutPro 여야 한다`);
+    /* price sheet = exactly two links: the Pro button (`data-price-cta`) and the free checkout (Price.tsx) */
+    const price = html.match(/<section[^>]*id="price"[\s\S]*?<\/section>/);
+    const links = price ? price[0].match(/<a\s[^>]*>/g) || [] : [];
+    const cta = links.filter((a) => /data-price-cta/.test(a)), rest = links.filter((a) => !/data-price-cta/.test(a));
+    if (!price) fail.push(`[pr] ${r} 에 가격 판(#price)이 없다`);
+    else if (cta.length !== 1 || rest.length !== 1) fail.push(`[pr] ${r} 가격 판의 링크 ${links.length}개(Pro 버튼 ${cta.length}) — Pro 버튼 하나 + 무료판 하나여야 한다`);
+    else if (!(hrefOf(rest[0]) || '').startsWith(prFree || '\0') && !gated(rest[0], launchOn) && !/data-pending="checkout"/.test(rest[0]))
+      fail.push(`[pr] ${r} 가격 판의 둘째 링크가 무료판 결제(PR.checkoutFree)가 아니다(${hrefOf(rest[0]) || 'href 없음'})`);
+    else ok.push(`[pr] ${r} 가격 판 = Pro 버튼 + 무료판`);
+    /* filled (purchase) buttons = PR Pro checkout, or gated before the checkout day. Free version and bundle are outlines (REBRAND §9.9 ③). */
+    for (const a of html.match(/<a\s[^>]*>/g) || []) {
+      const cls = a.match(/\sclass="([^"]*)"/)?.[1] || '';
+      const filled = /(^|\s)(btn-fill|buy|rail)(\s|$)/.test(cls) || (/(^|\s)circ(\s|$)/.test(cls) && /(^|\s)fill(\s|$)/.test(cls));
+      if (!filled) continue;
+      const href = hrefOf(a);
+      if (!href && /data-pending="checkout"/.test(a)) continue;   // empty link — the checkoutPro failure above already says so
+      if (!href && /data-pending="opens"/.test(a)) {
+        if (!gated(a, opensOn)) fail.push(`[pr] ${r} 의 채움 버튼(${cls})이 결제일(${opensOn})이 지났는데도 닫혀 구워졌다`);
+        continue;
+      }
+      if (!prPro || !href || !href.startsWith(prPro)) fail.push(`[pr] ${r} 의 채움 버튼(${cls})이 PR Pro 결제가 아닌 곳(${href || 'href 없음'})으로 간다`);
+    }
+  }
 }
 
 /* ── 사용법 생성물 — 출고본 태그에서 읽었나 ───────────────────────────

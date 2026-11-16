@@ -1002,7 +1002,7 @@
 /* ════ 리뉴얼 v5 (2026-10-09 · 플러그인 repo WEBSITE_RENEWAL_PLAN §17.7–17.8) ═══════════════════════════
    레퍼런스 = mindmarket.com 원문 CSS. **컴포넌트·배치·모션은 레퍼런스, 색·결·폰트는 우리 것**(오너 2026-10-09).
    토큰(`--fs-*` · `--sp-*` · `--r-*` · 바뀐 `--ease-*`/`--t-*`)은 site3p.css `.p3` 블록. 범위 = `/` · `/ae` 먼저
-   (`/ae/docs` · 읽는 면은 셸만 — 판 쌓기 규칙이 `[data-page]` 로 둘에만 걸린다). */
+   (`/ae/docs` · 읽는 면은 셸만 — 판 쌓기 규칙이 `[data-page]` 로 `/` · `/ae` · `/pr` 에만 걸린다). */
 
 /* ── 판 쌓기 — 섹션 = 종이 한 장 ──────────────────────────────────────────
    레퍼런스: 다음 판이 둥근 윗모서리(50px · 1000px 미만 35px)로 앞 판 위에 올라온다. 우리 번역 = **종이가 한 장씩 겹친다** —
@@ -1015,15 +1015,15 @@
       노트 판은 원래 불투명(`.onnote`)이다.
    🔴 선택자 점수 — 판 규칙은 `:where()` 라 (0,3,0) 이다(`:is()` 면 `.onnote` 몫이 붙어 (0,4,0) 이 돼서 아래 푸터 규칙을 덮었다, 실측).
       푸터 규칙(0,3,1)은 `.p3 :is(.onnote + footer, …){margin-top:0}`(0,3,1)과 동점이라 **파일 뒤에 있어서** 이긴다 — 이 블록을 앞으로 옮기지 마라. */
-.p3.p4:is([data-page="home"],[data-page="ae"],[data-page="docs"]) > :where(section, .onnote, footer) {
+.p3.p4:is([data-page="home"],[data-page="ae"],[data-page="docs"],[data-page="pr"]) > :where(section, .onnote, footer) {
   position:relative;z-index:3;
   margin-top:calc(var(--r-panel) * -1);padding-top:var(--r-panel);
   border-radius:var(--r-panel) var(--r-panel) 0 0;
   box-shadow:var(--rx) var(--ry) 0 var(--white)}
-.p3.p4:is([data-page="home"],[data-page="ae"],[data-page="docs"]) > section:not(.onnote) {background:var(--paper)}
+.p3.p4:is([data-page="home"],[data-page="ae"],[data-page="docs"],[data-page="pr"]) > section:not(.onnote) {background:var(--paper)}
 /* 푸터 = 마지막 판(검정). 결(`::before`)이 둥근 모서리 밖으로 새지 않게 자르고, 위 여백은 안 더한다 — 줄무늬 띠(`.band`)가
    판 윗변에 붙어 있어야 한다(더하면 둥근 검정 띠 밑으로 줄무늬가 50px 밀려 두 겹으로 읽혔다). P7(전체 화면 판)은 뒤 단계. */
-.p3.p4:is([data-page="home"],[data-page="ae"],[data-page="docs"]) > footer {overflow:clip;margin-top:calc(var(--r-panel) * -1);padding-top:0}
+.p3.p4:is([data-page="home"],[data-page="ae"],[data-page="docs"],[data-page="pr"]) > footer {overflow:clip;margin-top:calc(var(--r-panel) * -1);padding-top:0}
 
 /* ── 표지 P1 — 루트 (Hero.tsx) ─────────────────────────────────────────────
    레퍼런스 `.c-hero-home`: 한 화면 표지 + 두 화면 높이 핀 안의 붙는 무대 · 진행도 `--p` 로 글자 1→.8 · 차콜 막 0→.4.
@@ -1379,3 +1379,55 @@
 /* 01 소개 ↔ 제품 행 사이 — 판 간격 규칙이 소개 `.sec` 밑에 판 박자(+50)를 줘서 같은 판 안에서 450px 가 비었다. 같은 판 안 사이는 절반 박자. */
 .p3.p4 > #lineup > .sec {padding-bottom:clamp(64px,6vw,112px)}
 
+/* ════ `/pr` (You Name It PR Plugin · `components/site4/pr/*`) — v5 port 2026-11-07 ══════════════════════════════
+   Borrows the v5 `/ae` and Docs vocabulary as is (`.phero` · `.roles` · `.posi` · `.howto` · `.feat` on the `PenTimeline` stem ·
+   `.pricing.plans` · `.qa` · `.specs` · `.byhand`). Plate stacking = the v5 rule above (`[data-page="pr"]`), spacing = `--sheet-pad`.
+   New names all start with `pr-` (grepped: no clash in the three CSS files). Text colours = `--text` · `--muted` · black only
+   (🔴 red only at display size on a white plate — site CLAUDE.md). */
+
+/* Cover — no film in the middle (no demo at launch), so the two circles stand together. ≥1081 = two columns centred;
+   ≤1080 = the v5 narrow cover (circles side by side, shrinking) without its film row. */
+@media (min-width:1081px){ .p3.p4 .phero .pstage.pr-nodemo {grid-template-columns:repeat(2,minmax(172px,280px));justify-content:center} }
+@media (max-width:1080px){ .p3.p4 .phero .pstage.pr-nodemo {grid-template-areas:"buy have"} }
+
+/* 01 — the red plate says "what you do" (press order), not `/ae`'s "what you'd say", so no quotes.
+   Two cards must not sit in a four-column grid (`data-n` = card count); phones keep the one-column rule. */
+.p3 .role .say q.pr-act {quotes:none}
+@media (min-width:681px){ .p3 .roles[data-n="2"] {grid-template-columns:repeat(2,minmax(0,1fr));max-width:960px} }
+
+/* 02 — the free tool names under "silence cuts are free" */
+.p3 .howto .pr-more {margin-top:10px;font-weight:600}
+
+/* 03 — text-only cards on the stem: no figure above, so the card body needs no top gap. Tool lines = name on its own line,
+   claim, then the honesty note small. */
+@media (min-width:1000px){ .p3.p4 .v5-line-wrap > .feat > div:first-child {margin-top:0} }
+.p3 .feat .pr-claims {gap:14px}
+.p3 .feat .pr-claims b {display:block;font-weight:800}
+.p3 .feat .pr-claims li i {display:block;margin-top:3px;font-size:13px}
+.p3 .pr-note {font-size:14px;line-height:1.55;color:var(--muted)}
+
+/* 04 — the sheet's lower band (`#bundle`): bundle · discounts · tax · AI costs · legal links (outside `#price`, see Price.tsx) */
+.p3 .howto.pr-after {margin-top:0}
+.p3 .pr-bundle {margin-top:14px}
+/* the bundle button sits in `.howto`, which underlines links and draws the red pen — not on a button */
+.p3 .howto a.btn-line {text-decoration:none}
+.p3 .howto a.btn-line > .pen {display:none}
+.p3 .pr-legal {margin-top:12px;font-size:13px}
+.p3 .pr-legal b {font-weight:800;margin-right:4px}
+
+/* 07 — numbered steps inside `.howto` (Windows · Pro activation · manual): the dash bullet becomes a number */
+.p3 .howto ol {margin:0 0 10px;padding:0 0 0 1.4em;display:grid;gap:8px;list-style:decimal}
+.p3 .howto ol > li {padding-left:2px}
+.p3 .howto ol > li::before {content:none}
+.p3 .howto.pr-inst + .howto.pr-inst {margin-top:30px}
+.p3 .howto.pr-one {grid-template-columns:minmax(0,1fr);margin-top:28px}
+.p3 .byhand .howto.pr-one {margin:0 0 22px}
+
+/* trademark line under the specs */
+.p3 .pr-tm {margin:22px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted);max-width:var(--measure)}
+
+/* A checkout that cannot be pressed yet — before its day (`data-pending="opens"`, shows the date) or with no link in
+   `lib/product.ts` (`"checkout"`, deployCheck `[pr]` blocks that deploy). It should not look pressable. */
+.p3 a[data-pending] {cursor:not-allowed}
+.p3 .circ[data-pending]:is(:hover, :focus-visible) {scale:1;box-shadow:var(--rx) var(--ry) 0 var(--white)}
+.p3 .circ[data-pending]:is(:hover, :focus-visible) > span {scale:1}

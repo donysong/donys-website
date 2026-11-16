@@ -9,7 +9,7 @@
      아래 PR 개정과는 상수·deployCheck 갈래가 따로다(분석 = `lib/analytics.ts`, PR = 이 파일의 `PR_*`). 섞지 마라.
 
    세 번째 개정 = You Name It PR Plugin 을 약관·방침·환불 정책에 더했다. 초안 = PR 플러그인 repo `gtm/legal/*-additions.md`(⚖️ 전문가 검토 전).
-   2026-11-07 오너 판정(PR repo PRD §14 "출시 재계획"): 11-07 고지 → 11-14 시행, Pro 사전예약 결제는 시행일부터 연다.
+   2026-11-07 오너 판정(PR repo PRD §14 "출시 재계획"): 11-07 고지 → 11-14 시행, Pro 결제는 시행일부터 연다(11-10 오너 판정: 사전예약이 아니라 정식 판매 — 약관 제14조의2 사전예약 조항은 쓰이지 않는다).
    🔴 셈법: 약관 제4조 ② "시행일 7일 전부터 게시" 를 시행일에서 거꾸로 센 날이 게시일이다(11-14 의 7일 전 = 11-07).
       위 10-15 판정(고지한 날을 빼고 8일째)으로 세면 11-15 다 — 어느 쪽인지는 PR repo `gtm/legal/README.md` 의 ⚖️ 질문이다.
    → **시행됨**(2026-11-14): PR_IN_FORCE = true. 고지 띠(`components/PolicyNotice.tsx`)·예정본 6장(`/…/{terms,privacy,refund}/upcoming`)·
