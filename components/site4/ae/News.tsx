@@ -13,6 +13,7 @@ import { Html, useT } from '@/components/site3p/lang';
 import { Plate3 } from '@/components/site3p/Plate3';
 import { useHref } from '@/components/site4/Shell';
 import { ReleaseCards, useReveal } from '@/components/site4/home/V5';
+import { asset } from '@/lib/asset';
 
 export default function News() {
   const { t } = useT();
@@ -22,7 +23,7 @@ export default function News() {
     <section id="news" ref={ref} data-plate="05" data-name="ae.plate.news">
       <div className="sec tight">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-6.webp" alt="" /> <span className="lab">05</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-6.webp')} alt="" /> <span className="lab">05</span></div>
           <h2 className="disp"><Plate3 k="ae.news.h" boil={false} /></h2>
           <Html k="ae.news.tag" as="p" className="tag" />
         </div>

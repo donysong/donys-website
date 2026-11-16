@@ -10,6 +10,7 @@
 import { Plate3 } from '@/components/site3p/Plate3';
 import { Html, useT } from '@/components/site3p/lang';
 import { useHref } from '@/components/site4/Shell';
+import { asset } from '@/lib/asset';
 import { rePress, StoneCard } from './Hero';
 
 export default function Lineup() {
@@ -19,7 +20,7 @@ export default function Lineup() {
     <section id="lineup" data-plate="01" data-name="home.nav.lineup">
       <div className="sec" style={{ paddingBottom: 0 }}>
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-4.webp" alt="" /> <span className="lab">01</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-4.webp')} alt="" /> <span className="lab">01</span></div>
           <h2 className="disp"><Plate3 k="home.nav.lineup" boil={false} /></h2>
         </div>
         <div className="lu-intro">
@@ -37,7 +38,7 @@ export default function Lineup() {
               className="spot"
               role="img"
               aria-label={t('home.row1.spot')}
-              style={{ backgroundImage: 'url(/riso/spots/bentoGrid.webp)' }}
+              style={{ backgroundImage: `url(${asset('/riso/spots/bentoGrid.webp')})` }}
             />
           </figure>
           <div className="row-body">

@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
      `Access-Control-Allow-Origin: *` 를 주므로 글꼴 교차 출처가 된다. 환경변수가 없으면(로컬 · 미리보기) 예전처럼 같은 출처다 —
      프리뷰 배포가 프로덕션 별칭의 해시 파일을 가리키면 깨지기 때문이다. */
   assetPrefix: process.env.YNI_ASSET_PREFIX || undefined,
+  /* 같은 호스트를 `public/` 그림에도 붙인다 — Next 는 `public/` 에 `assetPrefix` 를 안 붙이므로 `lib/asset.ts` 의 `asset()` 이 읽는다.
+     `env` 는 서버·클라이언트 번들 둘 다에 값을 박아 준다(클라이언트 컴포넌트가 `process.env` 를 못 읽는 문제를 이 한 줄이 푼다). */
+  env: { YNI_ASSET_PREFIX: process.env.YNI_ASSET_PREFIX ?? '' },
 };
 
 export default nextConfig;

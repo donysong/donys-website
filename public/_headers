@@ -4,6 +4,6 @@
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-# The riso art and the brand stills: a day, then serve stale while it refreshes. 🔴 Edited art needs a NEW file name (row-ae-icon.webp, not row-ae.webp again): the edge keeps the old bytes under the old name for up to a day.
+# The riso art and the brand stills: a day, then serve stale while it refreshes. These are requested from younameit.pages.dev (lib/asset.ts); a rule has no host, so it applies there too (checked 2026-11-16). The /pr/feat-*.webp pictures have no rule: Pages sends max-age=0, must-revalidate (a conditional request per visit, about 50 ms from Seoul). 🔴 Edited art needs a NEW file name (row-ae-icon.webp, not row-ae.webp again): the edge keeps the old bytes under the old name for up to a day.
 /riso/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800

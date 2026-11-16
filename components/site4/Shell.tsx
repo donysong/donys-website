@@ -17,6 +17,7 @@ import { useSmoothScroll } from './motion';
 import { BUSINESS, CHECKOUT_URL, FTC_BIZ_URL, SOCIAL } from '@/lib/product';
 import { ANALYTICS_ON } from '@/lib/analytics';
 import { openConsent } from '@/lib/consent';
+import { asset } from '@/lib/asset';
 
 /** `pending` = why an empty `href` is empty (`data-pending`): 'checkout' (no link yet, the default) or 'opens' (`/pr`: before its day). */
 export type NavLink = { href: string; k: string; pending?: string };
@@ -72,7 +73,7 @@ function Nav4({ page, plateTotal, links, cta, logo, product }: {
         <span>{t('s.plate')}</span> <b>{plate.no}</b> / {total} &nbsp;·&nbsp; <b>{t(plate.name)}</b>
       </div>
       <a className="logo" href={page === 'home' ? '#top' : href('/')} data-cur>
-        <img src={`/riso/${logo}`} alt="You Name It" />
+        <img src={asset(`/riso/${logo}`)} alt="You Name It" />
       </a>
       <div className="links" id="p4-navlinks">
         {/* 🔴 네비 링크도 로캘을 탄다 — `/ko/ae` 의 `Docs` 가 영문 `/ae/docs` 로 떨어지던 결함(2026-09-26). */}
@@ -180,7 +181,7 @@ function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
       <div className="band lines" />
       <div className="grid cols">
         <div className="logo">
-          <img src="/riso/logo-mix.webp" alt="You Name It" />
+          <img src={asset('/riso/logo-mix.webp')} alt="You Name It" />
           {/* 🔴 채움(`.buy`)은 **구매**에만 쓴다(REBRAND §9.9 ③). 루트의 이 버튼은 제품 진입이라
               헤더의 `AE Plugin` 과 같은 외곽선(`.btn-line`)이다 — 같은 목적지·같은 라벨에 모양이 둘이면
               둘 중 하나는 거짓말이다. `/ae`·`/ae/docs` 는 실제 결제라 채움 그대로. */}
@@ -246,7 +247,7 @@ function Footer4({ page, buy }: { page: Page4Kind; buy?: BuyCta }) {
             {page !== 'home' ? <li><a href={href('/')} data-cur>{t('s.toBrand')}</a></li> : null}
           </ul>
           {/* 돌은 열의 **끝**이다 — 라벨과 링크 사이에 있으면 라벨이 그림에 붙고 링크가 떨어진다. */}
-          <img className="stone-sm" src="/riso/stones/stone-3.webp" alt="" style={{ marginTop: 26 }} />
+          <img className="stone-sm" src={asset('/riso/stones/stone-3.webp')} alt="" style={{ marginTop: 26 }} />
         </div>
       </div>
       <div className="legal"><span>{t('s.copyright')}</span><span>{t('s.legal.line')}</span></div>

@@ -151,6 +151,9 @@ npm run dev     # localhost:3000
 npm run build   # → out/
 ```
 
+🔴 **배포용 `out/` 은 `node tools/buildProd.mjs` 로 만든다**(`YNI_ASSET_PREFIX=https://younameit.pages.dev`). 한국에서 `younameit.works` 는 Cloudflare LAX 를 거쳐 요청마다 1~2초라서, `_next/static` 은 `assetPrefix` 가, `public/` 그림(`/riso/*` · `/pr/*`)은 `lib/asset.ts` 의 `asset()` 이 그 호스트로 보낸다.
+컴포넌트에 `"/riso/…"` 를 그대로 쓰지 마라(`deployCheck [assethost]` 가 막는다). 정식 도메인에 남기는 것: `og:image` · JSON-LD · 파비콘 · **패널 클립 영상**(`pages.dev` 가 Range 에 206 을 안 줘서 Safari 가 거부한다).
+
 사용법을 아직 태그에 없는 판(v2.8.0 전)에서 개발할 땐 `DOCS_PLUGIN_REF=<브랜치 · SHA · 플러그인 체크아웃 경로> npm run build:docs`.
 🔴 그 상태로 배포하지 마라 — `docsUsage.ts` 에 `dev:…` 가 찍히고 `deployCheck [usage]` 가 막는다. 풀려면 변수 없이 `npm run build:docs`.
 

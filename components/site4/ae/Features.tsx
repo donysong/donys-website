@@ -9,6 +9,7 @@ import { useHref } from '@/components/site4/Shell';
 import PanelClip, { type WideId } from '@/components/site4/PanelClip';
 import PenTimeline from './PenTimeline';
 import { useReveal } from '@/components/site4/home/V5';
+import { asset } from '@/lib/asset';
 
 /* 카테고리 라벨·툴 이름은 패널 정본이라 국문에서도 영문이다. */
 const HOOKS = [
@@ -25,8 +26,8 @@ function Hook({ h, n }: { h: (typeof HOOKS)[number]; n: number }) {
   return (
     <article className="hook" data-reveal style={{ ['--d' as string]: `${((n - 1) % 3 * 0.167).toFixed(3)}s` }}>
       <figure className="spot-fig hook-fig">
-        <img src={`/riso/spots/still/${h.id}.webp`} alt={h.alt} />
-        <i className="spot" aria-hidden="true" style={{ backgroundImage: `url(/riso/spots/${h.id}.webp)` }} />
+        <img src={asset(`/riso/spots/still/${h.id}.webp`)} alt={h.alt} />
+        <i className="spot" aria-hidden="true" style={{ backgroundImage: `url(${asset(`/riso/spots/${h.id}.webp`)})` }} />
       </figure>
       <h4><em>{h.cat}</em>{h.name}</h4>
       <Html k={`ae.hook${n}.p`} as="p" />
@@ -70,7 +71,7 @@ export default function Features() {
     <section id="what" data-plate="03" data-name="ae.plate.what" ref={ref}>
       <div className="sec">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-4.webp" alt="" /> <span className="lab">03</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-4.webp')} alt="" /> <span className="lab">03</span></div>
           <h2 className="disp"><Plate3 k="ae.what.h" boil={false} /></h2>
           <Html k="ae.what.tag" as="p" className="tag" />
         </div>

@@ -17,6 +17,7 @@ import { Plate3 } from '@/components/site3p/Plate3';
 import { Html, useT } from '@/components/site3p/lang';
 import { RELEASES } from '@/lib/releases';
 import { useHref } from '@/components/site4/Shell';
+import { asset } from '@/lib/asset';
 
 /* 릴리스 노트 첫 항목의 머리 — 첫 ` — ` 또는 첫 마침표까지. 노트는 한 줄 요약이 아니라 문단이라
    통째로 싣으면 표제 밑이 설명서가 된다. 🔴 문장을 여기서 새로 쓰지 마라 — 정본은 `lib/releases.ts`. */
@@ -35,7 +36,7 @@ export default function Who() {
           이 판이 새 종이의 첫 줄이라 제 여백이 있어야 한다(없으면 판 머리 괘선이 종이 경계에 붙는다, 2026-09-29 실측). */}
       <div className="sec">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-2.webp" alt="" /> <span className="lab">03</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-2.webp')} alt="" /> <span className="lab">03</span></div>
           <h2 className="disp"><Plate3 k="home.nav.who" boil={false} /></h2>
           <p className="tag">{t('home.who.tag')}</p>
         </div>

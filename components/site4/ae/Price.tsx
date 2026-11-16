@@ -17,6 +17,7 @@ import { Plate3 } from '@/components/site3p/Plate3';
 import FreeDownloadForm from '@/components/site4/FreeDownloadForm';
 import { CHECKOUT_URL } from '@/lib/product';
 import { PRO_TOOLS } from '@/lib/proTools';
+import { asset } from '@/lib/asset';
 
 export default function Price() {
   const { t, list, lang } = useT();
@@ -24,7 +25,7 @@ export default function Price() {
     <section id="price" className="onnote" data-plate="04" data-name="ae.plate.price">
       <div className="sec tight">
         <div className="sec-head">
-          <div className="no"><img src="/riso/stones/stone-3.webp" alt="" /> <span className="lab">04</span></div>
+          <div className="no"><img src={asset('/riso/stones/stone-3.webp')} alt="" /> <span className="lab">04</span></div>
           <h2 className="disp"><Plate3 k="ae.price.h" boil={false} /></h2>
         </div>
         <div className="pricing plans">

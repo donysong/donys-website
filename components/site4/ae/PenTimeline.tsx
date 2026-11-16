@@ -6,6 +6,7 @@
      카드와 카드 사이에서 대각선으로 카드 밑을 건너간다. 잉크 판 두 장(밀린 흰 판 + 빨간 잉크) + 알갱이 마스크.
    - 그 빈 쪽 한가운데에 돌이 앉는다(Rive 캐릭터 자리 · 레퍼런스는 여기 캐릭터).
    - 그리는 양 = 스크롤 진행도 1/40 계단(포스터라이즈 — 하우스 모션). 1000px 미만 = 카드 한 줄 · 줄기 숨김. 줄인 모션 = 다 그려진 상태. */
+import { asset } from '@/lib/asset';
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -77,7 +78,7 @@ export default function PenTimeline({ children }: { children: ReactNode }) {
             <path className="v5-pen-ink" pathLength={1} d={geo.d} />
           </svg>
           {geo.stations.map((p, i) => (
-            <img key={i} className="v5-pen-stone" src={`/riso/stones/${STONES[i % STONES.length]}.webp`} alt=""
+            <img key={i} className="v5-pen-stone" src={asset(`/riso/stones/${STONES[i % STONES.length]}.webp`)} alt=""
               style={{ left: p.x, top: p.y, ['--at' as string]: (p.y / geo.h).toFixed(3) }} />
           ))}
         </div>
