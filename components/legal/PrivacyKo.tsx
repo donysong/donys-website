@@ -378,8 +378,7 @@ export default function PrivacyKo() {
               <li>키 자동화가 읽는 Premiere Pro 단축키 설정 파일.</li>
               <li>
                 입력하신 API 키(ElevenLabs, GIPHY, Pexels, Freesound) — 고객 컴퓨터에만 저장합니다. Windows 에서는 그 사용자
-                계정에서만 풀 수 있게 운영체제의 암호화(DPAPI)로 저장하고, macOS 에서는 그 사용자 계정만 읽을 수 있는 파일로
-                저장합니다.
+                계정에서만 풀 수 있게 운영체제의 암호화(DPAPI)로 저장하고, macOS 에서는 macOS 키체인에 저장합니다.
               </li>
               <li>Watch folder 가 지켜보는 폴더와 그 안의 파일.</li>
             </ul>

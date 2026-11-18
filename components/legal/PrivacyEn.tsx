@@ -253,7 +253,7 @@ export default function PrivacyEn() {
               face-finding model that ships with the Product, finds <strong>where</strong> a face is, never <strong>who</strong> it is,
               and keeps only keyframe values); the Premiere Pro shortcut file that key automation reads; the API keys you enter
               (ElevenLabs, GIPHY, Pexels, Freesound — on Windows encrypted with the operating system&apos;s per-user encryption, DPAPI;
-              on macOS in a file only your user account can read); and the folder Watch folder watches.
+              on macOS in the macOS Keychain); and the folder Watch folder watches.
             </p>
             <p className="mt-2">
               The PR Plugin <strong>sends no analytics, usage statistics or crash reports.</strong> A support bundle reaches us only if
