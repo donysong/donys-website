@@ -186,7 +186,7 @@ export const PR = {
   /* macOS (variant `launch/pr-v5e`, owner 2026-11-16: Windows and macOS ship together): the Mac Lab ran on Premiere Pro 27.0 on an Apple silicon Mac only
      (PR repo `MAC-REPORT.md` 2026-11-16). Mac 26.5.2 and Intel Macs are untested, so the copy says "only". */
   testedMac: '27.0',
-  version: '1.0.1',               // 🔴 not by hand — the release tag's value (same rule as AE `VERSION`)
+  version: '1.0.2',             // 🔴 not by hand — the release tag's value (same rule as AE `VERSION`)
   /* Polar checkout links (production, PR repo `gtm/polar/polar-setup.md` §8). Empty = not made yet → the button renders without
      href (`data-pending="checkout"`) and deployCheck `[pr]` fails. */
   checkoutFree: 'https://buy.polar.sh/polar_cl_bEiq2i8tdwneJHwg1ziLo4vm9ivA1qXWoEppG37fX6n',
